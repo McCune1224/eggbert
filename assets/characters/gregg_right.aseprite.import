@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://dwt5wy53nx4c"
+path="res://.godot/imported/gregg_right.aseprite-527d3482dfbf2f5fd71786e00285b3f8.res"
+
+[deps]
+
+source_file="res://assets/characters/gregg_right.aseprite"
+dest_files=["res://.godot/imported/gregg_right.aseprite-527d3482dfbf2f5fd71786e00285b3f8.res"]
+
+[params]
+

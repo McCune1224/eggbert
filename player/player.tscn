@@ -1,0 +1,144 @@
+[gd_scene load_steps=8 format=3 uid="uid://buvxr3u5rsf0j"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_lojqj"]
+[ext_resource type="Texture2D" uid="uid://bt6dxs1ribasl" path="res://player/gregg_down.png" id="2_jitxw"]
+[ext_resource type="Texture2D" uid="uid://c72qiny0xjvdq" path="res://player/gregg_up.png" id="3_abpb8"]
+[ext_resource type="Texture2D" uid="uid://cmdvm2gqgymjn" path="res://player/gregg_left.png" id="4_dgsxc"]
+[ext_resource type="Texture2D" uid="uid://w3622i7t2i1b" path="res://player/gregg_right.png" id="5_m602h"]
+
+[sub_resource type="Animation" id="Animation_rf8bg"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bx1lj"]
+_data = {
+"default": SubResource("Animation_rf8bg")
+}
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_lojqj")
+
+[node name="SpriteDown" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_jitxw")
+hframes = 2
+vframes = 2
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"player": "Sprite2D/AnimationPlayer",
+"slice": "",
+"source": "res://assets/characters/gregg_down.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "4bfcefd56bfd950b8a082613d83064c4"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SpriteDown"]
+libraries = {
+"": SubResource("AnimationLibrary_bx1lj")
+}
+autoplay = "default"
+
+[node name="SpriteUp" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+texture = ExtResource("3_abpb8")
+hframes = 2
+vframes = 2
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"player": "Sprite2D2/AnimationPlayer",
+"slice": "",
+"source": "res://assets/characters/gregg_up.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "6a70738d0e23dbc0a938bdf7c2efff7e"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SpriteUp"]
+libraries = {
+"": SubResource("AnimationLibrary_bx1lj")
+}
+autoplay = "default"
+
+[node name="SpriteLeft" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+texture = ExtResource("4_dgsxc")
+hframes = 2
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"player": "SpriteLeft/AnimationPlayer",
+"slice": "",
+"source": "res://assets/characters/gregg_left.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "5a06b1876d9cac7ba0a3e2df216c89ba"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SpriteLeft"]
+libraries = {
+"": SubResource("AnimationLibrary_bx1lj")
+}
+autoplay = "default"
+
+[node name="SpriteRight" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+texture = ExtResource("5_m602h")
+hframes = 2
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"player": "SpriteRight/AnimationPlayer",
+"slice": "",
+"source": "res://assets/characters/gregg_right.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "6595b01bd430ea0b9c24c113c5f9af5a"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SpriteRight"]
+libraries = {
+"": SubResource("AnimationLibrary_bx1lj")
+}
+autoplay = "default"
