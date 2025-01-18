@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1xvrjlo8csf2"]
+
+[ext_resource type="Script" path="res://util/fps.gd" id="1_60t1m"]
+
+[node name="FPS" type="RichTextLabel"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_60t1m")

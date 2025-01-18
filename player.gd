@@ -1,28 +1,25 @@
 extends CharacterBody2D
 
-@onready var up_sprite = $SpriteUp
-@onready var down_sprite = $SpriteDown
-@onready var left_sprite = $SpriteLeft
-@onready var right_sprite = $SpriteRight
 
-var speed = 100
-enum FacedDirection { UP, DOWN, LEFT, RIGHT }
+var speed = 150
+enum Direction { UP, DOWN, LEFT, RIGHT }
 
 # Default direction for the enum
-var player_direction = FacedDirection.DOWN
+var player_direction = Direction.DOWN
 
 
 
+@onready var ap = $PlayerSprite/AnimationPlayer
 
 func get_player_input() -> Vector2:
 	var direction = Vector2.ZERO
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("player_right"):
 		direction.x += 1
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("player_left"):
 		direction.x -= 1
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("player_down"):
 		direction.y += 1
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed("player_up"):
 		direction.y -= 1
 		
 	# Normalize to prevent faster diagonal movement
@@ -33,23 +30,20 @@ func _physics_process(delta):
 	var direction = get_player_input()
 	velocity = direction * speed
 	move_and_slide()
-	_set_player_animation()
 	pass
 
-func _set_player_animation():
-	down_sprite.hide()
-	up_sprite.hide()
-	left_sprite.hide()
-	right_sprite.hide()
-	match get_player_input():
-		Vector2(1,0):
-			right_sprite.show()
-		Vector2(-1,0):
-			left_sprite.show()
-		Vector2(0,1):
-			down_sprite.show()
-		Vector2(0,-1):
-			up_sprite.show()
-		_:
-			down_sprite.show()
+func _process(delta: float) -> void:
+	var direction = get_player_input()
+	_set_player_animation("")
+	pass
+
+func _set_player_animation(previous_direction: String):
+	if Input.is_action_pressed("player_right"):
+		ap.play("walking_right")
+	if Input.is_action_pressed("player_left"):
+		ap.play("walking_left")
+	if Input.is_action_pressed("player_up"):
+		ap.play("walking_up")
+	if Input.is_action_pressed("player_down"):
+		ap.play("walking_down")
 	pass
