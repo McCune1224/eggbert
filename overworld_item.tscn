@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgsjsjhx85gwo"]
+
+[ext_resource type="Texture2D" uid="uid://c411hmj8jibva" path="res://icon.svg" id="1_ijyhq"]
+[ext_resource type="Script" path="res://overworld_item.gd" id="1_pda1s"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qgmvv"]
+radius = 98.0816
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource("1_pda1s")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ijyhq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_qgmvv")

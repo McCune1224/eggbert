@@ -11,6 +11,10 @@ var player_direction = Direction.DOWN
 
 @onready var ap = $PlayerSprite/AnimationPlayer
 
+func _ready():
+	add_to_group("player")
+	pass
+
 func get_player_input() -> Vector2:
 	var direction = Vector2.ZERO
 	if Input.is_action_pressed("player_right"):
