@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://buvxr3u5rsf0j"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_lojqj"]
+[ext_resource type="Script" path="res://player/Player.cs" id="1_2b2pm"]
 [ext_resource type="Texture2D" uid="uid://d2jbqrj3tj5qo" path="res://player/Alex.png" id="2_gt731"]
 
 [sub_resource type="Animation" id="Animation_s0xdp"]
@@ -147,7 +147,7 @@ _data = {
 radius = 14.0
 
 [node name="Player" type="CharacterBody2D"]
-script = ExtResource("1_lojqj")
+script = ExtResource("1_2b2pm")
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 texture_filter = 1

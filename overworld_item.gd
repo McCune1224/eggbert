@@ -2,9 +2,9 @@ extends Area2D
 
 
 @onready var rich_text_scene = $RichTextLabel
-var displayed_text = "Item collected!"
+var displayed_text = "Pst...want some funko pops?"
 func _ready():
-    # Connect the body entered signal
+	# Connect the body entered signal
 	body_entered.connect(_on_body_entered)
 	pass
 
@@ -20,3 +20,6 @@ func _on_body_entered(body):
 		var timer = get_tree().create_timer(2.0)
 		timer.timeout.connect(func(): rich_text.queue_free())
 		pass
+	pass
+func _on_body_exited(body):
+	pass
