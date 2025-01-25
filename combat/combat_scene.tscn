@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://d3mlpn8re77a1"]
+
+[ext_resource type="Texture2D" uid="uid://c411hmj8jibva" path="res://icon.svg" id="1_hmd4e"]
+[ext_resource type="Script" path="res://combat/CombatPlayer.cs" id="1_uuric"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_ciam4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a8wvl"]
+radius = 28.8617
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4yrx2"]
+size = Vector2(19, 380)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mr7n7"]
+size = Vector2(30, 378.5)
+
+[node name="CombatScene" type="Node2D"]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(319.75, 179.75)
+scale = Vector2(640.5, 360.5)
+texture = SubResource("CanvasTexture_ciam4")
+
+[node name="CombatPlayer" type="CharacterBody2D" parent="."]
+script = ExtResource("1_uuric")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatPlayer"]
+position = Vector2(196, 327)
+shape = SubResource("CircleShape2D_a8wvl")
+
+[node name="Sprite2D" type="Sprite2D" parent="CombatPlayer"]
+position = Vector2(197, 328)
+scale = Vector2(0.289062, 0.296875)
+texture = ExtResource("1_hmd4e")
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"i_mode": 1,
+"keep_anim_length": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"player": "",
+"slice": "",
+"source": "res://assets/characters/Alex.aseprite"
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(315, 180)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="LeftWall" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-9.5, 183)
+shape = SubResource("RectangleShape2D_4yrx2")
+
+[node name="RightWall" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(653, 183.75)
+shape = SubResource("RectangleShape2D_mr7n7")
