@@ -3,38 +3,26 @@ using System;
 
 public partial class CombatPlayer : CharacterBody2D
 {
-	public const float Speed = 300.0f;
-	public const float JumpVelocity = -400.0f;
+    private int _playerSpeed = 300;
+    public const float Speed = 300.0f;
+    private AnimationPlayer _ap;
 
-	public override void _PhysicsProcess(double delta)
-	{
-		Vector2 velocity = Velocity;
+    public override void _PhysicsProcess(double delta)
+    {
+        Vector2 direction = GetPlayerInput();
+        Velocity = direction * _playerSpeed;
+        MoveAndSlide();
+        return;
+    }
 
-		// Add the gravity.
-		if (!IsOnFloor())
-		{
-			velocity += GetGravity() * (float)delta;
-		}
+    public Vector2 GetPlayerInput()
+    {
+        Vector2 direction = Vector2.Zero;
+        if (Input.IsActionPressed("player_right")) { direction.X += 1; }
+        if (Input.IsActionPressed("player_left")) { direction.X -= 1; }
+        if (Input.IsActionPressed("player_up")) { direction.Y -= 1; }
+        if (Input.IsActionPressed("player_down")) { direction.Y += 1; }
 
-		// Handle Jump.
-		if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-		{
-			velocity.Y = JumpVelocity;
-		}
-
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		if (direction != Vector2.Zero)
-		{
-			velocity.X = direction.X * Speed;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-		}
-
-		Velocity = velocity;
-		MoveAndSlide();
-	}
+        return direction.Normalized();
+    }
 }
