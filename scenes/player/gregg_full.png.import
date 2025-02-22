@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://w3622i7t2i1b"
-path="res://.godot/imported/gregg_right.png-89df5e6429ac26ed68270efd045424d5.ctex"
+uid="uid://oxyi1nj83l2o"
+path="res://.godot/imported/gregg_full.png-b7ea1bf96a0c20255065666e303616d2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/gregg_right.png"
-dest_files=["res://.godot/imported/gregg_right.png-89df5e6429ac26ed68270efd045424d5.ctex"]
+source_file="res://scenes/player/gregg_full.png"
+dest_files=["res://.godot/imported/gregg_full.png-b7ea1bf96a0c20255065666e303616d2.ctex"]
 
 [params]
 

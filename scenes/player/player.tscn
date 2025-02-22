@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://buvxr3u5rsf0j"]
 
-[ext_resource type="Script" path="res://player/Player.cs" id="1_2b2pm"]
-[ext_resource type="Texture2D" uid="uid://d2jbqrj3tj5qo" path="res://player/Alex.png" id="2_gt731"]
+[ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_2b2pm"]
+[ext_resource type="Texture2D" uid="uid://d2jbqrj3tj5qo" path="res://scenes/player/Alex.png" id="2_gt731"]
 
 [sub_resource type="Animation" id="Animation_s0xdp"]
 length = 0.1

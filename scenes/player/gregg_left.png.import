@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cmdvm2gqgymjn"
-path="res://.godot/imported/gregg_left.png-c9ac9e86d40492dae58b5654bbf19603.ctex"
+path="res://.godot/imported/gregg_left.png-8638f68af34bcf9931f51a3e2c7d3b86.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/gregg_left.png"
-dest_files=["res://.godot/imported/gregg_left.png-c9ac9e86d40492dae58b5654bbf19603.ctex"]
+source_file="res://scenes/player/gregg_left.png"
+dest_files=["res://.godot/imported/gregg_left.png-8638f68af34bcf9931f51a3e2c7d3b86.ctex"]
 
 [params]
 

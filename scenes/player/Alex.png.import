@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c72qiny0xjvdq"
-path="res://.godot/imported/gregg_up.png-c74221fbd081df81b484b9ea3906df82.ctex"
+uid="uid://d2jbqrj3tj5qo"
+path="res://.godot/imported/Alex.png-b7829a1bbb2132c03fddccb5367116a8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/gregg_up.png"
-dest_files=["res://.godot/imported/gregg_up.png-c74221fbd081df81b484b9ea3906df82.ctex"]
+source_file="res://scenes/player/Alex.png"
+dest_files=["res://.godot/imported/Alex.png-b7829a1bbb2132c03fddccb5367116a8.ctex"]
 
 [params]
 

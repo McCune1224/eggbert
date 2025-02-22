@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dnuub5wgnlpqb"]
 
-[ext_resource type="Texture2D" uid="uid://shkugmkgini2" path="res://combat/bullets/bullet.png" id="1_mjyud"]
+[ext_resource type="Texture2D" uid="uid://shkugmkgini2" path="res://scenes/combat/bullets/bullet.png" id="1_mjyud"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rqde0"]
 radius = 7.0
