@@ -3,6 +3,7 @@ using System;
 
 public partial class CombatPlayer : CharacterBody2D
 {
+    [Export]
     private int _playerSpeed = 800;
     public const float Speed = 300.0f;
     private AnimationPlayer _ap;

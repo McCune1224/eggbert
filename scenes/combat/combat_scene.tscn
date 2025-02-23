@@ -9,7 +9,7 @@
 [sub_resource type="CanvasTexture" id="CanvasTexture_ciam4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a8wvl"]
-radius = 28.8617
+radius = 10.0499
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4yrx2"]
 size = Vector2(19, 380)
@@ -21,20 +21,17 @@ size = Vector2(30, 378.5)
 script = ExtResource("1_lgpd3")
 
 [node name="Background" type="Sprite2D" parent="."]
-position = Vector2(319.75, 179.75)
 scale = Vector2(640.5, 360.5)
 texture = SubResource("CanvasTexture_ciam4")
 
 [node name="CombatPlayer" type="CharacterBody2D" parent="."]
+position = Vector2(-71, -100)
 script = ExtResource("1_uuric")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatPlayer"]
-position = Vector2(263.5, 156)
-shape = SubResource("CircleShape2D_a8wvl")
+_playerSpeed = 400
 
 [node name="Sprite2D" type="Sprite2D" parent="CombatPlayer"]
-position = Vector2(264.5, 157)
-scale = Vector2(1.946, 2)
+position = Vector2(251.676, 155)
+scale = Vector2(0.319834, 0.5625)
 texture = ExtResource("3_ckaii")
 metadata/_aseprite_wizard_interface_config_ = {
 "pending_changes": {}
@@ -52,22 +49,35 @@ metadata/_aseprite_wizard_config_ = {
 "source": "res://assets/characters/Alex.aseprite"
 }
 
-[node name="Camera2D" type="Camera2D" parent="CombatPlayer"]
-position = Vector2(264, 156)
-
-[node name="FPS" parent="CombatPlayer" instance=ExtResource("5_4xadp")]
-fit_content = true
-scroll_active = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatPlayer"]
+position = Vector2(254, 156)
+scale = Vector2(1, 1)
+shape = SubResource("CircleShape2D_a8wvl")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="LeftWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-9.5, 183)
+position = Vector2(320, 0)
 shape = SubResource("RectangleShape2D_4yrx2")
 
 [node name="RightWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(653, 183.75)
+position = Vector2(-320, 0)
 shape = SubResource("RectangleShape2D_mr7n7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 
 [node name="CombatOpponent" parent="." instance=ExtResource("4_dvslo")]
 position = Vector2(105, 134)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+visible = false
+
+[node name="FPS" parent="." instance=ExtResource("5_4xadp")]
+modulate = Color(0, 0, 0, 1)
+offset_left = -304.0
+offset_top = -181.0
+offset_right = -264.0
+offset_bottom = -141.0
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
