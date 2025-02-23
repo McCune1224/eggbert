@@ -4,7 +4,8 @@ using System;
 public partial class CombatOpponent : Node2D
 {
     private Node2D _bulletScene;
-    private Node2D[] _bulletPool = new Node2D[1000];
+    private double _reloadTime = 0.03;
+    private bool _readyToFire = true;
     [Export]
     private Sprite2D _Sprite;
     // Called when the node enters the scene tree for the first time.
@@ -23,8 +24,15 @@ public partial class CombatOpponent : Node2D
 
     public void Fire()
     {
-        Node2D bullet = (Node2D)_bulletScene.Duplicate();
-        bullet.GlobalPosition = GlobalPosition; // Or use Position for local coordinates
-        GetTree().Root.AddChild(bullet); // Or use GetParent().AddChild(bullet) to add to current parent
+        if (_readyToFire)
+        {
+            _readyToFire = false;
+            Node2D bullet = (Node2D)_bulletScene.Duplicate();
+            bullet.GlobalPosition = GlobalPosition; // Or use Position for local coordinates
+            bullet.Rotation = this.Rotation;
+            GetTree().Root.AddChild(bullet); // Or use GetParent().AddChild(bullet) to add to current parent
+            SceneTreeTimer reloadTimer = GetTree().CreateTimer(_reloadTime);
+            reloadTimer.Timeout += () => { _readyToFire = true; };
+        }
     }
 }

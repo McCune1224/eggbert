@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://d3mlpn8re77a1"]
+[gd_scene load_steps=10 format=3 uid="uid://d3mlpn8re77a1"]
 
 [ext_resource type="Script" path="res://scenes/combat/CombatScene.cs" id="1_lgpd3"]
 [ext_resource type="Script" path="res://scenes/combat/CombatPlayer.cs" id="1_uuric"]
 [ext_resource type="Texture2D" uid="uid://cpcefbciubr00" path="res://assets/pengu.svg" id="3_ckaii"]
 [ext_resource type="PackedScene" uid="uid://bb83j77iw2t5w" path="res://scenes/combat/CombatOpponent.tscn" id="4_dvslo"]
+[ext_resource type="PackedScene" uid="uid://d1xvrjlo8csf2" path="res://util/fps.tscn" id="5_4xadp"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_ciam4"]
 
@@ -54,8 +55,11 @@ metadata/_aseprite_wizard_config_ = {
 [node name="Camera2D" type="Camera2D" parent="CombatPlayer"]
 position = Vector2(264, 156)
 
+[node name="FPS" parent="CombatPlayer" instance=ExtResource("5_4xadp")]
+fit_content = true
+scroll_active = false
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-visible = false
 
 [node name="LeftWall" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(-9.5, 183)

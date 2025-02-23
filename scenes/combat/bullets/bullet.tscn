@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dnuub5wgnlpqb"]
+[gd_scene load_steps=4 format=3 uid="uid://dnuub5wgnlpqb"]
 
+[ext_resource type="Script" path="res://scenes/combat/bullets/DefaultBullet.cs" id="1_fp2do"]
 [ext_resource type="Texture2D" uid="uid://shkugmkgini2" path="res://scenes/combat/bullets/bullet.png" id="1_mjyud"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rqde0"]
 radius = 7.0
 
 [node name="Node2D" type="Area2D"]
+script = ExtResource("1_fp2do")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
