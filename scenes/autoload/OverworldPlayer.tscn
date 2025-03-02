@@ -1,0 +1,182 @@
+[gd_scene load_steps=15 format=3 uid="uid://c765s5gk4qvif"]
+
+[ext_resource type="Texture2D" uid="uid://bisfndqlehc6l" path="res://assets/sprites/characters/Eggbert.png" id="1_4nrhc"]
+[ext_resource type="Script" path="res://scenes/autoload/OverworldPlayer.cs" id="1_5tbfk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ao2ge"]
+atlas = ExtResource("1_4nrhc")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hstsk"]
+atlas = ExtResource("1_4nrhc")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fq26l"]
+atlas = ExtResource("1_4nrhc")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_th4e7"]
+atlas = ExtResource("1_4nrhc")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dr5ci"]
+atlas = ExtResource("1_4nrhc")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ory2x"]
+atlas = ExtResource("1_4nrhc")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mkpa5"]
+atlas = ExtResource("1_4nrhc")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohvbt"]
+atlas = ExtResource("1_4nrhc")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjrj4"]
+atlas = ExtResource("1_4nrhc")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmi3y"]
+atlas = ExtResource("1_4nrhc")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s7o4c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ao2ge")
+}],
+"loop": true,
+"name": &"idle back",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hstsk")
+}],
+"loop": true,
+"name": &"idle forward",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fq26l")
+}],
+"loop": true,
+"name": &"idle left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_th4e7")
+}],
+"loop": true,
+"name": &"idle right",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ao2ge")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dr5ci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ao2ge")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ory2x")
+}],
+"loop": true,
+"name": &"walk back",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hstsk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mkpa5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hstsk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohvbt")
+}],
+"loop": true,
+"name": &"walk forward",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fq26l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjrj4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fq26l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjrj4")
+}],
+"loop": true,
+"name": &"walk left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_th4e7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gmi3y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_th4e7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gmi3y")
+}],
+"loop": true,
+"name": &"walk right",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u88iv"]
+radius = 16.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_5tbfk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(1, 1.00362)
+sprite_frames = SubResource("SpriteFrames_s7o4c")
+animation = &"walk forward"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://assets/sprites/characters",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://assets/sprites/characters/Eggbert.ase"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "ba9258a1645aca139bf4f279f2283a8b"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(1.0303, 1.01492)
+shape = SubResource("CircleShape2D_u88iv")
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -1)

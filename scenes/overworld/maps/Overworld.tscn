@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://e1xv0dbe5grr"]
+
+[ext_resource type="Script" path="res://scenes/overworld/maps/Overworld.cs" id="1_sdqp5"]
+
+[node name="Node2D" type="Node2D"]
+scale = Vector2(1.01347, 0.993294)
+script = ExtResource("1_sdqp5")

@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="Eggbert"
-run/main_scene="res://scenes/main/main.tscn"
+run/main_scene="res://scenes/GameInit.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+OverworldManager="*res://scenes/autoload/OverworldManager.tscn"
+OverworldPlayer="*res://scenes/autoload/OverworldPlayer.tscn"
 
 [display]
 
