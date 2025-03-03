@@ -1,53 +1,53 @@
 [gd_scene load_steps=15 format=3 uid="uid://c765s5gk4qvif"]
 
-[ext_resource type="Texture2D" uid="uid://bisfndqlehc6l" path="res://assets/sprites/characters/Eggbert.png" id="1_4nrhc"]
 [ext_resource type="Script" path="res://scenes/autoload/OverworldPlayer.cs" id="1_5tbfk"]
+[ext_resource type="Texture2D" uid="uid://bisfndqlehc6l" path="res://assets/characters/Eggbert.png" id="2_ivt8v"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ao2ge"]
-atlas = ExtResource("1_4nrhc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_tsovr"]
+atlas = ExtResource("2_ivt8v")
 region = Rect2(96, 32, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hstsk"]
-atlas = ExtResource("1_4nrhc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_1cmoc"]
+atlas = ExtResource("2_ivt8v")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fq26l"]
-atlas = ExtResource("1_4nrhc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_dv2sa"]
+atlas = ExtResource("2_ivt8v")
 region = Rect2(32, 32, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_th4e7"]
-atlas = ExtResource("1_4nrhc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_1flhe"]
+atlas = ExtResource("2_ivt8v")
 region = Rect2(96, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dr5ci"]
-atlas = ExtResource("1_4nrhc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_bh6tw"]
+atlas = ExtResource("2_ivt8v")
 region = Rect2(0, 64, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ory2x"]
-atlas = ExtResource("1_4nrhc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vcog"]
+atlas = ExtResource("2_ivt8v")
 region = Rect2(32, 64, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mkpa5"]
-atlas = ExtResource("1_4nrhc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_uv5bg"]
+atlas = ExtResource("2_ivt8v")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ohvbt"]
-atlas = ExtResource("1_4nrhc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_k82kl"]
+atlas = ExtResource("2_ivt8v")
 region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fjrj4"]
-atlas = ExtResource("1_4nrhc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_lwb8r"]
+atlas = ExtResource("2_ivt8v")
 region = Rect2(64, 32, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gmi3y"]
-atlas = ExtResource("1_4nrhc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_uxwvh"]
+atlas = ExtResource("2_ivt8v")
 region = Rect2(0, 32, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_s7o4c"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_3w1ew"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ao2ge")
+"texture": SubResource("AtlasTexture_tsovr")
 }],
 "loop": true,
 "name": &"idle back",
@@ -55,7 +55,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hstsk")
+"texture": SubResource("AtlasTexture_1cmoc")
 }],
 "loop": true,
 "name": &"idle forward",
@@ -63,7 +63,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fq26l")
+"texture": SubResource("AtlasTexture_dv2sa")
 }],
 "loop": true,
 "name": &"idle left",
@@ -71,7 +71,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_th4e7")
+"texture": SubResource("AtlasTexture_1flhe")
 }],
 "loop": true,
 "name": &"idle right",
@@ -79,16 +79,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ao2ge")
+"texture": SubResource("AtlasTexture_tsovr")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dr5ci")
+"texture": SubResource("AtlasTexture_bh6tw")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ao2ge")
+"texture": SubResource("AtlasTexture_tsovr")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ory2x")
+"texture": SubResource("AtlasTexture_6vcog")
 }],
 "loop": true,
 "name": &"walk back",
@@ -96,16 +96,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hstsk")
+"texture": SubResource("AtlasTexture_1cmoc")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mkpa5")
+"texture": SubResource("AtlasTexture_uv5bg")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hstsk")
+"texture": SubResource("AtlasTexture_1cmoc")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ohvbt")
+"texture": SubResource("AtlasTexture_k82kl")
 }],
 "loop": true,
 "name": &"walk forward",
@@ -113,16 +113,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fq26l")
+"texture": SubResource("AtlasTexture_dv2sa")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fjrj4")
+"texture": SubResource("AtlasTexture_lwb8r")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fq26l")
+"texture": SubResource("AtlasTexture_dv2sa")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fjrj4")
+"texture": SubResource("AtlasTexture_lwb8r")
 }],
 "loop": true,
 "name": &"walk left",
@@ -130,16 +130,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_th4e7")
+"texture": SubResource("AtlasTexture_1flhe")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gmi3y")
+"texture": SubResource("AtlasTexture_uxwvh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_th4e7")
+"texture": SubResource("AtlasTexture_1flhe")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gmi3y")
+"texture": SubResource("AtlasTexture_uxwvh")
 }],
 "loop": true,
 "name": &"walk right",
@@ -151,11 +151,12 @@ radius = 16.0
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_5tbfk")
+PLAYER_SPEED = 75.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 scale = Vector2(1, 1.00362)
-sprite_frames = SubResource("SpriteFrames_s7o4c")
+sprite_frames = SubResource("SpriteFrames_3w1ew")
 animation = &"walk forward"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
@@ -164,12 +165,12 @@ metadata/_aseprite_wizard_interface_config_ = {
 metadata/_aseprite_wizard_config_ = {
 "layers": [],
 "o_ex_p": "",
-"o_folder": "res://assets/sprites/characters",
+"o_folder": "res://assets/characters",
 "o_name": "",
 "only_visible": false,
 "should_round_fps": true,
 "slice": "",
-"source": "res://assets/sprites/characters/Eggbert.ase"
+"source": "res://assets/characters/Eggbert.ase"
 }
 metadata/_aseprite_wizard_source_file_hash_ = "ba9258a1645aca139bf4f279f2283a8b"
 

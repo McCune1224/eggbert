@@ -1,0 +1,172 @@
+[gd_scene load_steps=17 format=3 uid="uid://dmg8py6ignrbd"]
+
+[ext_resource type="Script" path="res://scenes/overworld/npcs/GrandpaSmith.cs" id="1_x2aec"]
+[ext_resource type="Texture2D" uid="uid://crr721c1r7lf5" path="res://assets/characters/GrandpaSmith.png" id="2_21vw5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhf0s"]
+atlas = ExtResource("2_21vw5")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_72kxu"]
+atlas = ExtResource("2_21vw5")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7g33"]
+atlas = ExtResource("2_21vw5")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8m52g"]
+atlas = ExtResource("2_21vw5")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ljuj"]
+atlas = ExtResource("2_21vw5")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_65pxl"]
+atlas = ExtResource("2_21vw5")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k311g"]
+atlas = ExtResource("2_21vw5")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r53la"]
+atlas = ExtResource("2_21vw5")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ytyl7"]
+atlas = ExtResource("2_21vw5")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sq1t6"]
+atlas = ExtResource("2_21vw5")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h8nff"]
+atlas = ExtResource("2_21vw5")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1q5e"]
+atlas = ExtResource("2_21vw5")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j5upd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jhf0s")
+}],
+"loop": true,
+"name": &"idle_down",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72kxu")
+}],
+"loop": true,
+"name": &"idle_left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7g33")
+}],
+"loop": true,
+"name": &"idle_right",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8m52g")
+}],
+"loop": true,
+"name": &"idle_up",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ljuj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_65pxl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jhf0s")
+}],
+"loop": true,
+"name": &"walking_down",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k311g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r53la")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72kxu")
+}],
+"loop": true,
+"name": &"walking_left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ytyl7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sq1t6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7g33")
+}],
+"loop": true,
+"name": &"walking_right",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h8nff")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1q5e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8m52g")
+}],
+"loop": true,
+"name": &"walking_up",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bf53u"]
+radius = 44.0114
+
+[node name="GrandpaSmith" type="Area2D"]
+script = ExtResource("1_x2aec")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_j5upd")
+animation = &"idle_down"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://assets/characters",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://assets/characters/GrandpaSmith.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "c768392d0a254196cc16d9e8b1896339"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_bf53u")

@@ -1,10 +1,11 @@
 using Godot;
 
+// This is the main entry point for the game
+// TODO: Make a proper main menu scene and load it here instead of just going straight to the overworld
 public partial class GameInit : Node
 {
     public override void _Ready()
     {
-        GD.Print("HIT");
 
         // Get the singleton instance
         var overworldManager = OverworldManager.Instance;

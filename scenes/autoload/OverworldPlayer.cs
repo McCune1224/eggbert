@@ -8,7 +8,8 @@ public partial class OverworldPlayer : CharacterBody2D
     public static OverworldPlayer Instance => _instance;
 
     // Movement properties
-    private const float PLAYER_SPEED = 150.0f;
+    [Export]
+    private float PLAYER_SPEED = 150.0f;
     private AnimatedSprite2D _sprite;
     private CollisionShape2D _collisionShape;
     private string facedDirection = "down";
@@ -23,6 +24,7 @@ public partial class OverworldPlayer : CharacterBody2D
 
     public override void _Ready()
     {
+        AddToGroup("player");
         if (_instance == null)
         {
             _instance = this;

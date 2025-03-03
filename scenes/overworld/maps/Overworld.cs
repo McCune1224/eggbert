@@ -44,7 +44,6 @@ public partial class Overworld : Node2D
     {
         // Find the player node
         _player = OverworldPlayer.Instance;
-        GD.Print(_player);
         _camera = _player.GetNode<Camera2D>("Camera2D");
 
         // Get the current area from OverworldManager

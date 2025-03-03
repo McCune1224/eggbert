@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bisfndqlehc6l"
-path="res://.godot/imported/Eggbert.png-58040e5f81aa29545703d79aafb5a02b.ctex"
+uid="uid://crr721c1r7lf5"
+path="res://.godot/imported/GrandpaSmith.png-3c7eb3af4da6f0753c05509a6d8a5b55.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/characters/Eggbert.png"
-dest_files=["res://.godot/imported/Eggbert.png-58040e5f81aa29545703d79aafb5a02b.ctex"]
+source_file="res://assets/characters/GrandpaSmith.png"
+dest_files=["res://.godot/imported/GrandpaSmith.png-3c7eb3af4da6f0753c05509a6d8a5b55.ctex"]
 
 [params]
 
