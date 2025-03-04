@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d1xvrjlo8csf2"]
 
-[ext_resource type="Script" path="res://scenes/util/Fps.cs" id="1_1ekwa"]
+[ext_resource type="Script" uid="uid://b4xrqo0yaqftc" path="res://scenes/util/Fps.cs" id="1_1ekwa"]
 
 [node name="FPS" type="RichTextLabel"]
 offset_right = 40.0

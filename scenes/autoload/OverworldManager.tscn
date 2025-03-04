@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ckysd5fyg6ni4"]
 
-[ext_resource type="Script" path="res://scenes/autoload/OverworldManager.cs" id="1_c4fhf"]
+[ext_resource type="Script" uid="uid://35fbd2ldc1xj" path="res://scenes/autoload/OverworldManager.cs" id="1_c4fhf"]
 
 [node name="OverworldManager" type="Node2D"]
 script = ExtResource("1_c4fhf")
