@@ -2,26 +2,14 @@ using Godot;
 using Godot.Collections;
 using System;
 
-public partial class OverworldPlayer : CharacterBody2D
+public partial class CombatPlayer : CharacterBody2D
 {
-    // Singleton instance
-    private static OverworldPlayer _instance;
-    public static OverworldPlayer Instance => _instance;
-
     // Movement properties
     [Export]
     private float PLAYER_SPEED = 150.0f;
-    private AnimatedSprite2D _sprite;
+    private AnimationPlayer _sprite;
     private CollisionShape2D _collisionShape;
     private string facedDirection = "down";
-
-    // Current state
-    private bool _inInteraction = false;
-    public bool InInteraction
-    {
-        get => _inInteraction;
-        set => _inInteraction = value;
-    }
 
     public Array<Node2D> GetCollidingBodies()
     {
@@ -47,17 +35,8 @@ public partial class OverworldPlayer : CharacterBody2D
     public override void _Ready()
     {
         AddToGroup("player");
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else
-        {
-            GD.PrintErr("Multiple instances of OverworldPlayer detected!");
-        }
-
         // Get references to child nodes
-        _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        _sprite = GetNode<AnimationPlayer>("AnimatedSprite2D");
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 
         // Set default animation
@@ -66,11 +45,7 @@ public partial class OverworldPlayer : CharacterBody2D
 
     public override void _Process(double delta)
     {
-        if (!_inInteraction)
-        {
-            HandleMovement(delta);
-        }
-        PrintCurrentCollisions();
+        HandleMovement(delta);
     }
 
     private void HandleMovement(double delta)
@@ -91,11 +66,6 @@ public partial class OverworldPlayer : CharacterBody2D
         // Update animation based on movement
         UpdateAnimation(direction);
 
-        // Update position in manager
-        if (OverworldManager.Instance != null)
-        {
-            OverworldManager.Instance.SetPlayerPosition(Position);
-        }
     }
 
     private void UpdateAnimation(Vector2 direction)
@@ -104,7 +74,7 @@ public partial class OverworldPlayer : CharacterBody2D
         {
             // GD.Print("NO DIRECTION");
             // If we're not moving, use idle animation based on current animation
-            string currentAnim = _sprite.Animation;
+            string currentAnim = _sprite.CurrentAnimation;
             if (currentAnim.StartsWith("walk"))
             {
                 string left = currentAnim.Split(" ")[1];
@@ -128,25 +98,4 @@ public partial class OverworldPlayer : CharacterBody2D
         }
     }
 
-    // Method to teleport player to a specific position
-    public void SetInitialPosition(Vector2 position)
-    {
-        Position = position;
-        if (OverworldManager.Instance != null)
-        {
-            OverworldManager.Instance.SetPlayerPosition(position);
-        }
-    }
-
-    // Method to start an interaction (disable movement)
-    public void StartInteraction()
-    {
-        _inInteraction = true;
-    }
-
-    // Method to end an interaction (enable movement)
-    public void EndInteraction()
-    {
-        _inInteraction = false;
-    }
 }

@@ -25,7 +25,7 @@ public partial class OverworldManager : Node
         }
     }
 
-    public void LoadMap(string mapPath)
+    public void LoadCombatScene(string mapPath)
     {
         try
         {
@@ -49,6 +49,44 @@ public partial class OverworldManager : Node
 
             GD.Print($"Map loaded: {mapPath}");
 
+            // Clean up the OverworldPlayer for now
+            var owPlayer = OverworldPlayer.Instance;
+            if (owPlayer != null)
+            {
+                owPlayer.QueueFree();
+            }
+            PackedScene combatPlayerScene = ResourceLoader.Load<PackedScene>("res://scenes/combat/player/CombatPlayer.tscn");
+            AddChild(combatPlayerScene.Instantiate());
+        }
+        catch (Exception e)
+        {
+            GD.PrintErr($"Error loading Combat scene: {e.Message}");
+        }
+    }
+    public void LoadOverworldScene(string mapPath)
+    {
+        try
+        {
+            // Unload current map if it exists
+            if (_currentMap != null)
+            {
+                _currentMap.QueueFree();
+                _currentMap = null;
+            }
+
+            // Load new map
+            var mapScene = ResourceLoader.Load<PackedScene>(mapPath);
+            if (mapScene == null)
+            {
+                GD.PrintErr($"Failed to load Overworld scene: {mapPath}");
+                return;
+            }
+
+            _currentMap = mapScene.Instantiate();
+            AddChild(_currentMap);
+
+            GD.Print($"Overworld Scene loaded: {mapPath}");
+
             // If we have a player reference, place them at the stored position
             var player = OverworldPlayer.Instance;
             if (player != null)
@@ -58,7 +96,7 @@ public partial class OverworldManager : Node
         }
         catch (Exception e)
         {
-            GD.PrintErr($"Error loading map: {e.Message}");
+            GD.PrintErr($"Error loading Overworld scene: {e.Message}");
         }
     }
 

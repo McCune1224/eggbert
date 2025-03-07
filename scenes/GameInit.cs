@@ -17,7 +17,7 @@ public partial class GameInit : Node
         }
 
         // Load the overworld map
-        overworldManager.LoadMap("res://scenes/overworld/maps/Overworld.tscn");
+        overworldManager.LoadOverworldScene("res://scenes/overworld/maps/Overworld.tscn");
 
         // Optionally set initial player position
         overworldManager.SetPlayerPosition(new Vector2(100, 100));

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=4 uid="uid://e1xv0dbe5grr"]
+[gd_scene load_steps=7 format=4 uid="uid://e1xv0dbe5grr"]
 
 [ext_resource type="Script" uid="uid://dir1787vgb15j" path="res://scenes/overworld/maps/Overworld.cs" id="1_sdqp5"]
 [ext_resource type="Texture2D" uid="uid://brc6yg81qjmkg" path="res://assets/tilemaps/Texture/TX Tileset Grass.png" id="2_7v7eg"]
 [ext_resource type="PackedScene" uid="uid://dmg8py6ignrbd" path="res://scenes/overworld/npcs/GrandpaSmith.tscn" id="3_mglvr"]
+[ext_resource type="PackedScene" uid="uid://ck00c0rsy7qs" path="res://scenes/overworld/npcs/OfficerBacon.tscn" id="4_7kf6u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l2fk0"]
 texture = ExtResource("2_7v7eg")
@@ -267,7 +268,6 @@ texture = ExtResource("2_7v7eg")
 sources/0 = SubResource("TileSetAtlasSource_l2fk0")
 
 [node name="Node2D" type="Node2D"]
-scale = Vector2(1.01347, 0.993294)
 script = ExtResource("1_sdqp5")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
@@ -276,4 +276,7 @@ tile_map_data = PackedByteArray("AADv//L/AAAAAAAAAADv//P/AAAAAAAAAADv//T/AAAAAAA
 tile_set = SubResource("TileSet_xf2qj")
 
 [node name="GrandpaSmith" parent="." instance=ExtResource("3_mglvr")]
-position = Vector2(62.1627, -489.281)
+position = Vector2(64.1627, -243)
+
+[node name="EvilBacon" parent="." instance=ExtResource("4_7kf6u")]
+position = Vector2(-24, -241.719)
