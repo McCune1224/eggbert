@@ -9,7 +9,6 @@ public partial class OverworldPlayer : CharacterBody2D
     public static OverworldPlayer Instance => _instance;
 
     // Movement properties
-    [Export]
     private float PLAYER_SPEED = 150.0f;
     private AnimatedSprite2D _sprite;
     private CollisionShape2D _collisionShape;

@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://0d7iq3ij7obm"
+path="res://.godot/imported/Arrow.ase-d9f84c7720b21ec92916af7563e25037.res"
+
+[deps]
+
+source_file="res://assets/ui/Arrow.ase"
+dest_files=["res://.godot/imported/Arrow.ase-d9f84c7720b21ec92916af7563e25037.res"]
+
+[params]
+
