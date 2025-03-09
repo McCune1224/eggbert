@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://b45j8bpqsp5vb"
+path="res://.godot/imported/broom.aseprite-9088bd1578f885de6fe0be914df8d8d1.res"
+
+[deps]
+
+source_file="res://assets/items/broom.aseprite"
+dest_files=["res://.godot/imported/broom.aseprite-9088bd1578f885de6fe0be914df8d8d1.res"]
+
+[params]
+

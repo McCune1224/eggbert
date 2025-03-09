@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://diw2a1gkppfv3"
+path="res://.godot/imported/Joe.aseprite-5f80f19a93a3de64bff6c820b53268b3.res"
+
+[deps]
+
+source_file="res://assets/characters/Joe.aseprite"
+dest_files=["res://.godot/imported/Joe.aseprite-5f80f19a93a3de64bff6c820b53268b3.res"]
+
+[params]
+
