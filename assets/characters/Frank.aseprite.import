@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://dj8a5hul068mv"
+path="res://.godot/imported/Frank.aseprite-991a4d558db624e1c046c0c8b2f20dd9.res"
+
+[deps]
+
+source_file="res://assets/characters/Frank.aseprite"
+dest_files=["res://.godot/imported/Frank.aseprite-991a4d558db624e1c046c0c8b2f20dd9.res"]
+
+[params]
+

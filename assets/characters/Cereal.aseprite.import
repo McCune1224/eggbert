@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://d3g83fgwhx8xa"
+path="res://.godot/imported/Cereal.aseprite-b91a53f30e9642727ad195fc0d530dfd.res"
+
+[deps]
+
+source_file="res://assets/characters/Cereal.aseprite"
+dest_files=["res://.godot/imported/Cereal.aseprite-b91a53f30e9642727ad195fc0d530dfd.res"]
+
+[params]
+

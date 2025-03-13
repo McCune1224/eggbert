@@ -25,7 +25,7 @@ public partial class Overworld : Node2D
     public override void _Ready()
     {
         // Connect to OverworldManager if needed
-        var overworldManager = OverworldManager.Instance;
+        var overworldManager = GameController.Instance;
         _player = OverworldPlayer.Instance;
 
         // Initialize entrance points (locations where the player can enter this map)
@@ -47,7 +47,7 @@ public partial class Overworld : Node2D
         _camera = _player.GetNode<Camera2D>("Camera2D");
 
         // Get the current area from OverworldManager
-        string currentArea = OverworldManager.Instance.CurrentArea;
+        string currentArea = GameController.Instance.CurrentArea;
 
         // Position player at the appropriate entrance point
         if (_entrancePoints.ContainsKey(currentArea))
@@ -61,7 +61,7 @@ public partial class Overworld : Node2D
         }
 
         // Update the stored position in the manager
-        OverworldManager.Instance.SetPlayerPosition(_player.Position);
+        GameController.Instance.SetPlayerPosition(_player.Position);
     }
 
     private void SetupInteractionArea()
@@ -112,7 +112,7 @@ public partial class Overworld : Node2D
         _player.MoveAndSlide();
 
         // Update the player position in the manager
-        OverworldManager.Instance.SetPlayerPosition(_player.Position);
+        GameController.Instance.SetPlayerPosition(_player.Position);
 
         // Handle interaction input (typically Z key in Undertale)
         if (Input.IsActionJustPressed("ui_accept"))
@@ -174,11 +174,5 @@ public partial class Overworld : Node2D
     public void EndInteraction()
     {
         _inInteraction = false;
-    }
-
-    // Method to change to another area
-    public void ChangeArea(string areaName)
-    {
-        OverworldManager.Instance.ChangeArea(areaName);
     }
 }

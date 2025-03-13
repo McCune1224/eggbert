@@ -8,7 +8,7 @@ public partial class GameInit : Node
     {
 
         // Get the singleton instance
-        var overworldManager = OverworldManager.Instance;
+        var overworldManager = GameController.Instance;
 
         if (overworldManager == null)
         {

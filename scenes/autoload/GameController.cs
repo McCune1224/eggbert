@@ -1,11 +1,11 @@
 using Godot;
 using System;
 
-public partial class OverworldManager : Node
+public partial class GameController : Node
 {
     // Singleton instance
-    private static OverworldManager _instance;
-    public static OverworldManager Instance => _instance;
+    private static GameController _instance;
+    public static GameController Instance => _instance;
     public string CurrentArea { get; private set; } = "starting_area";
 
     // Current map and player position
@@ -63,7 +63,7 @@ public partial class OverworldManager : Node
             GD.PrintErr($"Error loading Combat scene: {e.Message}");
         }
     }
-    public void LoadOverworldScene(string mapPath)
+    public void LoadOverworldScene(string scenePath)
     {
         try
         {
@@ -75,17 +75,17 @@ public partial class OverworldManager : Node
             }
 
             // Load new map
-            var mapScene = ResourceLoader.Load<PackedScene>(mapPath);
+            var mapScene = ResourceLoader.Load<PackedScene>(scenePath);
             if (mapScene == null)
             {
-                GD.PrintErr($"Failed to load Overworld scene: {mapPath}");
+                GD.PrintErr($"Failed to load Overworld scene: {scenePath}");
                 return;
             }
 
             _currentMap = mapScene.Instantiate();
             AddChild(_currentMap);
 
-            GD.Print($"Overworld Scene loaded: {mapPath}");
+            GD.Print($"Overworld Scene loaded: {_currentMap.Name}");
 
             // If we have a player reference, place them at the stored position
             var player = OverworldPlayer.Instance;
@@ -108,11 +108,5 @@ public partial class OverworldManager : Node
     public Vector2 GetPlayerPosition()
     {
         return _playerPosition;
-    }
-
-    public void ChangeArea(string newArea)
-    {
-        CurrentArea = newArea;
-        GD.Print($"Changed to area: {CurrentArea}");
     }
 }

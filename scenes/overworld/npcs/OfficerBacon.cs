@@ -68,7 +68,7 @@ public partial class OfficerBacon : Area2D
             dialogueLabel.Visible = true;
             GetTree().CreateTimer(2).Timeout += () =>
             {
-                OverworldManager ow = OverworldManager.Instance;
+                GameController ow = GameController.Instance;
                 ow.LoadCombatScene("res://scenes/combat/arena/GenericArena.tscn");
             };
         }

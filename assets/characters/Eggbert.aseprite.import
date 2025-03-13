@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://ceeck50orwdhd"
+path="res://.godot/imported/Eggbert.aseprite-2f784cc0f3719ee96081a948688ee1f1.res"
+
+[deps]
+
+source_file="res://assets/characters/Eggbert.aseprite"
+dest_files=["res://.godot/imported/Eggbert.aseprite-2f784cc0f3719ee96081a948688ee1f1.res"]
+
+[params]
+

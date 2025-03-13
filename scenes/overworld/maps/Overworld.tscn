@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://e1xv0dbe5grr"]
+[gd_scene load_steps=12 format=4 uid="uid://e1xv0dbe5grr"]
 
 [ext_resource type="Script" uid="uid://dir1787vgb15j" path="res://scenes/overworld/maps/Overworld.cs" id="1_sdqp5"]
 [ext_resource type="Texture2D" uid="uid://brc6yg81qjmkg" path="res://assets/tilemaps/Texture/TX Tileset Grass.png" id="2_7v7eg"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dmg8py6ignrbd" path="res://scenes/overworld/npcs/GrandpaSmith.tscn" id="3_mglvr"]
 [ext_resource type="PackedScene" uid="uid://ck00c0rsy7qs" path="res://scenes/overworld/npcs/OfficerBacon.tscn" id="4_7kf6u"]
 [ext_resource type="Script" uid="uid://b4k58puvpfmlf" path="res://scripts/overworld/MapLoadCollision.cs" id="6_ff2se"]
-[ext_resource type="PackedScene" uid="uid://cgey7l0cikahr" path="res://scenes/overworld/maps/TheGreatBeyond.tscn" id="7_d6qqh"]
 [ext_resource type="Texture2D" uid="uid://dggtstebbwpfg" path="res://assets/ui/Arrow.png" id="7_ff2se"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l2fk0"]
@@ -609,8 +608,7 @@ position = Vector2(-60, -81)
 
 [node name="Area2D" type="Area2D" parent="."]
 script = ExtResource("6_ff2se")
-_mapName = "The Great Beyond"
-MapLoadPath = ExtResource("7_d6qqh")
+MapLoadPath = "uid://cgey7l0cikahr"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(604.5, -43)

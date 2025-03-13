@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://d4lff38m1g2hd"
+path="res://.godot/imported/game over.aseprite-7a624a2cbfb59e36047b3787c7b85d1c.res"
+
+[deps]
+
+source_file="res://assets/game over.aseprite"
+dest_files=["res://.godot/imported/game over.aseprite-7a624a2cbfb59e36047b3787c7b85d1c.res"]
+
+[params]
+

@@ -91,9 +91,9 @@ public partial class OverworldPlayer : CharacterBody2D
         UpdateAnimation(direction);
 
         // Update position in manager
-        if (OverworldManager.Instance != null)
+        if (GameController.Instance != null)
         {
-            OverworldManager.Instance.SetPlayerPosition(Position);
+            GameController.Instance.SetPlayerPosition(Position);
         }
     }
 
@@ -131,9 +131,9 @@ public partial class OverworldPlayer : CharacterBody2D
     public void SetInitialPosition(Vector2 position)
     {
         Position = position;
-        if (OverworldManager.Instance != null)
+        if (GameController.Instance != null)
         {
-            OverworldManager.Instance.SetPlayerPosition(position);
+            GameController.Instance.SetPlayerPosition(position);
         }
     }
 
