@@ -60,7 +60,6 @@ public partial class OfficerBacon : Area2D
         {
             // This is where you'd put the code for what happens when the player interacts
             // For example: Start a dialogue, give an item, etc.
-            GD.Print("Player interacted with Grandpa Smith!");
             dialogueLabel.Text = "You're coming with me."; // Set the dialogue text
             dialogueLabel.Position = new Vector2(0, -50); // Position above the NPC
             dialogueLabel.HorizontalAlignment = HorizontalAlignment.Left;

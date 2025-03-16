@@ -1,10 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://ck00c0rsy7qs"]
+[gd_scene load_steps=14 format=3 uid="uid://ck00c0rsy7qs"]
 
 [ext_resource type="Script" uid="uid://b5gw2xo5sfpb2" path="res://scenes/overworld/npcs/OfficerBacon.cs" id="1_6kkq5"]
 [ext_resource type="Texture2D" uid="uid://10nsh7xbpdpi" path="res://assets/characters/Officer Bacon.png" id="2_6kkq5"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ucj4v"]
-radius = 40.05
 
 [sub_resource type="Animation" id="Animation_aka7k"]
 length = 0.1
@@ -146,6 +143,12 @@ _data = {
 &"walk right": SubResource("Animation_pkb3n")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6kkq5"]
+size = Vector2(24, 54)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ucj4v"]
+radius = 40.05
+
 [node name="EvilBacon" type="Area2D"]
 script = ExtResource("1_6kkq5")
 
@@ -172,10 +175,16 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "aaa8907a55dfecfc43b4070c368d2398"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_ucj4v")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_bibfu")
 }
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="PhysicsCollision" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_6kkq5")
+
+[node name="InteractionCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ucj4v")

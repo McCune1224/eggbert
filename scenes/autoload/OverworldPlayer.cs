@@ -34,14 +34,14 @@ public partial class OverworldPlayer : CharacterBody2D
 
         return colliders;
     }
-    public void PrintCurrentCollisions()
-    {
-        Array<Node2D> collision = GetCollidingBodies();
-        foreach (var col in collision)
-        {
-            GD.Print(col);
-        }
-    }
+    // public void PrintCurrentCollisions()
+    // {
+    //     Array<Node2D> collision = GetCollidingBodies();
+    //     foreach (var col in collision)
+    //     {
+    //         GD.Print(col);
+    //     }
+    // }
 
     public override void _Ready()
     {
@@ -69,7 +69,7 @@ public partial class OverworldPlayer : CharacterBody2D
         {
             HandleMovement(delta);
         }
-        PrintCurrentCollisions();
+        // PrintCurrentCollisions();
     }
 
     private void HandleMovement(double delta)
