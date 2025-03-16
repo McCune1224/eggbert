@@ -10,7 +10,7 @@ public partial class OverworldPlayer : CharacterBody2D
 
     // Movement properties
     private float PLAYER_SPEED = 150.0f;
-    private AnimatedSprite2D _sprite;
+    private AnimationPlayer _animationPlayer;
     private CollisionShape2D _collisionShape;
     private string facedDirection = "down";
 
@@ -56,11 +56,11 @@ public partial class OverworldPlayer : CharacterBody2D
         }
 
         // Get references to child nodes
-        _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 
         // Set default animation
-        _sprite.Play("idle forward");
+        _animationPlayer.Play("idle forward");
     }
 
     public override void _Process(double delta)
@@ -103,11 +103,11 @@ public partial class OverworldPlayer : CharacterBody2D
         {
             // GD.Print("NO DIRECTION");
             // If we're not moving, use idle animation based on current animation
-            string currentAnim = _sprite.Animation;
+            string currentAnim = _animationPlayer.CurrentAnimation;
             if (currentAnim.StartsWith("walk"))
             {
                 string left = currentAnim.Split(" ")[1];
-                _sprite.Play("idle " + currentAnim.Substring(5)); // Remove "walk " prefix
+                _animationPlayer.Play("idle " + currentAnim.Substring(5)); // Remove "walk " prefix
             }
         }
         else
@@ -117,12 +117,12 @@ public partial class OverworldPlayer : CharacterBody2D
             if (Mathf.Abs(direction.X) > Mathf.Abs(direction.Y))
             {
                 // Horizontal movement is dominant
-                _sprite.Play(direction.X < 0 ? "walk left" : "walk right");
+                _animationPlayer.Play(direction.X < 0 ? "walk left" : "walk right");
             }
             else
             {
                 // Vertical movement is dominant
-                _sprite.Play(direction.Y < 0 ? "walk back" : "walk forward");
+                _animationPlayer.Play(direction.Y < 0 ? "walk back" : "walk forward");
             }
         }
     }

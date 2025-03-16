@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8l08sqv0mlmf"
-path="res://.godot/imported/Officer Bacon.png-389def177027af9dca23adf3652fe833.ctex"
+uid="uid://bererk51y6d1k"
+path="res://.godot/imported/Frank.png-ef6412b816230b4f90d64e62c7688338.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/overworld/npcs/Officer Bacon.png"
-dest_files=["res://.godot/imported/Officer Bacon.png-389def177027af9dca23adf3652fe833.ctex"]
+source_file="res://assets/characters/Frank.png"
+dest_files=["res://.godot/imported/Frank.png-ef6412b816230b4f90d64e62c7688338.ctex"]
 
 [params]
 

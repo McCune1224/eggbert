@@ -1,30 +1,172 @@
-[gd_scene load_steps=4 format=3 uid="uid://ck00c0rsy7qs"]
+[gd_scene load_steps=13 format=3 uid="uid://ck00c0rsy7qs"]
 
 [ext_resource type="Script" uid="uid://b5gw2xo5sfpb2" path="res://scenes/overworld/npcs/OfficerBacon.cs" id="1_6kkq5"]
-[ext_resource type="Texture2D" uid="uid://b8l08sqv0mlmf" path="res://scenes/overworld/npcs/Officer Bacon.png" id="1_ucj4v"]
+[ext_resource type="Texture2D" uid="uid://10nsh7xbpdpi" path="res://assets/characters/Officer Bacon.png" id="2_6kkq5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ucj4v"]
 radius = 40.05
+
+[sub_resource type="Animation" id="Animation_aka7k"]
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_fe161"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 2]
+}
+
+[sub_resource type="Animation" id="Animation_jibbp"]
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="Animation" id="Animation_pkb3n"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [3, 4, 3, 5]
+}
+
+[sub_resource type="Animation" id="Animation_aun8w"]
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_djnuq"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 6, 8]
+}
+
+[sub_resource type="Animation" id="Animation_2nhdl"]
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+
+[sub_resource type="Animation" id="Animation_5uefi"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [9, 10, 9, 11]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bibfu"]
+_data = {
+&"idle back": SubResource("Animation_2nhdl"),
+&"idle forward": SubResource("Animation_aka7k"),
+&"idle left": SubResource("Animation_aun8w"),
+&"idle right": SubResource("Animation_jibbp"),
+&"walk back": SubResource("Animation_5uefi"),
+&"walk forward": SubResource("Animation_fe161"),
+&"walk left": SubResource("Animation_djnuq"),
+&"walk right": SubResource("Animation_pkb3n")
+}
 
 [node name="EvilBacon" type="Area2D"]
 script = ExtResource("1_6kkq5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("1_ucj4v")
+texture = ExtResource("2_6kkq5")
+hframes = 4
+vframes = 3
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "pending_changes": {}
 }
 metadata/_aseprite_wizard_config_ = {
-"i_mode": 1,
+"i_mode": 0,
 "keep_anim_length": false,
 "layers": [],
 "o_ex_p": "",
-"o_folder": "res://scenes/overworld/npcs",
+"o_folder": "res://assets/characters",
 "o_name": "",
 "only_visible": false,
-"player": "",
+"player": "AnimationPlayer",
 "slice": "",
 "source": "res://assets/characters/Officer Bacon.ase"
 }
@@ -32,3 +174,8 @@ metadata/_aseprite_wizard_source_file_hash_ = "aaa8907a55dfecfc43b4070c368d2398"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ucj4v")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_bibfu")
+}
