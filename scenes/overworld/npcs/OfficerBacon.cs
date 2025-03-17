@@ -68,7 +68,7 @@ public partial class OfficerBacon : Area2D
             GetTree().CreateTimer(2).Timeout += () =>
             {
                 GameController ow = GameController.Instance;
-                ow.LoadCombatScene("res://scenes/combat/arena/GenericArena.tscn");
+                ow.LoadCombatScene("res://scenes/combat/arena/OatmealArena.tscn");
             };
         }
     }

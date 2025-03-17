@@ -16,10 +16,11 @@ public partial class GameInit : Node
             return;
         }
 
-        // Load the overworld map
+        overworldManager.LoadCombatScene("res://scenes/combat/arena/OatmealArena.tscn");
+        // overworldManager.LoadCombatScene("res://scenes/combat/arena/OatmealArena.tscn");
+        // // Load the overworld map
         overworldManager.LoadOverworldScene("res://scenes/overworld/maps/Overworld.tscn");
-
-        // Optionally set initial player position
-        overworldManager.SetPlayerPosition(new Vector2(100, 100));
+        // // Optionally set initial player position
+        // overworldManager.SetPlayerPosition(new Vector2(100, 100));
     }
 }

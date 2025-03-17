@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://brj6bm3qg5uyl"]
+
+[ext_resource type="Script" uid="uid://bco5ecxn14rbo" path="res://scenes/combat/bullets/RedBullet.cs" id="1_ks6od"]
+[ext_resource type="Texture2D" uid="uid://dej2twxr3l44n" path="res://assets/Effect and Bullet 16x16/RedBullet.png" id="1_n5smi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ks6od"]
+radius = 6.0
+
+[node name="RedBullet" type="Area2D"]
+script = ExtResource("1_ks6od")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_n5smi")
+metadata/_aseprite_wizard_interface_config_ = {
+"layer_section": false,
+"output_section": false,
+"pending_changes": {
+"i_mode": -1,
+"keep_anim_length": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"player": "",
+"slice": "",
+"source": ""
+},
+"slice_section": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ks6od")

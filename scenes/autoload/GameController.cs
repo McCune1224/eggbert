@@ -49,14 +49,6 @@ public partial class GameController : Node
 
             GD.Print($"Map loaded: {mapPath}");
 
-            // Clean up the OverworldPlayer for now
-            var owPlayer = OverworldPlayer.Instance;
-            if (owPlayer != null)
-            {
-                owPlayer.QueueFree();
-            }
-            PackedScene combatPlayerScene = ResourceLoader.Load<PackedScene>("res://scenes/combat/player/CombatPlayer.tscn");
-            AddChild(combatPlayerScene.Instantiate());
         }
         catch (Exception e)
         {
@@ -88,7 +80,7 @@ public partial class GameController : Node
             GD.Print($"Overworld Scene loaded: {_currentMap.Name}");
 
             // If we have a player reference, place them at the stored position
-            var player = OverworldPlayer.Instance;
+            var player = Player.Instance;
             if (player != null)
             {
                 player.SetInitialPosition(_playerPosition);

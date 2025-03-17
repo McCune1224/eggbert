@@ -26,7 +26,7 @@ public partial class Overworld : Node2D
     {
         // Connect to OverworldManager if needed
         var overworldManager = GameController.Instance;
-        _player = OverworldPlayer.Instance;
+        _player = Player.Instance;
 
         // Initialize entrance points (locations where the player can enter this map)
         _entrancePoints.Add("starting_area", new Vector2(100, 100));
@@ -43,7 +43,7 @@ public partial class Overworld : Node2D
     private void SetupPlayerPosition()
     {
         // Find the player node
-        _player = OverworldPlayer.Instance;
+        _player = Player.Instance;
         _camera = _player.GetNode<Camera2D>("Camera2D");
 
         // Get the current area from OverworldManager

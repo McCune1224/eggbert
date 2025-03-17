@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://vnn13se2wx1"]
 
 [ext_resource type="Script" uid="uid://bdt0rp1lwq50x" path="res://scenes/combat/player/CombatPlayer.cs" id="1_3aarv"]
-[ext_resource type="Texture2D" uid="uid://dk3mcf2g0jhvv" path="res://scenes/combat/player/Eggbert.png" id="1_r0aft"]
+[ext_resource type="Texture2D" uid="uid://dqpt8w883lujc" path="res://assets/characters/Eggbert2.png" id="2_3aarv"]
 
 [sub_resource type="Animation" id="Animation_1wuq8"]
 length = 0.1
@@ -16,7 +16,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [7]
+"values": [9]
 }
 
 [sub_resource type="Animation" id="Animation_3aarv"]
@@ -48,7 +48,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [5]
+"values": [6]
 }
 
 [sub_resource type="Animation" id="Animation_roxxt"]
@@ -80,7 +80,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [7, 8, 7, 9]
+"values": [9, 10, 9, 11]
 }
 
 [sub_resource type="Animation" id="Animation_vka8e"]
@@ -112,7 +112,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [5, 6, 5, 6]
+"values": [6, 7, 6, 8]
 }
 
 [sub_resource type="Animation" id="Animation_n8438"]
@@ -128,7 +128,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [3, 4, 3, 4]
+"values": [3, 4, 3, 5]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qbn2o"]
@@ -151,10 +151,10 @@ script = ExtResource("1_3aarv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("1_r0aft")
+texture = ExtResource("2_3aarv")
 hframes = 4
 vframes = 3
-frame = 7
+frame = 9
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "pending_changes": {}
@@ -164,14 +164,14 @@ metadata/_aseprite_wizard_config_ = {
 "keep_anim_length": false,
 "layers": [],
 "o_ex_p": "",
-"o_folder": "res://scenes/combat/player",
+"o_folder": "res://assets/characters",
 "o_name": "",
 "only_visible": false,
 "player": "AnimatedSprite2D",
 "slice": "",
-"source": "res://assets/characters/Eggbert.ase"
+"source": "res://assets/characters/Eggbert2.ase"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "ba9258a1645aca139bf4f279f2283a8b"
+metadata/_aseprite_wizard_source_file_hash_ = "4bf66a1178adcd50159b93a2263773a3"
 
 [node name="AnimatedSprite2D" type="AnimationPlayer" parent="."]
 libraries = {

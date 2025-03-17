@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://dn0vursikxduh"]
+
+[ext_resource type="Script" uid="uid://dvptuuesoks1x" path="res://scenes/combat/enemies/CombatOatmeal.cs" id="1_ql8hm"]
+[ext_resource type="Texture2D" uid="uid://budwups85d1s7" path="res://assets/characters/Oatmeal.png" id="1_ts2gl"]
+
+[sub_resource type="Animation" id="Animation_ql8hm"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xbas4"]
+_data = {
+&"default": SubResource("Animation_ql8hm")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ts2gl"]
+size = Vector2(94, 52)
+
+[node name="Oatmeal" type="Area2D"]
+script = ExtResource("1_ql8hm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_ts2gl")
+hframes = 2
+vframes = 2
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://assets/characters",
+"o_name": "",
+"only_visible": false,
+"player": "AnimationPlayer",
+"slice": "",
+"source": "res://assets/characters/Oatmeal.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "b41491e31643edcb7a564b5a8708d0d5"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+libraries = {
+&"": SubResource("AnimationLibrary_xbas4")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_ts2gl")

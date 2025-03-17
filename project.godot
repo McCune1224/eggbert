@@ -18,7 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameController="*res://scenes/autoload/GameController.tscn"
-OverworldPlayer="*res://scenes/autoload/OverworldPlayer.tscn"
+Player="*res://scenes/autoload/Player.tscn"
 
 [display]
 
