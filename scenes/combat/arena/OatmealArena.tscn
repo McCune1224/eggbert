@@ -9,3 +9,4 @@ script = ExtResource("1_laihi")
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="Oatmeal" parent="." instance=ExtResource("2_laihi")]
+position = Vector2(1, -130)

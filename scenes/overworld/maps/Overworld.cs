@@ -5,14 +5,12 @@ using static IInteractable;
 public partial class Overworld : Node2D
 {
     // Nodes that will be assigned in the scene
-    private CharacterBody2D _player;
+    private Player _player;
     private Camera2D _camera;
     private TileMapLayer _groundTileMap;
     private TileMapLayer _collisionTileMap;
     private CanvasLayer _uiLayer;
 
-    // Constants for movement
-    private const float PLAYER_SPEED = 150.0f;
 
     // Interaction area
     private Area2D _interactionArea;
@@ -108,7 +106,7 @@ public partial class Overworld : Node2D
         }
 
         // Set the velocity and move the player
-        _player.Velocity = direction * PLAYER_SPEED;
+        _player.Velocity = direction * _player.PlayerSpeed;
         _player.MoveAndSlide();
 
         // Update the player position in the manager

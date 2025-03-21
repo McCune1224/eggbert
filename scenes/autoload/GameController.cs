@@ -29,14 +29,24 @@ public partial class GameController : Node
     {
         try
         {
-            // Unload current map if it exists
+            // Disable the player's camera if it exists
+            var player = Player.Instance;
+            if (player != null)
+            {
+                Camera2D playerCamera = player.GetNode<Camera2D>("Camera2D");
+                if (playerCamera != null)
+                {
+                    playerCamera.Enabled = false;
+                }
+            }
+
+            // Rest of your existing code...
             if (_currentMap != null)
             {
                 _currentMap.QueueFree();
                 _currentMap = null;
             }
 
-            // Load new map
             var mapScene = ResourceLoader.Load<PackedScene>(mapPath);
             if (mapScene == null)
             {
@@ -48,25 +58,24 @@ public partial class GameController : Node
             AddChild(_currentMap);
 
             GD.Print($"Map loaded: {mapPath}");
-
         }
         catch (Exception e)
         {
             GD.PrintErr($"Error loading Combat scene: {e.Message}");
         }
     }
+
     public void LoadOverworldScene(string scenePath)
     {
         try
         {
-            // Unload current map if it exists
+            // Rest of your existing code...
             if (_currentMap != null)
             {
                 _currentMap.QueueFree();
                 _currentMap = null;
             }
 
-            // Load new map
             var mapScene = ResourceLoader.Load<PackedScene>(scenePath);
             if (mapScene == null)
             {
@@ -84,6 +93,14 @@ public partial class GameController : Node
             if (player != null)
             {
                 player.SetInitialPosition(_playerPosition);
+
+                // Re-enable the player's camera
+                var playerCamera = player.GetNode<Camera2D>("Camera2D");
+                if (playerCamera != null)
+                {
+                    playerCamera.Enabled = true;
+                    playerCamera.MakeCurrent();
+                }
             }
         }
         catch (Exception e)

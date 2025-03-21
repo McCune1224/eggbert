@@ -8,10 +8,10 @@ public partial class Player : CharacterBody2D
     private static Player _instance;
     public static Player Instance => _instance;
     // Movement properties
-    private float PLAYER_SPEED = 150.0f;
+    public readonly float PlayerSpeed = 150.0f;
     private AnimationPlayer _animationPlayer;
     private CollisionShape2D _collisionShape;
-    private string facedDirection = "down";
+    private string _facedDirection = "down";
 
     // Current state
     private bool _inInteraction = false;
@@ -30,6 +30,7 @@ public partial class Player : CharacterBody2D
             KinematicCollision2D collision = GetSlideCollision(i);
             colliders.Add((Node2D)collision.GetCollider());
         }
+
 
         return colliders;
     }
@@ -83,7 +84,7 @@ public partial class Player : CharacterBody2D
         }
 
         // Set the velocity and move the player
-        Velocity = direction * PLAYER_SPEED;
+        Velocity = direction * PlayerSpeed;
         MoveAndSlide();
 
         // Update animation based on movement

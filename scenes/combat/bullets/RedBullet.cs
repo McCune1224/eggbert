@@ -13,8 +13,33 @@ public partial class RedBullet : Area2D
     // Called when the node enters the scene tree for the first time
     public override void _Ready()
     {
-        // You could initialize anything specific here if needed
+        AreaEntered += OnAreaEntered;
+        BodyEntered += OnBodyEntered;
+
+
+
     }
+
+    // public override void _PhysicsProcess(double delta)
+    // {
+    //     // Check for objects in vicinity for debugging
+    //     var spaceState = GetWorld2D().DirectSpaceState;
+    //     var queryParams = new PhysicsPointQueryParameters2D();
+    //     queryParams.Position = GlobalPosition;
+    //     queryParams.CollideWithAreas = true;
+    //     queryParams.CollideWithBodies = true;
+    //     queryParams.CollisionMask = (uint)CollisionMask;
+    //
+    //     var result = spaceState.IntersectPoint(queryParams);
+    //     if (result.Count > 0)
+    //     {
+    //         GD.Print($"Nearby objects: {result.Count}");
+    //         foreach (var collision in result)
+    //         {
+    //             GD.Print($"  - {((Godot.Collections.Dictionary)collision)["collider"]}");
+    //         }
+    //     }
+    // }
 
     // Called every frame
     public override void _Process(double delta)
@@ -55,6 +80,10 @@ public partial class RedBullet : Area2D
     // What happens when bullet hits something
     private void OnAreaEntered(Area2D area)
     {
+        GD.Print("====BULLET HIT AREA====");
+        Area2D forRealizes = (Area2D)area;
+        CollisionConfig.PrintCollisionLayer(area.CollisionLayer);
+        CollisionConfig.PrintCollisionMask(area.CollisionMask);
         // Here you can add logic for what happens when the bullet hits something
         // For example, deal damage, play effects, etc.
 
@@ -65,7 +94,16 @@ public partial class RedBullet : Area2D
     // Called when the bullet enters a body (solid object)
     private void OnBodyEntered(Node2D body)
     {
-        // Destroy the bullet when it hits a solid object
+        if (body.IsInGroup("player"))
+        {
+
+
+            GD.Print("====BULLET HIT BODY====");
+            CharacterBody2D forRealizes = (CharacterBody2D)body;
+            GD.Print(forRealizes.CollisionMask);
+            GD.Print(forRealizes.CollisionLayer);
+            // Destroy the bullet when it hits a solid object
+        }
         QueueFree();
     }
 }

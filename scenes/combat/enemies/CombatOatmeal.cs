@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using static CollisionConfig;
 
 public partial class CombatOatmeal : Area2D
 {
@@ -11,6 +12,8 @@ public partial class CombatOatmeal : Area2D
 
     public override void _Ready()
     {
+        CollisionLayer = CollisionConfig.NPCs;
+        // CollisionLayer = CollisionConfig.Pla
         GD.Print("WHATS GOOD ITS OAT TIME");
         _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
     }
@@ -41,7 +44,7 @@ public partial class CombatOatmeal : Area2D
             _animationPlayer.Play("default");
             _isFiring = true;
             Random rand = new Random();
-            int numBullets = rand.Next(3, 6);
+            int numBullets = 3;
             float spreadAngle = 30.0f; // 30 degree spread
             float angleStep = spreadAngle / (numBullets > 1 ? numBullets - 1 : 1);
 
@@ -56,8 +59,9 @@ public partial class CombatOatmeal : Area2D
                 RedBullet bullet = ResourceLoader.Load<PackedScene>("res://scenes/combat/bullets/RedBullet.tscn").Instantiate<RedBullet>();
                 // RedBullet bullet = _bulletPool[i];
                 // Remove from parent if it's already in the tree
-                if (bullet.GetParent() != null)
-                    bullet.GetParent().RemoveChild(bullet);
+                if (bullet.GetParent() != null) { bullet.GetParent().RemoveChild(bullet); }
+                bullet.CollisionMask = CollisionConfig.PlayerBulletMask;
+                bullet.CollisionLayer = CollisionConfig.Bullets;
 
                 // Position bullet at the enemy
                 bullet.GlobalPosition = GlobalPosition;
@@ -71,7 +75,6 @@ public partial class CombatOatmeal : Area2D
 
                 // Set the bullet's direction using its own method
                 bullet.SetDirection(direction, 250.0f); // Speed increased for better effect
-                GD.Print("Firing bullet at direction: ", direction);
 
                 // Add to scene tree
                 GetParent().AddChild(bullet);

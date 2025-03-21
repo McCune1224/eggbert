@@ -73,6 +73,19 @@ interact={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Walls"
+2d_physics/layer_3="NPCs"
+2d_physics/layer_4="Bullets"
+2d_physics/layer_5="Interactables"
+2d_physics/layer_6="Enemies"
+2d_physics/layer_7="TriggerAreas"
+2d_physics/layer_8="PlayerHitbox"
+2d_physics/layer_9="EnemyHitbox"
+2d_physics/layer_10="Items"
+
 [physics]
 
 2d/default_gravity_vector=Vector2(0, 0)
