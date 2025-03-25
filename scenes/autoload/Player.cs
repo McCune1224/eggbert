@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Collections.Generic;
 
 public partial class Player : CharacterBody2D
 {
@@ -148,4 +149,12 @@ public partial class Player : CharacterBody2D
     {
         _inInteraction = false;
     }
+
+    public void OnSaveGame(Godot.Collections.Array<SavedData> saveDataList)
+    {
+        SavedData newData = new();
+        newData.ScenePath = SceneFilePath;
+        saveDataList.Add(newData);
+    }
 }
+

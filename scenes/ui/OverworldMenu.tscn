@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://cj5aw1u0r2gte"]
+
+[ext_resource type="Script" uid="uid://28qsckkkb1kv" path="res://scenes/ui/OverworldMenu.cs" id="1_d4due"]
+
+[node name="OverworldMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_d4due")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 79.0
+offset_top = 12.0
+offset_right = 564.0
+offset_bottom = 345.0
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 274.0
+offset_top = 118.0
+offset_right = 357.0
+offset_bottom = 254.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="InventoryButton" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Inventory"
+
+[node name="SaveButton" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Save Game"
+
+[node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit Game"

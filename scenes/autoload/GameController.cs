@@ -54,6 +54,8 @@ public partial class GameController : Node
                 return;
             }
 
+
+
             _currentMap = mapScene.Instantiate();
             AddChild(_currentMap);
 
@@ -86,6 +88,12 @@ public partial class GameController : Node
             _currentMap = mapScene.Instantiate();
             AddChild(_currentMap);
 
+
+            var overworldMenu = ResourceLoader.Load<PackedScene>("res://scenes/ui/OverworldMenu.tscn");
+            var canvasLayer = new CanvasLayer();
+            canvasLayer.AddChild(overworldMenu.Instantiate());
+            AddChild(canvasLayer);
+
             GD.Print($"Overworld Scene loaded: {_currentMap.Name}");
 
             // If we have a player reference, place them at the stored position
@@ -117,5 +125,10 @@ public partial class GameController : Node
     public Vector2 GetPlayerPosition()
     {
         return _playerPosition;
+    }
+
+    public void SetCurrentArea(string area)
+    {
+        CurrentArea = area;
     }
 }
