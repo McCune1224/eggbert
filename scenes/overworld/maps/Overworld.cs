@@ -5,7 +5,7 @@ using static IInteractable;
 public partial class Overworld : Node2D
 {
     // Nodes that will be assigned in the scene
-    private Player _player;
+    private OverworldPlayer _player;
     private Camera2D _camera;
     private TileMapLayer _groundTileMap;
     private TileMapLayer _collisionTileMap;
@@ -24,7 +24,7 @@ public partial class Overworld : Node2D
     {
         // Connect to OverworldManager if needed
         var overworldManager = GameController.Instance;
-        _player = Player.Instance;
+        _player = OverworldPlayer.Instance;
 
         // Initialize entrance points (locations where the player can enter this map)
         _entrancePoints.Add("starting_area", new Vector2(100, 100));
@@ -41,7 +41,7 @@ public partial class Overworld : Node2D
     private void SetupPlayerPosition()
     {
         // Find the player node
-        _player = Player.Instance;
+        _player = OverworldPlayer.Instance;
         _camera = _player.GetNode<Camera2D>("Camera2D");
 
         // Get the current area from OverworldManager

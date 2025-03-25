@@ -12,6 +12,6 @@ public partial class Fps : RichTextLabel
     public override void _Process(double delta)
     {
         string logString = "DLT: " + delta.ToString("F4") + "\nFPS: " + Engine.GetFramesPerSecond().ToString("F0");
-        this.Text = logString;
+        Text = logString;
     }
 }

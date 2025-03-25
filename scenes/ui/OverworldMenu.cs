@@ -10,10 +10,14 @@ public partial class OverworldMenu : Control
         _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
         // Connect button signals to methods
-        GetNode("PanelContainer/VBoxContainer/ResumeButton").Connect("pressed", new Callable(this, nameof(OnResumePressed)));
-        GetNode("PanelContainer/VBoxContainer/InventoryButton").Connect("pressed", new Callable(this, nameof(OnInventoryPressed)));
-        GetNode("PanelContainer/VBoxContainer/SaveButton").Connect("pressed", new Callable(this, nameof(OnSavePressed)));
-        GetNode("PanelContainer/VBoxContainer/QuitButton").Connect("pressed", new Callable(this, nameof(OnQuitPressed)));
+        GetNode("PanelContainer/VBoxContainer/ResumeButton")
+            .Connect("pressed", new Callable(this, nameof(OnResumePressed)));
+        GetNode("PanelContainer/VBoxContainer/InventoryButton")
+            .Connect("pressed", new Callable(this, nameof(OnInventoryPressed)));
+        GetNode("PanelContainer/VBoxContainer/SaveButton")
+            .Connect("pressed", new Callable(this, nameof(OnSavePressed)));
+        GetNode("PanelContainer/VBoxContainer/QuitButton")
+            .Connect("pressed", new Callable(this, nameof(OnQuitPressed)));
     }
 
     public override void _Process(double delta)
@@ -56,11 +60,6 @@ public partial class OverworldMenu : Control
         }
     }
 
-    private void Save()
-    {
-        // Add save functionality here
-        GD.Print("Saving game...");
-    }
 
     private void ToggleEscape()
     {
@@ -92,7 +91,12 @@ public partial class OverworldMenu : Control
 
     private void OnSavePressed()
     {
-        Save();
+        SceneTree tree = GetTree();
+        Node overworldNode = tree.GetNodesInGroup("overworld")[0];
+
+
+        GameSaverLoader gsl = new(overworldNode.GetTree());
+        gsl.SaveGame();
     }
 
     private void OnQuitPressed()

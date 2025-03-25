@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://c2t2rjmg42blk"]
 
-[ext_resource type="Script" uid="uid://d1ifq4apgr7en" path="res://scenes/autoload/Player.cs" id="1_5tbfk"]
+[ext_resource type="Script" uid="uid://cyn6otyy0any1" path="res://scenes/autoload/OverworldPlayer.cs" id="1_e1ie6"]
 [ext_resource type="Texture2D" uid="uid://dqpt8w883lujc" path="res://assets/characters/Eggbert2.png" id="2_e1ie6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1ie6"]
@@ -147,7 +147,7 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" groups=["save"]]
-script = ExtResource("1_5tbfk")
+script = ExtResource("1_e1ie6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

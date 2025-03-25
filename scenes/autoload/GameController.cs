@@ -30,7 +30,7 @@ public partial class GameController : Node
         try
         {
             // Disable the player's camera if it exists
-            var player = Player.Instance;
+            var player = OverworldPlayer.Instance;
             if (player != null)
             {
                 Camera2D playerCamera = player.GetNode<Camera2D>("Camera2D");
@@ -58,7 +58,6 @@ public partial class GameController : Node
 
             _currentMap = mapScene.Instantiate();
             AddChild(_currentMap);
-
             GD.Print($"Map loaded: {mapPath}");
         }
         catch (Exception e)
@@ -86,6 +85,7 @@ public partial class GameController : Node
             }
 
             _currentMap = mapScene.Instantiate();
+            _currentMap.AddToGroup("overworld");
             AddChild(_currentMap);
 
 
@@ -97,7 +97,7 @@ public partial class GameController : Node
             GD.Print($"Overworld Scene loaded: {_currentMap.Name}");
 
             // If we have a player reference, place them at the stored position
-            var player = Player.Instance;
+            var player = OverworldPlayer.Instance;
             if (player != null)
             {
                 player.SetInitialPosition(_playerPosition);
