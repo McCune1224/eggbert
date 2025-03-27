@@ -147,7 +147,6 @@ public partial class Overworld : Node2D
         // Visual indicator or hint that interaction is possible
         if (body is IInteractable || (body is Node node && node.HasMethod("Interact")))
         {
-            GD.Print("Interaction available");
             // Here you could show a visual indicator
         }
     }
@@ -157,7 +156,6 @@ public partial class Overworld : Node2D
         // Remove visual indicator
         if (body is IInteractable || (body is Node node && node.HasMethod("Interact")))
         {
-            GD.Print("Interaction no longer available");
             // Here you could hide the visual indicator
         }
     }

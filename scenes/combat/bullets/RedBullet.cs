@@ -80,7 +80,6 @@ public partial class RedBullet : Area2D
     // What happens when bullet hits something
     private void OnAreaEntered(Area2D area)
     {
-        GD.Print("====BULLET HIT AREA====");
         Area2D forRealizes = (Area2D)area;
         CollisionConfig.PrintCollisionLayer(area.CollisionLayer);
         CollisionConfig.PrintCollisionMask(area.CollisionMask);
@@ -98,7 +97,6 @@ public partial class RedBullet : Area2D
         {
 
 
-            GD.Print("====BULLET HIT BODY====");
             CharacterBody2D forRealizes = (CharacterBody2D)body;
             GD.Print(forRealizes.CollisionMask);
             GD.Print(forRealizes.CollisionLayer);

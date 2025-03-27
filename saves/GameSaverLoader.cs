@@ -31,11 +31,8 @@ public partial class GameSaverLoader : Node
     {
         if (ResourceLoader.Exists("user://savegame.tres"))
         {
-            GD.Print("Loading exiting game");
             SavedGame loadedGame = ResourceLoader.Load<SavedGame>("user://savegame.tres");
-            GD.Print(loadedGame.PlayerPosition);
             OverworldPlayer.Instance.GlobalPosition = loadedGame.PlayerPosition;
         }
-        GD.Print("Loading new game");
     }
 }

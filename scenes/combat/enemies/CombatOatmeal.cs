@@ -14,7 +14,6 @@ public partial class CombatOatmeal : Area2D
     {
         CollisionLayer = CollisionConfig.NPCs;
         // CollisionLayer = CollisionConfig.Pla
-        GD.Print("WHATS GOOD ITS OAT TIME");
         _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
     }
 

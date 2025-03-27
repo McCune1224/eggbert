@@ -17,7 +17,6 @@ public partial class GameController : Node
         if (_instance == null)
         {
             _instance = this;
-            GD.Print("OverworldManager singleton initialized");
         }
         else
         {
@@ -58,7 +57,6 @@ public partial class GameController : Node
 
             _currentMap = mapScene.Instantiate();
             AddChild(_currentMap);
-            GD.Print($"Map loaded: {mapPath}");
         }
         catch (Exception e)
         {
@@ -94,7 +92,6 @@ public partial class GameController : Node
             canvasLayer.AddChild(overworldMenu.Instantiate());
             AddChild(canvasLayer);
 
-            GD.Print($"Overworld Scene loaded: {_currentMap.Name}");
 
             // If we have a player reference, place them at the stored position
             var player = OverworldPlayer.Instance;

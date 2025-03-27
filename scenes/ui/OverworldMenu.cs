@@ -101,7 +101,6 @@ public partial class OverworldMenu : Control
 
     private void OnQuitPressed()
     {
-        GD.Print("Quitting game...");
         GetTree().Quit();
     }
 }
