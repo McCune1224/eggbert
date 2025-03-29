@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6i5kjokcviqa"]
+
+[ext_resource type="Texture2D" uid="uid://biodoyffardp0" path="res://assets/ui/chatbox.png" id="1_27wuv"]
+[ext_resource type="Script" uid="uid://do7y77sbi8w72" path="res://scenes/ui/TextBox.cs" id="1_uehqf"]
+[ext_resource type="FontFile" uid="uid://kt1xh1gdfgwk" path="res://assets/fonts/yoster.ttf" id="2_7npaa"]
+
+[node name="TextBox" type="MarginContainer"]
+scale = Vector2(1.00707, 1)
+script = ExtResource("1_uehqf")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_27wuv")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_7npaa")
+theme_override_font_sizes/font_size = 12
