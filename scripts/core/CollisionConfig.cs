@@ -24,7 +24,7 @@ public static class CollisionConfig
         switch (collisionLayer)
         {
             case Player:
-                GD.Log("Player");
+                GD.Print("Player");
                 break;
             case Walls:
                 GD.Print("Walls");

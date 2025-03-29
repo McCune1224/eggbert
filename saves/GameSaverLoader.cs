@@ -17,10 +17,10 @@ public partial class GameSaverLoader : Node
 
 
         Godot.Collections.Array<SavedData> saveDataList = new();
-        if (currTree is null)
-        {
-            GD.PrintErr("WHAT", currTree);
-        }
+        // if (currTree is null)
+        // {
+        //     GD.PrintErr("WHAT", currTree);
+        // }
         currTree.CallGroup("save", "OnSaveGame", saveDataList);
         newSaveState.SaveData = saveDataList;
         newSaveState.PlayerPosition = OverworldPlayer.Instance.GlobalPosition;
