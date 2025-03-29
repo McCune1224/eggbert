@@ -7,9 +7,9 @@ public partial class TextBox : MarginContainer
     string CurrentText = "";
     int LetterIndex = 0;
 
-    float LetterTime = 0.03f;
-    float SpaceTime = 0.06f;
-    float PunctuationTime = 0.02f;
+    float LetterTime = 0.05f;
+    float SpaceTime = 0.08f;
+    float PunctuationTime = 0.3f;
 
     Label _label;
     Timer _timer;
@@ -19,8 +19,15 @@ public partial class TextBox : MarginContainer
 
     public override void _Ready()
     {
-        _label = GetNode<Label>("MarginContainer/Label");
-        _timer = GetNode<Timer>("Timer");
+        _label = this.GetNode<Label>("MarginContainer/Label");
+        _timer = this.GetNode<Timer>("LetterDisplayTimer");
+        if (_label == null)
+        {
+        }
+        if (_timer == null)
+        {
+        }
+        _timer.Timeout += OnLetterDisplayTimerTimeout;
     }
 
     public void DisplayText(string desiredText)
@@ -71,6 +78,12 @@ public partial class TextBox : MarginContainer
                 break;
 
         }
+    }
+
+    //_on_letter_display_timer_timeout Signal Implementation
+    public void OnLetterDisplayTimerTimeout()
+    {
+        DisplayLetter();
     }
 
 }

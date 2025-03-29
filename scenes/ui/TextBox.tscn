@@ -8,7 +8,8 @@
 scale = Vector2(1.00707, 1)
 script = ExtResource("1_uehqf")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="LetterDisplayTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 layout_mode = 2

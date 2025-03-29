@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class GrandpaSmith : Area2D
 {
@@ -49,6 +50,7 @@ public partial class GrandpaSmith : Area2D
             // Hide the interaction prompt
             dialogueLabel.Visible = false;
             interactionPrompt.Visible = false;
+            GameController.Instance.DialogManager.Reset();
         }
     }
 
@@ -58,15 +60,29 @@ public partial class GrandpaSmith : Area2D
         // Check for the 'E' key press when the prompt is visible
         if (interactionPrompt.Visible && Input.IsActionJustPressed("interact"))
         {
-            // This is where you'd put the code for what happens when the player interacts
-            // For example: Start a dialogue, give an item, etc.
-            dialogueLabel.Text = "Hello, young one! You look yoked out..."; // Set the dialogue text
-            dialogueLabel.Position = new Vector2(0, -50); // Position above the NPC
-            dialogueLabel.HorizontalAlignment = HorizontalAlignment.Left;
-
             interactionPrompt.Visible = false;
-            dialogueLabel.Visible = true;
-            //show the dialogueLabel
+
+            List<string> dialog = new(); ;
+            dialog.Add("This is the first item. Very Cool");
+            dialog.Add("Item Two! Okay, not much to see here...");
+            dialog.Add("THE GRAND FINALE!");
+            GD.Print("MAN", GameController.Instance.DialogManager);
+            GameController.Instance.DialogManager.StartDialog(GetTree(), GlobalPosition, dialog);
+            // PackedScene tb = ResourceLoader.Load<PackedScene>("res://scenes/ui/TextBox.tscn");
+            // TextBox cb = tb.Instantiate<TextBox>();
+            // GetTree().Root.AddChild(cb);
+            // GD.Print("TODO: ", cb);
+            // cb.DisplayText(dialog[0]);
+
+            // // This is where you'd put the code for what happens when the player interacts
+            // // For example: Start a dialogue, give an item, etc.
+            // dialogueLabel.Text = "Hello, young one! You look yoked out..."; // Set the dialogue text
+            // dialogueLabel.Position = new Vector2(0, -50); // Position above the NPC
+            // dialogueLabel.HorizontalAlignment = HorizontalAlignment.Left;
+            //
+            // interactionPrompt.Visible = false;
+            // dialogueLabel.Visible = true;
+            // //show the dialogueLabel
         }
     }
 }
