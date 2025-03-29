@@ -13,17 +13,14 @@ public partial class DialogManager : Node2D
     TextBox CurrentTextBox;
     Vector2 TextBoxPosition;
 
-    bool IsDialogActive = false;
-    bool CanAdvanceLine = false;
+    public bool IsDialogActive = false;
+    public bool CanAdvanceLine = false;
+
+    public AudioStream SFX;
 
 
-    public void _Process()
+    public override void _Process(double delta)
     {
-        GD.Print("Processing");
-        if (IsDialogActive && CanAdvanceLine)
-        {
-            GD.Print("Ready for next box");
-        }
         if (Input.IsActionPressed("advance_dialog") && IsDialogActive && CanAdvanceLine)
         {
             CurrentTextBox.QueueFree();
@@ -33,16 +30,17 @@ public partial class DialogManager : Node2D
                 IsDialogActive = false;
                 CurrentDialogLineIndex = 0;
             }
+            ShowTextBox(GetTree());
         }
-        ShowTextBox(GetTree());
     }
 
-    public void StartDialog(SceneTree t, Vector2 position, List<string> lines)
+    public void StartDialog(SceneTree t, Vector2 position, List<string> lines, AudioStream speechSfx)
     {
+        SFX = speechSfx;
         if (IsDialogActive) return;
-
         DialogLines = lines;
         TextBoxPosition = position;
+        IsDialogActive = true;
         ShowTextBox(t);
     }
 
@@ -58,13 +56,12 @@ public partial class DialogManager : Node2D
         t.Root.AddChild(CurrentTextBox);
         // GetTree().Root.AddChild(CurrentTextBox);
         CurrentTextBox.GlobalPosition = TextBoxPosition;
-        CurrentTextBox.DisplayText(DialogLines[CurrentDialogLineIndex]);
+        CurrentTextBox.DisplayText(DialogLines[CurrentDialogLineIndex], SFX);
         CanAdvanceLine = false;
     }
 
     public void OnTextBoxFinishedDisplaying()
     {
-        GD.Print("NEXT LINE READY");
         CanAdvanceLine = true;
     }
 

@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bjuath6fqw6r3"
+path="res://.godot/imported/milk.aseprite-7f4933f88b5225100b3f5cd7499cf8ee.res"
+
+[deps]
+
+source_file="res://assets/characters/milk.aseprite"
+dest_files=["res://.godot/imported/milk.aseprite-7f4933f88b5225100b3f5cd7499cf8ee.res"]
+
+[params]
+

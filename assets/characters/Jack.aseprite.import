@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://b0be7vfnitepq"
+path="res://.godot/imported/Jack.aseprite-e2a4bd2902f4669473b0676199eb1ac3.res"
+
+[deps]
+
+source_file="res://assets/characters/Jack.aseprite"
+dest_files=["res://.godot/imported/Jack.aseprite-e2a4bd2902f4669473b0676199eb1ac3.res"]
+
+[params]
+

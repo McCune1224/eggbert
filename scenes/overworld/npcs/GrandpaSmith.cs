@@ -7,6 +7,7 @@ public partial class GrandpaSmith : Area2D
     // Reference to a label that will show the interaction prompt
     private Label interactionPrompt;
     private Label dialogueLabel;
+    private AudioStream speechSound = ResourceLoader.Load<AudioStream>("res://assets/audio/sfx/meep.mp3");
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -67,7 +68,7 @@ public partial class GrandpaSmith : Area2D
             dialog.Add("Item Two! Okay, not much to see here...");
             dialog.Add("THE GRAND FINALE!");
             GD.Print("MAN", GameController.Instance.DialogManager);
-            GameController.Instance.DialogManager.StartDialog(GetTree(), GlobalPosition, dialog);
+            GameController.Instance.DialogManager.StartDialog(GetTree(), GlobalPosition, dialog, speechSound);
             // PackedScene tb = ResourceLoader.Load<PackedScene>("res://scenes/ui/TextBox.tscn");
             // TextBox cb = tb.Instantiate<TextBox>();
             // GetTree().Root.AddChild(cb);

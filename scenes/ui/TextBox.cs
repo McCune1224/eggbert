@@ -1,11 +1,13 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class TextBox : MarginContainer
 {
     const int MAX_WIDTH = 256;
     string CurrentText = "";
     int LetterIndex = 0;
+    List<char> highPitchLetters = new() { 'a', 'e', 'i', 'o', 'u' };
 
     float LetterTime = 0.05f;
     float SpaceTime = 0.08f;
@@ -13,6 +15,7 @@ public partial class TextBox : MarginContainer
 
     Label _label;
     Timer _timer;
+    AudioStreamPlayer _audioPlayer;
 
     [Signal]
     public delegate void FinishedDisplayingEventHandler();
@@ -21,6 +24,7 @@ public partial class TextBox : MarginContainer
     {
         _label = this.GetNode<Label>("MarginContainer/Label");
         _timer = this.GetNode<Timer>("LetterDisplayTimer");
+        _audioPlayer = this.GetNode<AudioStreamPlayer>("AudioStreamPlayer");
         if (_label == null)
         {
         }
@@ -30,10 +34,11 @@ public partial class TextBox : MarginContainer
         _timer.Timeout += OnLetterDisplayTimerTimeout;
     }
 
-    public void DisplayText(string desiredText)
+    public void DisplayText(string desiredText, AudioStream sfx)
     {
         CurrentText = desiredText;
         _label.Text = desiredText;
+        _audioPlayer.Stream = sfx;
         Vector2 newMinSize = GetMinimumSize();
         newMinSize.X = Mathf.Min(Size.X, MAX_WIDTH);
         CustomMinimumSize = newMinSize;
@@ -65,7 +70,8 @@ public partial class TextBox : MarginContainer
             return;
         }
 
-        switch (CurrentText[LetterIndex])
+        char currentLetter = CurrentText[LetterIndex];
+        switch (currentLetter)
         {
             case '!' or '.' or ',' or '?':
                 _timer.Start(PunctuationTime);
@@ -75,6 +81,30 @@ public partial class TextBox : MarginContainer
                 break;
             default:
                 _timer.Start(LetterTime);
+                AudioStreamPlayer dupPlayer = (AudioStreamPlayer)_audioPlayer.Duplicate();
+                RandomNumberGenerator rng = new();
+                dupPlayer.PitchScale += rng.RandfRange(-0.1f, 0.1f);
+                if (highPitchLetters.Contains(currentLetter))
+                {
+                    dupPlayer.PitchScale += 0.2f;
+                }
+                GetTree().Root.AddChild(dupPlayer);
+                // dupPlayer.Play(0.9f);
+
+                // Create a timer to stop the audio after LetterTime
+                // Timer audioTimer = new Timer();
+                // audioTimer.WaitTime = LetterTime;
+                // audioTimer.OneShot = true;
+                // GetTree().Root.AddChild(audioTimer);
+                // audioTimer.Start();
+                // audioTimer.Timeout += () =>
+                // {
+                //     dupPlayer.Stop();
+                //     dupPlayer.QueueFree();
+                //     audioTimer.QueueFree();
+                // };
+                dupPlayer.Play(0.9f);
+                dupPlayer.Finished += () => dupPlayer.Free();
                 break;
 
         }
