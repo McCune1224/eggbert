@@ -89,7 +89,6 @@ public partial class TextBox : MarginContainer
                     dupPlayer.PitchScale += 0.2f;
                 }
                 GetTree().Root.AddChild(dupPlayer);
-                // dupPlayer.Play(0.9f);
 
                 // Create a timer to stop the audio after LetterTime
                 // Timer audioTimer = new Timer();
@@ -103,8 +102,11 @@ public partial class TextBox : MarginContainer
                 //     dupPlayer.QueueFree();
                 //     audioTimer.QueueFree();
                 // };
-                dupPlayer.Play(9.9f);
-                dupPlayer.Finished += () => dupPlayer.QueueFree();
+                dupPlayer.Play(1f);
+                dupPlayer.Finished += () =>
+                {
+                    dupPlayer.QueueFree();
+                };
                 break;
 
         }

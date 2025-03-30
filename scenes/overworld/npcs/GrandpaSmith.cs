@@ -55,8 +55,8 @@ public partial class GrandpaSmith : Area2D
         }
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
+
+    public override void _Input(InputEvent @event)
     {
         // Check for the 'E' key press when the prompt is visible
         if (interactionPrompt.Visible && Input.IsActionJustPressed("interact"))
@@ -84,5 +84,10 @@ public partial class GrandpaSmith : Area2D
             // dialogueLabel.Visible = true;
             // //show the dialogueLabel
         }
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
     }
 }
