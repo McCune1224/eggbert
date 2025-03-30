@@ -4,7 +4,12 @@ using System.Collections.Generic;
 
 public partial class DialogManager : Node2D
 {
+    private static DialogManager _instance;
+    public static DialogManager Instance => _instance;
+
+
     PackedScene TextBoxScene = ResourceLoader.Load<PackedScene>("res://scenes/ui/TextBox.tscn");
+
 
     List<string> DialogLines;
     int CurrentDialogLineIndex = 0;
@@ -18,6 +23,20 @@ public partial class DialogManager : Node2D
 
     public AudioStream SFX;
 
+
+    public override void _Ready()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            GD.PrintErr("Multiple instances of OverworldManager detected!");
+        }
+
+        // DialogManagerScene = ResourceLoader.Load<PackedScene>("res://scripts/ui/DialogManager.tscn");
+    }
 
     public override void _Process(double delta)
     {

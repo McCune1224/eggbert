@@ -14,8 +14,8 @@ public partial class GameController : Node
 
     // Dialog Managment
     // public PackedScene DialogManagerScene;
-    private PackedScene DialogManagerScene;
-    public DialogManager DialogManager;
+    // private PackedScene DialogManagerScene;
+    // public DialogManager DialogManager;
 
     public override void _Ready()
     {
@@ -28,7 +28,11 @@ public partial class GameController : Node
             GD.PrintErr("Multiple instances of OverworldManager detected!");
         }
 
-        DialogManagerScene = ResourceLoader.Load<PackedScene>("res://scripts/ui/DialogManager.tscn");
+        // DialogManagerScene = ResourceLoader.Load<PackedScene>("res://scripts/ui/DialogManager.tscn");
+    }
+
+    public void AttachScene()
+    {
     }
 
     public void LoadCombatScene(string mapPath)
@@ -64,11 +68,11 @@ public partial class GameController : Node
 
             _currentMap = mapScene.Instantiate();
             AddChild(_currentMap);
-            if (DialogManager == null)
-            {
-                DialogManager = DialogManagerScene.Instantiate<DialogManager>();
-                AddChild(DialogManager);
-            }
+            // if (DialogManager == null)
+            // {
+            //     DialogManager = DialogManagerScene.Instantiate<DialogManager>();
+            //     AddChild(DialogManager);
+            // }
         }
         catch (Exception e)
         {
@@ -119,11 +123,11 @@ public partial class GameController : Node
                     playerCamera.MakeCurrent();
                 }
             }
-            if (DialogManager == null)
-            {
-                DialogManager = DialogManagerScene.Instantiate<DialogManager>();
-                AddChild(DialogManager);
-            }
+            // if (DialogManager == null)
+            // {
+            //     DialogManager = DialogManagerScene.Instantiate<DialogManager>();
+            //     AddChild(DialogManager);
+            // }
         }
         catch (Exception e)
         {

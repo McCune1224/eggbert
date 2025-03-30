@@ -103,8 +103,8 @@ public partial class TextBox : MarginContainer
                 //     dupPlayer.QueueFree();
                 //     audioTimer.QueueFree();
                 // };
-                dupPlayer.Play(0.9f);
-                dupPlayer.Finished += () => dupPlayer.Free();
+                dupPlayer.Play(9.9f);
+                dupPlayer.Finished += () => dupPlayer.QueueFree();
                 break;
 
         }

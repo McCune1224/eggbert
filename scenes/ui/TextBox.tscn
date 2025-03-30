@@ -5,6 +5,10 @@
 [ext_resource type="FontFile" uid="uid://kt1xh1gdfgwk" path="res://assets/fonts/yoster.ttf" id="2_7npaa"]
 
 [node name="TextBox" type="MarginContainer"]
+offset_left = 128.0
+offset_top = 256.0
+offset_right = 509.0
+offset_bottom = 320.0
 scale = Vector2(1.00707, 1)
 script = ExtResource("1_uehqf")
 

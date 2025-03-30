@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 GameController="*res://scenes/autoload/GameController.tscn"
 OverworldPlayer="*res://scenes/autoload/OverworldPlayer.tscn"
+DialogManager="*res://scenes/autoload/DialogManager.tscn"
+AudioManager="*res://scenes/autoload/AudioManager.tscn"
 
 [display]
 
