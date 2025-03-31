@@ -1,9 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqyf7875rsu6t"]
+[gd_scene load_steps=2 format=3 uid="uid://dqyf7875rsu6t"]
 
 [ext_resource type="Script" uid="uid://bxl4tw26aq7e1" path="res://scenes/autoload/AudioManager.cs" id="1_g438q"]
 
-[sub_resource type="AudioStreamMP3" id="AudioStreamMP3_k45ys"]
-
 [node name="AudioManager" type="Node2D"]
 script = ExtResource("1_g438q")
-SoundEffectSettings = Array[Resource]([SubResource("AudioStreamMP3_k45ys")])
+SoundEffectSettings = Array[Resource]([])

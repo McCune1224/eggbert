@@ -9,12 +9,13 @@ public partial class TextBox : MarginContainer
     int LetterIndex = 0;
     List<char> highPitchLetters = new() { 'a', 'e', 'i', 'o', 'u' };
 
-    float LetterTime = 0.05f;
-    float SpaceTime = 0.08f;
-    float PunctuationTime = 0.3f;
+    float LetterTime = 0.04f;
+    float SpaceTime = 0.06f;
+    float PunctuationTime = 0.25f;
 
     Label _label;
     Timer _timer;
+    Label _nextIndicator;
     AudioStreamPlayer _audioPlayer;
 
     [Signal]
@@ -24,13 +25,9 @@ public partial class TextBox : MarginContainer
     {
         _label = this.GetNode<Label>("MarginContainer/Label");
         _timer = this.GetNode<Timer>("LetterDisplayTimer");
+        _nextIndicator = this.GetNode<Label>("NinePatchRect/Control/Label");
         _audioPlayer = this.GetNode<AudioStreamPlayer>("AudioStreamPlayer");
-        if (_label == null)
-        {
-        }
-        if (_timer == null)
-        {
-        }
+
         _timer.Timeout += OnLetterDisplayTimerTimeout;
     }
 
@@ -67,6 +64,7 @@ public partial class TextBox : MarginContainer
         if (LetterIndex >= CurrentText.Length)
         {
             EmitSignal(SignalName.FinishedDisplaying);
+            _nextIndicator.Visible = true;
             return;
         }
 
