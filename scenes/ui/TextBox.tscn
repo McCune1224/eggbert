@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b6i5kjokcviqa"]
+[gd_scene load_steps=5 format=3 uid="uid://b6i5kjokcviqa"]
 
 [ext_resource type="Texture2D" uid="uid://biodoyffardp0" path="res://assets/ui/chatbox.png" id="1_27wuv"]
 [ext_resource type="Script" uid="uid://do7y77sbi8w72" path="res://scenes/ui/TextBox.cs" id="1_uehqf"]
 [ext_resource type="FontFile" uid="uid://kt1xh1gdfgwk" path="res://assets/fonts/yoster.ttf" id="2_7npaa"]
+[ext_resource type="Texture2D" uid="uid://dggtstebbwpfg" path="res://assets/ui/Arrow.png" id="3_fgy37"]
 
 [node name="TextBox" type="MarginContainer"]
 offset_left = 128.0
@@ -25,6 +26,7 @@ patch_margin_right = 16
 patch_margin_bottom = 16
 
 [node name="Control" type="Control" parent="NinePatchRect"]
+visible = false
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -34,14 +36,20 @@ grow_horizontal = 0
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="NinePatchRect/Control"]
-visible = false
 layout_mode = 0
-offset_right = 64.0
-offset_bottom = 26.0
+offset_left = 0.304205
+offset_top = 8.0
+offset_right = 59.3042
+offset_bottom = 31.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "[SPACE]"
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="NinePatchRect/Control"]
+position = Vector2(16.1919, 0)
+scale = Vector2(0.665497, 0.625)
+texture = ExtResource("3_fgy37")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2

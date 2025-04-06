@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://dgbua5ondb8wd"]
+
+[node name="InventoryManager" type="Node2D"]

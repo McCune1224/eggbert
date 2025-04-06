@@ -15,7 +15,7 @@ public partial class TextBox : MarginContainer
 
     Label _label;
     Timer _timer;
-    Label _nextIndicator;
+    Control _nextIndicator;
     AudioStreamPlayer _audioPlayer;
 
     [Signal]
@@ -25,7 +25,7 @@ public partial class TextBox : MarginContainer
     {
         _label = this.GetNode<Label>("MarginContainer/Label");
         _timer = this.GetNode<Timer>("LetterDisplayTimer");
-        _nextIndicator = this.GetNode<Label>("NinePatchRect/Control/Label");
+        _nextIndicator = this.GetNode<Control>("NinePatchRect/Control");
         _audioPlayer = this.GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 
         _timer.Timeout += OnLetterDisplayTimerTimeout;

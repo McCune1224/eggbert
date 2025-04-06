@@ -12,7 +12,7 @@ public partial class CombatOatmeal : Area2D
 
     public override void _Ready()
     {
-        CollisionLayer = CollisionConfig.NPCs;
+        CollisionLayer = CollisionConfig.NPCLayer;
         // CollisionLayer = CollisionConfig.Pla
         _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
     }
@@ -60,7 +60,7 @@ public partial class CombatOatmeal : Area2D
                 // Remove from parent if it's already in the tree
                 if (bullet.GetParent() != null) { bullet.GetParent().RemoveChild(bullet); }
                 bullet.CollisionMask = CollisionConfig.PlayerBulletMask;
-                bullet.CollisionLayer = CollisionConfig.Bullets;
+                bullet.CollisionLayer = CollisionConfig.BulletLayer;
 
                 // Position bullet at the enemy
                 bullet.GlobalPosition = GlobalPosition;
