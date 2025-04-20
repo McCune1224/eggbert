@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bseos6hvhmh3w"
-path="res://.godot/imported/Eggbert2.png-aa45dc72fe9138ffb101a1f662109da6.ctex"
+path="res://.godot/imported/Eggbert2.png-931e2c9d58db40db4baee27dc4affb9c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/autoload/Eggbert2.png"
-dest_files=["res://.godot/imported/Eggbert2.png-aa45dc72fe9138ffb101a1f662109da6.ctex"]
+source_file="res://autoload/Eggbert2.png"
+dest_files=["res://.godot/imported/Eggbert2.png-931e2c9d58db40db4baee27dc4affb9c.ctex"]
 
 [params]
 

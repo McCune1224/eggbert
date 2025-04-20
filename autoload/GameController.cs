@@ -1,16 +1,21 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 public partial class GameController : Node
 {
-    // Current map and player position
-    private Node _currentMap;
-    private Vector2 _playerPosition = Vector2.Zero;
-
     // Singleton instance
     private static GameController _instance;
     public static GameController Instance => _instance;
+
+
+    // Current map and player position
+    private Node _currentMap;
+    //FIXME: This should prob be handled per level, not globally
+    private Vector2 _playerPosition = Vector2.Zero;
+
     public string CurrentArea { get; private set; } = "starting_area";
+    public Array<Vector2> CurrentTileMapBounds;
 
     // Dialog Managment
     // public PackedScene DialogManagerScene;
@@ -34,6 +39,20 @@ public partial class GameController : Node
     public void AttachScene()
     {
     }
+
+    public void ChangeTileMapBounds(Array<Vector2> bounds)
+    {
+        CurrentTileMapBounds = bounds;
+        EmitSignal(nameof(TileMapBoundsChanged), bounds);
+    }
+
+    [Signal]
+    public delegate void TileMapBoundsChangedEventHandler(Godot.Collections.Array<Vector2> bounds);
+
+    // func ChangeTileMapBounds(List<Vector2> bounds)
+    // {
+    //     EmitSignal(nameof(TileMapBoundsChanged), bounds);
+    // }
 
     public void LoadCombatScene(string mapPath)
     {
@@ -133,6 +152,7 @@ public partial class GameController : Node
         {
             GD.PrintErr($"Error loading Overworld scene: {e.Message}");
         }
+        //epic
     }
 
     public void SetPlayerPosition(Vector2 position)

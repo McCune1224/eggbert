@@ -17,10 +17,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameController="*res://scenes/autoload/GameController.tscn"
-OverworldPlayer="*res://scenes/autoload/OverworldPlayer.tscn"
-DialogManager="*res://scenes/autoload/DialogManager.tscn"
-AudioManager="*res://scenes/autoload/AudioManager.tscn"
+GameController="*res://autoload/GameController.tscn"
+DialogManager="*res://autoload/DialogManager.tscn"
+AudioManager="*res://autoload/AudioManager.tscn"
+OverworldPlayer="*res://autoload/player/OverworldPlayer.tscn"
 
 [display]
 

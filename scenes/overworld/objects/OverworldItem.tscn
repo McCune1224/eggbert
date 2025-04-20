@@ -1,3 +1,11 @@
-[gd_scene format=3 uid="uid://d4nh6wxp2ireq"]
+[gd_scene load_steps=3 format=3 uid="uid://d4nh6wxp2ireq"]
 
-[node name="OverworldItem" type="Node2D"]
+[ext_resource type="Script" uid="uid://bv5u2wrfcuo26" path="res://scenes/overworld/objects/OverworldItem.cs" id="1_sms5c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_esjw2"]
+
+[node name="OverworldItem" type="Area2D"]
+script = ExtResource("1_sms5c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_esjw2")

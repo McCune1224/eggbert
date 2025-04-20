@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgbua5ondb8wd"]
+
+[ext_resource type="Script" uid="uid://cdtafins7k0ui" path="res://autoload/InventoryManager.cs" id="1_set8x"]
+
+[node name="InventoryManager" type="Node2D"]
+script = ExtResource("1_set8x")
