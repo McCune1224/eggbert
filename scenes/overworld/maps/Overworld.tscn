@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://e1xv0dbe5grr"]
+[gd_scene load_steps=12 format=4 uid="uid://e1xv0dbe5grr"]
 
 [ext_resource type="Script" uid="uid://dir1787vgb15j" path="res://scenes/overworld/maps/Overworld.cs" id="1_sdqp5"]
 [ext_resource type="Texture2D" uid="uid://brc6yg81qjmkg" path="res://assets/tilemaps/Texture/TX Tileset Grass.png" id="2_7v7eg"]
@@ -6,8 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dmg8py6ignrbd" path="res://scenes/overworld/npcs/GrandpaSmith.tscn" id="3_mglvr"]
 [ext_resource type="PackedScene" uid="uid://ck00c0rsy7qs" path="res://scenes/overworld/npcs/OfficerBacon.tscn" id="4_7kf6u"]
 [ext_resource type="Script" uid="uid://bbkcsovvq8cd2" path="res://scripts/core/LevelTileMapLayer.cs" id="4_mael7"]
-[ext_resource type="Script" uid="uid://b4k58puvpfmlf" path="res://scripts/overworld/MapLoadCollision.cs" id="6_ff2se"]
-[ext_resource type="Texture2D" uid="uid://dggtstebbwpfg" path="res://assets/ui/Arrow.png" id="7_ff2se"]
 [ext_resource type="PackedScene" uid="uid://ccrnjiybvh6w5" path="res://scenes/overworld/npcs/Oatmeal.tscn" id="8_d6qqh"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://scenes/levels/LevelTransition.tscn" id="10_45llo"]
 
@@ -591,9 +589,6 @@ texture = ExtResource("3_ldk86")
 sources/0 = SubResource("TileSetAtlasSource_l2fk0")
 sources/1 = SubResource("TileSetAtlasSource_ehtq2")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mael7"]
-size = Vector2(79, 114)
-
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_sdqp5")
 
@@ -610,42 +605,12 @@ position = Vector2(68, -82)
 [node name="EvilBacon" parent="." instance=ExtResource("4_7kf6u")]
 position = Vector2(-60, -81)
 
-[node name="Area2D" type="Area2D" parent="."]
-script = ExtResource("6_ff2se")
-MapLoadPath = "uid://cgey7l0cikahr"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(604.5, -43)
-shape = SubResource("RectangleShape2D_mael7")
-
-[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
-texture_filter = 1
-position = Vector2(668, -44)
-texture = ExtResource("7_ff2se")
-metadata/_aseprite_wizard_interface_config_ = {
-"layer_section": false,
-"output_section": true,
-"pending_changes": {}
-}
-metadata/_aseprite_wizard_config_ = {
-"i_mode": 1,
-"keep_anim_length": false,
-"layers": [],
-"o_ex_p": "",
-"o_folder": "res://assets/ui",
-"o_name": "",
-"only_visible": false,
-"player": "",
-"slice": "",
-"source": "res://assets/ui/Arrow.ase"
-}
-metadata/_aseprite_wizard_source_file_hash_ = "2dbd92b707abe4bef31a5f7bff800a3b"
-
 [node name="Oatmeal" parent="." instance=ExtResource("8_d6qqh")]
 position = Vector2(75, -263)
 
 [node name="LevelTransition" parent="." instance=ExtResource("10_45llo")]
-position = Vector2(618, -188)
+position = Vector2(623, -98)
 monitorable = false
-Size = 6
+Level = "uid://cgey7l0cikahr"
+Size = 7
 Side = 1

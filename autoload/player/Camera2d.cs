@@ -12,6 +12,7 @@ public partial class Camera2d : Camera2D
 
     public void UpdateLimits(Array<Vector2> limits)
     {
+        if (limits == null) { GD.PrintErr("Limits are null."); return; }
         if (limits.Count == 0)
         {
             GD.PrintErr("No limits provided to update.");
