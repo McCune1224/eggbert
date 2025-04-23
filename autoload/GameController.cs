@@ -12,7 +12,7 @@ public partial class GameController : Node
     // Current map and player position
     private Node _currentMap;
     //FIXME: This should prob be handled per level, not globally
-    private Vector2 _playerPosition = Vector2.Zero;
+    // private Vector2 _playerPosition = Vector2.Zero;
 
     public string CurrentArea { get; private set; } = "starting_area";
     public Array<Vector2> CurrentTileMapBounds;
@@ -99,7 +99,7 @@ public partial class GameController : Node
         }
     }
 
-    public void LoadOverworldScene(string scenePath)
+    public void LoadOverworldScene(string scenePath, Vector2 playerPosition)
     {
         try
         {
@@ -127,12 +127,11 @@ public partial class GameController : Node
             canvasLayer.AddChild(overworldMenu.Instantiate());
             AddChild(canvasLayer);
 
-
             // If we have a player reference, place them at the stored position
             var player = OverworldPlayer.Instance;
             if (player != null)
             {
-                player.SetInitialPosition(_playerPosition);
+                player.SetInitialPosition(playerPosition);
 
                 // Re-enable the player's camera
                 var playerCamera = player.GetNode<Camera2D>("Camera2D");
@@ -155,15 +154,6 @@ public partial class GameController : Node
         //epic
     }
 
-    public void SetPlayerPosition(Vector2 position)
-    {
-        _playerPosition = position;
-    }
-
-    public Vector2 GetPlayerPosition()
-    {
-        return _playerPosition;
-    }
 
     public void SetCurrentArea(string area)
     {

@@ -69,7 +69,7 @@ public partial class LevelTransition : Area2D
             if (Input.IsActionPressed("interact"))
             {
 
-                GameController.Instance.LoadOverworldScene(Level);
+                GameController.Instance.LoadOverworldScene(Level, Vector2.Zero);
             }
         }
 
@@ -83,7 +83,6 @@ public partial class LevelTransition : Area2D
         //move the prompt to the top of the body
         prompt.Position = new Vector2(0, -50);
         body.AddChild(prompt);
-        //FIXME: Interact is shared between different actions (npcs, chests, etc), talking to an NPC while in the area will trigger the transition
     }
 
 

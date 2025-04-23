@@ -92,10 +92,10 @@ public partial class OverworldPlayer : CharacterBody2D
         UpdateAnimation(direction);
 
         // Update position in manager
-        if (GameController.Instance != null)
-        {
-            GameController.Instance.SetPlayerPosition(Position);
-        }
+        // if (GameController.Instance != null)
+        // {
+        //     GameController.Instance.SetPlayerPosition(Position);
+        // }
     }
 
     private void UpdateAnimation(Vector2 direction)
@@ -132,10 +132,10 @@ public partial class OverworldPlayer : CharacterBody2D
     public void SetInitialPosition(Vector2 position)
     {
         Position = position;
-        if (GameController.Instance != null)
-        {
-            GameController.Instance.SetPlayerPosition(position);
-        }
+        // if (GameController.Instance != null)
+        // {
+        //     GameController.Instance.SetPlayerPosition(position);
+        // }
     }
 
     // Method to start an interaction (disable movement)

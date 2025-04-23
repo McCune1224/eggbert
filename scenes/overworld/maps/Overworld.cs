@@ -58,8 +58,6 @@ public partial class Overworld : Node2D
             _player.Position = _entrancePoints["starting_area"];
         }
 
-        // Update the stored position in the manager
-        GameController.Instance.SetPlayerPosition(_player.Position);
     }
 
     private void SetupInteractionArea()
@@ -109,8 +107,6 @@ public partial class Overworld : Node2D
         _player.Velocity = direction * _player.PlayerSpeed;
         _player.MoveAndSlide();
 
-        // Update the player position in the manager
-        GameController.Instance.SetPlayerPosition(_player.Position);
 
         // Handle interaction input (typically Z key in Undertale)
         if (Input.IsActionJustPressed("ui_accept"))
