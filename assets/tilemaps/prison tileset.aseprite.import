@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://lrnadxojcdjb"
+path="res://.godot/imported/prison tileset.aseprite-585222824ede9dfafd1de8c1c40a537c.res"
+
+[deps]
+
+source_file="res://assets/tilemaps/prison tileset.aseprite"
+dest_files=["res://.godot/imported/prison tileset.aseprite-585222824ede9dfafd1de8c1c40a537c.res"]
+
+[params]
+

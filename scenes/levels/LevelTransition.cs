@@ -50,22 +50,12 @@ public partial class LevelTransition : Area2D
     public override void _Ready()
     {
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+        this.BodyEntered += SceneTransition;
+        BodyExited += (Node2D body) => { body.GetNode("prompt").QueueFree(); };
         Update_Area();
-        BodyEntered += (Node2D body) =>
-        {
-            Label prompt = new Label();
-            //add prompt to "prompt group"
-            prompt.Text = "Press 'E' to enter " + Level;
-            prompt.Name = "prompt";
-            //move the prompt to the top of the body
-            prompt.Position = new Vector2(0, -50);
-            body.AddChild(prompt);
-        };
-        BodyExited += (Node2D body) =>
-        {
-            body.GetNode("prompt").QueueFree();
-        };
     }
+
+
     public override void _Process(double delta)
     {
         if (Engine.IsEditorHint())
@@ -73,11 +63,27 @@ public partial class LevelTransition : Area2D
             Update_Area();
             return;
         }
-        //FIXME: Interact is shared between different actions (npcs, chests, etc), talking to an NPC while in the area will trigger the transition
-        if (Input.IsActionPressed("interact"))
+        if (this.HasOverlappingBodies())
         {
-            GameController.Instance.LoadOverworldScene(Level);
+
+            if (Input.IsActionPressed("interact"))
+            {
+
+                GameController.Instance.LoadOverworldScene(Level);
+            }
         }
+
+    }
+    public void SceneTransition(Node2D body)
+    {
+        Label prompt = new Label();
+        //add prompt to "prompt group"
+        prompt.Text = "Press 'E' to enter " + Level;
+        prompt.Name = "prompt";
+        //move the prompt to the top of the body
+        prompt.Position = new Vector2(0, -50);
+        body.AddChild(prompt);
+        //FIXME: Interact is shared between different actions (npcs, chests, etc), talking to an NPC while in the area will trigger the transition
     }
 
 

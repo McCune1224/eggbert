@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bktl7jncwwsqf"
+path="res://.godot/imported/egg bullet.aseprite-6b9d8e12cb086c0dc0ab76e9181b1114.res"
+
+[deps]
+
+source_file="res://assets/Effect and Bullet 16x16/egg bullet.aseprite"
+dest_files=["res://.godot/imported/egg bullet.aseprite-6b9d8e12cb086c0dc0ab76e9181b1114.res"]
+
+[params]
+
