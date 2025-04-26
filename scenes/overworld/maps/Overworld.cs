@@ -5,15 +5,13 @@ using static IInteractable;
 public partial class Overworld : Node2D
 {
     // Nodes that will be assigned in the scene
-    private OverworldPlayer _player;
+    private Player _player;
     private Camera2D _camera;
     private TileMapLayer _groundTileMap;
     private TileMapLayer _collisionTileMap;
     private CanvasLayer _uiLayer;
-
-
-    // Interaction area
     private Area2D _interactionArea;
+
 
     // State tracking
     private bool _inInteraction = false;
@@ -24,7 +22,7 @@ public partial class Overworld : Node2D
     {
         // Connect to OverworldManager if needed
         var overworldManager = GameController.Instance;
-        _player = OverworldPlayer.Instance;
+        _player = Player.Instance;
 
         // Initialize entrance points (locations where the player can enter this map)
         _entrancePoints.Add("starting_area", new Vector2(100, 100));
@@ -41,7 +39,7 @@ public partial class Overworld : Node2D
     private void SetupPlayerPosition()
     {
         // Find the player node
-        _player = OverworldPlayer.Instance;
+        _player = Player.Instance;
         _camera = _player.GetNode<Camera2D>("Camera2D");
 
         // Get the current area from OverworldManager
@@ -97,11 +95,6 @@ public partial class Overworld : Node2D
         // Get input direction
         Vector2 direction = Input.GetVector("player_left", "player_right", "player_up", "player_down");
 
-        // Normalize the vector to ensure consistent movement speed in all directions
-        if (direction.Length() > 1.0f)
-        {
-            direction = direction.Normalized();
-        }
 
         // Set the velocity and move the player
         _player.Velocity = direction * _player.PlayerSpeed;

@@ -3,11 +3,11 @@ using Godot.Collections;
 using System;
 using System.Collections.Generic;
 
-public partial class OverworldPlayer : CharacterBody2D
+public partial class Player : CharacterBody2D
 {
     // Singleton instance
-    private static OverworldPlayer _instance;
-    public static OverworldPlayer Instance => _instance;
+    private static Player _instance;
+    public static Player Instance => _instance;
     // Movement properties
     public readonly float PlayerSpeed = 150.0f;
     private AnimationPlayer _animationPlayer;

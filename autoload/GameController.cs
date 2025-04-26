@@ -59,7 +59,7 @@ public partial class GameController : Node
         try
         {
             // Disable the player's camera if it exists
-            var player = OverworldPlayer.Instance;
+            var player = Player.Instance;
             if (player != null)
             {
                 Camera2D playerCamera = player.GetNode<Camera2D>("Camera2D");
@@ -128,7 +128,7 @@ public partial class GameController : Node
             AddChild(canvasLayer);
 
             // If we have a player reference, place them at the stored position
-            var player = OverworldPlayer.Instance;
+            var player = Player.Instance;
             if (player != null)
             {
                 player.SetInitialPosition(playerPosition);

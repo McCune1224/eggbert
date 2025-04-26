@@ -20,7 +20,7 @@ config/icon="res://icon.svg"
 GameController="*res://autoload/GameController.tscn"
 DialogManager="*res://autoload/DialogManager.tscn"
 AudioManager="*res://autoload/AudioManager.tscn"
-OverworldPlayer="*res://autoload/player/OverworldPlayer.tscn"
+Player="*res://autoload/player/Player.tscn"
 
 [display]
 

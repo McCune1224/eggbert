@@ -23,7 +23,7 @@ public partial class GameSaverLoader : Node
         // }
         currTree.CallGroup("save", "OnSaveGame", saveDataList);
         newSaveState.SaveData = saveDataList;
-        newSaveState.PlayerPosition = OverworldPlayer.Instance.GlobalPosition;
+        newSaveState.PlayerPosition = Player.Instance.GlobalPosition;
         ResourceSaver.Save(newSaveState, "user://savegame.tres");
     }
 
@@ -32,7 +32,7 @@ public partial class GameSaverLoader : Node
         if (ResourceLoader.Exists("user://savegame.tres"))
         {
             SavedGame loadedGame = ResourceLoader.Load<SavedGame>("user://savegame.tres");
-            OverworldPlayer.Instance.GlobalPosition = loadedGame.PlayerPosition;
+            Player.Instance.GlobalPosition = loadedGame.PlayerPosition;
         }
     }
 }

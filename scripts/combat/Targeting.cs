@@ -6,6 +6,6 @@ static class CombatTargeter
 {
     public static Vector2 GetPlayerPosition()
     {
-        return OverworldPlayer.Instance.GlobalPosition;
+        return Player.Instance.GlobalPosition;
     }
 }
