@@ -601,8 +601,9 @@ metadata/_edit_lock_ = true
 position = Vector2(179, -222)
 
 [node name="LevelTransition" parent="." instance=ExtResource("10_45llo")]
-position = Vector2(623, -98)
+position = Vector2(620, -99)
 monitorable = false
 Level = "uid://cgey7l0cikahr"
 Size = 7
 Side = 1
+SnapToGrid = true

@@ -31,10 +31,24 @@ public partial class LevelTransition : Area2D
             Update_Area();
             return true;
         }
-        if (property == "Side")
+        else if (property == "Side")
         {
             Side = Enum.Parse<TransitionSide>(value.ToString());
             Update_Area();
+            return true;
+        }
+        //FIXME: For whatever reason this won't snap to grid, but 
+        //more a QOL thing so life will go on
+        else if (property == "SnapToGrid" || property == "Snap to Grid")
+        {
+            if ((bool)value)
+            {
+                this.Position = new Vector2
+                {
+                    X = Mathf.Round(Position.X / 16) * 16,
+                    Y = Mathf.Round(Position.Y / 16) * 16,
+                };
+            }
             return true;
         }
         return false;
@@ -50,7 +64,7 @@ public partial class LevelTransition : Area2D
     public override void _Ready()
     {
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
-        this.BodyEntered += SceneTransition;
+        BodyEntered += SceneTransition;
         BodyExited += (Node2D body) => { body.GetNode("prompt").QueueFree(); };
         Update_Area();
     }
@@ -124,5 +138,6 @@ public partial class LevelTransition : Area2D
         _collisionShape.NotifyPropertyListChanged();
         QueueRedraw();
     }
+
 
 }
