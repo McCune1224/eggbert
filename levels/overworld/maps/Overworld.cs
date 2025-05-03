@@ -6,7 +6,7 @@ public partial class Overworld : Node2D
 {
     // Nodes that will be assigned in the scene
     private Player _player;
-    private Camera2D _camera;
+    private PlayerCamera _camera;
     private TileMapLayer _groundTileMap;
     private TileMapLayer _collisionTileMap;
     private CanvasLayer _uiLayer;
@@ -40,7 +40,7 @@ public partial class Overworld : Node2D
     {
         // Find the player node
         _player = Player.Instance;
-        _camera = _player.GetNode<Camera2D>("Camera2D");
+        _camera = _player.GetNode<PlayerCamera>("PlayerCamera");
     }
 
     private void SetupInteractionArea()

@@ -97,9 +97,6 @@ public partial class LevelTransition : Area2D
 
     public void SceneTransition(Node2D body)
     {
-        Vector2 newPlayerPosition = Vector2.Zero;
-
-        //WARNING: Idk why I have GameController handling level transitions, Too Bad I'm Lazy!
         try
         {
             if (TargetTransitionName != "")
