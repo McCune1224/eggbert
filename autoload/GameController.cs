@@ -8,13 +8,10 @@ public partial class GameController : Node
     private static GameController _instance;
     public static GameController Instance => _instance;
 
+    private Node _currentLevel;
 
     // Current map and player position
-    private Node _currentMap;
-    //FIXME: This should prob be handled per level, not globally
-    // private Vector2 _playerPosition = Vector2.Zero;
-
-    public string CurrentArea { get; private set; } = "starting_area";
+    private Control _menu;
     public Array<Vector2> CurrentTileMapBounds;
 
     // Dialog Managment
@@ -32,86 +29,118 @@ public partial class GameController : Node
         {
             GD.PrintErr("Multiple instances of OverworldManager detected!");
         }
-
+        _menu = GetNode<Control>("Menu");
+        var overworldMenu = ResourceLoader.Load<PackedScene>("res://ui/OverworldMenu.tscn");
+        var canvasLayer = new CanvasLayer();
+        canvasLayer.AddChild(overworldMenu.Instantiate());
+        _menu.AddChild(canvasLayer);
+        _currentLevel = GetNode("CurrentLevel");
         // DialogManagerScene = ResourceLoader.Load<PackedScene>("res://scripts/ui/DialogManager.tscn");
     }
 
-    public void AttachScene()
-    {
-    }
 
+    [Signal]
+    public delegate void TileMapBoundsChangedEventHandler(Godot.Collections.Array<Vector2> bounds);
     public void ChangeTileMapBounds(Array<Vector2> bounds)
     {
         CurrentTileMapBounds = bounds;
         EmitSignal(nameof(TileMapBoundsChanged), bounds);
     }
 
+
     [Signal]
-    public delegate void TileMapBoundsChangedEventHandler(Godot.Collections.Array<Vector2> bounds);
+    public delegate void LevelLoadStartedEventHandler();
+    public async void LoadLevel(string scenePath, Vector2 playerPosition)
+    {
+        GetTree().Paused = true;
+        EmitSignal(nameof(LevelLoadStarted));
+        Node levelRoot = GetNode<Node>("CurrentLevel");
+
+        foreach (Node child in levelRoot.GetChildren())
+        {
+            child.QueueFree();
+        }
+
+        await ToSignal(GetTree(), "process_frame"); // Wait for the next frame to ensure nodes are freed
+        PackedScene mapScene = ResourceLoader.Load<PackedScene>(scenePath);
+
+        Node loadedLevel = mapScene.Instantiate();
+        levelRoot.AddChild(loadedLevel);
+        _currentLevel = loadedLevel;
+
+
+
+        // If we have a player reference, place them at the stored position
+        var player = Player.Instance;
+        player.Position = playerPosition;
+        // if (DialogManager == null)
+        // {
+        //     DialogManager = DialogManagerScene.Instantiate<DialogManager>();
+        //     AddChild(DialogManager);
+        // }
+
+        //epic
+        EmitSignal(nameof(LevelLoaded));
+        GetTree().Paused = false;
+    }
+
+    public async void LoadLevel(string scenePath, string targetTransitionName)
+    {
+        GetTree().Paused = true;
+        EmitSignal(nameof(LevelLoadStarted));
+        Node levelRoot = GetNode<Node>("CurrentLevel");
+
+        foreach (Node child in levelRoot.GetChildren())
+        {
+            child.QueueFree();
+        }
+
+        await ToSignal(GetTree(), "process_frame"); // Wait for the next frame to ensure nodes are freed
+        PackedScene mapScene = ResourceLoader.Load<PackedScene>(scenePath);
+
+        Node loadedLevel = mapScene.Instantiate();
+        levelRoot.AddChild(loadedLevel);
+        _currentLevel = loadedLevel;
+
+
+
+        // If we have a player reference, place them at the stored position
+        LevelTransition transitionArea = _currentLevel.GetNode<LevelTransition>(targetTransitionName);
+        switch (transitionArea.Side)
+        {
+            case TransitionSide.Left:
+                Player.Instance.Position = new Vector2(transitionArea.GlobalPosition.X + 30, transitionArea.GlobalPosition.Y);
+                break;
+            case TransitionSide.Right:
+                Player.Instance.Position = new Vector2(transitionArea.GlobalPosition.X - 30, transitionArea.GlobalPosition.Y);
+                break;
+            case TransitionSide.Up:
+                Player.Instance.Position = new Vector2(transitionArea.GlobalPosition.X, transitionArea.GlobalPosition.Y + 50);
+                break;
+            case TransitionSide.Down:
+                Player.Instance.Position = new Vector2(transitionArea.GlobalPosition.X, transitionArea.GlobalPosition.Y - 50);
+                break;
+        }
+
+        var player = Player.Instance;
+        // player.Position = playerPosition;
+        // if (DialogManager == null)
+        // {
+        //     DialogManager = DialogManagerScene.Instantiate<DialogManager>();
+        //     AddChild(DialogManager);
+        // }
+
+        //epic
+        EmitSignal(nameof(LevelLoaded));
+        GetTree().Paused = false;
+    }
+
+    [Signal]
+    public delegate void LevelLoadedEventHandler();
+
 
     // func ChangeTileMapBounds(List<Vector2> bounds)
     // {
     //     EmitSignal(nameof(TileMapBoundsChanged), bounds);
     // }
-
-
-    public void LoadOverworldScene(string scenePath, Vector2 playerPosition)
-    {
-        try
-        {
-            if (_currentMap != null)
-            {
-                _currentMap.QueueFree();
-                _currentMap = null;
-            }
-
-            var mapScene = ResourceLoader.Load<PackedScene>(scenePath);
-            if (mapScene == null)
-            {
-                GD.PrintErr($"Failed to load Overworld scene: {scenePath}");
-                return;
-            }
-
-            _currentMap = mapScene.Instantiate();
-            _currentMap.AddToGroup("overworld");
-            AddChild(_currentMap);
-
-
-            var overworldMenu = ResourceLoader.Load<PackedScene>("res://ui/OverworldMenu.tscn");
-            var canvasLayer = new CanvasLayer();
-            canvasLayer.AddChild(overworldMenu.Instantiate());
-            AddChild(canvasLayer);
-
-            // If we have a player reference, place them at the stored position
-            var player = Player.Instance;
-            if (player != null)
-            {
-                player.SetInitialPosition(playerPosition);
-
-                // Re-enable the player's camera
-                var playerCamera = player.GetNode<Camera2D>("Camera2D");
-                if (playerCamera != null)
-                {
-                    playerCamera.Enabled = true;
-                    playerCamera.MakeCurrent();
-                }
-            }
-            // if (DialogManager == null)
-            // {
-            //     DialogManager = DialogManagerScene.Instantiate<DialogManager>();
-            //     AddChild(DialogManager);
-            // }
-        }
-        catch (Exception e)
-        {
-            GD.PrintErr($"Error loading Overworld scene: {e.Message}");
-        }
-        //epic
-    }
-
-
-    public void SetCurrentArea(string area)
-    {
-        CurrentArea = area;
-    }
 }

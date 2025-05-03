@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" uid="uid://cikp84axjq2ur" path="res://levels/LevelTransition.cs" id="1_pl0kr"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pl0kr"]
-size = Vector2(16, 0)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8krqk"]
+size = Vector2(0, 16)
 
 [node name="LevelTransition" type="Area2D"]
+monitorable = false
 script = ExtResource("1_pl0kr")
 TargetTransitionArea = ""
-Side = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_pl0kr")
-debug_color = Color(0.833882, 0.11941, 0.892304, 0.42)
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_8krqk")

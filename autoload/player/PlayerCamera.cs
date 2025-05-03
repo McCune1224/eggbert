@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 
-public partial class Camera2d : Camera2D
+public partial class PlayerCamera : Camera2D
 {
 
     public override void _Ready()

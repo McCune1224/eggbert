@@ -16,10 +16,10 @@ public partial class GameInit : Node
             return;
         }
 
+        overworldManager.LoadLevel("res://levels/overworld/maps/Overworld.tscn", Vector2.Zero);
         // // Load the overworld map
-        overworldManager.LoadOverworldScene("res://levels/overworld/maps/Overworld.tscn", Vector2.Zero);
-        GameSaverLoader gsl = new(this.GetTree());
-        gsl.LoadGame();
+        // GameSaverLoader gsl = new(this.GetTree());
+        // gsl.LoadGame();
         // // Optionally set initial player position
         // overworldManager.SetPlayerPosition(new Vector2(100, 100));
     }

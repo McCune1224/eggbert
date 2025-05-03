@@ -588,6 +588,7 @@ sources/0 = SubResource("TileSetAtlasSource_l2fk0")
 sources/1 = SubResource("TileSetAtlasSource_ehtq2")
 
 [node name="Node2D" type="Node2D"]
+scale = Vector2(0.99266, 1)
 script = ExtResource("1_sdqp5")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
@@ -600,10 +601,17 @@ metadata/_edit_lock_ = true
 [node name="GrandpaSmith" parent="." instance=ExtResource("3_mglvr")]
 position = Vector2(179, -222)
 
-[node name="LevelTransition" parent="." instance=ExtResource("10_45llo")]
-position = Vector2(636, -99)
-monitorable = false
-Level = "uid://cgey7l0cikahr"
+[node name="RightWalkwayTransition" parent="." instance=ExtResource("10_45llo")]
+position = Vector2(614.511, -44)
+Level = "uid://depdaleq10rfx"
+TargetTransitionName = "LeftHallwayTransition"
+Size = 7
+Side = 3
+SnapToGrid = true
+
+[node name="DummyDown" parent="." instance=ExtResource("10_45llo")]
+position = Vector2(254.871, 15)
+Level = "uid://depdaleq10rfx"
+TargetTransitionName = "DummyUp"
 Size = 7
 Side = 1
-SnapToGrid = true

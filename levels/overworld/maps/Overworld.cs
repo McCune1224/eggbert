@@ -41,21 +41,6 @@ public partial class Overworld : Node2D
         // Find the player node
         _player = Player.Instance;
         _camera = _player.GetNode<Camera2D>("Camera2D");
-
-        // Get the current area from OverworldManager
-        string currentArea = GameController.Instance.CurrentArea;
-
-        // Position player at the appropriate entrance point
-        if (_entrancePoints.ContainsKey(currentArea))
-        {
-            _player.Position = _entrancePoints[currentArea];
-        }
-        else
-        {
-            // Default position if area not found
-            _player.Position = _entrancePoints["starting_area"];
-        }
-
     }
 
     private void SetupInteractionArea()

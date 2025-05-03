@@ -9,6 +9,7 @@ public enum TransitionSide
     Right
 }
 
+
 [Tool]
 public partial class LevelTransition : Area2D
 {
@@ -18,14 +19,14 @@ public partial class LevelTransition : Area2D
     public string Level { get; set; }
 
     [Export]
-    public string TargetTransitionArea = "LevelTransition";
+    public string TargetTransitionName = "";
     [ExportCategory("CollisionAreaSettings")]
 
     [Export(PropertyHint.Range, "1,12,1,or_greater")]
     public int Size;
 
     [Export]
-    public TransitionSide Side = TransitionSide.Left;
+    public TransitionSide Side;
     [Export]
     bool SnapToGrid = false;
 
@@ -65,9 +66,13 @@ public partial class LevelTransition : Area2D
     public override void _Ready()
     {
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+        Update_Area();
+        if (Engine.IsEditorHint()) { return; }
+
+        // this.Monitoring = true;
+        // this.Monitorable = false;
         BodyEntered += SceneTransition;
         BodyExited += (Node2D body) => { body.GetNode("prompt").QueueFree(); };
-        Update_Area();
     }
 
 
@@ -92,8 +97,25 @@ public partial class LevelTransition : Area2D
 
     public void SceneTransition(Node2D body)
     {
+        Vector2 newPlayerPosition = Vector2.Zero;
+
         //WARNING: Idk why I have GameController handling level transitions, Too Bad I'm Lazy!
-        GameController.Instance.LoadOverworldScene(Level, Vector2.Zero);
+        try
+        {
+            if (TargetTransitionName != "")
+            {
+                GameController.Instance.LoadLevel(Level, TargetTransitionName);
+            }
+            else
+            {
+                GameController.Instance.LoadLevel(Level, Vector2.Zero);
+            }
+        }
+        catch (Exception)
+        {
+            GD.PrintErr("LevelTransition: SceneTransition: Failed to load level: " + Level);
+            throw;
+        }
         // Label prompt = new Label();
         // //add prompt to "prompt group"
         // prompt.Text = "Press 'E' to enter " + Level;
@@ -102,6 +124,7 @@ public partial class LevelTransition : Area2D
         // prompt.Position = new Vector2(0, -50);
         // body.AddChild(prompt);
     }
+
 
 
     public void Update_Area()
@@ -116,21 +139,21 @@ public partial class LevelTransition : Area2D
 
         switch (Side)
         {
-            case TransitionSide.Up:
-                newRectangleSize = new Vector2(16, Size * 16);
-                newPosition = new Vector2(0, -Size * 8);
-                break;
-            case TransitionSide.Down:
-                newRectangleSize = new Vector2(16, Size * 16);
-                newPosition = new Vector2(0, Size * 8);
-                break;
             case TransitionSide.Left:
-                newRectangleSize = new Vector2(Size * 16, 16);
-                newPosition = new Vector2(-Size * 8, 0);
+                newRectangleSize = new Vector2(16, Size * newRectangleSize.Y);
+                newPosition = new Vector2(newPosition.X - 8, newPosition.Y);
                 break;
             case TransitionSide.Right:
-                newRectangleSize = new Vector2(Size * 16, 16);
-                newPosition = new Vector2(Size * 8, 0);
+                newRectangleSize = new Vector2(16, Size * newRectangleSize.Y);
+                newPosition = new Vector2(newPosition.X + 8, newPosition.Y);
+                break;
+            case TransitionSide.Up:
+                newRectangleSize = new Vector2(Size * newRectangleSize.X, 16);
+                newPosition = new Vector2(newPosition.X, newPosition.Y - 8);
+                break;
+            case TransitionSide.Down:
+                newRectangleSize = new Vector2(Size * newRectangleSize.X, 16);
+                newPosition = new Vector2(newPosition.X, newPosition.Y + 8);
                 break;
         }
 

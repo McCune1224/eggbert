@@ -2,5 +2,13 @@
 
 [ext_resource type="Script" uid="uid://35fbd2ldc1xj" path="res://autoload/GameController.cs" id="1_c4fhf"]
 
-[node name="GameController" type="Node2D"]
+[node name="GameController" type="Node"]
 script = ExtResource("1_c4fhf")
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CurrentLevel" type="Node2D" parent="."]
