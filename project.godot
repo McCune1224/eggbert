@@ -21,6 +21,7 @@ GameController="*res://autoload/GameController.tscn"
 DialogManager="*res://autoload/DialogManager.tscn"
 AudioManager="*res://autoload/AudioManager.tscn"
 Player="*res://autoload/player/Player.tscn"
+FadeTransition="*res://ui/FadeTransition.tscn"
 
 [display]
 

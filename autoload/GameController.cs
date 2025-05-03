@@ -54,6 +54,10 @@ public partial class GameController : Node
     {
         GetTree().Paused = true;
         EmitSignal(nameof(LevelLoadStarted));
+
+        await FadeTransition.Instance.PlayFadeOut();
+
+
         Node levelRoot = GetNode<Node>("CurrentLevel");
 
         foreach (Node child in levelRoot.GetChildren())
@@ -80,6 +84,8 @@ public partial class GameController : Node
         // }
 
         //epic
+
+        await FadeTransition.Instance.PlayFadeIn();
         EmitSignal(nameof(LevelLoaded));
         GetTree().Paused = false;
     }
@@ -88,6 +94,8 @@ public partial class GameController : Node
     {
         GetTree().Paused = true;
         EmitSignal(nameof(LevelLoadStarted));
+        await FadeTransition.Instance.PlayFadeOut();
+
         Node levelRoot = GetNode<Node>("CurrentLevel");
 
         foreach (Node child in levelRoot.GetChildren())
@@ -131,6 +139,7 @@ public partial class GameController : Node
         // }
 
         //epic
+        await FadeTransition.Instance.PlayFadeIn();
         EmitSignal(nameof(LevelLoaded));
         GetTree().Paused = false;
     }
