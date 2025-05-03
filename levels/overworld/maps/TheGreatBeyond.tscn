@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bfuoybtdj8wis" path="res://assets/tilemaps/Texture/TX Tileset Wall.png" id="2_u1ikk"]
 [ext_resource type="Texture2D" uid="uid://dbjgyn7hr4wha" path="res://assets/tilemaps/Map01.png" id="3_bvnao"]
 [ext_resource type="Script" uid="uid://bbkcsovvq8cd2" path="res://scripts/core/LevelTileMapLayer.cs" id="4_bvnao"]
-[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://scenes/levels/LevelTransition.tscn" id="5_bvnao"]
+[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="5_bvnao"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pavv6"]
 texture = ExtResource("1_jkt6b")

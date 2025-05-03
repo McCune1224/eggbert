@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b6i5kjokcviqa"]
 
 [ext_resource type="Texture2D" uid="uid://biodoyffardp0" path="res://assets/ui/chatbox.png" id="1_27wuv"]
-[ext_resource type="Script" uid="uid://do7y77sbi8w72" path="res://scenes/ui/TextBox.cs" id="1_uehqf"]
+[ext_resource type="Script" uid="uid://do7y77sbi8w72" path="res://ui/TextBox.cs" id="1_uehqf"]
 [ext_resource type="FontFile" uid="uid://kt1xh1gdfgwk" path="res://assets/fonts/yoster.ttf" id="2_7npaa"]
 [ext_resource type="Texture2D" uid="uid://dggtstebbwpfg" path="res://assets/ui/Arrow.png" id="3_fgy37"]
 

@@ -23,6 +23,12 @@ public partial class LevelTransition : Area2D
 
     [Export(PropertyHint.Range, "1,12,1,or_greater")]
     public int Size;
+
+    [Export]
+    public TransitionSide Side = TransitionSide.Left;
+    [Export]
+    bool SnapToGrid = false;
+
     public override bool _Set(StringName property, Variant value)
     {
         if (property == "Size")
@@ -55,11 +61,6 @@ public partial class LevelTransition : Area2D
     }
 
 
-    [Export]
-    public TransitionSide Side = TransitionSide.Left;
-    [Export]
-    bool SnapToGrid = false;
-
 
     public override void _Ready()
     {
@@ -77,26 +78,29 @@ public partial class LevelTransition : Area2D
             Update_Area();
             return;
         }
-        if (this.HasOverlappingBodies())
-        {
-
-            if (Input.IsActionPressed("interact"))
-            {
-
-                GameController.Instance.LoadOverworldScene(Level, Vector2.Zero);
-            }
-        }
+        // if (this.HasOverlappingBodies())
+        // {
+        //
+        //     if (Input.IsActionPressed("interact"))
+        //     {
+        //
+        //         GameController.Instance.LoadOverworldScene(Level, Vector2.Zero);
+        //     }
+        // }
 
     }
+
     public void SceneTransition(Node2D body)
     {
-        Label prompt = new Label();
-        //add prompt to "prompt group"
-        prompt.Text = "Press 'E' to enter " + Level;
-        prompt.Name = "prompt";
-        //move the prompt to the top of the body
-        prompt.Position = new Vector2(0, -50);
-        body.AddChild(prompt);
+        //WARNING: Idk why I have GameController handling level transitions, Too Bad I'm Lazy!
+        GameController.Instance.LoadOverworldScene(Level, Vector2.Zero);
+        // Label prompt = new Label();
+        // //add prompt to "prompt group"
+        // prompt.Text = "Press 'E' to enter " + Level;
+        // prompt.Name = "prompt";
+        // //move the prompt to the top of the body
+        // prompt.Position = new Vector2(0, -50);
+        // body.AddChild(prompt);
     }
 
 

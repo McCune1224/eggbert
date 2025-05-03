@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dn0vursikxduh"]
 
-[ext_resource type="Script" uid="uid://dvptuuesoks1x" path="res://scenes/combat/enemies/CombatOatmeal.cs" id="1_ql8hm"]
+[ext_resource type="Script" uid="uid://dvptuuesoks1x" path="res://combat/enemies/CombatOatmeal.cs" id="1_ql8hm"]
 [ext_resource type="Texture2D" uid="uid://budwups85d1s7" path="res://assets/characters/Oatmeal.png" id="1_ts2gl"]
 
 [sub_resource type="Animation" id="Animation_ql8hm"]

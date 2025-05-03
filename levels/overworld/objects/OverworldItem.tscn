@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://d4nh6wxp2ireq"]
 
-[ext_resource type="Script" uid="uid://bv5u2wrfcuo26" path="res://scenes/overworld/objects/OverworldItem.cs" id="1_sms5c"]
+[ext_resource type="Script" uid="uid://bv5u2wrfcuo26" path="res://levels/overworld/objects/OverworldItem.cs" id="1_sms5c"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_esjw2"]
 

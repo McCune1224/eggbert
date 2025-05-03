@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://brj6bm3qg5uyl"]
 
-[ext_resource type="Script" uid="uid://bco5ecxn14rbo" path="res://scenes/combat/bullets/RedBullet.cs" id="1_ks6od"]
+[ext_resource type="Script" uid="uid://bco5ecxn14rbo" path="res://combat/bullets/RedBullet.cs" id="1_ks6od"]
 [ext_resource type="Texture2D" uid="uid://dej2twxr3l44n" path="res://assets/Effect and Bullet 16x16/RedBullet.png" id="1_n5smi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ks6od"]

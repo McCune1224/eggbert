@@ -54,56 +54,11 @@ public partial class GameController : Node
     //     EmitSignal(nameof(TileMapBoundsChanged), bounds);
     // }
 
-    public void LoadCombatScene(string mapPath)
-    {
-        try
-        {
-            // Disable the player's camera if it exists
-            var player = Player.Instance;
-            if (player != null)
-            {
-                Camera2D playerCamera = player.GetNode<Camera2D>("Camera2D");
-                if (playerCamera != null)
-                {
-                    playerCamera.Enabled = false;
-                }
-            }
-
-            // Rest of your existing code...
-            if (_currentMap != null)
-            {
-                _currentMap.QueueFree();
-                _currentMap = null;
-            }
-
-            var mapScene = ResourceLoader.Load<PackedScene>(mapPath);
-            if (mapScene == null)
-            {
-                GD.PrintErr($"Failed to load map scene: {mapPath}");
-                return;
-            }
-
-
-
-            _currentMap = mapScene.Instantiate();
-            AddChild(_currentMap);
-            // if (DialogManager == null)
-            // {
-            //     DialogManager = DialogManagerScene.Instantiate<DialogManager>();
-            //     AddChild(DialogManager);
-            // }
-        }
-        catch (Exception e)
-        {
-            GD.PrintErr($"Error loading Combat scene: {e.Message}");
-        }
-    }
 
     public void LoadOverworldScene(string scenePath, Vector2 playerPosition)
     {
         try
         {
-            // Rest of your existing code...
             if (_currentMap != null)
             {
                 _currentMap.QueueFree();
@@ -122,7 +77,7 @@ public partial class GameController : Node
             AddChild(_currentMap);
 
 
-            var overworldMenu = ResourceLoader.Load<PackedScene>("res://scenes/ui/OverworldMenu.tscn");
+            var overworldMenu = ResourceLoader.Load<PackedScene>("res://ui/OverworldMenu.tscn");
             var canvasLayer = new CanvasLayer();
             canvasLayer.AddChild(overworldMenu.Instantiate());
             AddChild(canvasLayer);

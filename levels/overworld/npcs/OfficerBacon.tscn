@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://ck00c0rsy7qs"]
 
-[ext_resource type="Script" uid="uid://b5gw2xo5sfpb2" path="res://scenes/overworld/npcs/OfficerBacon.cs" id="1_6kkq5"]
+[ext_resource type="Script" uid="uid://b5gw2xo5sfpb2" path="res://levels/overworld/npcs/OfficerBacon.cs" id="1_6kkq5"]
 [ext_resource type="Texture2D" uid="uid://10nsh7xbpdpi" path="res://assets/characters/Officer Bacon.png" id="2_6kkq5"]
 
 [sub_resource type="Animation" id="Animation_2nhdl"]

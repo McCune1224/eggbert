@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cj5aw1u0r2gte"]
 
-[ext_resource type="Script" uid="uid://28qsckkkb1kv" path="res://scenes/ui/OverworldMenu.cs" id="1_d4due"]
+[ext_resource type="Script" uid="uid://28qsckkkb1kv" path="res://ui/OverworldMenu.cs" id="1_d4due"]
 
 [node name="OverworldMenu" type="Control"]
 process_mode = 3

@@ -8,7 +8,7 @@ public partial class DialogManager : Node2D
     public static DialogManager Instance => _instance;
 
 
-    PackedScene TextBoxScene = ResourceLoader.Load<PackedScene>("res://scenes/ui/TextBox.tscn");
+    PackedScene TextBoxScene = ResourceLoader.Load<PackedScene>("res://ui/TextBox.tscn");
 
 
     List<string> DialogLines;

@@ -67,8 +67,8 @@ public partial class OfficerBacon : Area2D
             dialogueLabel.Visible = true;
             GetTree().CreateTimer(2).Timeout += () =>
             {
-                GameController ow = GameController.Instance;
-                ow.LoadCombatScene("res://scenes/combat/arena/OatmealArena.tscn");
+                GD.PrintErr("LOAD A LEVEL HERE LOL");
+                // GameController ow = GameController.Instance;
             };
         }
     }

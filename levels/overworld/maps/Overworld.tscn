@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=4 uid="uid://e1xv0dbe5grr"]
 
-[ext_resource type="Script" uid="uid://dir1787vgb15j" path="res://scenes/overworld/maps/Overworld.cs" id="1_sdqp5"]
+[ext_resource type="Script" uid="uid://dir1787vgb15j" path="res://levels/overworld/maps/Overworld.cs" id="1_sdqp5"]
 [ext_resource type="Texture2D" uid="uid://brc6yg81qjmkg" path="res://assets/tilemaps/Texture/TX Tileset Grass.png" id="2_7v7eg"]
 [ext_resource type="Texture2D" uid="uid://dbjgyn7hr4wha" path="res://assets/tilemaps/Map01.png" id="3_ldk86"]
-[ext_resource type="PackedScene" uid="uid://dmg8py6ignrbd" path="res://scenes/overworld/npcs/GrandpaSmith.tscn" id="3_mglvr"]
+[ext_resource type="PackedScene" uid="uid://dmg8py6ignrbd" path="res://levels/overworld/npcs/GrandpaSmith.tscn" id="3_mglvr"]
 [ext_resource type="Script" uid="uid://bbkcsovvq8cd2" path="res://scripts/core/LevelTileMapLayer.cs" id="4_mael7"]
-[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://scenes/levels/LevelTransition.tscn" id="10_45llo"]
+[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="10_45llo"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l2fk0"]
 texture = ExtResource("2_7v7eg")
@@ -601,7 +601,7 @@ metadata/_edit_lock_ = true
 position = Vector2(179, -222)
 
 [node name="LevelTransition" parent="." instance=ExtResource("10_45llo")]
-position = Vector2(620, -99)
+position = Vector2(636, -99)
 monitorable = false
 Level = "uid://cgey7l0cikahr"
 Size = 7
