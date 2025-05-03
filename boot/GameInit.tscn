@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c45uc62uc6hpu"]
 
-[ext_resource type="Script" uid="uid://b4a82ckctegtg" path="res://scenes/GameInit.cs" id="1_uuxvw"]
+[ext_resource type="Script" uid="uid://b4a82ckctegtg" path="res://boot/GameInit.cs" id="1_uuxvw"]
 
 [node name="GameInit" type="Node2D"]
 scale = Vector2(1.05071, 0.980112)
