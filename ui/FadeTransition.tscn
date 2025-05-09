@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cp4jn6evyriyd" path="res://ui/FadeTransition.cs" id="1_0g6n2"]
 
-[sub_resource type="Animation" id="Animation_woe2m"]
-resource_name = "default"
+[sub_resource type="Animation" id="Animation_0g6n2"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -17,8 +17,8 @@ tracks/0/keys = {
 "values": [Color(0, 0, 0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_0g6n2"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_woe2m"]
+resource_name = "default"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true

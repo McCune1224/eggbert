@@ -75,7 +75,7 @@ public partial class DialogManager : Node2D
         t.Root.AddChild(CurrentTextBox);
         // GetTree().Root.AddChild(CurrentTextBox);
         CurrentTextBox.GlobalPosition = TextBoxPosition;
-        CurrentTextBox.DisplayText(DialogLines[CurrentDialogLineIndex], SFX);
+        CurrentTextBox.PlayText(DialogLines[CurrentDialogLineIndex], SFX);
         CanAdvanceLine = false;
     }
 

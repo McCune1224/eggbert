@@ -31,7 +31,7 @@ public partial class TextBox : MarginContainer
         _timer.Timeout += OnLetterDisplayTimerTimeout;
     }
 
-    public void DisplayText(string desiredText, AudioStream sfx)
+    public void PlayText(string desiredText, AudioStream sfx)
     {
         CurrentText = desiredText;
         _label.Text = desiredText;

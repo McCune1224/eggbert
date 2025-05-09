@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=4 uid="uid://e1xv0dbe5grr"]
+[gd_scene load_steps=11 format=4 uid="uid://e1xv0dbe5grr"]
 
-[ext_resource type="Script" uid="uid://dir1787vgb15j" path="res://levels/overworld/maps/Overworld.cs" id="1_sdqp5"]
+[ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="1_1r5ua"]
 [ext_resource type="Texture2D" uid="uid://brc6yg81qjmkg" path="res://assets/tilemaps/Texture/TX Tileset Grass.png" id="2_7v7eg"]
+[ext_resource type="AudioStream" uid="uid://qos6arbdq58w" path="res://assets/audio/music/generic1.mp3" id="2_38170"]
 [ext_resource type="Texture2D" uid="uid://dbjgyn7hr4wha" path="res://assets/tilemaps/Map01.png" id="3_ldk86"]
 [ext_resource type="PackedScene" uid="uid://dmg8py6ignrbd" path="res://levels/overworld/npcs/GrandpaSmith.tscn" id="3_mglvr"]
 [ext_resource type="Script" uid="uid://bbkcsovvq8cd2" path="res://scripts/core/LevelTileMapLayer.cs" id="4_mael7"]
@@ -589,7 +590,8 @@ sources/1 = SubResource("TileSetAtlasSource_ehtq2")
 
 [node name="Node2D" type="Node2D"]
 scale = Vector2(0.99266, 1)
-script = ExtResource("1_sdqp5")
+script = ExtResource("1_1r5ua")
+LevelMusic = ExtResource("2_38170")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 scale = Vector2(0.936165, 0.999989)
