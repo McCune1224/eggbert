@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://chnm6if13o6tc"
+path="res://.godot/imported/Apollo.aseprite-8bd3daf307ca50d85efa89211d28f1f9.res"
+
+[deps]
+
+source_file="res://assets/characters/Apollo.aseprite"
+dest_files=["res://.godot/imported/Apollo.aseprite-8bd3daf307ca50d85efa89211d28f1f9.res"]
+
+[params]
+

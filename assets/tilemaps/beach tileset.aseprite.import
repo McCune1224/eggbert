@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://cyvraugxrkbh7"
+path="res://.godot/imported/beach tileset.aseprite-a55415b0332ef4b2fa2d1e5d8fc234aa.res"
+
+[deps]
+
+source_file="res://assets/tilemaps/beach tileset.aseprite"
+dest_files=["res://.godot/imported/beach tileset.aseprite-a55415b0332ef4b2fa2d1e5d8fc234aa.res"]
+
+[params]
+

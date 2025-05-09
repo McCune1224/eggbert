@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://dve6byf67wdem"
+path="res://.godot/imported/bookshelf.aseprite-6c45b75c82b321a41b521c7dd994a547.res"
+
+[deps]
+
+source_file="res://assets/items/bookshelf.aseprite"
+dest_files=["res://.godot/imported/bookshelf.aseprite-6c45b75c82b321a41b521c7dd994a547.res"]
+
+[params]
+
