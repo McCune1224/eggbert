@@ -31,6 +31,13 @@ public partial class TextBox : MarginContainer
         _timer.Timeout += OnLetterDisplayTimerTimeout;
     }
 
+    public override void _Process(double delta)
+    {
+        // if (InputMap.key)
+    }
+
+
+
     public void PlayText(string desiredText, AudioStream sfx)
     {
         CurrentText = desiredText;

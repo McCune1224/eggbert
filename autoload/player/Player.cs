@@ -12,6 +12,7 @@ public partial class Player : CharacterBody2D
     public readonly float PlayerSpeed = 150.0f;
     private AnimationPlayer _animationPlayer;
     private CollisionShape2D _collisionShape;
+    public PlayerCamera Camera { get; private set; }
     private string _facedDirection = "down";
 
     // Current state
@@ -59,6 +60,7 @@ public partial class Player : CharacterBody2D
         // Get references to child nodes
         _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+        Camera = GetNode<PlayerCamera>("PlayerCamera");
 
         // Set default animation
         _animationPlayer.Play("idle forward");

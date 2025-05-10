@@ -53,12 +53,12 @@ public partial class DialogManager : Node2D
         }
     }
 
-    public void StartDialog(Vector2 position, List<string> lines, AudioStream speechSfx)
+    public void StartDialog(List<string> lines, AudioStream speechSfx)
     {
         SFX = speechSfx;
         if (IsDialogActive) return;
         DialogLines = lines;
-        TextBoxPosition = position;
+        // TextBoxPosition = position;
         IsDialogActive = true;
         ShowTextBox();
     }
@@ -66,12 +66,19 @@ public partial class DialogManager : Node2D
     public void ShowTextBox()
     {
         CurrentTextBox = TextBoxScene.Instantiate<TextBox>();
+        PlayerCamera pc = Player.Instance.Camera;
+        // Set TextBoxPosition relative to Camera (middle bottom)
+
+        // TextBoxPosition = pc.GlobalPosition + new Vector2(0, GetViewportRect().Size.Y / 3);
+        // TextBoxPosition = new Vector2(0, pc.GetViewportRect().Size.Y / 3);
+        Vector2 centerScreen = pc.GetScreenCenterPosition();
+        CurrentTextBox.GlobalPosition = new Vector2(centerScreen.X, centerScreen.Y + (pc.GetViewportRect().Size.Y - 156));
+        GD.Print(CurrentTextBox.GlobalPosition);
         CurrentTextBox.Connect(nameof(CurrentTextBox.FinishedDisplaying), new Callable(this, nameof(OnTextBoxFinishedDisplaying)));
         // CurrentTextBox.Connect("FinishedDisplaying", new Callable(this, nameof(OnTextBoxFinishedDisplaying)));
         GetTree().Root.AddChild(CurrentTextBox);
         // t.Root.AddChild(CurrentTextBox);
         // GetTree().Root.AddChild(CurrentTextBox);
-        CurrentTextBox.GlobalPosition = TextBoxPosition;
         CurrentTextBox.PlayText(DialogLines[CurrentDialogLineIndex], SFX);
         CanAdvanceLine = false;
     }
