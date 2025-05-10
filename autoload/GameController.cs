@@ -1,7 +1,9 @@
 using Godot;
 using Godot.Collections;
-using System;
 
+/// <summary>
+/// Controls game state, level loading, and global signals.
+/// </summary>
 public partial class GameController : Node
 {
     // Singleton instance
@@ -9,16 +11,22 @@ public partial class GameController : Node
     public static GameController Instance => _instance;
 
     private Node _currentLevel;
-
-    // Current map and player position
     private Control _menu;
     public Array<Vector2> CurrentTileMapBounds;
 
-    // Dialog Managment
-    // public PackedScene DialogManagerScene;
-    // private PackedScene DialogManagerScene;
-    // public DialogManager DialogManager;
+    // Signals
+    [Signal]
+    public delegate void TileMapBoundsChangedEventHandler(Array<Vector2> bounds);
 
+    [Signal]
+    public delegate void LevelLoadStartedEventHandler();
+
+    [Signal]
+    public delegate void LevelLoadedEventHandler();
+
+    /// <summary>
+    /// Called when the node is added to the scene. Sets up singleton and menu.
+    /// </summary>
     public override void _Ready()
     {
         if (_instance == null)
@@ -38,25 +46,24 @@ public partial class GameController : Node
         // DialogManagerScene = ResourceLoader.Load<PackedScene>("res://scripts/ui/DialogManager.tscn");
     }
 
-
-    [Signal]
-    public delegate void TileMapBoundsChangedEventHandler(Godot.Collections.Array<Vector2> bounds);
+    /// <summary>
+    /// Emits a signal and updates the current tile map bounds.
+    /// </summary>
     public void ChangeTileMapBounds(Array<Vector2> bounds)
     {
         CurrentTileMapBounds = bounds;
         EmitSignal(nameof(TileMapBoundsChanged), bounds);
     }
 
-
-    [Signal]
-    public delegate void LevelLoadStartedEventHandler();
+    /// <summary>
+    /// Loads a level and places the player at a specific position.
+    /// </summary>
     public async void LoadLevel(string scenePath, Vector2 playerPosition)
     {
         GetTree().Paused = true;
         EmitSignal(nameof(LevelLoadStarted));
 
         await FadeTransition.Instance.PlayFadeOut();
-
 
         Node levelRoot = GetNode<Node>("CurrentLevel");
 
@@ -72,24 +79,18 @@ public partial class GameController : Node
         levelRoot.AddChild(loadedLevel);
         _currentLevel = loadedLevel;
 
-
-
-        // If we have a player reference, place them at the stored position
+        // Place player at the stored position
         var player = Player.Instance;
         player.Position = playerPosition;
-        // if (DialogManager == null)
-        // {
-        //     DialogManager = DialogManagerScene.Instantiate<DialogManager>();
-        //     AddChild(DialogManager);
-        // }
-
-        //epic
 
         await FadeTransition.Instance.PlayFadeIn();
         EmitSignal(nameof(LevelLoaded));
         GetTree().Paused = false;
     }
 
+    /// <summary>
+    /// Loads a level and places the player at a transition area.
+    /// </summary>
     public async void LoadLevel(string scenePath, string targetTransitionName)
     {
         GetTree().Paused = true;
@@ -110,9 +111,7 @@ public partial class GameController : Node
         levelRoot.AddChild(loadedLevel);
         _currentLevel = loadedLevel;
 
-
-
-        // If we have a player reference, place them at the stored position
+        // Place player at the transition area
         LevelTransition transitionArea = _currentLevel.GetNode<LevelTransition>(targetTransitionName);
         switch (transitionArea.Side)
         {
@@ -130,26 +129,8 @@ public partial class GameController : Node
                 break;
         }
 
-        var player = Player.Instance;
-        // player.Position = playerPosition;
-        // if (DialogManager == null)
-        // {
-        //     DialogManager = DialogManagerScene.Instantiate<DialogManager>();
-        //     AddChild(DialogManager);
-        // }
-
-        //epic
         await FadeTransition.Instance.PlayFadeIn();
         EmitSignal(nameof(LevelLoaded));
         GetTree().Paused = false;
     }
-
-    [Signal]
-    public delegate void LevelLoadedEventHandler();
-
-
-    // func ChangeTileMapBounds(List<Vector2> bounds)
-    // {
-    //     EmitSignal(nameof(TileMapBoundsChanged), bounds);
-    // }
 }

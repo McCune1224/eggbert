@@ -1,3 +1,4 @@
+
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -36,8 +37,6 @@ public partial class TextBox : MarginContainer
         // if (InputMap.key)
     }
 
-
-
     public void PlayText(string desiredText, AudioStream sfx)
     {
         CurrentText = desiredText;
@@ -50,10 +49,10 @@ public partial class TextBox : MarginContainer
         if (Size.X > MAX_WIDTH)
         {
             _label.AutowrapMode = TextServer.AutowrapMode.WordSmart;
-
             newMinSize.Y = Size.Y;
             CustomMinimumSize = newMinSize;
         }
+
         Vector2 newGlobalPosition = new Vector2
         {
             X = GlobalPosition.X - (Size.X / 2),
@@ -68,6 +67,7 @@ public partial class TextBox : MarginContainer
     {
         _label.Text += CurrentText[LetterIndex];
         LetterIndex += 1;
+
         if (LetterIndex >= CurrentText.Length)
         {
             EmitSignal(SignalName.FinishedDisplaying);
@@ -94,33 +94,15 @@ public partial class TextBox : MarginContainer
                     dupPlayer.PitchScale += 0.2f;
                 }
                 GetTree().Root.AddChild(dupPlayer);
-
-                // Create a timer to stop the audio after LetterTime
-                // Timer audioTimer = new Timer();
-                // audioTimer.WaitTime = LetterTime;
-                // audioTimer.OneShot = true;
-                // GetTree().Root.AddChild(audioTimer);
-                // audioTimer.Start();
-                // audioTimer.Timeout += () =>
-                // {
-                //     dupPlayer.Stop();
-                //     dupPlayer.QueueFree();
-                //     audioTimer.QueueFree();
-                // };
                 dupPlayer.Play(1f);
-                dupPlayer.Finished += () =>
-                {
-                    dupPlayer.QueueFree();
-                };
+                dupPlayer.Finished += () => dupPlayer.QueueFree();
                 break;
-
         }
     }
 
-    //_on_letter_display_timer_timeout Signal Implementation
     public void OnLetterDisplayTimerTimeout()
     {
         DisplayLetter();
     }
-
 }
+
