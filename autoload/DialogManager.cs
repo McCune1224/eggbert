@@ -49,30 +49,27 @@ public partial class DialogManager : Node2D
                 IsDialogActive = false;
                 CurrentDialogLineIndex = 0;
             }
-            ShowTextBox(GetTree());
+            ShowTextBox();
         }
     }
 
-    public void StartDialog(SceneTree t, Vector2 position, List<string> lines, AudioStream speechSfx)
+    public void StartDialog(Vector2 position, List<string> lines, AudioStream speechSfx)
     {
         SFX = speechSfx;
         if (IsDialogActive) return;
         DialogLines = lines;
         TextBoxPosition = position;
         IsDialogActive = true;
-        ShowTextBox(t);
+        ShowTextBox();
     }
 
-    public void ShowTextBox(SceneTree t)
+    public void ShowTextBox()
     {
         CurrentTextBox = TextBoxScene.Instantiate<TextBox>();
         CurrentTextBox.Connect(nameof(CurrentTextBox.FinishedDisplaying), new Callable(this, nameof(OnTextBoxFinishedDisplaying)));
         // CurrentTextBox.Connect("FinishedDisplaying", new Callable(this, nameof(OnTextBoxFinishedDisplaying)));
-        if (t == null)
-        {
-            GD.PushError("FUCK");
-        }
-        t.Root.AddChild(CurrentTextBox);
+        GetTree().Root.AddChild(CurrentTextBox);
+        // t.Root.AddChild(CurrentTextBox);
         // GetTree().Root.AddChild(CurrentTextBox);
         CurrentTextBox.GlobalPosition = TextBoxPosition;
         CurrentTextBox.PlayText(DialogLines[CurrentDialogLineIndex], SFX);

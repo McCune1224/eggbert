@@ -61,7 +61,7 @@ public partial class Joe : Area2D
 
             List<string> dialog = new(); ;
             dialog.Add("I hate the morning shift. Theres always so much to clean down here and so little help.");
-            DialogManager.Instance.StartDialog(GetTree(), _labelPosition, dialog, speechSound);
+            DialogManager.Instance.StartDialog(_labelPosition, dialog, speechSound);
             // PackedScene tb = ResourceLoader.Load<PackedScene>("res://ui/TextBox.tscn");
             // TextBox cb = tb.Instantiate<TextBox>();
             // GetTree().Root.AddChild(cb);
