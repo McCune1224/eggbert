@@ -72,7 +72,12 @@ public partial class LevelTransition : Area2D
         // this.Monitoring = true;
         // this.Monitorable = false;
         BodyEntered += SceneTransition;
-        BodyExited += (Node2D body) => { body.GetNode("prompt").QueueFree(); };
+        BodyExited += (Node2D body) =>
+        {
+            var prompt = body.GetNodeOrNull<Node>("prompt");
+            if (prompt != null)
+                prompt.QueueFree();
+        };
     }
 
 

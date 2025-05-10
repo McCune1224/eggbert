@@ -38,6 +38,17 @@ project/assembly_name="Eggbert"
 
 enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://assets/": "red",
+"res://autoload/": "pink",
+"res://combat/": "orange",
+"res://levels/": "blue",
+"res://scripts/": "green",
+"res://ui/": "yellow"
+}
+
 [input]
 
 player_up={

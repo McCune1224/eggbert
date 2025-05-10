@@ -71,7 +71,7 @@ public partial class AudioManager : Node
         player.Play();
         Tween tween = CreateTween();
         tween.TweenProperty(player, "volume_db", -40, duration);
-        await ToSignal(tween, "tween_completed");
+        await ToSignal(tween, "finished");
         player.Stop();
     }
 }
