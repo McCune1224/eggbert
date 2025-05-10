@@ -42,11 +42,13 @@ public partial class DialogManager : Node2D
     {
         if (Input.IsActionPressed("advance_dialog") && IsDialogActive && CanAdvanceLine)
         {
+
             CurrentTextBox.QueueFree();
             CurrentDialogLineIndex++;
             if (CurrentDialogLineIndex >= DialogLines.Count)
             {
                 IsDialogActive = false;
+                Player.Instance.InInteraction = true;
                 CurrentDialogLineIndex = 0;
             }
             ShowTextBox();
@@ -60,6 +62,7 @@ public partial class DialogManager : Node2D
         DialogLines = lines;
         // TextBoxPosition = position;
         IsDialogActive = true;
+        Player.Instance.InInteraction = true;
         ShowTextBox();
     }
 
