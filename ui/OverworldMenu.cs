@@ -85,7 +85,6 @@ public partial class OverworldMenu : Control
 
     private void OnInventoryPressed()
     {
-        GD.Print("Opening inventory...");
         // Add inventory logic here
     }
 

@@ -23,7 +23,6 @@ public partial class BaseLevel : Node2D
         // Play music if set
         if (LevelMusic != null)
         {
-            GD.Print("Playing music:", LevelMusic.ResourceName);
             AudioManager.Instance.PlayMusic(LevelMusic);
         }
 

@@ -119,4 +119,4 @@ TargetTransitionName = "DummyDown"
 Size = 5
 
 [node name="Joe" parent="." instance=ExtResource("6_pttgg")]
-position = Vector2(-377, -151.4)
+position = Vector2(-87, -83.1214)

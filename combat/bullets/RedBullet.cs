@@ -98,8 +98,6 @@ public partial class RedBullet : Area2D
 
 
             CharacterBody2D forRealizes = (CharacterBody2D)body;
-            GD.Print(forRealizes.CollisionMask);
-            GD.Print(forRealizes.CollisionLayer);
             // Destroy the bullet when it hits a solid object
         }
         QueueFree();

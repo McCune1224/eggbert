@@ -31,7 +31,6 @@ public partial class CombatOatmeal : Area2D
     public void Fire()
     {
         Vector2 target = CombatTargeter.GetPlayerPosition();
-        GD.Print("Target is at ", target);
         _animationPlayer.Play("default");
     }
 

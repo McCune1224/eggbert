@@ -41,7 +41,6 @@ public partial class AudioManager : Node
         // Prevents music repeating in same 'areas'
         if (audio == _musicAudioPlayers[_currentMusicPlayerIndex].Stream)
         {
-            GD.Print("Audio is current played music, exiting");
             return;
         }
         _currentMusicPlayerIndex++;

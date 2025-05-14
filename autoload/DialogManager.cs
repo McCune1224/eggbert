@@ -33,39 +33,58 @@ public partial class DialogManager : Node2D
 
     public override void _Process(double delta)
     {
-        if (Input.IsActionPressed("advance_dialog") && IsDialogActive && CanAdvanceLine)
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("advance_dialog"))
+        {
+            AttemptAdvanceDialog();
+        }
+    }
+
+    public void AttemptAdvanceDialog()
+    {
+        if (IsDialogActive && CanAdvanceLine)
         {
             CurrentTextBox.QueueFree();
             CurrentDialogLineIndex++;
             if (CurrentDialogLineIndex >= DialogLines.Count)
             {
                 IsDialogActive = false;
-                Player.Instance.InInteraction = true;
+                Player.Instance.InInteraction = false;
                 CurrentDialogLineIndex = 0;
+                return;
             }
-            ShowTextBox();
+            CreateTextBox();
         }
     }
 
     public void StartDialog(List<string> lines, AudioStream speechSfx)
     {
-        SFX = speechSfx;
         if (IsDialogActive) return;
+
+        SFX = speechSfx;
         DialogLines = lines;
         IsDialogActive = true;
         Player.Instance.InInteraction = true;
-        ShowTextBox();
+
+        CreateTextBox();
     }
 
-    public void ShowTextBox()
+    public void CreateTextBox()
     {
         CurrentTextBox = TextBoxScene.Instantiate<TextBox>();
+        CurrentTextBox.Connect(
+                nameof(CurrentTextBox.FinishedDisplaying),
+                new Callable(this, nameof(OnTextBoxFinishedDisplaying)));
+
         PlayerCamera pc = Player.Instance.Camera;
         Vector2 centerScreen = pc.GetScreenCenterPosition();
         CurrentTextBox.GlobalPosition = new Vector2(centerScreen.X, centerScreen.Y + (pc.GetViewportRect().Size.Y - 156));
-        GD.Print(CurrentTextBox.GlobalPosition);
-        CurrentTextBox.Connect(nameof(CurrentTextBox.FinishedDisplaying), new Callable(this, nameof(OnTextBoxFinishedDisplaying)));
+
         GetTree().Root.AddChild(CurrentTextBox);
+
         CurrentTextBox.PlayText(DialogLines[CurrentDialogLineIndex], SFX);
         CanAdvanceLine = false;
     }

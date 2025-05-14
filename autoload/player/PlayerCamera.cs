@@ -18,7 +18,6 @@ public partial class PlayerCamera : Camera2D
             GD.PrintErr("No limits provided to update.");
             return;
         }
-        GD.Print("HIT UPDATE LIMITS WITH NONE LIMITS");
         LimitLeft = (int)limits[0].X;
         LimitTop = (int)limits[0].Y;
         LimitRight = (int)limits[1].X;
