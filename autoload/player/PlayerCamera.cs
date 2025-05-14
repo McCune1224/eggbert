@@ -7,7 +7,6 @@ public partial class PlayerCamera : Camera2D
     public override void _Ready()
     {
         GameController.Instance.Connect(nameof(GameController.TileMapBoundsChanged), new Callable(this, nameof(UpdateLimits)));
-        UpdateLimits(GameController.Instance.CurrentTileMapBounds);
     }
 
     public void UpdateLimits(Array<Vector2> limits)
