@@ -66,6 +66,10 @@ public partial class Player : CharacterBody2D
             direction = direction.Normalized();
         }
         Velocity = direction * PlayerSpeed;
+        if (Input.IsActionPressed("player_sprint"))
+        {
+            Velocity *= 2;
+        }
         MoveAndSlide();
         UpdateAnimation(direction);
     }
