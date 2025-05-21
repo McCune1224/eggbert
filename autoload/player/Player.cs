@@ -71,6 +71,7 @@ public partial class Player : CharacterBody2D
             Velocity *= 2;
         }
         MoveAndSlide();
+        KinematicCollision2D coll = GetLastSlideCollision();
         UpdateAnimation(direction);
     }
 
@@ -112,10 +113,4 @@ public partial class Player : CharacterBody2D
         _inInteraction = false;
     }
 
-    public void OnSaveGame(Godot.Collections.Array<SavedData> saveDataList)
-    {
-        SavedData newData = new();
-        newData.ScenePath = SceneFilePath;
-        saveDataList.Add(newData);
-    }
 }

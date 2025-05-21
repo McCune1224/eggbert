@@ -2,23 +2,18 @@
 
 [ext_resource type="Script" uid="uid://28qsckkkb1kv" path="res://ui/OverworldMenu.cs" id="1_d4due"]
 
-[node name="OverworldMenu" type="Control"]
+[node name="OverworldMenu" type="CanvasLayer"]
 process_mode = 3
-layout_mode = 3
-anchors_preset = 0
 script = ExtResource("1_d4due")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 79.0
-offset_top = 12.0
-offset_right = 564.0
-offset_bottom = 345.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 0.329412)
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-layout_mode = 0
 offset_left = 274.0
 offset_top = 118.0
 offset_right = 357.0

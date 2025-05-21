@@ -1,28 +1,45 @@
 using Godot;
 
-public partial class OverworldMenu : Control
+public partial class OverworldMenu : CanvasLayer
 {
     private AnimationPlayer _animationPlayer;
+    private Button _resumeButton;
+    private Button _inventoryButton;
+    private Button _saveButton;
+    private Button _quitButton;
 
     public override void _Ready()
     {
-        HideMenu();
         _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
         // Connect button signals to methods
-        GetNode("PanelContainer/VBoxContainer/ResumeButton")
-            .Connect("pressed", new Callable(this, nameof(OnResumePressed)));
-        GetNode("PanelContainer/VBoxContainer/InventoryButton")
-            .Connect("pressed", new Callable(this, nameof(OnInventoryPressed)));
-        GetNode("PanelContainer/VBoxContainer/SaveButton")
-            .Connect("pressed", new Callable(this, nameof(OnSavePressed)));
-        GetNode("PanelContainer/VBoxContainer/QuitButton")
-            .Connect("pressed", new Callable(this, nameof(OnQuitPressed)));
+        // GetNode("PanelContainer/VBoxContainer/ResumeButton")
+        //     .Connect("pressed", new Callable(this, nameof(OnResumePressed)));
+        // GetNode("PanelContainer/VBoxContainer/InventoryButton")
+        //     .Connect("pressed", new Callable(this, nameof(OnInventoryPressed)));
+        // GetNode("PanelContainer/VBoxContainer/SaveButton")
+        //     .Connect("pressed", new Callable(this, nameof(OnSavePressed)));
+        // GetNode("PanelContainer/VBoxContainer/QuitButton")
+        //     .Connect("pressed", new Callable(this, nameof(OnQuitPressed)));
+
+        _resumeButton = GetNode<Button>("PanelContainer/VBoxContainer/ResumeButton");
+        _resumeButton.Connect("pressed", new Callable(this, nameof(OnResumePressed)));
+
+        _inventoryButton = GetNode<Button>("PanelContainer/VBoxContainer/InventoryButton");
+        _inventoryButton.Connect("pressed", new Callable(this, nameof(OnInventoryPressed)));
+
+        _saveButton = GetNode<Button>("PanelContainer/VBoxContainer/SaveButton");
+        _saveButton.Connect("pressed", new Callable(this, nameof(OnSavePressed)));
+
+        _quitButton = GetNode<Button>("PanelContainer/VBoxContainer/QuitButton");
+        _quitButton.Connect("pressed", new Callable(this, nameof(OnQuitPressed)));
+
+        HideMenu();
     }
+
 
     public override void _Process(double delta)
     {
-        ToggleEscape();
     }
 
     private void Resume()
@@ -46,6 +63,7 @@ public partial class OverworldMenu : Control
         {
             _animationPlayer.Play("show_menu");
         }
+        _resumeButton.GrabFocus();
     }
 
     private void HideMenu()
@@ -60,10 +78,13 @@ public partial class OverworldMenu : Control
         }
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        if (Input.IsActionJustPressed("menu_pause")) { ToggleEscape(); }
+    }
 
     private void ToggleEscape()
     {
-        if (Input.IsActionJustPressed("menu_pause"))
         {
             var sceneTree = GetTree();
             if (sceneTree.Paused)
@@ -92,10 +113,6 @@ public partial class OverworldMenu : Control
     {
         SceneTree tree = GetTree();
         Node overworldNode = tree.GetNodesInGroup("overworld")[0];
-
-
-        GameSaverLoader gsl = new(overworldNode.GetTree());
-        gsl.SaveGame();
     }
 
     private void OnQuitPressed()

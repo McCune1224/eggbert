@@ -1,12 +1,8 @@
 using Godot;
 using Godot.Collections;
 
-/// <summary>
-/// Controls game state, level loading, and global signals.
-/// </summary>
 public partial class GameController : Node
 {
-    // Singleton instance
     private static GameController _instance;
     public static GameController Instance => _instance;
 
@@ -14,7 +10,6 @@ public partial class GameController : Node
     private Control _menu;
     public Array<Vector2> CurrentTileMapBounds;
 
-    // Signals
     [Signal]
     public delegate void TileMapBoundsChangedEventHandler(Array<Vector2> bounds);
 
@@ -24,9 +19,6 @@ public partial class GameController : Node
     [Signal]
     public delegate void LevelLoadedEventHandler();
 
-    /// <summary>
-    /// Called when the node is added to the scene. Sets up singleton and menu.
-    /// </summary>
     public override void _Ready()
     {
         if (_instance == null)
@@ -38,8 +30,8 @@ public partial class GameController : Node
             GD.PrintErr("Multiple instances of OverworldManager detected!");
         }
         _menu = GetNode<Control>("Menu");
-        var overworldMenu = ResourceLoader.Load<PackedScene>("res://ui/OverworldMenu.tscn");
-        var canvasLayer = new CanvasLayer();
+        PackedScene overworldMenu = ResourceLoader.Load<PackedScene>("res://ui/OverworldMenu.tscn");
+        CanvasLayer canvasLayer = new CanvasLayer();
         canvasLayer.AddChild(overworldMenu.Instantiate());
         _menu.AddChild(canvasLayer);
         _currentLevel = GetNode("CurrentLevel");
