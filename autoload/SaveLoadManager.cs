@@ -28,12 +28,11 @@ public partial class SaveLoadManager : Node
         SaveResource newSave = new();
 
         // Collect and sort IPersistable nodes by load priority
-        var persistables = new System.Collections.Generic.List<IPersistable>();
         foreach (Node node in GetTree().GetNodesInGroup("persist"))
         {
             if (node is IPersistable persistable)
             {
-                persistables.Add(persistable);
+                persistable.Save(newSave);
             }
             else
             {
@@ -41,13 +40,6 @@ public partial class SaveLoadManager : Node
             }
         }
 
-        persistables.Sort((a, b) => a.GetLoadPriority().CompareTo(b.GetLoadPriority()));
-
-        // Save each persistable node in sorted order
-        foreach (var persistable in persistables)
-        {
-            persistable.Save(newSave);
-        }
 
         ResourceSaver.Save(newSave, SavePath);
     }
@@ -65,18 +57,24 @@ public partial class SaveLoadManager : Node
             return;
         }
 
+        var persistantNodes = new System.Collections.Generic.List<IPersistable>();
 
         foreach (Node node in GetTree().GetNodesInGroup("persist"))
         {
             if (node is IPersistable persistable)
             {
-                persistable.Load(saveData);
+                persistantNodes.Add(persistable);
             }
             else
             {
                 GD.PrintErr($"Node {node.Name} does not implement IPersistable.Load despite being in 'persist' group.");
             }
         }
+        persistantNodes.Sort((a, b) => a.GetLoadPriority().CompareTo(b.GetLoadPriority()));
+        persistantNodes.ForEach(persistable =>
+        {
+            persistable.Load(saveData);
+        });
 
     }
 }
