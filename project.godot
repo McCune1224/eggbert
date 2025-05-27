@@ -22,6 +22,7 @@ DialogManager="*res://autoload/DialogManager.tscn"
 AudioManager="*res://autoload/AudioManager.tscn"
 Player="*res://autoload/player/Player.tscn"
 FadeTransition="*res://ui/FadeTransition.tscn"
+SaveLoadManager="*res://autoload/SaveLoadManager.tscn"
 
 [display]
 

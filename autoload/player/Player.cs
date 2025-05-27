@@ -1,24 +1,27 @@
 using Godot;
 using Godot.Collections;
 
-public partial class Player : CharacterBody2D
+public partial class Player : CharacterBody2D, IPersistable
 {
-    private static Player _instance;
-    public static Player Instance => _instance;
-
     public readonly float PlayerSpeed = 150.0f;
-
-    private AnimationPlayer _animationPlayer;
-    private CollisionShape2D _collisionShape;
-    public PlayerCamera Camera { get; private set; }
-
-    private string _facedDirection = "down";
     private bool _inInteraction = false;
     public bool InInteraction
     {
         get => _inInteraction;
         set => _inInteraction = value;
     }
+
+    private static Player _instance;
+    public static Player Instance => _instance;
+
+
+    private AnimationPlayer _animationPlayer;
+    private CollisionShape2D _collisionShape;
+    public PlayerCamera Camera { get; private set; }
+
+
+
+    private string _facedDirection = "down";
 
     public Array<Node2D> GetCollidingBodies()
     {
@@ -34,6 +37,7 @@ public partial class Player : CharacterBody2D
     public override void _Ready()
     {
         AddToGroup("player");
+        AddToGroup("persist");
         if (_instance == null)
         {
             _instance = this;
@@ -113,4 +117,25 @@ public partial class Player : CharacterBody2D
         _inInteraction = false;
     }
 
+
+
+    public SaveResource Save(SaveResource newSave)
+    {
+        //TODO: Make health system? Using this as a placeholder for now.
+        int temporaryHealth = 100;
+        SaveDataPlayer saveData = new();
+
+        saveData.Position = Position;
+        saveData.Health = temporaryHealth;
+        newSave.PlayerData = saveData;
+        return newSave;
+    }
+
+    public void Load(SaveResource data)
+    {
+        if (data.PlayerData != null)
+        {
+            Position = data.PlayerData.Position;
+        }
+    }
 }

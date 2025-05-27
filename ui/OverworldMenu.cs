@@ -6,6 +6,7 @@ public partial class OverworldMenu : CanvasLayer
     private Button _resumeButton;
     private Button _inventoryButton;
     private Button _saveButton;
+    private Button _loadButton;
     private Button _quitButton;
 
     public override void _Ready()
@@ -30,6 +31,9 @@ public partial class OverworldMenu : CanvasLayer
 
         _saveButton = GetNode<Button>("PanelContainer/VBoxContainer/SaveButton");
         _saveButton.Connect("pressed", new Callable(this, nameof(OnSavePressed)));
+
+        _saveButton = GetNode<Button>("PanelContainer/VBoxContainer/LoadButton");
+        _saveButton.Connect("pressed", new Callable(this, nameof(OnLoadPressed)));
 
         _quitButton = GetNode<Button>("PanelContainer/VBoxContainer/QuitButton");
         _quitButton.Connect("pressed", new Callable(this, nameof(OnQuitPressed)));
@@ -112,8 +116,18 @@ public partial class OverworldMenu : CanvasLayer
     private void OnSavePressed()
     {
         SceneTree tree = GetTree();
-        Node overworldNode = tree.GetNodesInGroup("overworld")[0];
+        SaveLoadManager.Instance.SaveGame();
+
     }
+
+    private void OnLoadPressed()
+    {
+        SceneTree tree = GetTree();
+        SaveLoadManager.Instance.LoadGame();
+        Resume();
+    }
+
+
 
     private void OnQuitPressed()
     {
