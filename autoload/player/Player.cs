@@ -138,4 +138,11 @@ public partial class Player : CharacterBody2D, IPersistable
             Position = data.PlayerData.Position;
         }
     }
+
+    public int GetLoadPriority()
+    {
+        // Player should load first
+        return 10;
+    }
+
 }
