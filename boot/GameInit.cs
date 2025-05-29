@@ -14,8 +14,10 @@ public partial class GameInit : Node
             GD.PrintErr("OverworldManager instance is null. Make sure it's properly initialized as an autoload.");
             return;
         }
-
         overworldManager.LoadLevel("res://levels/overworld/maps/Overworld.tscn", Vector2.Zero);
+
+
+
         // overworldManager.LoadLevel("res://levels/eggsile/sandbox/area1.tscn", Vector2.Zero);
         // // Load the overworld map
         // GameSaverLoader gsl = new(this.GetTree());

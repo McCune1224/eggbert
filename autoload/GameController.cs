@@ -6,9 +6,11 @@ public partial class GameController : Node
     private static GameController _instance;
     public static GameController Instance => _instance;
 
-    private Node _currentLevel;
+
     private Control _menu;
+
     public Array<Vector2> CurrentTileMapBounds;
+    public Node CurrentLevel;
 
     [Signal]
     public delegate void TileMapBoundsChangedEventHandler(Array<Vector2> bounds);
@@ -34,7 +36,7 @@ public partial class GameController : Node
         CanvasLayer canvasLayer = new CanvasLayer();
         canvasLayer.AddChild(overworldMenu.Instantiate());
         _menu.AddChild(canvasLayer);
-        _currentLevel = GetNode("CurrentLevel");
+        CurrentLevel = GetNode("CurrentLevel");
         // DialogManagerScene = ResourceLoader.Load<PackedScene>("res://scripts/ui/DialogManager.tscn");
     }
 
@@ -69,7 +71,7 @@ public partial class GameController : Node
 
         Node loadedLevel = mapScene.Instantiate();
         levelRoot.AddChild(loadedLevel);
-        _currentLevel = loadedLevel;
+        CurrentLevel = loadedLevel;
 
         // Place player at the stored position
         var player = Player.Instance;
@@ -101,10 +103,10 @@ public partial class GameController : Node
 
         Node loadedLevel = mapScene.Instantiate();
         levelRoot.AddChild(loadedLevel);
-        _currentLevel = loadedLevel;
+        CurrentLevel = loadedLevel;
 
         // Place player at the transition area
-        LevelTransition transitionArea = _currentLevel.GetNode<LevelTransition>(targetTransitionName);
+        LevelTransition transitionArea = CurrentLevel.GetNode<LevelTransition>(targetTransitionName);
         switch (transitionArea.Side)
         {
             case TransitionSide.Left:

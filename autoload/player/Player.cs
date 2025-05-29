@@ -123,19 +123,23 @@ public partial class Player : CharacterBody2D, IPersistable
     {
         //TODO: Make health system? Using this as a placeholder for now.
         int temporaryHealth = 100;
+
+
         SaveDataPlayer saveData = new();
 
         saveData.Position = Position;
         saveData.Health = temporaryHealth;
+        saveData.LevelScenePath = GameController.Instance.CurrentLevel.SceneFilePath;
+
         newSave.PlayerData = saveData;
         return newSave;
     }
 
-    public void Load(SaveResource data)
+    public void Load(SaveResource saveData)
     {
-        if (data.PlayerData != null)
+        if (saveData.PlayerData != null)
         {
-            Position = data.PlayerData.Position;
+            GameController.Instance.LoadLevel(saveData.PlayerData.LevelScenePath, saveData.PlayerData.Position);
         }
     }
 
