@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=4 uid="uid://bms1ioay0fp20"]
+[gd_scene load_steps=20 format=4 uid="uid://bms1ioay0fp20"]
 
 [ext_resource type="Texture2D" uid="uid://cag8djeu52niq" path="res://assets/tilemaps/prison tileset.png" id="1_3ox1m"]
+[ext_resource type="Texture2D" uid="uid://bv1b24fd22scx" path="res://levels/Prison/maps/Officer Bacon.png" id="2_w7byb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w7byb"]
 texture = ExtResource("1_3ox1m")
@@ -92,6 +93,163 @@ texture = ExtResource("1_3ox1m")
 [sub_resource type="TileSet" id="TileSet_gh45r"]
 sources/0 = SubResource("TileSetAtlasSource_w7byb")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gh45r"]
+atlas = ExtResource("2_w7byb")
+region = Rect2(32, 128, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4cuh"]
+atlas = ExtResource("2_w7byb")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bbud3"]
+atlas = ExtResource("2_w7byb")
+region = Rect2(64, 64, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4bsy"]
+atlas = ExtResource("2_w7byb")
+region = Rect2(96, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vs6y"]
+atlas = ExtResource("2_w7byb")
+region = Rect2(64, 128, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4xe4j"]
+atlas = ExtResource("2_w7byb")
+region = Rect2(96, 128, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thx0l"]
+atlas = ExtResource("2_w7byb")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y35ix"]
+atlas = ExtResource("2_w7byb")
+region = Rect2(64, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drka6"]
+atlas = ExtResource("2_w7byb")
+region = Rect2(96, 64, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8rsxi"]
+atlas = ExtResource("2_w7byb")
+region = Rect2(0, 128, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pk65l"]
+atlas = ExtResource("2_w7byb")
+region = Rect2(0, 64, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emqj0"]
+atlas = ExtResource("2_w7byb")
+region = Rect2(32, 64, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e1o02"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gh45r")
+}],
+"loop": true,
+"name": &"idle back",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k4cuh")
+}],
+"loop": true,
+"name": &"idle forward",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bbud3")
+}],
+"loop": true,
+"name": &"idle left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4bsy")
+}],
+"loop": true,
+"name": &"idle right",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gh45r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1vs6y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gh45r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4xe4j")
+}],
+"loop": true,
+"name": &"walk back",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k4cuh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_thx0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k4cuh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y35ix")
+}],
+"loop": true,
+"name": &"walk forward",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bbud3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_drka6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bbud3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8rsxi")
+}],
+"loop": true,
+"name": &"walk left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4bsy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pk65l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4bsy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emqj0")
+}],
+"loop": true,
+"name": &"walk right",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w7byb"]
+size = Vector2(25, 55.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gh45r"]
+radius = 32.0156
+
 [node name="Node2D" type="Node2D"]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
@@ -99,3 +257,33 @@ tile_map_data = PackedByteArray("AAAAAAoAAAACAAUAAAAAAAsAAAACAAYAAAABAAoAAAAEAAU
 tile_set = SubResource("TileSet_gh45r")
 
 [node name="characters" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="characters"]
+texture_filter = 1
+position = Vector2(43, 73)
+sprite_frames = SubResource("SpriteFrames_e1o02")
+animation = &"idle forward"
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://assets/characters/Officer Bacon.ase"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "aaa8907a55dfecfc43b4070c368d2398"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="characters/AnimatedSprite2D"]
+position = Vector2(0.5, 0.75)
+shape = SubResource("RectangleShape2D_w7byb")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="characters/AnimatedSprite2D"]
+position = Vector2(1, 2)
+shape = SubResource("CircleShape2D_gh45r")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="characters"]
