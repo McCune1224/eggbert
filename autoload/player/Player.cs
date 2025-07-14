@@ -4,6 +4,7 @@ using Godot.Collections;
 public partial class Player : CharacterBody2D, IPersistable
 {
     public readonly float PlayerSpeed = 150.0f;
+    public readonly float SprintScale = 1.7f; // Sprinting increases speed by 70%
     private bool _inInteraction = false;
     public bool InInteraction
     {
@@ -15,8 +16,10 @@ public partial class Player : CharacterBody2D, IPersistable
     public static Player Instance => _instance;
 
 
-    private AnimationPlayer _animationPlayer;
+    public AnimationPlayer AnimationPlayer { get; private set; }
     private CollisionShape2D _collisionShape;
+    private Dash _dash;
+
     public PlayerCamera Camera { get; private set; }
 
 
@@ -47,11 +50,12 @@ public partial class Player : CharacterBody2D, IPersistable
             GD.PrintErr("Multiple instances of OverworldPlayer detected!");
         }
 
-        _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+        _dash = GetNode<Dash>("Dash");
         Camera = GetNode<PlayerCamera>("PlayerCamera");
 
-        _animationPlayer.Play("idle forward");
+        AnimationPlayer.Play("idle forward");
     }
 
     public override void _Process(double delta)
@@ -70,9 +74,23 @@ public partial class Player : CharacterBody2D, IPersistable
             direction = direction.Normalized();
         }
         Velocity = direction * PlayerSpeed;
-        if (Input.IsActionPressed("player_sprint"))
+        if (Input.IsActionJustPressed("dash"))
         {
-            Velocity *= 2;
+            Vector2 dashDirection = _dash.StartDash(direction);
+            if (dashDirection != Vector2.Zero)
+            {
+                GD.Print("Dashing in direction: " + dashDirection);
+            }
+        }
+        else if (Input.IsActionPressed("player_sprint"))
+        {
+            if (!_dash.IsDashing()) Velocity *= SprintScale;
+            ;
+        }
+
+        if (_dash.IsDashing())
+        {
+            Velocity *= _dash.DashScale;
         }
         MoveAndSlide();
         KinematicCollision2D coll = GetLastSlideCollision();
@@ -83,21 +101,21 @@ public partial class Player : CharacterBody2D, IPersistable
     {
         if (direction == Vector2.Zero)
         {
-            string currentAnim = _animationPlayer.CurrentAnimation;
+            string currentAnim = AnimationPlayer.CurrentAnimation;
             if (currentAnim.StartsWith("walk"))
             {
-                _animationPlayer.Play("idle " + currentAnim.Substring(5));
+                AnimationPlayer.Play("idle " + currentAnim.Substring(5));
             }
         }
         else
         {
             if (Mathf.Abs(direction.X) > Mathf.Abs(direction.Y))
             {
-                _animationPlayer.Play(direction.X < 0 ? "walk left" : "walk right");
+                AnimationPlayer.Play(direction.X < 0 ? "walk left" : "walk right");
             }
             else
             {
-                _animationPlayer.Play(direction.Y < 0 ? "walk back" : "walk forward");
+                AnimationPlayer.Play(direction.Y < 0 ? "walk back" : "walk forward");
             }
         }
     }

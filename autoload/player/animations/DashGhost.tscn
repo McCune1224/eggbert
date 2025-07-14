@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0i5vgkdtaen6"]
+
+[ext_resource type="Script" uid="uid://bt3f0kol5ybbl" path="res://autoload/player/animations/DashGhost.cs" id="1_fvjli"]
+
+[node name="DashGhost" type="Sprite2D"]
+use_parent_material = true
+script = ExtResource("1_fvjli")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

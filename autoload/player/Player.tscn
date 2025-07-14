@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://kn5v0wdsjg5u"]
+[gd_scene load_steps=15 format=3 uid="uid://kn5v0wdsjg5u"]
 
 [ext_resource type="Script" uid="uid://bwj7bsgjwenk1" path="res://autoload/player/Player.cs" id="1_ctseg"]
 [ext_resource type="Texture2D" uid="uid://dqpt8w883lujc" path="res://assets/characters/Eggbert2.png" id="2_e1ie6"]
 [ext_resource type="Script" uid="uid://bir1phaqnfct3" path="res://autoload/player/PlayerCamera.cs" id="3_5qvdk"]
+[ext_resource type="PackedScene" uid="uid://bgqvlvkq1brrl" path="res://autoload/player/animations/Dash.tscn" id="4_ay7ub"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1ie6"]
 size = Vector2(25.2354, 27.5884)
@@ -204,3 +205,5 @@ metadata/_aseprite_wizard_config_ = {
 "source": "res://assets/characters/Eggbert.ase"
 }
 metadata/_aseprite_wizard_source_file_hash_ = "ba9258a1645aca139bf4f279f2283a8b"
+
+[node name="Dash" parent="." instance=ExtResource("4_ay7ub")]
