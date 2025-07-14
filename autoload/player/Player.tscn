@@ -151,6 +151,8 @@ _data = {
 [node name="Player" type="CharacterBody2D" groups=["save"]]
 script = ExtResource("1_ctseg")
 
+[node name="Dash" parent="." instance=ExtResource("4_ay7ub")]
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("2_e1ie6")
@@ -205,5 +207,3 @@ metadata/_aseprite_wizard_config_ = {
 "source": "res://assets/characters/Eggbert.ase"
 }
 metadata/_aseprite_wizard_source_file_hash_ = "ba9258a1645aca139bf4f279f2283a8b"
-
-[node name="Dash" parent="." instance=ExtResource("4_ay7ub")]

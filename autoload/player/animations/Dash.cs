@@ -40,7 +40,7 @@ public partial class Dash : Node2D
         // Sprite2D currentPlayerSprite = Player.Instance.AnimationPlayer;
         Sprite2D playerSprite = Player.Instance.GetNode<Sprite2D>("Sprite2D");
 
-        newGhost.Modulate = new Color(1, 1, 1, 0.5f); // Set alpha to 50% for semi-transparency
+        newGhost.Modulate = new Color(1, 1, 1, 0.5f); // Set alpha to 50% for semi-transparency (white color)
         newGhost.GlobalPosition = Player.Instance.GlobalPosition;
         newGhost.Texture = playerSprite.Texture;
         newGhost.Vframes = playerSprite.Vframes;
@@ -48,7 +48,7 @@ public partial class Dash : Node2D
         newGhost.Frame = playerSprite.Frame;
         newGhost.FlipH = playerSprite.FlipH;
         //make ghost semi-transparent:
-        // newGhost.ZIndex = -1; // Ensure the ghost is rendered behind the player?
+        // newGhost.ZIndex = playerSprite.ZIndex - 1; // Ensure the ghost is rendered behind the player?
 
 
         GetTree().Root.AddChild(newGhost);
@@ -69,6 +69,14 @@ public partial class Dash : Node2D
         _durationTimer.Start(defaultDashDuration);
         _canDash = false;
         _dashDirection = direction.Normalized();
+
+        Sprite2D playerSprite = Player.Instance.GetNode<Sprite2D>("Sprite2D");
+        Shader whiteShader = ResourceLoader.Load<Shader>("res://autoload/player/animations/DashGhost.gdshader");
+        ShaderMaterial shader = new ShaderMaterial();
+        shader.Shader = whiteShader;
+        playerSprite.Material = shader; // Apply the shader to the player's sprite
+
+
         return _dashDirection;
     }
 
@@ -82,6 +90,7 @@ public partial class Dash : Node2D
             GD.Print("Dash cooldown completed"); _canDash = true;
             _durationTimer.Stop();
         };
+        Player.Instance.GetNode<Sprite2D>("Sprite2D").Material = null; // Reset the player's material to remove the dash effect
     }
 
     public bool IsDashing()
