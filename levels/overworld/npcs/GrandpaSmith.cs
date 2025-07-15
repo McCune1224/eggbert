@@ -5,35 +5,19 @@ using System.Collections.Generic;
 public partial class GrandpaSmith : Area2D
 {
     // Reference to a label that will show the interaction prompt
-    private NpcPrompt interactionPrompt;
     private Label dialogueLabel;
     private AudioStream speechSound = ResourceLoader.Load<AudioStream>("res://assets/audio/sfx/meep.mp3");
+    private ComponentPromptCollision promptCollision;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        // Connect signals for when objects enter/exit this Area2D
-        BodyEntered += OnBodyEntered;
-        BodyExited += OnBodyExited;
-
-        interactionPrompt = new NpcPrompt(new Vector2(0, -50));
-
         // Add the label as a child of this node
         dialogueLabel = new Label();
         AddChild(dialogueLabel);
-        AddChild(interactionPrompt);
+        promptCollision = GetNode<ComponentPromptCollision>("ComponentPromptCollision");
     }
 
-    // Called when another physics body enters this Area2D
-    private void OnBodyEntered(Node2D body)
-    {
-        // Check if the body that entered is the player
-        if (body.IsInGroup("player")) // Adjust this to match your player node name
-        {
-            // Show the interaction prompt
-            interactionPrompt.Visible = true;
-        }
-    }
 
     // Called when a physics body exits this Area2D
     private void OnBodyExited(Node2D body)
@@ -43,7 +27,6 @@ public partial class GrandpaSmith : Area2D
         {
             // Hide the interaction prompt
             dialogueLabel.Visible = false;
-            interactionPrompt.Visible = false;
             DialogManager.Instance.Reset();
         }
     }
@@ -52,9 +35,9 @@ public partial class GrandpaSmith : Area2D
     public override void _Input(InputEvent @event)
     {
         // Check for the 'E' key press when the prompt is visible
-        if (interactionPrompt.Visible && Input.IsActionJustPressed("interact"))
+        if (promptCollision.isPromptVisible() && Input.IsActionJustPressed("interact"))
         {
-            interactionPrompt.Visible = false;
+            promptCollision.HidePrompt();
 
             List<string> dialog = new(); ;
             dialog.Add("This is the first item. Very Cool");

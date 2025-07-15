@@ -1,11 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://p6m0e88omobs"]
+[gd_scene load_steps=9 format=3 uid="uid://p6m0e88omobs"]
 
 [ext_resource type="Script" uid="uid://lenli4fqegfg" path="res://levels/eggsile/npcs/Joe.cs" id="1_xyx71"]
 [ext_resource type="Texture2D" uid="uid://lnp4nyodyra5" path="res://assets/characters/Joe.png" id="2_etl7m"]
 [ext_resource type="AudioStream" uid="uid://dijonphg3hpb" path="res://assets/audio/sfx/untitled.ogg" id="2_qip81"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_xyx71"]
-radius = 73.1095
+[ext_resource type="PackedScene" uid="uid://dwmuatqe2ns5s" path="res://components/npcs/ComponentPromptCollision.tscn" id="4_qip81"]
 
 [sub_resource type="Animation" id="Animation_375ex"]
 length = 0.1
@@ -30,6 +28,9 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xyx71"]
 size = Vector2(47, 40)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xyx71"]
+radius = 73.1095
 
 [node name="Joe" type="Area2D"]
 script = ExtResource("1_xyx71")
@@ -56,10 +57,6 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "865dd6f9c2d2baf2311179678de8ac25"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2, 2)
-shape = SubResource("CircleShape2D_xyx71")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_c3ico")
@@ -70,3 +67,9 @@ libraries = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(3.5, 3)
 shape = SubResource("RectangleShape2D_xyx71")
+
+[node name="ComponentPromptCollision" parent="." instance=ExtResource("4_qip81")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ComponentPromptCollision"]
+position = Vector2(2, 2)
+shape = SubResource("CircleShape2D_xyx71")

@@ -1,10 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://dmg8py6ignrbd"]
+[gd_scene load_steps=15 format=3 uid="uid://dmg8py6ignrbd"]
 
 [ext_resource type="Script" uid="uid://et6fsl2fwqjd" path="res://levels/overworld/npcs/GrandpaSmith.cs" id="1_x2aec"]
 [ext_resource type="Texture2D" uid="uid://crr721c1r7lf5" path="res://assets/characters/GrandpaSmith.png" id="2_21vw5"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_bf53u"]
-radius = 44.0114
+[ext_resource type="PackedScene" uid="uid://dwmuatqe2ns5s" path="res://components/npcs/ComponentPromptCollision.tscn" id="3_2s1rw"]
 
 [sub_resource type="Animation" id="Animation_ni1yi"]
 length = 0.1
@@ -149,6 +147,9 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ni1yi"]
 size = Vector2(36, 34)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_bf53u"]
+radius = 44.0114
+
 [node name="GrandpaSmith" type="Area2D"]
 script = ExtResource("1_x2aec")
 
@@ -175,9 +176,6 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "af2721352e110a4b12018229bae659ad"
 
-[node name="InteractionCollision" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_bf53u")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_0iibd")
@@ -188,3 +186,8 @@ libraries = {
 [node name="PhysicsCollision" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_ni1yi")
+
+[node name="ComponentPromptCollision" parent="." instance=ExtResource("3_2s1rw")]
+
+[node name="InteractionCollision" type="CollisionShape2D" parent="ComponentPromptCollision"]
+shape = SubResource("CircleShape2D_bf53u")

@@ -32,7 +32,8 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "bdbd245aa30096173c674f8717af6008"
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="StaticBody2D" parent="."]
+scale = Vector2(1.57482, -25.8797)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 visible = false

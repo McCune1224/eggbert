@@ -49,9 +49,9 @@ public partial class ComponentPromptCollision : Area2D
         BodyExited += OnBodyExited;
     }
 
+
     private void OnBodyEntered(Node2D body)
     {
-        GD.Print("Body entered: ", body.Name);
         // Check if the body that entered is the player
         if (body.IsInGroup("player")) // Adjust this to match your player node name
         {
@@ -84,43 +84,64 @@ public partial class ComponentPromptCollision : Area2D
                 break;
             }
         }
-        GD.Print("Aligning label text for sprite: ", sprite.Name, " at position: ", sprite.Position, "Dimensions: ", sprite.Texture.GetWidth(), "x", sprite.Texture.GetHeight());
-        Vector2 centeredTopLeft = new Vector2(-sprite.Texture.GetWidth() * sprite.Scale.X / 3.0f, -sprite.Texture.GetHeight() * sprite.Scale.Y / 2.0f - _interactionPrompt.LabelSettings.FontSize / 2);
-        _interactionPrompt.Position = centeredTopLeft;
+
+        Vector2 spriteDimensions = new Vector2(sprite.Texture);
+        GD.Print(sprite.GetParent().Name, " Sprite Texture Dimensions: ", spriteDimensions);
+
+        _interactionPrompt.Position = new Vector2(
+             -spriteDimensions.X / 2,
+             0
+        );
 
 
         // Determine alignment based on promptPosition for Godot 4.3
         // Assumes this script is on a Label or derived Control node
 
-        if (Mathf.Abs(Position.Y) >= Mathf.Abs(Position.X))
-        {
-            if (Position.Y < 0)
-            {
-                // Above NPC
-                _interactionPrompt.HorizontalAlignment = HorizontalAlignment.Center;
-                _interactionPrompt.VerticalAlignment = VerticalAlignment.Top;
-            }
-            else
-            {
-                // Below NPC
-                _interactionPrompt.HorizontalAlignment = HorizontalAlignment.Center;
-                _interactionPrompt.VerticalAlignment = VerticalAlignment.Bottom;
-            }
-        }
-        else
-        {
-            if (Position.X < 0)
-            {
-                // Left of NPC
-                _interactionPrompt.HorizontalAlignment = HorizontalAlignment.Left;
-                _interactionPrompt.VerticalAlignment = VerticalAlignment.Center;
-            }
-            else
-            {
-                // Right of NPC
-                _interactionPrompt.HorizontalAlignment = HorizontalAlignment.Right;
-                _interactionPrompt.VerticalAlignment = VerticalAlignment.Center;
-            }
-        }
+        // if (Mathf.Abs(Position.Y) >= Mathf.Abs(Position.X))
+        // {
+        //     if (Position.Y < 0)
+        //     {
+        //         // Above NPC
+        //         _interactionPrompt.HorizontalAlignment = HorizontalAlignment.Center;
+        //         _interactionPrompt.VerticalAlignment = VerticalAlignment.Top;
+        //     }
+        //     else
+        //     {
+        //         // Below NPC
+        //         _interactionPrompt.HorizontalAlignment = HorizontalAlignment.Center;
+        //         _interactionPrompt.VerticalAlignment = VerticalAlignment.Bottom;
+        //     }
+        // }
+        // else
+        // {
+        //     if (Position.X < 0)
+        //     {
+        //         // Left of NPC
+        //         _interactionPrompt.HorizontalAlignment = HorizontalAlignment.Left;
+        //         _interactionPrompt.VerticalAlignment = VerticalAlignment.Center;
+        //     }
+        //     else
+        //     {
+        //         // Right of NPC
+        //         _interactionPrompt.HorizontalAlignment = HorizontalAlignment.Right;
+        //         _interactionPrompt.VerticalAlignment = VerticalAlignment.Center;
+        //     }
+        // }
+    }
+
+    public bool isPromptVisible()
+    {
+        return _interactionPrompt.Visible;
+    }
+
+    public void HidePrompt()
+    {
+        _interactionPrompt.Visible = false;
+    }
+    public void ShowPrompt()
+    {
+        _interactionPrompt.Visible = true;
+        _interactionPrompt.Text = promptText;
+        AlignLabelText();
     }
 }

@@ -77,10 +77,6 @@ public partial class Player : CharacterBody2D, IPersistable
         if (Input.IsActionJustPressed("dash"))
         {
             Vector2 dashDirection = _dash.StartDash(direction);
-            if (dashDirection != Vector2.Zero)
-            {
-                GD.Print("Dashing in direction: " + dashDirection);
-            }
         }
         else if (Input.IsActionPressed("player_sprint"))
         {
