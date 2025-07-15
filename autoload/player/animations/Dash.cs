@@ -26,7 +26,6 @@ public partial class Dash : Node2D
         _ghostTimer = GetNode<Timer>("GhostTimer");
         _ghostTimer.Timeout += () =>
         {
-            GD.Print("Ghost timer completed");
             InstantiateDashGhost();
         };
 
@@ -59,7 +58,6 @@ public partial class Dash : Node2D
     {
         if (!_canDash)
         {
-            GD.Print("Cannot dash yet, still on cooldown.");
             return Vector2.Zero;
         }
 
@@ -87,7 +85,7 @@ public partial class Dash : Node2D
         GetTree().CreateTimer(_dashCooldown).Timeout += () =>
         {
 
-            GD.Print("Dash cooldown completed"); _canDash = true;
+            _canDash = true;
             _durationTimer.Stop();
         };
         Player.Instance.GetNode<Sprite2D>("Sprite2D").Material = null; // Reset the player's material to remove the dash effect

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmym6w5bpq0uv"]
+
+[ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_ncro3"]
+
+[node name="Zone1" type="Node2D"]
+
+[node name="CoreTilemapLayer" parent="." instance=ExtResource("1_ncro3")]

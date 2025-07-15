@@ -25,6 +25,11 @@ public partial class BaseLevel : Node2D
         {
             AudioManager.Instance.PlayMusic(LevelMusic);
         }
+        if (LevelName == "")
+        {
+            LevelName = Name;
+            GD.Print($"LevelName not set, using default: {LevelName}");
+        }
 
         EmitSignal(SignalName.LevelStarted);
     }

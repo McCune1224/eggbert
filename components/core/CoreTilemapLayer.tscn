@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://yjs8te7rrnce"]
+
+[ext_resource type="Script" uid="uid://bbkcsovvq8cd2" path="res://components/core/LevelTileMapLayer.cs" id="1_hqrg4"]
+
+[node name="CoreTilemapLayer" type="TileMapLayer"]
+script = ExtResource("1_hqrg4")

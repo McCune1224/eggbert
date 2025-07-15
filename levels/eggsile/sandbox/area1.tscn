@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="1_6jprg"]
 [ext_resource type="Texture2D" uid="uid://cag8djeu52niq" path="res://assets/tilemaps/prison tileset.png" id="1_huy63"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="2_eirxw"]
-[ext_resource type="Script" uid="uid://bbkcsovvq8cd2" path="res://scripts/core/LevelTileMapLayer.cs" id="2_kt740"]
+[ext_resource type="Script" uid="uid://bbkcsovvq8cd2" path="res://components/core/LevelTileMapLayer.cs" id="2_kt740"]
 [ext_resource type="AudioStream" uid="uid://cd8xhkewkhw0b" path="res://assets/audio/music/generic2.mp3" id="2_tuo23"]
 [ext_resource type="PackedScene" uid="uid://p6m0e88omobs" path="res://levels/eggsile/npcs/Joe.tscn" id="6_pttgg"]
 

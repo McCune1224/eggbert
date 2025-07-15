@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://5e4uopgmy56a"]
+
+[ext_resource type="PackedScene" uid="uid://dwmuatqe2ns5s" path="res://components/npcs/ComponentPromptCollision.tscn" id="1_4rhen"]
+[ext_resource type="Texture2D" uid="uid://b5huf2rg5ie8y" path="res://assets/characters/Jamitor.png" id="2_nssh1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nssh1"]
+size = Vector2(44, 40)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nssh1"]
+radius = 41.0488
+
+[node name="FactoryJamitor" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_nssh1")
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"i_mode": 1,
+"keep_anim_length": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://assets/characters",
+"o_name": "",
+"only_visible": false,
+"player": "",
+"slice": "",
+"source": "res://assets/characters/Jamitor.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "bdbd245aa30096173c674f8717af6008"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_nssh1")
+debug_color = Color(0.992157, 0, 0.25098, 0.647059)
+
+[node name="ComponentPromptCollision" parent="." instance=ExtResource("1_4rhen")]
+
+[node name="Area2D2" type="CollisionShape2D" parent="ComponentPromptCollision"]
+position = Vector2(0, 8)
+shape = SubResource("CircleShape2D_nssh1")

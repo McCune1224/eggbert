@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://qos6arbdq58w" path="res://assets/audio/music/generic1.mp3" id="2_38170"]
 [ext_resource type="Texture2D" uid="uid://dbjgyn7hr4wha" path="res://assets/tilemaps/Map01.png" id="3_ldk86"]
 [ext_resource type="PackedScene" uid="uid://dmg8py6ignrbd" path="res://levels/overworld/npcs/GrandpaSmith.tscn" id="3_mglvr"]
-[ext_resource type="Script" uid="uid://bbkcsovvq8cd2" path="res://scripts/core/LevelTileMapLayer.cs" id="4_mael7"]
+[ext_resource type="Script" uid="uid://bbkcsovvq8cd2" path="res://components/core/LevelTileMapLayer.cs" id="4_mael7"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="10_45llo"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l2fk0"]

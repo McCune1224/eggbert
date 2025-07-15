@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cns56xcc5vvgn"]
+
+[ext_resource type="PackedScene" uid="uid://4hujyij2g5yh" path="res://levels/BaseLevel.tscn" id="1_i7q5r"]
+[ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="2_4wyeu"]
+
+[node name="BaseLevel" instance=ExtResource("1_i7q5r")]
+
+[node name="CoreTilemapLayer" parent="." index="0" instance=ExtResource("2_4wyeu")]
