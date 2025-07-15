@@ -85,7 +85,8 @@ public partial class ComponentPromptCollision : Area2D
             }
         }
 
-        Vector2 spriteDimensions = new Vector2(sprite.Texture);
+        // Vector2 spriteDimensions = sprite.Texture.GetSize() * sprite.Scale;
+        Vector2 spriteDimensions = Vector2.Zero;
         GD.Print(sprite.GetParent().Name, " Sprite Texture Dimensions: ", spriteDimensions);
 
         _interactionPrompt.Position = new Vector2(
