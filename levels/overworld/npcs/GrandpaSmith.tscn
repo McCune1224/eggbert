@@ -144,13 +144,13 @@ _data = {
 &"walking_up": SubResource("Animation_032v2")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ni1yi"]
-size = Vector2(36, 34)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_bf53u"]
 radius = 44.0114
 
-[node name="GrandpaSmith" type="Area2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ni1yi"]
+size = Vector2(36, 34)
+
+[node name="GrandpaSmith" type="StaticBody2D"]
 script = ExtResource("1_x2aec")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -181,13 +181,11 @@ libraries = {
 &"": SubResource("AnimationLibrary_0iibd")
 }
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
-[node name="PhysicsCollision" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(1, 1)
-shape = SubResource("RectangleShape2D_ni1yi")
-
 [node name="ComponentPromptCollision" parent="." instance=ExtResource("3_2s1rw")]
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="ComponentPromptCollision"]
 shape = SubResource("CircleShape2D_bf53u")
+
+[node name="PhysicsCollision" type="CollisionShape2D" parent="."]
+position = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_ni1yi")

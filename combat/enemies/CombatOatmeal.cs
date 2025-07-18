@@ -54,7 +54,8 @@ public partial class CombatOatmeal : Area2D
             for (int i = 0; i < numBullets; i++)
             {
 
-                RedBullet bullet = ResourceLoader.Load<PackedScene>("res://combat/bullets/RedBullet.tscn").Instantiate<RedBullet>();
+                RedBullet bullet = ResourceLoader.Load<PackedScene>("res://combat/bullets/RedBullet.tscn")
+                    .Instantiate<RedBullet>();
                 // RedBullet bullet = _bulletPool[i];
                 // Remove from parent if it's already in the tree
                 if (bullet.GetParent() != null) { bullet.GetParent().RemoveChild(bullet); }

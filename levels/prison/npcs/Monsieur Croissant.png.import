@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bv1b24fd22scx"
-path="res://.godot/imported/Officer Bacon.png-7f25b17e96ad51cac16d0c8d1fe9581a.ctex"
+uid="uid://bxk81c4fj77tt"
+path="res://.godot/imported/Monsieur Croissant.png-b7f40a3374e455b3bb801eb3f0e96dc9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://levels/Prison/maps/Officer Bacon.png"
-dest_files=["res://.godot/imported/Officer Bacon.png-7f25b17e96ad51cac16d0c8d1fe9581a.ctex"]
+source_file="res://levels/prison/npcs/Monsieur Croissant.png"
+dest_files=["res://.godot/imported/Monsieur Croissant.png-b7f40a3374e455b3bb801eb3f0e96dc9.ctex"]
 
 [params]
 

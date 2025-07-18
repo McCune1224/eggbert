@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxk81c4fj77tt"
-path="res://.godot/imported/Monsieur Croissant.png-f7597f888910d4e4284f3ba7324ff33e.ctex"
+uid="uid://dhoqlivleeba0"
+path="res://.godot/imported/Wiener Cop.png-a6a7e55eef9e3149782a6646812353f0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://levels/Prison/npcs/Monsieur Croissant.png"
-dest_files=["res://.godot/imported/Monsieur Croissant.png-f7597f888910d4e4284f3ba7324ff33e.ctex"]
+source_file="res://levels/courtyard/Wiener Cop.png"
+dest_files=["res://.godot/imported/Wiener Cop.png-a6a7e55eef9e3149782a6646812353f0.ctex"]
 
 [params]
 

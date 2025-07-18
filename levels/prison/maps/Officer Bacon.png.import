@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhoqlivleeba0"
-path="res://.godot/imported/Wiener Cop.png-f98916cda0a0c569dfc909a74ae7d660.ctex"
+uid="uid://bv1b24fd22scx"
+path="res://.godot/imported/Officer Bacon.png-4b4c3060d12a6dc96bcec6c3cb7ca4eb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://levels/Courtyard/Wiener Cop.png"
-dest_files=["res://.godot/imported/Wiener Cop.png-f98916cda0a0c569dfc909a74ae7d660.ctex"]
+source_file="res://levels/prison/maps/Officer Bacon.png"
+dest_files=["res://.godot/imported/Officer Bacon.png-4b4c3060d12a6dc96bcec6c3cb7ca4eb.ctex"]
 
 [params]
 

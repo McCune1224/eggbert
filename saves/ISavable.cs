@@ -1,6 +1,6 @@
 using Godot;
 
-public interface IPersistable
+public interface ISavable
 {
     /// <summary>
     /// Saves the current state of the scene.

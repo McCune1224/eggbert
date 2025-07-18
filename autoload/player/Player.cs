@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 
-public partial class Player : CharacterBody2D, IPersistable
+public partial class Player : CharacterBody2D, ISavable
 {
     public readonly float PlayerSpeed = 150.0f;
     public readonly float SprintScale = 1.7f; // Sprinting increases speed by 70%

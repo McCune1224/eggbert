@@ -27,12 +27,13 @@ public partial class SaveLoadManager : Node
     {
         SaveResource newSave = new();
 
-        // Collect and sort IPersistable nodes by load priority
+        // NOTE: Collect and sort all nodes with group persist by load priority
+        // Any node within this group that implements ISavable will be saved...or at least it should be.
         foreach (Node node in GetTree().GetNodesInGroup("persist"))
         {
-            if (node is IPersistable persistable)
+            if (node is ISavable savable)
             {
-                persistable.Save(newSave);
+                savable.Save(newSave);
             }
             else
             {
@@ -46,6 +47,7 @@ public partial class SaveLoadManager : Node
 
     public void LoadGame()
     {
+        GD.Print("Loading game...");
         if (!ResourceLoader.Exists(SavePath))
             return;
 
@@ -57,11 +59,11 @@ public partial class SaveLoadManager : Node
             return;
         }
 
-        var persistantNodes = new System.Collections.Generic.List<IPersistable>();
+        var persistantNodes = new System.Collections.Generic.List<ISavable>();
 
         foreach (Node node in GetTree().GetNodesInGroup("persist"))
         {
-            if (node is IPersistable persistable)
+            if (node is ISavable persistable)
             {
                 persistantNodes.Add(persistable);
             }
