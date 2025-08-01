@@ -7,10 +7,16 @@ public partial class ComponentPromptCollision : Area2D
     private string promptText = "?";
 
     private Label _interactionPrompt;
+    private Sprite2D _promptSprite;
     private CollisionShape2D _collisionShape;
 
     public override void _Ready()
     {
+
+        _interactionPrompt = GetNode<Label>("Label");
+        _promptSprite = GetNode<Sprite2D>("Sprite2D");
+        _promptSprite.Visible = false;
+
         Array<Node> children = GetChildren();
         foreach (Node child in children)
         {
@@ -40,9 +46,6 @@ public partial class ComponentPromptCollision : Area2D
         }
 
 
-        float spriteHeight = sprite.Texture.GetHeight() * sprite.Scale.Y;
-        float topOfSprite = sprite.Position.Y - spriteHeight / 2.0f;
-        _interactionPrompt = GetNode<Label>("Label");
         AlignLabelText();
 
         BodyEntered += OnBodyEntered;
@@ -55,9 +58,38 @@ public partial class ComponentPromptCollision : Area2D
         // Check if the body that entered is the player
         if (body.IsInGroup("player")) // Adjust this to match your player node name
         {
+            //calculate the position of the NPC sprite, and position the prompt sprite to be above the NPC
+            Array<Node> siblings = GetParent().GetChildren();
+            Sprite2D npcSprite = null;
+            foreach (Node sibling in siblings)
+            {
+                if (sibling is Sprite2D s)
+                {
+                    npcSprite = s;
+                    break;
+                }
+            }
+            if (npcSprite == null)
+            {
+                GD.PrintErr("Sprite2D not found in siblings of ComponentPromptCollision in " + GetParent().Name);
+                return;
+            }
+            // Vector2 npcSpriteGlobalPosition = npcSprite.GlobalPosition;
+            // Vector2 spriteDimensions = npcSprite.Texture.GetSize() * npcSprite.Scale;
+            // // Position the interaction prompt above the sprite
+            // _promptSprite.GlobalPosition = new Vector2(
+            //     npcSpriteGlobalPosition.X,
+            //     npcSpriteGlobalPosition.Y - 5
+            // );
+            _promptSprite.Position = new Vector2(
+                0,
+                -(npcSprite.Texture.GetSize().Y / 2) / 4 - 20
+            );
+
             // Show the interaction prompt
             GD.Print("Player hit");
             _interactionPrompt.Visible = true;
+            _promptSprite.Visible = true;
         }
     }
 
@@ -68,6 +100,7 @@ public partial class ComponentPromptCollision : Area2D
         {
             // Hide the interaction prompt
             _interactionPrompt.Visible = false;
+            _promptSprite.Visible = false;
             DialogManager.Instance.Reset();
         }
     }

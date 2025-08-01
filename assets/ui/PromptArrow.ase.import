@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bcf7gnc1ny4wk"
+path="res://.godot/imported/PromptArrow.ase-d0dbf59467dcea9e07b39a64cc42d202.res"
+
+[deps]
+
+source_file="res://assets/ui/PromptArrow.ase"
+dest_files=["res://.godot/imported/PromptArrow.ase-d0dbf59467dcea9e07b39a64cc42d202.res"]
+
+[params]
+

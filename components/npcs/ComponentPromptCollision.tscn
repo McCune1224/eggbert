@@ -1,9 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://dwmuatqe2ns5s"]
+[gd_scene load_steps=5 format=3 uid="uid://dwmuatqe2ns5s"]
 
 [ext_resource type="Script" uid="uid://7kcnbabbtqg7" path="res://components/npcs/ComponentPromptCollision.cs" id="1_r4qsg"]
+[ext_resource type="Texture2D" uid="uid://qk6je5wnfqhg" path="res://assets/ui/PromptArrow.png" id="2_01auu"]
 
 [sub_resource type="FontFile" id="FontFile_r4qsg"]
 resource_name = "yoster"
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -145,5 +149,25 @@ script = ExtResource("1_r4qsg")
 visible = false
 offset_right = 40.0
 offset_bottom = 23.0
-text = "!"
 label_settings = SubResource("LabelSettings_01auu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_01auu")
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"i_mode": 1,
+"keep_anim_length": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "res://assets/ui",
+"o_name": "",
+"only_visible": false,
+"player": "",
+"slice": "",
+"source": "res://assets/ui/PromptArrow.ase"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "96bcfc00393688610b004a21a8d92dd2"
