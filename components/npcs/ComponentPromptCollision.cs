@@ -16,6 +16,9 @@ public partial class ComponentPromptCollision : Area2D
         _interactionPrompt = GetNode<Label>("Label");
         _promptSprite = GetNode<Sprite2D>("Sprite2D");
         _promptSprite.Visible = false;
+        _promptSprite.GlobalScale = Vector2.One;
+
+
 
         Array<Node> children = GetChildren();
         foreach (Node child in children)
@@ -81,11 +84,13 @@ public partial class ComponentPromptCollision : Area2D
             //     npcSpriteGlobalPosition.X,
             //     npcSpriteGlobalPosition.Y - 5
             // );
-            _promptSprite.Position = new Vector2(
-                0,
-                -(npcSprite.Texture.GetSize().Y / 2) / 4 - 20
-            );
 
+            // GD.Print("Rect Size: ", npcSprite.GetRect().Size);
+            // GD.Print("Sprite XY: ", npcSprite.Texture.GetSize().X, ", ", npcSprite.Texture.GetSize().Y);
+            // GD.Print("New Prompt Position for", npcSprite.Name, ":", newPosition);
+
+            Vector2 newPosition = new Vector2(0, -(npcSprite.GetRect().Size.Y / 2));
+            _promptSprite.Position = newPosition;
             // Show the interaction prompt
             GD.Print("Player hit");
             _interactionPrompt.Visible = true;

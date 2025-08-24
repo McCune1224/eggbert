@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dwmuatqe2ns5s"]
 
 [ext_resource type="Script" uid="uid://7kcnbabbtqg7" path="res://components/npcs/ComponentPromptCollision.cs" id="1_r4qsg"]
-[ext_resource type="Texture2D" uid="uid://qk6je5wnfqhg" path="res://assets/ui/PromptArrow.png" id="2_01auu"]
+[ext_resource type="Texture2D" uid="uid://l00ofsfnsxb4" path="res://assets/ui/NPCPrompt.png" id="2_01auu"]
 
 [sub_resource type="FontFile" id="FontFile_r4qsg"]
 resource_name = "yoster"
@@ -153,7 +153,10 @@ label_settings = SubResource("LabelSettings_01auu")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
+scale = Vector2(0.993777, 1)
 texture = ExtResource("2_01auu")
+centered = false
+offset = Vector2(-8, -16)
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "pending_changes": {}
@@ -168,6 +171,6 @@ metadata/_aseprite_wizard_config_ = {
 "only_visible": false,
 "player": "",
 "slice": "",
-"source": "res://assets/ui/PromptArrow.ase"
+"source": "res://assets/ui/NPCPrompt.ase"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "96bcfc00393688610b004a21a8d92dd2"
+metadata/_aseprite_wizard_source_file_hash_ = "0809095762ecdcee7dba6041967f9f80"
