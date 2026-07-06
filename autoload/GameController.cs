@@ -81,6 +81,8 @@ public partial class GameController : Node
         SaveLoadManager.Instance?.SaveGame();
 
         await FadeTransition.Instance.PlayFadeIn();
+        if (CurrentLevel is BaseLevel baseLevel && !string.IsNullOrEmpty(baseLevel.LevelName))
+            FadeTransition.Instance.ShowLocation(baseLevel.LevelName);
         EmitSignal(nameof(LevelLoaded));
         GetTree().Paused = false;
     }
@@ -130,6 +132,8 @@ public partial class GameController : Node
         SaveLoadManager.Instance?.SaveGame();
 
         await FadeTransition.Instance.PlayFadeIn();
+        if (CurrentLevel is BaseLevel baseLevel && !string.IsNullOrEmpty(baseLevel.LevelName))
+            FadeTransition.Instance.ShowLocation(baseLevel.LevelName);
         EmitSignal(nameof(LevelLoaded));
         GetTree().Paused = false;
     }

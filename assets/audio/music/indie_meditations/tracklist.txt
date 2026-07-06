@@ -1,0 +1,45 @@
+TRACKLIST.txt for “CONTEMPLATIVE FANTASY MUSIC PACK”
+
+----------------------------------------
+BPM: 120 (constant across all tracks)
+
+1. Main Menu OST – “Ravi de te revoir”  
+   Duration: 00:48 (loop)
+
+2. Pause Menu OST – “On a tous besoin de temps”  
+   Duration: 00:16 (loop)
+
+3. In‑Game OST – “Déjà Vus” (One‑Shot Version)  
+   Duration: 10:12
+
+4. In‑Game OST – “Déjà Vus” (Loopable Version)  
+   Duration: 10:00  
+   • Also provided as 10 separate 1‑minute loops:  
+     - Déjà Vus (1st loop) – 01:00  
+     - Déjà Vus (2nd loop) – 01:00  
+     - Déjà Vus (3rd loop) – 01:00  
+     - Déjà Vus (4th loop) – 01:00  
+     - Déjà Vus (5th loop) – 01:00  
+     - Déjà Vus (6th loop) – 01:00  
+     - Déjà Vus (7th loop) – 01:00  
+     - Déjà Vus (8th loop) – 01:00  
+     - Déjà Vus (9th loop) – 01:00  
+     - Déjà Vus (10th loop) – 01:00
+
+5. Credits OST – “À une prochaine fois”  
+   Duration: 00:22 (non‑looping)
+
+Remember to stream it on Spotify to support the work!
+https://open.spotify.com/intl-it/album/5yDczGLvNK3lrf9BOKjUSW 
+
+----------------------------------------
+FEEDBACK AND SUPPORT
+I’d love to see your game in action. Send screenshots, trailers, or dev logs to:
+    yziango@gmail.com
+
+For custom commissions, adaptive layers (FMOD/Wwise), or enterprise licensing, contact me directly.
+
+Thank you for using my music. Happy developing!
+— 
+YannZ
+Composer | Session Musician | Game Audio Artist
