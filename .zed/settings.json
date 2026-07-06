@@ -1,0 +1,12 @@
+// Zed project settings for Eggbert (Godot 4.7 C#)
+{
+  "context_servers": {
+    "godot": {
+      "command": "npx",
+      "args": ["-y", "@coding-solo/godot-mcp"],
+      "env": {
+        "GODOT_PATH": "/usr/lib/godot-mono/godot.linuxbsd.editor.x86_64.mono"
+      }
+    }
+  }
+}

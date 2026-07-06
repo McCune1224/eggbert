@@ -6,6 +6,8 @@ public partial class SaveResource : Resource
     [Export]
     public SaveDataPlayer PlayerData { get; set; }
 
-    public SaveResource() { }
+    [Export]
+    public SaveDataWorldFlags WorldFlagsData { get; set; }
 
+    public SaveResource() { }
 }
