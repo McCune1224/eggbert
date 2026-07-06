@@ -102,7 +102,10 @@ public partial class CutsceneController : Node
     private async Task SayDialog(CutsceneAction action)
     {
         var lines = new List<string>(action.Params["lines"].AsGodotArray<string>());
-        DialogManager.Instance.StartDialog(lines, null);
+        AudioStream sfx = null;
+        if (action.Params.ContainsKey("sfx") && action.Params["sfx"].VariantType != Variant.Type.Nil)
+            sfx = (AudioStream)action.Params["sfx"];
+        DialogManager.Instance.StartDialog(lines, sfx);
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
     }
 

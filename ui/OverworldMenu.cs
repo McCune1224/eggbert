@@ -145,14 +145,15 @@ public partial class OverworldMenu : CanvasLayer
 
     private void OnMusicVolumeChanged(double value)
     {
-        float db = (float)(value / 100.0 * 80.0 - 80.0);
+        // ponytail: linear 0-100% mapped to -40dB to 0dB
+        float db = (float)(value / 100.0 * 40.0 - 40.0);
         int busIdx = AudioServer.GetBusIndex("MUSIC");
         AudioServer.SetBusVolumeDb(busIdx, db);
     }
 
     private void OnSfxVolumeChanged(double value)
     {
-        float db = (float)(value / 100.0 * 80.0 - 80.0);
+        float db = (float)(value / 100.0 * 40.0 - 40.0);
         // ponytail: bus name has trailing space from original layout
         int busIdx = AudioServer.GetBusIndex("SFX ");
         AudioServer.SetBusVolumeDb(busIdx, db);

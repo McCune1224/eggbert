@@ -23,7 +23,7 @@ public partial class GrandpaSmith : StaticBody2D
                     "This is a cutscene!",
                     "Watch me slide to the right...",
                     "...and set a WorldFlag when done."
-                }),
+                }, speechSound),
                 CutsceneAction.MoveNpc("GrandpaSmith", new Vector2(300, Position.Y), 2.0f),
                 CutsceneAction.Wait(0.5f),
                 CutsceneAction.SetFlag("MetGrandpa", true),

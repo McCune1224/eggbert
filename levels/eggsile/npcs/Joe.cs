@@ -24,7 +24,7 @@ public partial class Joe : StaticBody2D
                 {
                     "I hate the morning shift. There's always so much",
                     "to clean down here and so little help."
-                })
+                }, speechSound)
             });
         }
     }

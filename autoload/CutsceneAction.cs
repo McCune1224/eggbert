@@ -41,10 +41,11 @@ public struct CutsceneAction
             { "duration", duration }
         });
 
-    public static CutsceneAction SayDialog(string[] lines) =>
+    public static CutsceneAction SayDialog(string[] lines, AudioStream sfx = null) =>
         new(CutsceneActionType.SayDialog, new Dictionary<string, Variant>
         {
-            { "lines", new Array<string>(lines) }
+            { "lines", new Array<string>(lines) },
+            { "sfx", sfx }
         });
 
     public static CutsceneAction Wait(float seconds) =>

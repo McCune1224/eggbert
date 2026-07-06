@@ -20,7 +20,7 @@ public partial class OfficerBacon : StaticBody2D
             promptCollision.HidePrompt();
             CutsceneController.Instance.StartCutscene(new List<CutsceneAction>
             {
-                CutsceneAction.SayDialog(new[] { "You're coming with me." })
+                CutsceneAction.SayDialog(new[] { "You're coming with me." }, speechSound)
             });
         }
     }
