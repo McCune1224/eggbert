@@ -3,6 +3,7 @@ using Godot;
 public partial class OverworldMenu : CanvasLayer
 {
     private const string SettingsPath = "user://settings.cfg";
+    private static AudioStream _confirmSfx = ResourceLoader.Load<AudioStream>("res://assets/audio/sfx/meep.mp3");
 
     private AnimationPlayer _animationPlayer;
 
@@ -133,20 +134,29 @@ public partial class OverworldMenu : CanvasLayer
 
     private void OnResumePressed() => Resume();
 
-    private void OnInventoryPressed() { }
+    private void OnInventoryPressed()
+    {
+        AudioManager.Instance.PlaySfx(_confirmSfx);
+    }
 
     private void OnSavePressed()
     {
+        AudioManager.Instance.PlaySfx(_confirmSfx);
         SaveLoadManager.Instance.SaveGame();
     }
 
     private void OnSettingsPressed()
     {
+        AudioManager.Instance.PlaySfx(_confirmSfx);
         ShowPanel(Panel.Settings);
         _musicSlider.GrabFocus();
     }
 
-    private void OnQuitPressed() => GetTree().Quit();
+    private void OnQuitPressed()
+    {
+        AudioManager.Instance.PlaySfx(_confirmSfx);
+        GetTree().Quit();
+    }
 
     // --- Settings ---
 

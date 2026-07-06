@@ -9,7 +9,9 @@ public partial class BaseLevel : Node2D
 
     [Export]
     public AudioStream LevelMusic;
-    // [Export] public Vector2 DefaultSpawnPoint = Vector2.Zero;
+
+    [Export]
+    public AudioStream LevelAmbience;
 
     // // UI
     // protected CanvasLayer _uiLayer;
@@ -20,11 +22,12 @@ public partial class BaseLevel : Node2D
 
     public override void _Ready()
     {
-        // Play music if set
         if (LevelMusic != null)
-        {
             AudioManager.Instance.PlayMusic(LevelMusic);
-        }
+
+        if (LevelAmbience != null)
+            AudioManager.Instance.PlayAmbience(LevelAmbience);
+
         if (LevelName == "")
         {
             LevelName = Name;
@@ -32,5 +35,11 @@ public partial class BaseLevel : Node2D
         }
 
         EmitSignal(SignalName.LevelStarted);
+    }
+
+    public override void _ExitTree()
+    {
+        if (LevelAmbience != null)
+            AudioManager.Instance.StopAmbience();
     }
 }

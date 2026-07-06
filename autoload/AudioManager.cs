@@ -1,22 +1,20 @@
 using Godot;
-using System.Collections.Generic;
-
 
 public partial class AudioManager : Node
 {
-
     private static AudioManager _instance;
     public static AudioManager Instance => _instance;
 
-
-
+    // ponytail: trailing space matches default_bus_layout.tres bus name
     public readonly string MUSIC_BUS = "MUSIC";
-    public readonly string SFX_BUS = "SFX";
+    public readonly string SFX_BUS = "SFX ";
+
     private int _musicAudioPlayerCount = 2;
     private int _currentMusicPlayerIndex = 0;
-    private List<AudioStreamPlayer> _musicAudioPlayers = new List<AudioStreamPlayer>();
-    private float musicFadeDuration = 0.5f;
+    private Godot.Collections.Array<AudioStreamPlayer> _musicAudioPlayers = new();
+    private float _musicFadeDuration = 0.5f;
 
+    private AudioStreamPlayer _ambientPlayer;
 
     public override void _Ready()
     {
@@ -39,43 +37,64 @@ public partial class AudioManager : Node
             _musicAudioPlayers.Add(audioPlayer);
             audioPlayer.VolumeDb = -40;
         }
+
+        _ambientPlayer = new AudioStreamPlayer();
+        _ambientPlayer.Name = "AmbientPlayer";
+        _ambientPlayer.Bus = MUSIC_BUS;
+        AddChild(_ambientPlayer);
     }
 
     public void PlayMusic(AudioStream audio, bool loop = false)
     {
-        // Prevents music repeating in same 'areas'
         if (audio == _musicAudioPlayers[_currentMusicPlayerIndex].Stream)
-        {
             return;
-        }
-        _currentMusicPlayerIndex++;
-        if (_currentMusicPlayerIndex > 1)
-        {
-            _currentMusicPlayerIndex = 0;
-        }
-        AudioStreamPlayer currentMusicPlayer = _musicAudioPlayers[_currentMusicPlayerIndex];
-        currentMusicPlayer.Bus = MUSIC_BUS;
-        currentMusicPlayer.Stream = audio;
-        PlayFadeIn(currentMusicPlayer, musicFadeDuration);
 
-        AudioStreamPlayer oldMusicPlayer = _musicAudioPlayers[(_currentMusicPlayerIndex + 1) % _musicAudioPlayerCount];
-        FadeOutStop(oldMusicPlayer, musicFadeDuration);
+        _currentMusicPlayerIndex = (_currentMusicPlayerIndex + 1) % 2;
+        AudioStreamPlayer current = _musicAudioPlayers[_currentMusicPlayerIndex];
+        current.Bus = MUSIC_BUS;
+        current.Stream = audio;
+        PlayFadeIn(current, _musicFadeDuration);
+
+        AudioStreamPlayer old = _musicAudioPlayers[(_currentMusicPlayerIndex + 1) % _musicAudioPlayerCount];
+        FadeOutStop(old, _musicFadeDuration);
     }
 
+    public void PlayAmbience(AudioStream ambience)
+    {
+        _ambientPlayer.Stream = ambience;
+        _ambientPlayer.Play();
+    }
 
-    public void PlayFadeIn(AudioStreamPlayer player, float duration)
+    public void StopAmbience()
+    {
+        _ambientPlayer.Stop();
+        _ambientPlayer.Stream = null;
+    }
+
+    public void PlaySfx(AudioStream sfx, float volumeDb = 0f)
+    {
+        // ponytail: one-shot player, pool if hundreds fire per frame
+        var player = new AudioStreamPlayer();
+        player.Bus = SFX_BUS;
+        player.Stream = sfx;
+        player.VolumeDb = volumeDb;
+        AddChild(player);
+        player.Finished += () => player.QueueFree();
+        player.Play();
+    }
+
+    private void PlayFadeIn(AudioStreamPlayer player, float duration)
     {
         player.Play();
         Tween tween = CreateTween();
         tween.TweenProperty(player, "volume_db", 0, duration);
     }
 
-    public async void FadeOutStop(AudioStreamPlayer player, float duration)
+    private async void FadeOutStop(AudioStreamPlayer player, float duration)
     {
-        player.Play();
         Tween tween = CreateTween();
         tween.TweenProperty(player, "volume_db", -40, duration);
-        await ToSignal(tween, "finished");
+        await ToSignal(tween, Tween.SignalName.Finished);
         player.Stop();
     }
 }
