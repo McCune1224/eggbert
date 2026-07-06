@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=4 uid="uid://d203hfawkft4p"]
+[gd_scene load_steps=5 format=4 uid="uid://d203hfawkft4p"]
 
 [ext_resource type="Texture2D" uid="uid://c0m8ma1xjpjho" path="res://assets/tilemaps/grass tileset.png" id="1_aerj4"]
+[ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aywx3"]
 texture = ExtResource("1_aerj4")
@@ -66,6 +67,7 @@ texture = ExtResource("1_aerj4")
 sources/0 = SubResource("TileSetAtlasSource_aywx3")
 
 [node name="Courtyard" type="Node2D"]
+script = ExtResource("2")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(421, 204)

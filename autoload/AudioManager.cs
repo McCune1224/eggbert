@@ -24,6 +24,11 @@ public partial class AudioManager : Node
         {
             _instance = this;
         }
+        else
+        {
+            QueueFree();
+            return;
+        }
 
         ProcessMode = Node.ProcessModeEnum.Always;
         for (int i = 0; i < _musicAudioPlayerCount; i++)

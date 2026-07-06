@@ -15,7 +15,7 @@ public partial class GameInit : Node
             return;
         }
         overworldManager.LoadLevel("res://levels/overworld/maps/Overworld.tscn", Vector2.Zero);
-        // overworldManager.LoadLevel("res://levels/Factory/maps/OpeningZone.tscn", Vector2.Zero);
+        // overworldManager.LoadLevel("res://levels/factory/maps/OpeningZone.tscn", Vector2.Zero);
 
 
         // overworldManager.LoadLevel("res://levels/eggsile/sandbox/area1.tscn", Vector2.Zero);

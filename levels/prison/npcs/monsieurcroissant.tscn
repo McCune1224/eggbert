@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bvih45a2jp1fh"]
 
-[ext_resource type="Texture2D" uid="uid://bxk81c4fj77tt" path="res://levels/Prison/npcs/Monsieur Croissant.png" id="1_5nvn0"]
+[ext_resource type="Texture2D" uid="uid://bxk81c4fj77tt" path="res://levels/prison/npcs/Monsieur Croissant.png" id="1_5nvn0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nxcqi"]
 radius = 25.0

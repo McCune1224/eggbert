@@ -15,6 +15,11 @@ public partial class FadeTransition : CanvasLayer
         {
             _instance = this;
         }
+        else
+        {
+            QueueFree();
+            return;
+        }
     }
 
     public async Task PlayFadeOut()
