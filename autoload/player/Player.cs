@@ -50,6 +50,8 @@ public partial class Player : CharacterBody2D, ISavable
             GD.PrintErr("Multiple instances of OverworldPlayer detected!");
         }
 
+        CollisionMask = CollisionConfig.WallsLayer | CollisionConfig.InteractableLayer;
+
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
         _dash = GetNode<Dash>("Dash");
