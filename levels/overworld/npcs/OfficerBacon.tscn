@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://ck00c0rsy7qs"]
+[gd_scene load_steps=15 format=3 uid="uid://ck00c0rsy7qs"]
 
 [ext_resource type="Script" uid="uid://b5gw2xo5sfpb2" path="res://levels/overworld/npcs/OfficerBacon.cs" id="1_6kkq5"]
 [ext_resource type="Texture2D" uid="uid://10nsh7xbpdpi" path="res://assets/characters/Officer Bacon.png" id="2_6kkq5"]
+[ext_resource type="PackedScene" uid="uid://dwmuatqe2ns5s" path="res://components/npcs/ComponentPromptCollision.tscn" id="3_6kkq5"]
 
 [sub_resource type="Animation" id="Animation_2nhdl"]
 length = 0.1
@@ -149,7 +150,7 @@ size = Vector2(24, 54)
 [sub_resource type="CircleShape2D" id="CircleShape2D_ucj4v"]
 radius = 40.05
 
-[node name="EvilBacon" type="Area2D"]
+[node name="EvilBacon" type="StaticBody2D"]
 script = ExtResource("1_6kkq5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -180,11 +181,11 @@ libraries = {
 &"": SubResource("AnimationLibrary_bibfu")
 }
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
-[node name="PhysicsCollision" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="PhysicsCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_6kkq5")
 
-[node name="InteractionCollision" type="CollisionShape2D" parent="."]
+[node name="ComponentPromptCollision" parent="." instance=ExtResource("3_6kkq5")]
+
+[node name="InteractionCollision" type="CollisionShape2D" parent="ComponentPromptCollision"]
 shape = SubResource("CircleShape2D_ucj4v")

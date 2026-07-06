@@ -18,10 +18,26 @@ public partial class OfficerBacon : StaticBody2D
         if (promptCollision.isPromptVisible() && Input.IsActionJustPressed("interact"))
         {
             promptCollision.HidePrompt();
-            CutsceneController.Instance.StartCutscene(new List<CutsceneAction>
+
+            if (WorldFlags.Instance.HasFlag("MetGrandpa"))
             {
-                CutsceneAction.SayDialog(new[] { "You're coming with me." }, speechSound)
-            });
+                CutsceneController.Instance.StartCutscene(new List<CutsceneAction>
+                {
+                    CutsceneAction.SayDialog(new[]
+                    {
+                        "So you know Grandpa Smith? Small world.",
+                        "Stay out of trouble and we'll get along fine."
+                    }, speechSound),
+                    CutsceneAction.SetFlag("MetOfficer", true),
+                });
+            }
+            else
+            {
+                CutsceneController.Instance.StartCutscene(new List<CutsceneAction>
+                {
+                    CutsceneAction.SayDialog(new[] { "You're coming with me." }, speechSound)
+                });
+            }
         }
     }
 }

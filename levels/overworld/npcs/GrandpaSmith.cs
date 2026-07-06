@@ -16,18 +16,33 @@ public partial class GrandpaSmith : StaticBody2D
         if (promptCollision.isPromptVisible() && Input.IsActionJustPressed("interact"))
         {
             promptCollision.HidePrompt();
-            CutsceneController.Instance.StartCutscene(new List<CutsceneAction>
+
+            if (WorldFlags.Instance.HasFlag("MetGrandpa"))
             {
-                CutsceneAction.SayDialog(new[]
+                CutsceneController.Instance.StartCutscene(new List<CutsceneAction>
                 {
-                    "This is a cutscene!",
-                    "Watch me slide to the right...",
-                    "...and set a WorldFlag when done."
-                }, speechSound),
-                CutsceneAction.MoveNpc("GrandpaSmith", new Vector2(300, Position.Y), 2.0f),
-                CutsceneAction.Wait(0.5f),
-                CutsceneAction.SetFlag("MetGrandpa", true),
-            });
+                    CutsceneAction.SayDialog(new[]
+                    {
+                        "Good to see you again, Eggbert!",
+                        "The eggsile district has been quiet lately.",
+                    }, speechSound),
+                });
+            }
+            else
+            {
+                CutsceneController.Instance.StartCutscene(new List<CutsceneAction>
+                {
+                    CutsceneAction.SayDialog(new[]
+                    {
+                        "This is a cutscene!",
+                        "Watch me slide to the right...",
+                        "...and set a WorldFlag when done."
+                    }, speechSound),
+                    CutsceneAction.MoveNpc("GrandpaSmith", new Vector2(300, Position.Y), 2.0f),
+                    CutsceneAction.Wait(0.5f),
+                    CutsceneAction.SetFlag("MetGrandpa", true),
+                });
+            }
         }
     }
 }
