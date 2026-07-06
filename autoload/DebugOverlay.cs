@@ -49,30 +49,43 @@ public partial class DebugOverlay : CanvasLayer
     {
         if (!_visible)
         {
-            if (Door.DebugVisible || FloorSwitch.DebugVisible)
+            if (Door.DebugVisible || FloorSwitch.DebugVisible || PushBlock.DebugVisible)
             {
                 Door.DebugVisible = false;
                 FloorSwitch.DebugVisible = false;
+                PushBlock.DebugVisible = false;
             }
             return;
         }
 
         Door.DebugVisible = true;
         FloorSwitch.DebugVisible = true;
+        PushBlock.DebugVisible = true;
 
         var sb = new StringBuilder();
+
+        // FPS / perf
+        var perf = Performance.GetMonitor(Performance.Monitor.TimeFps);
+        sb.AppendLine($"FPS: {perf}  Nodes: {Performance.GetMonitor(Performance.Monitor.ObjectNodeCount)}");
 
         // Player
         var player = Player.Instance;
         if (player != null)
         {
-            sb.AppendLine($"Player pos: {player.Position.Round()}");
-            sb.AppendLine($"Player interaction locked: {player.InInteraction}");
+            sb.AppendLine($"Player pos: {player.Position.Round()}  vel: {player.Velocity.Round()}");
+            sb.AppendLine($"Player interaction locked: {player.InInteraction}  mask: {player.CollisionMask}");
         }
 
         // Level
-        if (GameController.Instance?.CurrentLevel != null)
-            sb.AppendLine($"Level: {GameController.Instance.CurrentLevel.SceneFilePath}");
+        var level = GameController.Instance?.CurrentLevel;
+        if (level != null)
+        {
+            string name = level.Name;
+            string path = level.SceneFilePath;
+            if (!string.IsNullOrEmpty(path))
+                name = path.GetFile().GetBaseName();
+            sb.AppendLine($"Level: {name}  children: {level.GetChildCount()}");
+        }
 
         // Cutscene
         sb.AppendLine($"Cutscene playing: {CutsceneController.Instance?.IsPlaying}");
@@ -80,7 +93,16 @@ public partial class DebugOverlay : CanvasLayer
         // Dialog
         sb.AppendLine($"Dialog active: {DialogManager.Instance?.IsDialogActive}");
 
-        // WorldFlags
+        // Audio
+        var audio = AudioManager.Instance;
+        if (audio != null)
+        {
+            float musicDb = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("MUSIC"));
+            float sfxDb = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("SFX "));
+            sb.AppendLine($"Audio: music={musicDb:F1}dB  sfx={sfxDb:F1}dB");
+        }
+
+        // WorldFlags (compact — just flag count + names)
         var wf = WorldFlags.Instance;
         if (wf != null)
         {
