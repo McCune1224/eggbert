@@ -18,6 +18,9 @@ public partial class OverworldMenu : CanvasLayer
     private PanelContainer _settingsPanel;
     private HSlider _musicSlider;
     private HSlider _sfxSlider;
+    private OptionButton _textSpeedOption;
+    private CheckButton _fullscreenCheck;
+    private OptionButton _scaleOption;
     private Button _quitDesktopButton;
     private Button _settingsBackButton;
 
@@ -46,11 +49,28 @@ public partial class OverworldMenu : CanvasLayer
         _settingsPanel = GetNode<PanelContainer>("SettingsPanel");
         _musicSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/MusicSlider");
         _sfxSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/SfxSlider");
+        _textSpeedOption = GetNode<OptionButton>("SettingsPanel/VBoxContainer/TextSpeedBox/TextSpeedOption");
+        _fullscreenCheck = GetNode<CheckButton>("SettingsPanel/VBoxContainer/FullscreenBox/FullscreenCheck");
+        _scaleOption = GetNode<OptionButton>("SettingsPanel/VBoxContainer/ScaleBox/ScaleOption");
         _quitDesktopButton = GetNode<Button>("SettingsPanel/VBoxContainer/QuitDesktopButton");
         _settingsBackButton = GetNode<Button>("SettingsPanel/VBoxContainer/BackButton");
 
+        _textSpeedOption.AddItem("Instant", 0);
+        _textSpeedOption.AddItem("Fast", 1);
+        _textSpeedOption.AddItem("Normal", 2);
+        _textSpeedOption.Selected = 2;
+
+        _scaleOption.AddItem("1x", 1);
+        _scaleOption.AddItem("2x", 2);
+        _scaleOption.AddItem("3x", 3);
+        _scaleOption.AddItem("4x", 4);
+        _scaleOption.Selected = 1;
+
         _musicSlider.Connect("value_changed", new Callable(this, nameof(OnMusicVolumeChanged)));
         _sfxSlider.Connect("value_changed", new Callable(this, nameof(OnSfxVolumeChanged)));
+        _textSpeedOption.Connect("item_selected", new Callable(this, nameof(OnTextSpeedChanged)));
+        _fullscreenCheck.Connect("toggled", new Callable(this, nameof(OnFullscreenToggled)));
+        _scaleOption.Connect("item_selected", new Callable(this, nameof(OnScaleChanged)));
         _quitDesktopButton.Connect("pressed", new Callable(this, nameof(OnQuitDesktopPressed)));
         _settingsBackButton.Connect("pressed", new Callable(this, nameof(OnSettingsBackPressed)));
 
@@ -100,7 +120,6 @@ public partial class OverworldMenu : CanvasLayer
 
     public override void _Input(InputEvent @event)
     {
-        // In settings, Esc goes back to main menu instead of closing
         if (Input.IsActionJustPressed("menu_pause"))
         {
             if (_currentPanel == Panel.Settings)
@@ -122,15 +141,11 @@ public partial class OverworldMenu : CanvasLayer
 
     private void OnResumePressed() => Resume();
 
-    private void OnInventoryPressed()
-    {
-        // TODO: Items panel — Phase 3
-    }
+    private void OnInventoryPressed() { }
 
     private void OnSavePressed()
     {
         SaveLoadManager.Instance.SaveGame();
-        // ponytail: no feedback beyond the save itself
     }
 
     private void OnSettingsPressed()
@@ -145,18 +160,37 @@ public partial class OverworldMenu : CanvasLayer
 
     private void OnMusicVolumeChanged(double value)
     {
-        // ponytail: linear 0-100% mapped to -40dB to 0dB
         float db = (float)(value / 100.0 * 40.0 - 40.0);
-        int busIdx = AudioServer.GetBusIndex("MUSIC");
-        AudioServer.SetBusVolumeDb(busIdx, db);
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("MUSIC"), db);
     }
 
     private void OnSfxVolumeChanged(double value)
     {
         float db = (float)(value / 100.0 * 40.0 - 40.0);
-        // ponytail: bus name has trailing space from original layout
-        int busIdx = AudioServer.GetBusIndex("SFX ");
-        AudioServer.SetBusVolumeDb(busIdx, db);
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("SFX "), db);
+    }
+
+    private void OnTextSpeedChanged(long index)
+    {
+        DialogManager.SpeedMode = (TextSpeedMode)(int)index;
+    }
+
+    private void OnFullscreenToggled(bool pressed)
+    {
+        GetWindow().Mode = pressed ? Window.ModeEnum.Fullscreen : Window.ModeEnum.Windowed;
+    }
+
+    private void OnScaleChanged(long index)
+    {
+        int scale = (int)_scaleOption.GetItemId((int)index);
+        var size = new Vector2I(640 * scale, 360 * scale);
+        DisplayServer.WindowSetSize(size);
+        // ponytail: center on screen after resize
+        var screenSize = DisplayServer.ScreenGetSize();
+        DisplayServer.WindowSetPosition(new Vector2I(
+            (screenSize.X - size.X) / 2,
+            (screenSize.Y - size.Y) / 2
+        ));
     }
 
     private void OnQuitDesktopPressed()
@@ -178,17 +212,34 @@ public partial class OverworldMenu : CanvasLayer
     {
         var config = new ConfigFile();
         if (config.Load(SettingsPath) != Error.Ok)
-            return; // first launch, defaults are fine
+            return;
 
         double musicVol = (double)config.GetValue("audio", "music_volume", 100.0);
         double sfxVol = (double)config.GetValue("audio", "sfx_volume", 100.0);
+        int textSpeed = (int)config.GetValue("display", "text_speed", 2);
+        bool fullscreen = (bool)config.GetValue("display", "fullscreen", false);
+        int scale = (int)config.GetValue("display", "window_scale", 1);
 
         _musicSlider.Value = musicVol;
         _sfxSlider.Value = sfxVol;
+        _textSpeedOption.Selected = textSpeed;
+        _fullscreenCheck.ButtonPressed = fullscreen;
+        // ponytail: find closest matching scale option
+        for (int i = 0; i < _scaleOption.ItemCount; i++)
+        {
+            if ((int)_scaleOption.GetItemId(i) == scale)
+            {
+                _scaleOption.Selected = i;
+                break;
+            }
+        }
 
-        // Apply without re-triggering the slider callbacks
+        // Apply without re-triggering callbacks
         OnMusicVolumeChanged(musicVol);
         OnSfxVolumeChanged(sfxVol);
+        OnTextSpeedChanged(textSpeed);
+        if (fullscreen) OnFullscreenToggled(true);
+        OnScaleChanged(_scaleOption.Selected);
     }
 
     private void SaveSettings()
@@ -196,10 +247,11 @@ public partial class OverworldMenu : CanvasLayer
         var config = new ConfigFile();
         config.SetValue("audio", "music_volume", _musicSlider.Value);
         config.SetValue("audio", "sfx_volume", _sfxSlider.Value);
+        config.SetValue("display", "text_speed", _textSpeedOption.Selected);
+        config.SetValue("display", "fullscreen", _fullscreenCheck.ButtonPressed);
+        config.SetValue("display", "window_scale", (int)_scaleOption.GetItemId(_scaleOption.Selected));
         config.Save(SettingsPath);
     }
 
-    // Backwards compat — old script had Load/Save game buttons wired here
-    // Remove if nothing references them
     private void OnLoadPressed() { }
 }
