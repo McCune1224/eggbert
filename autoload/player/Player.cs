@@ -89,6 +89,19 @@ public partial class Player : CharacterBody2D, ISavable
             Velocity *= _dash.DashScale;
         }
         MoveAndSlide();
+
+        // Push blocks in slide direction
+        for (int i = 0; i < GetSlideCollisionCount(); i++)
+        {
+            var slide = GetSlideCollision(i);
+            if (slide.GetCollider() is PushBlock block)
+            {
+                Vector2 pushDir = direction.Normalized();
+                if (pushDir == Vector2.Zero) pushDir = -slide.GetNormal();
+                block.TryPush(pushDir);
+            }
+        }
+
         KinematicCollision2D coll = GetLastSlideCollision();
         UpdateAnimation(direction);
     }
