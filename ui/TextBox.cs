@@ -56,26 +56,6 @@ public partial class TextBox : MarginContainer
     public void PlayText(string desiredText, AudioStream sfx)
     {
         CurrentText = desiredText;
-
-        // Apply text speed from settings
-        switch (DialogManager.SpeedMode)
-        {
-            case TextSpeedMode.Instant:
-                _label.Text = desiredText;
-                _nextIndicator.Visible = true;
-                EmitSignal(SignalName.FinishedDisplaying);
-                return;
-            case TextSpeedMode.Fast:
-                BaseLetterTime = 0.02f;
-                BaseSpaceTime = 0.03f;
-                BasePunctuationTime = 0.10f;
-                break;
-            case TextSpeedMode.Normal:
-                BaseLetterTime = 0.04f;
-                BaseSpaceTime = 0.06f;
-                BasePunctuationTime = 0.20f;
-                break;
-        }
         _label.Text = desiredText;
         _audioPlayer.Stream = sfx;
         Vector2 newMinSize = GetMinimumSize();

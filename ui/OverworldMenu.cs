@@ -18,7 +18,6 @@ public partial class OverworldMenu : CanvasLayer
     private PanelContainer _settingsPanel;
     private HSlider _musicSlider;
     private HSlider _sfxSlider;
-    private OptionButton _textSpeedOption;
     private CheckButton _fullscreenCheck;
     private OptionButton _scaleOption;
     private Button _quitDesktopButton;
@@ -49,16 +48,10 @@ public partial class OverworldMenu : CanvasLayer
         _settingsPanel = GetNode<PanelContainer>("SettingsPanel");
         _musicSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/MusicSlider");
         _sfxSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/SfxSlider");
-        _textSpeedOption = GetNode<OptionButton>("SettingsPanel/VBoxContainer/TextSpeedBox/TextSpeedOption");
         _fullscreenCheck = GetNode<CheckButton>("SettingsPanel/VBoxContainer/FullscreenBox/FullscreenCheck");
         _scaleOption = GetNode<OptionButton>("SettingsPanel/VBoxContainer/ScaleBox/ScaleOption");
         _quitDesktopButton = GetNode<Button>("SettingsPanel/VBoxContainer/QuitDesktopButton");
         _settingsBackButton = GetNode<Button>("SettingsPanel/VBoxContainer/BackButton");
-
-        _textSpeedOption.AddItem("Instant", 0);
-        _textSpeedOption.AddItem("Fast", 1);
-        _textSpeedOption.AddItem("Normal", 2);
-        _textSpeedOption.Selected = 2;
 
         _scaleOption.AddItem("1x", 1);
         _scaleOption.AddItem("2x", 2);
@@ -68,7 +61,6 @@ public partial class OverworldMenu : CanvasLayer
 
         _musicSlider.Connect("value_changed", new Callable(this, nameof(OnMusicVolumeChanged)));
         _sfxSlider.Connect("value_changed", new Callable(this, nameof(OnSfxVolumeChanged)));
-        _textSpeedOption.Connect("item_selected", new Callable(this, nameof(OnTextSpeedChanged)));
         _fullscreenCheck.Connect("toggled", new Callable(this, nameof(OnFullscreenToggled)));
         _scaleOption.Connect("item_selected", new Callable(this, nameof(OnScaleChanged)));
         _quitDesktopButton.Connect("pressed", new Callable(this, nameof(OnQuitDesktopPressed)));
@@ -170,11 +162,6 @@ public partial class OverworldMenu : CanvasLayer
         AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("SFX "), db);
     }
 
-    private void OnTextSpeedChanged(long index)
-    {
-        DialogManager.SpeedMode = (TextSpeedMode)(int)index;
-    }
-
     private void OnFullscreenToggled(bool pressed)
     {
         GetWindow().Mode = pressed ? Window.ModeEnum.Fullscreen : Window.ModeEnum.Windowed;
@@ -216,13 +203,11 @@ public partial class OverworldMenu : CanvasLayer
 
         double musicVol = (double)config.GetValue("audio", "music_volume", 100.0);
         double sfxVol = (double)config.GetValue("audio", "sfx_volume", 100.0);
-        int textSpeed = (int)config.GetValue("display", "text_speed", 2);
         bool fullscreen = (bool)config.GetValue("display", "fullscreen", false);
         int scale = (int)config.GetValue("display", "window_scale", 1);
 
         _musicSlider.Value = musicVol;
         _sfxSlider.Value = sfxVol;
-        _textSpeedOption.Selected = textSpeed;
         _fullscreenCheck.ButtonPressed = fullscreen;
         // ponytail: find closest matching scale option
         for (int i = 0; i < _scaleOption.ItemCount; i++)
@@ -237,7 +222,6 @@ public partial class OverworldMenu : CanvasLayer
         // Apply without re-triggering callbacks
         OnMusicVolumeChanged(musicVol);
         OnSfxVolumeChanged(sfxVol);
-        OnTextSpeedChanged(textSpeed);
         if (fullscreen) OnFullscreenToggled(true);
         OnScaleChanged(_scaleOption.Selected);
     }
@@ -247,7 +231,6 @@ public partial class OverworldMenu : CanvasLayer
         var config = new ConfigFile();
         config.SetValue("audio", "music_volume", _musicSlider.Value);
         config.SetValue("audio", "sfx_volume", _sfxSlider.Value);
-        config.SetValue("display", "text_speed", _textSpeedOption.Selected);
         config.SetValue("display", "fullscreen", _fullscreenCheck.ButtonPressed);
         config.SetValue("display", "window_scale", (int)_scaleOption.GetItemId(_scaleOption.Selected));
         config.Save(SettingsPath);

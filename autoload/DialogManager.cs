@@ -1,14 +1,11 @@
 using Godot;
 using System.Collections.Generic;
 
-public enum TextSpeedMode { Instant, Fast, Normal }
-
 public partial class DialogManager : Node2D
 {
     [Signal]
     public delegate void DialogFinishedEventHandler();
     private static DialogManager _instance;
-    public static TextSpeedMode SpeedMode = TextSpeedMode.Normal;
     public static DialogManager Instance => _instance;
 
     private PackedScene TextBoxScene = ResourceLoader.Load<PackedScene>("res://ui/TextBox.tscn");
@@ -105,7 +102,7 @@ public partial class DialogManager : Node2D
         IsDialogActive = false;
         CurrentDialogLineIndex = 0;
         DialogLines = new List<string>();
-        if (CurrentTextBox != null)
+        if (CurrentTextBox != null && GodotObject.IsInstanceValid(CurrentTextBox))
         {
             CurrentTextBox.QueueFree();
             CurrentTextBox = null;
