@@ -52,7 +52,7 @@ public partial class PushBlock : CharacterBody2D
     {
         if (_sprite == null || _texture == null) return;
         _sprite.Texture = _texture;
-        Vector2 texSize = _texture.GetSize();
+        Vector2 texSize = _texture.GetSize() * 0.95f;
         if (_collisionShape?.Shape is RectangleShape2D rect)
             rect.Size = texSize;
     }
