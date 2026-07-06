@@ -114,20 +114,22 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - [x] Fix ComponentPromptCollision sprite cache + AlignLabelText
 - [x] Migrate OfficerBacon to component pattern
 
-### Phase 2 — Core infrastructure (CURRENT)
+### Phase 2 — Core infrastructure ✅
 - [x] `WorldFlags` singleton — Dictionary<string, Variant>, ISavable, autoload, "persist" group
-- [ ] Save system expansion — serialize WorldFlags, inventory, warps (WorldFlags done, rest TBD)
-- [ ] `CutsceneController` singleton — action queue (LockPlayer, MoveNpc, SayDialog, Wait, SetFlag, Fade, UnlockPlayer)
-- [ ] Settings — volume, text speed, fullscreen, window scale
-- [ ] Overworld menu — EarthBound layout (Items · Status · Map · Save · Settings)
+- [x] `CutsceneController` singleton — async action queue (LockPlayer, MoveNpc, SayDialog, Wait, SetFlag, Fade, UnlockPlayer)
+- [x] Settings — volume sliders (MUSIC/SFX), fullscreen toggle, window scale (1x–4x). Persisted via ConfigFile.
+- [x] Overworld menu — EarthBound layout. Map (warp list), Settings panels functional. Items/Status are placeholder buttons.
+- [x] Save system — WorldFlags saved via ISavable. Single slot, auto-save on level transition.
+- [ ] Save expansion — serialize inventory + warps (WorldFlags saved, inventory/warp state pending)
 
-### Phase 3 — Overworld systems
-- [ ] Dialog branching — WorldFlags-driven NPC dialog
-- [ ] Inventory — key items, consumables, equipment tabs
-- [ ] Warp points — discoverable fast travel nodes
-- [ ] Region map — pause menu panel
-- [ ] Audio — ambient loops, UI/interaction SFX
-- [ ] Environmental puzzles — push blocks, switches, switch-gated doors
+### Phase 3 — Overworld systems ✅
+- [x] Dialog branching — WorldFlags-driven NPC dialog (GrandpaSmith, OfficerBacon)
+- [x] Warp points — WarpPoint (Area2D + E prompt), WarpDatabase static registry, WorldFlags-backed unlocks
+- [x] Region map — pause menu panel listing unlocked warps, click to warp
+- [x] Audio — PlaySfx() one-shot, PlayAmbience/StopAmbience, per-level ambience on BaseLevel, meep.mp3 for UI
+- [x] Environmental puzzles — PushBlock (CharacterBody2D, 90% auto-scale collision), FloorSwitch (Area2D, Pressed/Released + TargetDoorPath), Door (StaticBody2D, CallDeferred collision toggle)
+- [x] Location banner — drops from top on level transition (FadeTransition.ShowLocation)
+- [ ] Inventory — key items, consumables, equipment tabs (Items panel is placeholder)
 
 ### Phase 4 — Combat
 - [ ] `HealthComponent` — reusable HP/damage Node
