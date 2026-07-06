@@ -52,14 +52,19 @@ public partial class Door : StaticBody2D
 
     public void Open()
     {
-        _collision.Disabled = true;
+        CallDeferred(nameof(SetCollisionEnabled), false);
         Modulate = new Color(1, 1, 1, 0.3f);
     }
 
     public void Close()
     {
-        _collision.Disabled = false;
+        CallDeferred(nameof(SetCollisionEnabled), true);
         Modulate = Colors.White;
+    }
+
+    private void SetCollisionEnabled(bool enabled)
+    {
+        _collision.Disabled = !enabled;
     }
 
     public void Toggle()

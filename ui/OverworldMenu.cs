@@ -10,6 +10,7 @@ public partial class OverworldMenu : CanvasLayer
     // Main menu
     private PanelContainer _mainPanel;
     private Button _resumeButton;
+    private Button _mapButton;
     private Button _inventoryButton;
     private Button _saveButton;
     private Button _settingsButton;
@@ -21,10 +22,15 @@ public partial class OverworldMenu : CanvasLayer
     private HSlider _sfxSlider;
     private CheckButton _fullscreenCheck;
     private OptionButton _scaleOption;
-    private Button _quitDesktopButton;
     private Button _settingsBackButton;
 
-    private enum Panel { Main, Settings }
+    // Map panel
+    private PanelContainer _mapPanel;
+    private TextureRect _mapTexture;
+    private VBoxContainer _warpList;
+    private Button _mapBackButton;
+
+    private enum Panel { Main, Settings, Map }
     private Panel _currentPanel = Panel.Main;
 
     public override void _Ready()
@@ -34,12 +40,14 @@ public partial class OverworldMenu : CanvasLayer
         // Main menu
         _mainPanel = GetNode<PanelContainer>("MainPanel");
         _resumeButton = GetNode<Button>("MainPanel/VBoxContainer/ResumeButton");
+        _mapButton = GetNode<Button>("MainPanel/VBoxContainer/MapButton");
         _inventoryButton = GetNode<Button>("MainPanel/VBoxContainer/InventoryButton");
         _saveButton = GetNode<Button>("MainPanel/VBoxContainer/SaveButton");
         _settingsButton = GetNode<Button>("MainPanel/VBoxContainer/SettingsButton");
         _quitButton = GetNode<Button>("MainPanel/VBoxContainer/QuitButton");
 
         _resumeButton.Connect("pressed", new Callable(this, nameof(OnResumePressed)));
+        _mapButton.Connect("pressed", new Callable(this, nameof(OnMapPressed)));
         _inventoryButton.Connect("pressed", new Callable(this, nameof(OnInventoryPressed)));
         _saveButton.Connect("pressed", new Callable(this, nameof(OnSavePressed)));
         _settingsButton.Connect("pressed", new Callable(this, nameof(OnSettingsPressed)));
@@ -51,7 +59,6 @@ public partial class OverworldMenu : CanvasLayer
         _sfxSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/SfxSlider");
         _fullscreenCheck = GetNode<CheckButton>("SettingsPanel/VBoxContainer/FullscreenBox/FullscreenCheck");
         _scaleOption = GetNode<OptionButton>("SettingsPanel/VBoxContainer/ScaleBox/ScaleOption");
-        _quitDesktopButton = GetNode<Button>("SettingsPanel/VBoxContainer/QuitDesktopButton");
         _settingsBackButton = GetNode<Button>("SettingsPanel/VBoxContainer/BackButton");
 
         _scaleOption.AddItem("1x", 1);
@@ -64,8 +71,14 @@ public partial class OverworldMenu : CanvasLayer
         _sfxSlider.Connect("value_changed", new Callable(this, nameof(OnSfxVolumeChanged)));
         _fullscreenCheck.Connect("toggled", new Callable(this, nameof(OnFullscreenToggled)));
         _scaleOption.Connect("item_selected", new Callable(this, nameof(OnScaleChanged)));
-        _quitDesktopButton.Connect("pressed", new Callable(this, nameof(OnQuitDesktopPressed)));
         _settingsBackButton.Connect("pressed", new Callable(this, nameof(OnSettingsBackPressed)));
+
+        // Map panel
+        _mapPanel = GetNode<PanelContainer>("MapPanel");
+        _mapTexture = GetNode<TextureRect>("MapPanel/VBoxContainer/MapTexture");
+        _warpList = GetNode<VBoxContainer>("MapPanel/VBoxContainer/WarpList");
+        _mapBackButton = GetNode<Button>("MapPanel/VBoxContainer/MapBackButton");
+        _mapBackButton.Connect("pressed", new Callable(this, nameof(OnMapBackPressed)));
 
         LoadSettings();
         HideMenu();
@@ -77,6 +90,7 @@ public partial class OverworldMenu : CanvasLayer
     {
         _mainPanel.Visible = panel == Panel.Main;
         _settingsPanel.Visible = panel == Panel.Settings;
+        _mapPanel.Visible = panel == Panel.Map;
         _currentPanel = panel;
     }
 
@@ -117,6 +131,8 @@ public partial class OverworldMenu : CanvasLayer
         {
             if (_currentPanel == Panel.Settings)
                 OnSettingsBackPressed();
+            else if (_currentPanel == Panel.Map)
+                OnMapBackPressed();
             else
                 ToggleEscape();
         }
@@ -133,6 +149,51 @@ public partial class OverworldMenu : CanvasLayer
     // --- Main menu button handlers ---
 
     private void OnResumePressed() => Resume();
+
+    private void OnMapPressed()
+    {
+        AudioManager.Instance.PlaySfx(_confirmSfx);
+        RefreshWarpList();
+        ShowPanel(Panel.Map);
+        _mapBackButton.GrabFocus();
+    }
+
+    private void OnMapBackPressed()
+    {
+        ShowPanel(Panel.Main);
+        _mapButton.GrabFocus();
+    }
+
+    private void RefreshWarpList()
+    {
+        // Clear old buttons
+        foreach (Node child in _warpList.GetChildren())
+            child.QueueFree();
+
+        var unlocked = WarpDatabase.GetUnlocked();
+        if (unlocked.Count == 0)
+        {
+            var lbl = new Label { Text = "No warps discovered" };
+            lbl.AddThemeColorOverride("font_color", new Color(0.6f, 0.6f, 0.6f));
+            _warpList.AddChild(lbl);
+            return;
+        }
+
+        foreach (var warp in unlocked)
+        {
+            var btn = new Button { Text = warp.Name };
+            string levelPath = warp.LevelPath;
+            Vector2 pos = warp.Position;
+            btn.Pressed += () => WarpTo(levelPath, pos);
+            _warpList.AddChild(btn);
+        }
+    }
+
+    private void WarpTo(string levelPath, Vector2 position)
+    {
+        Resume();
+        GameController.Instance.LoadLevel(levelPath, position);
+    }
 
     private void OnInventoryPressed()
     {

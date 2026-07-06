@@ -54,7 +54,7 @@ public partial class PushBlock : CharacterBody2D
         if (_sprite != null && _texture != null)
             _sprite.Texture = _texture;
         if (tex == null || _collisionShape?.Shape is not RectangleShape2D rect) return;
-        rect.Size = tex.GetSize() * 0.95f;
+        rect.Size = tex.GetSize() * 0.6f;
     }
 
     /// <summary>Try sliding one step in the given direction. Returns false if blocked.</summary>

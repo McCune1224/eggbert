@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cyrqwcqnrxf2n"]
+
+[ext_resource type="Script" path="res://components/maps/WarpPoint.cs" id="1_57ocq"]
+[ext_resource type="PackedScene" uid="uid://dwmuatqe2ns5s" path="res://components/npcs/ComponentPromptCollision.tscn" id="2_57ocq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ttles"]
+size = Vector2(32, 32)
+
+[node name="WarpPoint" type="Area2D"]
+script = ExtResource("1_57ocq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+modulate = Color(0.3, 0.8, 1, 0.5)
+
+[node name="ComponentPromptCollision" parent="." instance=ExtResource("2_57ocq")]
+
+[node name="InteractionCollision" type="CollisionShape2D" parent="ComponentPromptCollision"]
+shape = SubResource("RectangleShape2D_ttles")

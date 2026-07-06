@@ -31,6 +31,10 @@ text = "Resume"
 layout_mode = 2
 text = "Items"
 
+[node name="MapButton" type="Button" parent="MainPanel/VBoxContainer"]
+layout_mode = 2
+text = "Map"
+
 [node name="SaveButton" type="Button" parent="MainPanel/VBoxContainer"]
 layout_mode = 2
 text = "Save"
@@ -41,7 +45,7 @@ text = "Settings"
 
 [node name="QuitButton" type="Button" parent="MainPanel/VBoxContainer"]
 layout_mode = 2
-text = "Quit"
+text = "Quit Game"
 
 [node name="SettingsPanel" type="PanelContainer" parent="."]
 offset_left = 180.0
@@ -99,10 +103,31 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 1
 
-[node name="QuitDesktopButton" type="Button" parent="SettingsPanel/VBoxContainer"]
-layout_mode = 2
-text = "Quit to Desktop"
-
 [node name="BackButton" type="Button" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="MapPanel" type="PanelContainer" parent="."]
+offset_left = 200.0
+offset_top = 40.0
+offset_right = 440.0
+offset_bottom = 320.0
+visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MapPanel"]
+layout_mode = 2
+
+[node name="MapTexture" type="TextureRect" parent="MapPanel/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 120)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+expand = true
+stretch_mode = 4
+
+[node name="WarpList" type="VBoxContainer" parent="MapPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="MapBackButton" type="Button" parent="MapPanel/VBoxContainer"]
 layout_mode = 2
 text = "Back"
