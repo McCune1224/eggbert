@@ -47,7 +47,18 @@ public partial class DebugOverlay : CanvasLayer
 
     public override void _Process(double delta)
     {
-        if (!_visible) return;
+        if (!_visible)
+        {
+            if (Door.DebugVisible || FloorSwitch.DebugVisible)
+            {
+                Door.DebugVisible = false;
+                FloorSwitch.DebugVisible = false;
+            }
+            return;
+        }
+
+        Door.DebugVisible = true;
+        FloorSwitch.DebugVisible = true;
 
         var sb = new StringBuilder();
 
