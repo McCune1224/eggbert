@@ -23,12 +23,16 @@ public partial class SaveLoadManager : Node
     }
 
 
+    public bool HasSave()
+    {
+        return ResourceLoader.Exists(SavePath);
+    }
+
     public void SaveGame()
     {
         SaveResource newSave = new();
 
-        // NOTE: Collect and sort all nodes with group persist by load priority
-        // Any node within this group that implements ISavable will be saved...or at least it should be.
+        // Collect all nodes in the 'persist' group that implement ISavable
         foreach (Node node in GetTree().GetNodesInGroup("persist"))
         {
             if (node is ISavable savable)
@@ -37,7 +41,7 @@ public partial class SaveLoadManager : Node
             }
             else
             {
-                GD.PrintErr($"Node {node.Name} does not implement IPersistable.Save despite being in 'persist' group.");
+                GD.PrintErr($"Node {node.Name} is in 'persist' group but does not implement ISavable.");
             }
         }
 
@@ -69,7 +73,7 @@ public partial class SaveLoadManager : Node
             }
             else
             {
-                GD.PrintErr($"Node {node.Name} does not implement IPersistable.Load despite being in 'persist' group.");
+                GD.PrintErr($"Node {node.Name} is in 'persist' group but does not implement ISavable.");
             }
         }
         persistantNodes.Sort((a, b) => a.GetLoadPriority().CompareTo(b.GetLoadPriority()));

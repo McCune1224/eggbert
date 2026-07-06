@@ -77,6 +77,9 @@ public partial class GameController : Node
         var player = Player.Instance;
         player.Position = playerPosition;
 
+        // ponytail: auto-save on level transition
+        SaveLoadManager.Instance?.SaveGame();
+
         await FadeTransition.Instance.PlayFadeIn();
         EmitSignal(nameof(LevelLoaded));
         GetTree().Paused = false;
@@ -122,6 +125,9 @@ public partial class GameController : Node
                 Player.Instance.Position = new Vector2(transitionArea.GlobalPosition.X, transitionArea.GlobalPosition.Y - 50);
                 break;
         }
+
+        // ponytail: auto-save on level transition
+        SaveLoadManager.Instance?.SaveGame();
 
         await FadeTransition.Instance.PlayFadeIn();
         EmitSignal(nameof(LevelLoaded));
