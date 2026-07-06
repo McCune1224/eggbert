@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public partial class DialogManager : Node2D
 {
+    [Signal]
+    public delegate void DialogFinishedEventHandler();
     private static DialogManager _instance;
     public static DialogManager Instance => _instance;
 
@@ -54,6 +56,7 @@ public partial class DialogManager : Node2D
                 IsDialogActive = false;
                 Player.Instance.InInteraction = false;
                 CurrentDialogLineIndex = 0;
+                EmitSignal(SignalName.DialogFinished);
                 return;
             }
             CreateTextBox();
