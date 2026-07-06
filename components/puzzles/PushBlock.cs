@@ -50,11 +50,11 @@ public partial class PushBlock : CharacterBody2D
 
     private void ApplyTexture()
     {
-        if (_sprite == null || _texture == null) return;
-        _sprite.Texture = _texture;
-        Vector2 texSize = _texture.GetSize() * 0.95f;
-        if (_collisionShape?.Shape is RectangleShape2D rect)
-            rect.Size = texSize;
+        Texture2D tex = _texture ?? _sprite?.Texture;
+        if (_sprite != null && _texture != null)
+            _sprite.Texture = _texture;
+        if (tex == null || _collisionShape?.Shape is not RectangleShape2D rect) return;
+        rect.Size = tex.GetSize() * 0.95f;
     }
 
     /// <summary>Try sliding one step in the given direction. Returns false if blocked.</summary>
