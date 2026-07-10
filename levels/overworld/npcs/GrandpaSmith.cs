@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public partial class GrandpaSmith : StaticBody2D
 {
-    private AudioStream speechSound = ResourceLoader.Load<AudioStream>("res://assets/audio/sfx/meep.mp3");
+    private DialogVoice _voice = new(null, 0.8f, "Grandpa Smith");
     private ComponentPromptCollision promptCollision;
 
     public override void _Ready()
@@ -25,7 +25,7 @@ public partial class GrandpaSmith : StaticBody2D
                     {
                         "Good to see you again, Eggbert!",
                         "The eggsile district has been quiet lately.",
-                    }, speechSound),
+                    }, _voice),
                 });
             }
             else
@@ -37,7 +37,7 @@ public partial class GrandpaSmith : StaticBody2D
                         "This is a cutscene!",
                         "Watch me slide to the right...",
                         "...and set a WorldFlag when done."
-                    }, speechSound),
+                    }, _voice),
                     CutsceneAction.MoveNpc("GrandpaSmith", new Vector2(300, Position.Y), 2.0f),
                     CutsceneAction.Wait(0.5f),
                     CutsceneAction.SetFlag("MetGrandpa", true),

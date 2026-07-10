@@ -10,7 +10,8 @@ public enum CutsceneActionType
     SayDialog,
     Wait,
     SetFlag,
-    Fade
+    Fade,
+    PromptChoice
 }
 
 /// <summary>A single step in a cutscene sequence.</summary>
@@ -41,12 +42,18 @@ public struct CutsceneAction
             { "duration", duration }
         });
 
-    public static CutsceneAction SayDialog(string[] lines, AudioStream sfx = null) =>
-        new(CutsceneActionType.SayDialog, new Dictionary<string, Variant>
+    public static CutsceneAction SayDialog(string[] lines, DialogVoice voice = null)
+    {
+        var dict = new Dictionary<string, Variant>
         {
             { "lines", new Array<string>(lines) },
-            { "sfx", sfx }
-        });
+            { "voice_pitch", voice?.BasePitch ?? 1f },
+            { "voice_name", voice?.SpeakerName ?? "" }
+        };
+        if (voice?.BlipStream != null)
+            dict["voice_blip"] = voice.BlipStream;
+        return new(CutsceneActionType.SayDialog, dict);
+    }
 
     public static CutsceneAction Wait(float seconds) =>
         new(CutsceneActionType.Wait, new Dictionary<string, Variant>
@@ -65,5 +72,12 @@ public struct CutsceneAction
         new(CutsceneActionType.Fade, new Dictionary<string, Variant>
         {
             { "type", type }
+        });
+
+    public static CutsceneAction PromptChoice(string[] choices, string[] flagKeys) =>
+        new(CutsceneActionType.PromptChoice, new Dictionary<string, Variant>
+        {
+            { "choices", new Array<string>(choices) },
+            { "flag_keys", new Array<string>(flagKeys) }
         });
 }

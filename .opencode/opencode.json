@@ -4,10 +4,10 @@
   "mcp": {
     "godot": {
       "type": "local",
-      "command": ["godot-mcp"],
+      "command": ["npx", "--yes", "@coding-solo/godot-mcp"],
       "enabled": true,
-      "env": {
-        "GODOT_PATH": "/usr/lib/godot-mono/godot.linuxbsd.editor.x86_64.mono"
+      "environment": {
+        "GODOT_PATH": "/usr/local/bin/godot"
       }
     }
   },

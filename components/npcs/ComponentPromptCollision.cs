@@ -66,7 +66,9 @@ public partial class ComponentPromptCollision : Area2D
 
         _interactionPrompt.Visible = false;
         _promptSprite.Visible = false;
-        DialogManager.Instance.Reset();
+        // Don't Reset() during an active cutscene — the cutscene owns dialog lifecycle.
+        if (!CutsceneController.Instance.IsPlaying)
+            DialogManager.Instance.Reset();
     }
 
     public bool isPromptVisible()

@@ -45,6 +45,9 @@ public static class CollisionConfig
             case TriggerAreaLayer:
                 GD.Print("TriggerAreas");
                 break;
+            case PlayerHitboxLayer:
+                GD.Print("PlayerHitbox");
+                break;
             case EnemyHitboxLayer:
                 GD.Print("EnemyHitbox");
                 break;

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 public partial class OfficerBacon : StaticBody2D
 {
+    private DialogVoice _voice = new(null, 1.15f, "Officer Bacon");
     private ComponentPromptCollision promptCollision;
-
-    [Export]
-    private AudioStream speechSound;
 
     public override void _Ready()
     {
@@ -27,7 +25,7 @@ public partial class OfficerBacon : StaticBody2D
                     {
                         "So you know Grandpa Smith? Small world.",
                         "Stay out of trouble and we'll get along fine."
-                    }, speechSound),
+                    }, _voice),
                     CutsceneAction.SetFlag("MetOfficer", true),
                 });
             }
@@ -35,7 +33,7 @@ public partial class OfficerBacon : StaticBody2D
             {
                 CutsceneController.Instance.StartCutscene(new List<CutsceneAction>
                 {
-                    CutsceneAction.SayDialog(new[] { "You're coming with me." }, speechSound)
+                    CutsceneAction.SayDialog(new[] { "You're coming with me." }, _voice)
                 });
             }
         }

@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public partial class DialogManager : Node2D
 {
@@ -8,18 +9,18 @@ public partial class DialogManager : Node2D
     private static DialogManager _instance;
     public static DialogManager Instance => _instance;
 
+    public enum TextSpeed { Instant, Fast, Normal }
+    public static TextSpeed CurrentTextSpeed = TextSpeed.Normal;
+
     private PackedScene TextBoxScene = ResourceLoader.Load<PackedScene>("res://ui/TextBox.tscn");
 
     private List<string> DialogLines;
     private int CurrentDialogLineIndex = 0;
 
     private TextBox CurrentTextBox;
-    private Vector2 TextBoxPosition;
+    private DialogVoice _currentVoice;
 
     public bool IsDialogActive = false;
-    public bool CanAdvanceLine = false;
-
-    public AudioStream SFX;
 
     public override void _Ready()
     {
@@ -29,72 +30,62 @@ public partial class DialogManager : Node2D
         }
         else
         {
-            GD.PrintErr("Multiple instances of OverworldManager detected!");
+            GD.PrintErr("Multiple instances of DialogManager detected!");
         }
     }
 
-    public override void _Process(double delta)
-    {
-    }
-
-    public override void _Input(InputEvent @event)
-    {
-        if (@event.IsActionPressed("advance_dialog"))
-        {
-            AttemptAdvanceDialog();
-        }
-    }
-
-    public void AttemptAdvanceDialog()
-    {
-        if (IsDialogActive && CanAdvanceLine)
-        {
-            CurrentTextBox.QueueFree();
-            CurrentDialogLineIndex++;
-            if (CurrentDialogLineIndex >= DialogLines.Count)
-            {
-                IsDialogActive = false;
-                Player.Instance.InInteraction = false;
-                CurrentDialogLineIndex = 0;
-                EmitSignal(SignalName.DialogFinished);
-                return;
-            }
-            CreateTextBox();
-        }
-    }
-
-    public void StartDialog(List<string> lines, AudioStream speechSfx)
+    public void StartDialog(List<string> lines, DialogVoice voice = null)
     {
         if (IsDialogActive) return;
 
-        SFX = speechSfx;
+        _currentVoice = voice ?? new DialogVoice();
         DialogLines = lines;
         IsDialogActive = true;
         Player.Instance.InInteraction = true;
 
-        CreateTextBox();
+        ShowNextLine();
     }
 
-    public void CreateTextBox()
+    private void ShowNextLine()
     {
-        CurrentTextBox = TextBoxScene.Instantiate<TextBox>();
-        CurrentTextBox.Connect(
-                nameof(CurrentTextBox.FinishedDisplaying),
-                new Callable(this, nameof(OnTextBoxFinishedDisplaying)));
+        if (CurrentDialogLineIndex >= DialogLines.Count)
+        {
+            IsDialogActive = false;
+            Player.Instance.InInteraction = false;
+            CurrentDialogLineIndex = 0;
+            _currentVoice = null;
+            EmitSignal(SignalName.DialogFinished);
+            return;
+        }
 
-        PlayerCamera pc = Player.Instance.Camera;
-        Vector2 centerScreen = pc.GetScreenCenterPosition();
-        CurrentTextBox.GlobalPosition = new Vector2(centerScreen.X, centerScreen.Y + (pc.GetViewportRect().Size.Y - 156));
+        CurrentTextBox = TextBoxScene.Instantiate<TextBox>();
+        CurrentTextBox.LineComplete += OnCurrentLineComplete;
 
         GetTree().Root.AddChild(CurrentTextBox);
-
-        CurrentTextBox.PlayText(DialogLines[CurrentDialogLineIndex], SFX);
-        CanAdvanceLine = false;
+        CurrentTextBox.PlayText(DialogLines[CurrentDialogLineIndex], _currentVoice);
     }
 
-    public void OnTextBoxFinishedDisplaying()
+    private void OnCurrentLineComplete()
     {
-        CanAdvanceLine = true;
+        if (CurrentTextBox != null && GodotObject.IsInstanceValid(CurrentTextBox))
+        {
+            CurrentTextBox.LineComplete -= OnCurrentLineComplete;
+            CurrentTextBox.QueueFree();
+            CurrentTextBox = null;
+        }
+
+        CurrentDialogLineIndex++;
+        ShowNextLine();
+    }
+
+    public async Task<int> PromptChoices(List<string> choices)
+    {
+        var menu = new ChoiceMenu();
+        menu.SetChoices(choices);
+        GetTree().Root.AddChild(menu);
+        Variant[] result = await ToSignal(menu, ChoiceMenu.SignalName.ChoiceSelected);
+        menu.QueueFree();
+        return (int)result[0];
     }
 
     public void Reset()
@@ -102,8 +93,12 @@ public partial class DialogManager : Node2D
         IsDialogActive = false;
         CurrentDialogLineIndex = 0;
         DialogLines = new List<string>();
+        _currentVoice = null;
+        if (Player.Instance != null)
+            Player.Instance.InInteraction = false;
         if (CurrentTextBox != null && GodotObject.IsInstanceValid(CurrentTextBox))
         {
+            CurrentTextBox.LineComplete -= OnCurrentLineComplete;
             CurrentTextBox.QueueFree();
             CurrentTextBox = null;
         }

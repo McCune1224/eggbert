@@ -12,6 +12,9 @@ public partial class GameController : Node
     public Array<Vector2> CurrentTileMapBounds;
     public Node CurrentLevel;
 
+    public string CheckpointLevelPath { get; set; } = "res://levels/overworld/maps/Overworld.tscn";
+    public Vector2 CheckpointPosition { get; set; } = Vector2.Zero;
+
     [Signal]
     public delegate void TileMapBoundsChangedEventHandler(Array<Vector2> bounds);
 
@@ -52,7 +55,7 @@ public partial class GameController : Node
     /// <summary>
     /// Loads a level and places the player at a specific position.
     /// </summary>
-    public async void LoadLevel(string scenePath, Vector2 playerPosition)
+    public async void LoadLevel(string scenePath, Vector2 playerPosition, bool skipAutoSave = false)
     {
         GetTree().Paused = true;
         EmitSignal(nameof(LevelLoadStarted));
@@ -77,8 +80,8 @@ public partial class GameController : Node
         var player = Player.Instance;
         player.Position = playerPosition;
 
-        // ponytail: auto-save on level transition
-        SaveLoadManager.Instance?.SaveGame();
+        if (!skipAutoSave)
+            SaveLoadManager.Instance?.SaveGame();
 
         await FadeTransition.Instance.PlayFadeIn();
         if (CurrentLevel is BaseLevel baseLevel && !string.IsNullOrEmpty(baseLevel.LevelName))
@@ -90,7 +93,7 @@ public partial class GameController : Node
     /// <summary>
     /// Loads a level and places the player at a transition area.
     /// </summary>
-    public async void LoadLevel(string scenePath, string targetTransitionName)
+    public async void LoadLevel(string scenePath, string targetTransitionName, bool skipAutoSave = false)
     {
         GetTree().Paused = true;
         EmitSignal(nameof(LevelLoadStarted));
@@ -128,8 +131,8 @@ public partial class GameController : Node
                 break;
         }
 
-        // ponytail: auto-save on level transition
-        SaveLoadManager.Instance?.SaveGame();
+        if (!skipAutoSave)
+            SaveLoadManager.Instance?.SaveGame();
 
         await FadeTransition.Instance.PlayFadeIn();
         if (CurrentLevel is BaseLevel baseLevel && !string.IsNullOrEmpty(baseLevel.LevelName))

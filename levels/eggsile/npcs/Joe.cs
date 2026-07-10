@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 public partial class Joe : StaticBody2D
 {
+    private DialogVoice _voice = new(null, 1.3f, "Joe");
     private ComponentPromptCollision promptCollision;
-
-    [Export]
-    private AudioStream speechSound;
 
     public override void _Ready()
     {
@@ -24,7 +22,7 @@ public partial class Joe : StaticBody2D
                 {
                     "I hate the morning shift. There's always so much",
                     "to clean down here and so little help."
-                }, speechSound)
+                }, _voice)
             });
         }
     }

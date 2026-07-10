@@ -39,18 +39,20 @@ Godot editor + MCP tools are available via the `godot-mcp` server (configured in
 | `Player` | `CharacterBody2D` | WASD movement, dash, save/load |
 | `FadeTransition` | `CanvasLayer` | Screen fade between levels |
 | `SaveLoadManager` | `Node` | Persist via `ResourceSaver` → `user://savegame.tres` |
+| `Inventory` | `Node` | Item stacks by id, ISavable, seeds test items on new game |
+| `Equipment` | `Node` | Equip/unequip Weapon/Armor/Accessory, applies stats to HealthComponent + ParryComponent, ISavable |
+| `CombatController` | `Node` | EnterCombat scene swap, saved overworld position, win/lose flow |
 
-`InventoryManager.cs`/`.tscn` have been deleted. `components/core/Inventory.cs` and `components/core/SoundConfig.cs` exist but are not wired into anything yet.
+`components/core/SoundConfig.cs` exists but is not wired into anything yet.
 
 ### Level loading
 `GameController.LoadLevel(scenePath, position)` or `LoadLevel(scenePath, transitionName)`. Clears old children from `CurrentLevel` node, instantiates new packed scene, repositions player, fades in/out.
 
 ### Combat
-**Nascent.** `CombatOatmeal` fires 3 `RedBullet`s in a spread every 2s toward the player. No player attacks, damage, or health system. `BulletComponent.cs` is an empty placeholder. `OatmealArena` has its own isolated camera.
+Phase 4 underway. `CombatOatmeal` fires 3 `RedBullet`s in a spread every 2s toward the player. `HealthComponent` (HP/damage Node) being built — unblocks consumables, equipment stats, combat HP, death/respawn. `ParryComponent` replaces graze meter. `CombatController` handles EnterCombat/return flow. `Equipment` autoload manages equip/unequip.
 
 ### Saving
-Only `Player` implements `ISavable`. Nodes in the `"persist"` group (currently just Player) are iterated by `SaveLoadManager`. Save/load triggered from `OverworldMenu` (Esc/F1).
-**Planned expansion**: 1 save slot, full state (WorldFlags, inventory, warps). See `DESIGN.md`.
+`Player`, `WorldFlags`, and `Inventory` implement `ISavable`. Nodes in the `"persist"` group are iterated by `SaveLoadManager`. Save/load triggered from `OverworldMenu` (Esc/F1) + auto-save on level transition. Warps persist implicitly via WorldFlags (`warp_<id>` flags). Player health field exists in `SaveDataPlayer` but is unused until `HealthComponent` lands.
 
 ## Conventions
 
@@ -58,15 +60,15 @@ Only `Player` implements `ISavable`. Nodes in the `"persist"` group (currently j
 - **No tests** — no test framework, no test project. Don't try to run tests.
 - **No CI** — no GitHub Actions or other CI config.
 - **Physics layers**: 1=Player, 2=Walls, 3=NPCs, 4=Bullets, 5=Interactables, 6=Enemies, 7=TriggerAreas, 8=PlayerHitbox, 9=EnemyHitbox, 10=Items. Constants in `components/core/CollisionConfig.cs`.
-- **Inputs**: WASD movement, E=interact, F1/Esc=menu, Space=advance dialog / dash, Shift=sprint.
-- `components/core/SoundConfig.cs` and `components/core/Inventory.cs` exist but are not wired into anything yet.
+- **Inputs**: WASD movement, E=interact, F1/Esc=menu, Space=advance dialog / dash, Shift=sprint, J=parry (combat), arrow keys+E=choice menu selection.
+- `components/core/SoundConfig.cs` exists but is not wired into anything yet. Inventory is wired up (autoload + OverworldMenu Items panel + save).
 
 ## Design unknowns — ASK, don't assume
 
 Most major design decisions are resolved in `DESIGN.md` (combat = bullet-hell dodge, dialog = WorldFlags branching, etc.). Remaining open questions:
 - Story/narrative (who is Eggbert? what's the plot?)
-- Consumable items (what do they do?)
-- Equipment stats (what do they affect?)
+- Consumable items (what do they do?) — *framework ready, effects blocked on HealthComponent*
+- Equipment stats (what do they affect?) — *data fields exist, application blocked on stat system*
 - Difficulty tuning (easy mode? HP scaling?)
 
 **Use the `question` tool** before implementing anything that touches these areas. The user prefers being offered choices rather than having decisions made for them.
@@ -80,3 +82,5 @@ The `godot-mcp` server provides these tools. Use them instead of manual scene ed
 - `godot_get_project_info`, `godot_get_godot_version`
 
 GODOT_PATH: `/usr/lib/godot-mono/godot.linuxbsd.editor.x86_64.mono`
+
+> **Note — 2026-07-06**: The MCP `environment` field in `.opencode/opencode.json` must be named `environment` (not `env` — the schema rejects unknown keys silently). If `godot_run_project` returns success but `godot_get_debug_output` immediately reports "No active Godot process", the env var didn't propagate — check the field name.

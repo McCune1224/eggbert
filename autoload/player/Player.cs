@@ -1,5 +1,7 @@
 using Godot;
 using Godot.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public partial class Player : CharacterBody2D, ISavable
 {
@@ -21,8 +23,8 @@ public partial class Player : CharacterBody2D, ISavable
     private Dash _dash;
 
     public PlayerCamera Camera { get; private set; }
-
-
+    public HealthComponent HealthComponent { get; private set; }
+    public ParryComponent Parry { get; private set; }
 
     private string _facedDirection = "down";
 
@@ -56,6 +58,21 @@ public partial class Player : CharacterBody2D, ISavable
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
         _dash = GetNode<Dash>("Dash");
         Camera = GetNode<PlayerCamera>("PlayerCamera");
+
+        HealthComponent = GetNodeOrNull<HealthComponent>("HealthComponent");
+        if (HealthComponent == null)
+        {
+            HealthComponent = new HealthComponent { Name = "HealthComponent" };
+            AddChild(HealthComponent);
+        }
+        HealthComponent.Died += OnPlayerDied;
+
+        Parry = GetNodeOrNull<ParryComponent>("ParryComponent");
+        if (Parry == null)
+        {
+            Parry = new ParryComponent { Name = "ParryComponent" };
+            AddChild(Parry);
+        }
 
         AnimationPlayer.Play("idle forward");
     }
@@ -136,6 +153,17 @@ public partial class Player : CharacterBody2D, ISavable
         Position = position;
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("debug_start_combat"))
+        {
+            CombatController.Instance?.EnterCombat(
+                "res://combat/arena/OatmealArena.tscn",
+                Vector2.Zero
+            );
+        }
+    }
+
     public void StartInteraction()
     {
         _inInteraction = true;
@@ -150,14 +178,10 @@ public partial class Player : CharacterBody2D, ISavable
 
     public SaveResource Save(SaveResource newSave)
     {
-        //TODO: Make health system? Using this as a placeholder for now.
-        int temporaryHealth = 100;
-
-
         SaveDataPlayer saveData = new();
 
         saveData.Position = Position;
-        saveData.Health = temporaryHealth;
+        saveData.Health = HealthComponent.CurrentHP;
         saveData.LevelScenePath = GameController.Instance.CurrentLevel.SceneFilePath;
 
         newSave.PlayerData = saveData;
@@ -168,8 +192,43 @@ public partial class Player : CharacterBody2D, ISavable
     {
         if (saveData.PlayerData != null)
         {
+            HealthComponent.CurrentHP = saveData.PlayerData.Health;
             GameController.Instance.LoadLevel(saveData.PlayerData.LevelScenePath, saveData.PlayerData.Position);
         }
+    }
+
+    private bool _deathInProgress = false;
+
+    private async void OnPlayerDied()
+    {
+        if (_deathInProgress) return;
+        _deathInProgress = true;
+
+        if (GameController.Instance?.CurrentLevel is CombatArena)
+        {
+            _deathInProgress = false;
+            return;
+        }
+
+        HealthComponent.Died -= OnPlayerDied;
+
+        var lines = new System.Collections.Generic.List<string> { "You collapsed..." };
+        DialogManager.Instance.StartDialog(lines, new DialogVoice());
+        await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
+
+        await FadeTransition.Instance.PlayFadeOut();
+
+        GameController.Instance.LoadLevel(
+            GameController.Instance.CheckpointLevelPath,
+            GameController.Instance.CheckpointPosition,
+            true
+        );
+        await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
+
+        HealthComponent.Revive(50);
+        HealthComponent.Died += OnPlayerDied;
+
+        _deathInProgress = false;
     }
 
     public int GetLoadPriority()

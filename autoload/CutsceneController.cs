@@ -12,6 +12,7 @@ public partial class CutsceneController : Node
 
     private bool _isPlaying;
     public bool IsPlaying => _isPlaying;
+    public int LastChoiceIndex { get; private set; } = -1;
 
     public override void _Ready()
     {
@@ -64,6 +65,10 @@ public partial class CutsceneController : Node
             case CutsceneActionType.Fade:
                 await Fade(action);
                 break;
+
+            case CutsceneActionType.PromptChoice:
+                await PromptChoice(action);
+                break;
         }
     }
 
@@ -102,10 +107,14 @@ public partial class CutsceneController : Node
     private async Task SayDialog(CutsceneAction action)
     {
         var lines = new List<string>(action.Params["lines"].AsGodotArray<string>());
-        AudioStream sfx = null;
-        if (action.Params.ContainsKey("sfx") && action.Params["sfx"].VariantType != Variant.Type.Nil)
-            sfx = (AudioStream)action.Params["sfx"];
-        DialogManager.Instance.StartDialog(lines, sfx);
+        var voice = new DialogVoice();
+        if (action.Params.ContainsKey("voice_blip") && action.Params["voice_blip"].VariantType != Variant.Type.Nil)
+            voice.BlipStream = (AudioStream)action.Params["voice_blip"];
+        if (action.Params.ContainsKey("voice_pitch"))
+            voice.BasePitch = (float)action.Params["voice_pitch"];
+        if (action.Params.ContainsKey("voice_name"))
+            voice.SpeakerName = (string)action.Params["voice_name"];
+        DialogManager.Instance.StartDialog(lines, voice);
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
     }
 
@@ -129,5 +138,15 @@ public partial class CutsceneController : Node
             await FadeTransition.Instance.PlayFadeOut();
         else
             await FadeTransition.Instance.PlayFadeIn();
+    }
+
+    private async Task PromptChoice(CutsceneAction action)
+    {
+        var choices = new List<string>(action.Params["choices"].AsGodotArray<string>());
+        var flagKeys = new List<string>(action.Params["flag_keys"].AsGodotArray<string>());
+        int index = await DialogManager.Instance.PromptChoices(choices);
+        LastChoiceIndex = index;
+        if (index >= 0 && index < flagKeys.Count && !string.IsNullOrEmpty(flagKeys[index]))
+            WorldFlags.Instance.SetFlag(flagKeys[index], true);
     }
 }
