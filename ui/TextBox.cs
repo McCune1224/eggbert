@@ -73,11 +73,11 @@ public partial class TextBox : Control
         _pageArrow = GetNode<Control>("PageArrow");
 
         _voicePlayers[0] = GetNode<AudioStreamPlayer>("VoicePlayer0");
-        _voicePlayers[0].Bus = "SFX ";
+        _voicePlayers[0].Bus = "SFX";
         for (int i = 1; i < 3; i++)
         {
             _voicePlayers[i] = new AudioStreamPlayer();
-            _voicePlayers[i].Bus = "SFX ";
+            _voicePlayers[i].Bus = "SFX";
             AddChild(_voicePlayers[i]);
         }
 
@@ -108,8 +108,13 @@ public partial class TextBox : Control
 
         Page page = _pages[_pageIndex];
         int globalNext = page.Start + _visibleCharCount;
-        if (globalNext < _displayText.Length && _charCps[globalNext] > 0f)
-            _currentCps = _charCps[globalNext];
+        if (globalNext < _displayText.Length)
+        {
+            if (_charCps[globalNext] > 0f)
+                _currentCps = _charCps[globalNext];
+            else
+                _currentCps = GetGlobalSpeedCps();
+        }
 
         float effectiveCps = _currentCps * speedMul;
         _charAccumulator += effectiveCps * (float)delta;
@@ -153,11 +158,6 @@ public partial class TextBox : Control
         {
             _namePlate.Visible = false;
         }
-
-        var viewport = GetViewport();
-        var screenSize = viewport.GetVisibleRect().Size;
-        Position = new Vector2(0, screenSize.Y - 100);
-        Size = new Vector2(screenSize.X, 100);
 
         var segments = DialogTagParser.Parse(line);
         BuildChars(segments);
@@ -273,10 +273,7 @@ public partial class TextBox : Control
 
         _textLabel.MaxLinesVisible = MAX_VISIBLE_LINES;
 
-        if (DialogManager.CurrentTextSpeed == DialogManager.TextSpeed.Instant)
-            _currentCps = 1_000_000f;
-        else
-            _currentCps = NORMAL_CPS;
+        _currentCps = GetGlobalSpeedCps();
 
         _state = TextBoxState.Typing;
     }
@@ -414,4 +411,14 @@ public partial class TextBox : Control
         ',' => PAUSE_COMMA,
         _ => 0f
     };
+
+    static float GetGlobalSpeedCps()
+    {
+        return DialogManager.CurrentTextSpeed switch
+        {
+            DialogManager.TextSpeed.Instant => 1_000_000f,
+            DialogManager.TextSpeed.Fast => FAST_CPS,
+            _ => NORMAL_CPS
+        };
+    }
 }

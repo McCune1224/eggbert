@@ -145,7 +145,7 @@ public partial class MainMenu : CanvasLayer
     private void OnSfxVolumeChanged(double value)
     {
         float db = (float)(value / 100.0 * 40.0 - 40.0);
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("SFX "), db);
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("SFX"), db);
     }
 
     private void OnFullscreenToggled(bool pressed)

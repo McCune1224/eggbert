@@ -98,7 +98,7 @@ public partial class DebugOverlay : CanvasLayer
         if (audio != null)
         {
             float musicDb = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("MUSIC"));
-            float sfxDb = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("SFX "));
+            float sfxDb = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("SFX"));
             sb.AppendLine($"Audio: music={musicDb:F1}dB  sfx={sfxDb:F1}dB");
         }
 
