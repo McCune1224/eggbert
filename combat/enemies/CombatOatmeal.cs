@@ -11,6 +11,14 @@ public partial class CombatOatmeal : Area2D
         Mint
     }
 
+    private enum State
+    {
+        Idle,
+        Telegraph,
+        Attacking,
+        Cooldown
+    }
+
     private static readonly Dictionary<OatmealFlavor, int> FlavorMaxHP = new()
     {
         { OatmealFlavor.Vanilla, 30 },
@@ -19,13 +27,31 @@ public partial class CombatOatmeal : Area2D
         { OatmealFlavor.Mint, 20 },
     };
 
+    private struct TimingProfile
+    {
+        public float IdleMin;
+        public float IdleMax;
+        public float Telegraph;
+        public float Cooldown;
+    }
+
+    private static readonly Dictionary<OatmealFlavor, TimingProfile> FlavorProfile = new()
+    {
+        { OatmealFlavor.Vanilla,    new TimingProfile { IdleMin = 0.8f, IdleMax = 1.6f, Telegraph = 0.50f, Cooldown = 1.0f } },
+        { OatmealFlavor.Strawberry, new TimingProfile { IdleMin = 0.7f, IdleMax = 1.3f, Telegraph = 0.45f, Cooldown = 0.9f } },
+        { OatmealFlavor.Chocolate,  new TimingProfile { IdleMin = 1.0f, IdleMax = 2.0f, Telegraph = 0.60f, Cooldown = 1.2f } },
+        { OatmealFlavor.Mint,       new TimingProfile { IdleMin = 0.6f, IdleMax = 1.0f, Telegraph = 0.35f, Cooldown = 1.4f } },
+    };
+
     [Export] public OatmealFlavor Flavor { get; set; } = OatmealFlavor.Vanilla;
 
     private AnimationPlayer _animationPlayer;
     private Sprite2D _sprite;
-    private bool _isFiring = false;
-    private float _attackCooldown = 2.0f;
-    private float _timeSinceLastAttack = 0.0f;
+    private Color _baseTint = new Color(1f, 1f, 1f);
+
+    private State _state = State.Idle;
+    private float _stateTimer = 0f;
+    private float _stateDuration = 1f;
 
     public HealthComponent Health { get; private set; }
 
@@ -33,6 +59,8 @@ public partial class CombatOatmeal : Area2D
     private static readonly Color StrawberryColor = new Color(1f, 0.6f, 0.7f);
     private static readonly Color ChocolateColor = new Color(0.5f, 0.3f, 0.15f);
     private static readonly Color MintColor = new Color(0.5f, 1f, 0.7f);
+
+    private static readonly Color TelegraphColor = new Color(1f, 0.35f, 0.3f);
 
     public override void _Ready()
     {
@@ -53,20 +81,20 @@ public partial class CombatOatmeal : Area2D
             AddChild(Health);
         }
         Health.Died += OnDied;
+
+        EnterState(State.Idle);
     }
 
     public void ApplyFlavor()
     {
         ApplyFlavorVisuals();
         if (Health != null && FlavorMaxHP.TryGetValue(Flavor, out int hp))
-        {
             Health.SetMaxHP(hp, true);
-        }
     }
 
     private void ApplyFlavorVisuals()
     {
-        Color tint = Flavor switch
+        _baseTint = Flavor switch
         {
             OatmealFlavor.Strawberry => StrawberryColor,
             OatmealFlavor.Chocolate => ChocolateColor,
@@ -75,7 +103,7 @@ public partial class CombatOatmeal : Area2D
         };
 
         if (_sprite != null)
-            _sprite.Modulate = tint;
+            _sprite.Modulate = _baseTint;
     }
 
     private void OnDied()
@@ -89,22 +117,76 @@ public partial class CombatOatmeal : Area2D
 
     public override void _Process(double delta)
     {
-        _timeSinceLastAttack += (float)delta;
+        _stateTimer += (float)delta;
 
-        if (!_isFiring && _timeSinceLastAttack >= _attackCooldown)
+        switch (_state)
         {
-            Attack();
-            _timeSinceLastAttack = 0;
+            case State.Idle:
+                if (_stateTimer >= _stateDuration)
+                    EnterState(State.Telegraph);
+                break;
+
+            case State.Telegraph:
+            {
+                // Pulse toward red, intensifying as the wind-up completes.
+                float t = Mathf.Clamp(_stateTimer / _stateDuration, 0f, 1f);
+                float pulse = (Mathf.Sin(t * Mathf.Pi * 6f) * 0.5f + 0.5f) * t;
+                if (_sprite != null)
+                    _sprite.Modulate = _baseTint.Lerp(TelegraphColor, pulse);
+
+                if (_stateTimer >= _stateDuration)
+                    EnterState(State.Attacking);
+                break;
+            }
+
+            case State.Attacking:
+                Attack();
+                if (_sprite != null)
+                    _sprite.Modulate = _baseTint;
+                EnterState(State.Cooldown);
+                break;
+
+            case State.Cooldown:
+                if (_stateTimer >= _stateDuration)
+                    EnterState(State.Idle);
+                break;
         }
     }
 
+    private void EnterState(State newState)
+    {
+        _state = newState;
+        _stateTimer = 0f;
+
+        var profile = FlavorProfile.GetValueOrDefault(Flavor, FlavorProfile[OatmealFlavor.Vanilla]);
+
+        switch (newState)
+        {
+            case State.Idle:
+                _stateDuration = (float)GD.RandRange(profile.IdleMin, profile.IdleMax);
+                if (_sprite != null)
+                    _sprite.Modulate = _baseTint;
+                break;
+            case State.Telegraph:
+                _stateDuration = profile.Telegraph;
+                break;
+            case State.Cooldown:
+                _stateDuration = profile.Cooldown;
+                break;
+            // Attacking is instantaneous — no duration, transitions same frame.
+        }
+    }
+
+    /// <summary>Plays the sprite idle animation. Kept for parity with external callers.</summary>
     public void Fire()
     {
-        _animationPlayer.Play("default");
+        _animationPlayer?.Play("default");
     }
 
     private void Attack()
     {
+        _animationPlayer?.Play("default");
+
         switch (Flavor)
         {
             case OatmealFlavor.Strawberry:
@@ -124,10 +206,6 @@ public partial class CombatOatmeal : Area2D
 
     private void AttackSpread()
     {
-        if (_isFiring) return;
-        _animationPlayer.Play("default");
-        _isFiring = true;
-
         int numBullets = 3;
         float spreadAngle = 30f;
         float angleStep = spreadAngle / (numBullets > 1 ? numBullets - 1 : 1);
@@ -144,16 +222,10 @@ public partial class CombatOatmeal : Area2D
             Vector2 dir = new Vector2(Mathf.Cos(bulletAngle), Mathf.Sin(bulletAngle));
             bullet.SetDirection(dir, 250f);
         }
-
-        _isFiring = false;
     }
 
     private void AttackHoming()
     {
-        if (_isFiring) return;
-        _animationPlayer.Play("default");
-        _isFiring = true;
-
         for (int i = 0; i < 2; i++)
         {
             RedBullet bullet = SpawnBullet();
@@ -164,16 +236,10 @@ public partial class CombatOatmeal : Area2D
             bullet.SetDirection(dir, 180f);
             bullet.IsHoming = true;
         }
-
-        _isFiring = false;
     }
 
     private void AttackAimed()
     {
-        if (_isFiring) return;
-        _animationPlayer.Play("default");
-        _isFiring = true;
-
         for (int i = 0; i < 2; i++)
         {
             RedBullet bullet = SpawnBullet();
@@ -183,16 +249,10 @@ public partial class CombatOatmeal : Area2D
             Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
             bullet.SetDirection(dir, 350f);
         }
-
-        _isFiring = false;
     }
 
     private void AttackBurst()
     {
-        if (_isFiring) return;
-        _animationPlayer.Play("default");
-        _isFiring = true;
-
         int numBullets = 5;
         float spreadAngle = 20f;
         float angleStep = spreadAngle / (numBullets > 1 ? numBullets - 1 : 1);
@@ -209,8 +269,6 @@ public partial class CombatOatmeal : Area2D
             Vector2 dir = new Vector2(Mathf.Cos(bulletAngle), Mathf.Sin(bulletAngle));
             bullet.SetDirection(dir, 400f);
         }
-
-        _isFiring = false;
     }
 
     private RedBullet SpawnBullet()
