@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://bbkcsovvq8cd2" path="res://components/core/LevelTileMapLayer.cs" id="2_kt740"]
 [ext_resource type="AudioStream" uid="uid://bcjcypieo0utu" path="res://assets/audio/music/indie_meditations/lvl_3_the_grassland.ogg" id="2_pttgg"]
 [ext_resource type="PackedScene" uid="uid://p6m0e88omobs" path="res://levels/eggsile/npcs/Joe.tscn" id="6_pttgg"]
+[ext_resource type="AudioStream" uid="uid://dqt6p5ov60v7t" path="res://assets/audio/characters/emily.ogg" id="7_1qho7"]
+[ext_resource type="Script" uid="uid://cswrwcu6al2mu" path="res://resources/dialog/DialogVoiceResource.cs" id="8_eaft5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eirxw"]
 texture = ExtResource("1_huy63")
@@ -93,6 +95,15 @@ texture = ExtResource("1_huy63")
 [sub_resource type="TileSet" id="TileSet_kt740"]
 sources/0 = SubResource("TileSetAtlasSource_eirxw")
 
+[sub_resource type="Resource" id="Resource_onfhm"]
+script = ExtResource("8_eaft5")
+VoiceStream = ExtResource("7_1qho7")
+BlipDuration = 0.12
+StartOffset = 1.3
+VolumeDb = -11.2
+VolumeVariance = 2.3
+metadata/_custom_type_script = "uid://cswrwcu6al2mu"
+
 [node name="Area1" type="Node2D" unique_id=1585467900]
 scale = Vector2(1, 1.01057)
 script = ExtResource("1_6jprg")
@@ -120,3 +131,5 @@ Size = 5
 
 [node name="Joe" parent="." unique_id=1468133386 instance=ExtResource("6_pttgg")]
 position = Vector2(-87, -83.1214)
+rotation = 0.011006861
+Voice = SubResource("Resource_onfhm")

@@ -180,7 +180,7 @@ public partial class MainMenu : CanvasLayer
         _textSpeedOption.AddItem("Normal", (int)DialogManager.TextSpeed.Normal);
         _textSpeedOption.AddItem("Fast", (int)DialogManager.TextSpeed.Fast);
         _textSpeedOption.AddItem("Instant", (int)DialogManager.TextSpeed.Instant);
-        _textSpeedOption.Selected = (int)DialogManager.TextSpeed.Normal;
+        _textSpeedOption.Selected = (int)DialogManager.TextSpeed.Fast;
         hbox.AddChild(_textSpeedOption);
         var backButton = vbox.GetChild(vbox.GetChildCount() - 1);
         vbox.AddChild(hbox);
@@ -199,7 +199,7 @@ public partial class MainMenu : CanvasLayer
         double sfxVol = (double)config.GetValue("audio", "sfx_volume", 100.0);
         bool fullscreen = (bool)config.GetValue("display", "fullscreen", false);
         int scale = (int)config.GetValue("display", "window_scale", 1);
-        int textSpeed = (int)config.GetValue("display", "text_speed", (int)DialogManager.TextSpeed.Normal);
+        int textSpeed = (int)config.GetValue("display", "text_speed", (int)DialogManager.TextSpeed.Fast);
 
         _musicSlider.Value = musicVol;
         _sfxSlider.Value = sfxVol;

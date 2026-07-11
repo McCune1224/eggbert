@@ -107,13 +107,9 @@ public partial class CutsceneController : Node
     private async Task SayDialog(CutsceneAction action)
     {
         var lines = new List<string>(action.Params["lines"].AsGodotArray<string>());
-        var voice = new DialogVoice();
-        if (action.Params.ContainsKey("voice_blip") && action.Params["voice_blip"].VariantType != Variant.Type.Nil)
-            voice.BlipStream = (AudioStream)action.Params["voice_blip"];
-        if (action.Params.ContainsKey("voice_pitch"))
-            voice.BasePitch = (float)action.Params["voice_pitch"];
-        if (action.Params.ContainsKey("voice_name"))
-            voice.SpeakerName = (string)action.Params["voice_name"];
+        DialogVoiceResource voice = null;
+        if (action.Params.ContainsKey("voice") && action.Params["voice"].VariantType != Variant.Type.Nil)
+            voice = (DialogVoiceResource)action.Params["voice"];
         DialogManager.Instance.StartDialog(lines, voice);
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
     }

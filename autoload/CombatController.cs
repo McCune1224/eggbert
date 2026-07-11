@@ -56,7 +56,7 @@ public partial class CombatController : Node
         UnhookArena();
 
         DialogManager.Instance.StartDialog(
-            new System.Collections.Generic.List<string> { "You collapsed..." }, new DialogVoice());
+            new System.Collections.Generic.List<string> { "You collapsed..." });
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
 
         ReturnToOverworld();

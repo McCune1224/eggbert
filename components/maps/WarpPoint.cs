@@ -26,7 +26,7 @@ public partial class WarpPoint : Area2D
             _prompt.HidePrompt();
             if (WarpDatabase.All.TryGetValue(WarpId, out var dest))
                 DialogManager.Instance.StartDialog(
-                    new System.Collections.Generic.List<string> { $"Warp unlocked: {dest.Name}" }, new DialogVoice());
+                    new System.Collections.Generic.List<string> { $"Warp unlocked: {dest.Name}" });
         }
     }
 }

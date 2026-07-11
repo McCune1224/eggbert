@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public partial class GrandpaSmith : StaticBody2D
 {
-    private DialogVoice _voice = new(null, 0.8f, "Grandpa Smith");
+    [Export] public DialogVoiceResource Voice;
     private ComponentPromptCollision promptCollision;
 
     public override void _Ready()
@@ -25,7 +25,7 @@ public partial class GrandpaSmith : StaticBody2D
                     {
                         "Good to see you again, Eggbert!",
                         "The eggsile district has been quiet lately.",
-                    }, _voice),
+                    }, Voice),
                 });
             }
             else
@@ -37,7 +37,7 @@ public partial class GrandpaSmith : StaticBody2D
                         "This is a cutscene!",
                         "Watch me slide to the right...",
                         "...and set a WorldFlag when done."
-                    }, _voice),
+                    }, Voice),
                     CutsceneAction.MoveNpc("GrandpaSmith", new Vector2(300, Position.Y), 2.0f),
                     CutsceneAction.Wait(0.5f),
                     CutsceneAction.SetFlag("MetGrandpa", true),

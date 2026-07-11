@@ -66,6 +66,7 @@ public partial class Player : CharacterBody2D, ISavable
             AddChild(HealthComponent);
         }
         HealthComponent.Died += OnPlayerDied;
+        HealthComponent.Damaged += (amount, source) => Camera?.Shake(6f, 0.3f);
 
         Parry = GetNodeOrNull<ParryComponent>("ParryComponent");
         if (Parry == null)
@@ -73,6 +74,7 @@ public partial class Player : CharacterBody2D, ISavable
             Parry = new ParryComponent { Name = "ParryComponent" };
             AddChild(Parry);
         }
+        Parry.Parried += () => Camera?.Shake(4f, 0.15f);
 
         AnimationPlayer.Play("idle forward");
     }
@@ -213,7 +215,7 @@ public partial class Player : CharacterBody2D, ISavable
         HealthComponent.Died -= OnPlayerDied;
 
         var lines = new System.Collections.Generic.List<string> { "You collapsed..." };
-        DialogManager.Instance.StartDialog(lines, new DialogVoice());
+        DialogManager.Instance.StartDialog(lines);
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
 
         await FadeTransition.Instance.PlayFadeOut();

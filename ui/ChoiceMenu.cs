@@ -1,42 +1,50 @@
 using Godot;
 using System.Collections.Generic;
 
-public partial class ChoiceMenu : Control
+public partial class ChoiceMenu : CanvasLayer
 {
     [Signal]
     public delegate void ChoiceSelectedEventHandler(int index);
 
-    private VBoxContainer _choiceContainer;
     private List<Button> _buttons = new();
+    private List<string> _originalTexts = new();
     private int _selectedIndex;
-    private Panel _bgPanel;
+    private Control _root;
+    private VBoxContainer _choiceContainer;
+    private static Font _yosterFont;
+
+    static ChoiceMenu()
+    {
+        _yosterFont = ResourceLoader.Load<Font>("res://assets/fonts/yoster.ttf");
+    }
 
     public override void _Ready()
     {
-        AnchorLeft = 0;
-        AnchorRight = 1;
-        AnchorTop = 0;
-        AnchorBottom = 1;
-        MouseFilter = MouseFilterEnum.Ignore;
+        Layer = 129;
 
-        _bgPanel = new Panel
+        _root = new Control();
+        _root.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+        _root.MouseFilter = Control.MouseFilterEnum.Ignore;
+        AddChild(_root);
+
+        var bgPanel = new Panel
         {
-            MouseFilter = MouseFilterEnum.Pass,
+            MouseFilter = Control.MouseFilterEnum.Pass,
             SelfModulate = new Color(0, 0, 0, 0.7f)
         };
-        _bgPanel.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-        AddChild(_bgPanel);
+        bgPanel.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+        _root.AddChild(bgPanel);
 
         var centerBox = new CenterContainer
         {
-            MouseFilter = MouseFilterEnum.Ignore
+            MouseFilter = Control.MouseFilterEnum.Ignore
         };
         centerBox.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-        AddChild(centerBox);
+        _root.AddChild(centerBox);
 
         _choiceContainer = new VBoxContainer
         {
-            MouseFilter = MouseFilterEnum.Pass
+            MouseFilter = Control.MouseFilterEnum.Pass
         };
         _choiceContainer.AddThemeConstantOverride("separation", 8);
         centerBox.AddChild(_choiceContainer);
@@ -44,27 +52,28 @@ public partial class ChoiceMenu : Control
 
     public void SetChoices(List<string> choices)
     {
-        int fontSize = 16;
-        var font = ResourceLoader.Load<Font>("res://assets/fonts/yoster.ttf");
+        _originalTexts = new List<string>(choices);
 
         for (int i = 0; i < choices.Count; i++)
         {
             var btn = new Button
             {
-                Text = choices[i],
+                Text = "  " + choices[i],
                 Flat = true,
-                MouseFilter = MouseFilterEnum.Pass,
-                CustomMinimumSize = new Vector2(200, 0)
+                MouseFilter = Control.MouseFilterEnum.Pass,
+                CustomMinimumSize = new Vector2(240, 24),
+                SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter
             };
-            btn.AddThemeFontSizeOverride("font_size", fontSize);
-            if (font != null)
-                btn.AddThemeFontOverride("font", font);
-            btn.AddThemeColorOverride("font_color", new Color(0.9f, 0.9f, 0.9f));
+            btn.AddThemeFontSizeOverride("font_size", 16);
+            if (_yosterFont != null)
+                btn.AddThemeFontOverride("font", _yosterFont);
+            btn.AddThemeColorOverride("font_color", new Color(0.8f, 0.8f, 0.8f));
             btn.AddThemeColorOverride("font_hover_color", new Color(1, 1, 0.5f));
-            btn.AddThemeColorOverride("font_pressed_color", new Color(1, 1, 0.5f));
             btn.AddThemeColorOverride("font_focus_color", new Color(1, 1, 0.5f));
+            btn.AddThemeColorOverride("font_pressed_color", new Color(1, 1, 0.5f));
 
             int capture = i;
+            btn.MouseEntered += () => SelectIndex(capture);
             btn.Pressed += () => EmitSignal(SignalName.ChoiceSelected, capture);
             _choiceContainer.AddChild(btn);
             _buttons.Add(btn);
@@ -73,7 +82,24 @@ public partial class ChoiceMenu : Control
         if (_buttons.Count > 0)
         {
             _selectedIndex = 0;
+            UpdateSelectionDisplay();
             _buttons[0].GrabFocus();
+        }
+    }
+
+    void SelectIndex(int index)
+    {
+        _selectedIndex = index;
+        UpdateSelectionDisplay();
+        _buttons[index].GrabFocus();
+    }
+
+    void UpdateSelectionDisplay()
+    {
+        for (int i = 0; i < _buttons.Count; i++)
+        {
+            string marker = i == _selectedIndex ? "> " : "  ";
+            _buttons[i].Text = marker + _originalTexts[i];
         }
     }
 
@@ -81,13 +107,15 @@ public partial class ChoiceMenu : Control
     {
         if (@event.IsActionPressed("player_up") || @event.IsActionPressed("ui_up"))
         {
-            _selectedIndex = Mathf.Max(0, _selectedIndex - 1);
+            _selectedIndex = (_selectedIndex - 1 + _buttons.Count) % _buttons.Count;
+            UpdateSelectionDisplay();
             _buttons[_selectedIndex].GrabFocus();
             GetViewport().SetInputAsHandled();
         }
         else if (@event.IsActionPressed("player_down") || @event.IsActionPressed("ui_down"))
         {
-            _selectedIndex = Mathf.Min(_buttons.Count - 1, _selectedIndex + 1);
+            _selectedIndex = (_selectedIndex + 1) % _buttons.Count;
+            UpdateSelectionDisplay();
             _buttons[_selectedIndex].GrabFocus();
             GetViewport().SetInputAsHandled();
         }

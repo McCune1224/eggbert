@@ -43,7 +43,7 @@ Godot editor + MCP tools are available via the `godot-mcp` server (configured in
 | `Equipment` | `Node` | Equip/unequip Weapon/Armor/Accessory, applies stats to HealthComponent + ParryComponent, ISavable |
 | `CombatController` | `Node` | EnterCombat scene swap, saved overworld position, win/lose flow |
 
-`components/core/SoundConfig.cs` exists but is not wired into anything yet.
+`components/core/SoundConfig.cs` was referenced but the file doesn't exist — not yet created.
 
 ### Level loading
 `GameController.LoadLevel(scenePath, position)` or `LoadLevel(scenePath, transitionName)`. Clears old children from `CurrentLevel` node, instantiates new packed scene, repositions player, fades in/out.
@@ -51,7 +51,11 @@ Godot editor + MCP tools are available via the `godot-mcp` server (configured in
 ### Combat
 Phase 4 underway. `CombatOatmeal` fires 3 `RedBullet`s in a spread every 2s toward the player. `HealthComponent` (HP/damage Node) being built — unblocks consumables, equipment stats, combat HP, death/respawn. `ParryComponent` replaces graze meter. `CombatController` handles EnterCombat/return flow. `Equipment` autoload manages equip/unequip.
 
-### Saving
+### Dialog voice system
+- `DialogVoiceResource` (`resources/dialog/DialogVoiceResource.cs`) — Godot `[GlobalClass]` Resource. All pitch/volume/stream params are `[Export]` → visible in Inspector. Double-click a `.tres` to tweak.
+- NPCs have `[Export] public DialogVoiceResource Voice` — set in Inspector. Falls back to `DialogManager.DefaultVoice` (procedural 60ms sine blip at 440Hz) if null.
+- Each character blip gets its own `AudioStreamPlayer` (one-shot, create → play → QueueFree after `BlipDuration`). Max 16 concurrent. Cleaned up in `_Process`.
+- Friends send ~1–2 second .ogg recordings of vowel sounds → drop into `assets/audio/sfx/dialog/` → create a `DialogVoiceResource` .tres → assign to NPC. Only the first `BlipDuration` (default 80ms) of each clip plays per character, pitched per vowel.
 `Player`, `WorldFlags`, and `Inventory` implement `ISavable`. Nodes in the `"persist"` group are iterated by `SaveLoadManager`. Save/load triggered from `OverworldMenu` (Esc/F1) + auto-save on level transition. Warps persist implicitly via WorldFlags (`warp_<id>` flags). Player health field exists in `SaveDataPlayer` but is unused until `HealthComponent` lands.
 
 ## Conventions
@@ -60,8 +64,8 @@ Phase 4 underway. `CombatOatmeal` fires 3 `RedBullet`s in a spread every 2s towa
 - **No tests** — no test framework, no test project. Don't try to run tests.
 - **No CI** — no GitHub Actions or other CI config.
 - **Physics layers**: 1=Player, 2=Walls, 3=NPCs, 4=Bullets, 5=Interactables, 6=Enemies, 7=TriggerAreas, 8=PlayerHitbox, 9=EnemyHitbox, 10=Items. Constants in `components/core/CollisionConfig.cs`.
-- **Inputs**: WASD movement, E=interact, F1/Esc=menu, Space=advance dialog / dash, Shift=sprint, J=parry (combat), arrow keys+E=choice menu selection.
-- `components/core/SoundConfig.cs` exists but is not wired into anything yet. Inventory is wired up (autoload + OverworldMenu Items panel + save).
+- **Inputs**: WASD movement, E=interact/dialog advance, F1/Esc=menu, Space=dash, Shift=sprint, J=parry (combat), arrow keys+E=choice menu selection.
+- `components/core/SoundConfig.cs` was referenced but the file doesn't exist — not yet created. Inventory is wired up (autoload + OverworldMenu Items panel + save).
 
 ## Design unknowns — ASK, don't assume
 
@@ -128,7 +132,7 @@ The `godot-mcp` server provides these tools. Use them instead of manual scene ed
 - `godot_create_scene`, `godot_save_scene`, `godot_add_node`, `godot_load_sprite`
 - `godot_get_project_info`, `godot_get_godot_version`
 
-GODOT_PATH: `/usr/lib/godot-mono/godot.linuxbsd.editor.x86_64.mono`
+GODOT_PATH: `/usr/local/bin/godot`
 
 > **Note — 2026-07-06**: The MCP `environment` field in `.opencode/opencode.json` must be named `environment` (not `env` — the schema rejects unknown keys silently). If `godot_run_project` returns success but `godot_get_debug_output` immediately reports "No active Godot process", the env var didn't propagate — check the field name.
 

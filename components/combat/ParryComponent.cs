@@ -2,6 +2,9 @@ using Godot;
 
 public partial class ParryComponent : Node2D
 {
+    [Signal]
+    public delegate void ParriedEventHandler();
+
     [Export] public float ParryRadius { get; set; } = 110f;
     [Export] public int ParryDamage { get; set; } = 10;
     [Export] public float Cooldown { get; set; } = 0.5f;
@@ -97,6 +100,7 @@ public partial class ParryComponent : Node2D
 
     private void OnParrySuccess()
     {
+        EmitSignal(SignalName.Parried);
         _ringFlash = 1f;
 
         var vfx = new Label

@@ -10,13 +10,15 @@ public partial class DialogManager : Node2D
     public static DialogManager Instance => _instance;
 
     public enum TextSpeed { Instant, Fast, Normal }
-    public static TextSpeed CurrentTextSpeed = TextSpeed.Normal;
+    public static TextSpeed CurrentTextSpeed = TextSpeed.Fast;
+
+    public DialogVoiceResource DefaultVoice { get; private set; }
 
     private List<string> DialogLines;
     private int CurrentDialogLineIndex = 0;
 
     private DialogBubble CurrentDialogBubble;
-    private DialogVoice _currentVoice;
+    private DialogVoiceResource _currentVoice;
     private ChoiceMenu _activeChoiceMenu;
 
     public bool IsDialogActive = false;
@@ -31,13 +33,15 @@ public partial class DialogManager : Node2D
         {
             GD.PrintErr("Multiple instances of DialogManager detected!");
         }
+
+        DefaultVoice = new DialogVoiceResource();
     }
 
-    public void StartDialog(List<string> lines, DialogVoice voice = null)
+    public void StartDialog(List<string> lines, DialogVoiceResource voice = null)
     {
         if (IsDialogActive) return;
 
-        _currentVoice = voice ?? new DialogVoice();
+        _currentVoice = voice ?? DefaultVoice;
         DialogLines = lines;
         IsDialogActive = true;
         Player.Instance.InInteraction = true;
@@ -61,7 +65,7 @@ public partial class DialogManager : Node2D
         CurrentDialogBubble.LineComplete += OnCurrentLineComplete;
 
         GetTree().Root.AddChild(CurrentDialogBubble);
-        CurrentDialogBubble.DisplayText(DialogLines[CurrentDialogLineIndex], _currentVoice);
+        CurrentDialogBubble.DisplayText(DialogLines[CurrentDialogLineIndex], _currentVoice ?? DefaultVoice);
     }
 
     private void OnCurrentLineComplete()

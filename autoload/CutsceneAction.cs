@@ -42,16 +42,14 @@ public struct CutsceneAction
             { "duration", duration }
         });
 
-    public static CutsceneAction SayDialog(string[] lines, DialogVoice voice = null)
+    public static CutsceneAction SayDialog(string[] lines, DialogVoiceResource voice = null)
     {
         var dict = new Dictionary<string, Variant>
         {
-            { "lines", new Array<string>(lines) },
-            { "voice_pitch", voice?.BasePitch ?? 1f },
-            { "voice_name", voice?.SpeakerName ?? "" }
+            { "lines", new Array<string>(lines) }
         };
-        if (voice?.BlipStream != null)
-            dict["voice_blip"] = voice.BlipStream;
+        if (voice != null)
+            dict["voice"] = voice;
         return new(CutsceneActionType.SayDialog, dict);
     }
 
