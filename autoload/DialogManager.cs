@@ -19,6 +19,7 @@ public partial class DialogManager : Node2D
 
     private TextBox CurrentTextBox;
     private DialogVoice _currentVoice;
+    private ChoiceMenu _activeChoiceMenu;
 
     public bool IsDialogActive = false;
 
@@ -80,11 +81,12 @@ public partial class DialogManager : Node2D
 
     public async Task<int> PromptChoices(List<string> choices)
     {
-        var menu = new ChoiceMenu();
-        menu.SetChoices(choices);
-        GetTree().Root.AddChild(menu);
-        Variant[] result = await ToSignal(menu, ChoiceMenu.SignalName.ChoiceSelected);
-        menu.QueueFree();
+        _activeChoiceMenu = new ChoiceMenu();
+        _activeChoiceMenu.SetChoices(choices);
+        GetTree().Root.AddChild(_activeChoiceMenu);
+        Variant[] result = await ToSignal(_activeChoiceMenu, ChoiceMenu.SignalName.ChoiceSelected);
+        _activeChoiceMenu.QueueFree();
+        _activeChoiceMenu = null;
         return (int)result[0];
     }
 
@@ -101,6 +103,11 @@ public partial class DialogManager : Node2D
             CurrentTextBox.LineComplete -= OnCurrentLineComplete;
             CurrentTextBox.QueueFree();
             CurrentTextBox = null;
+        }
+        if (_activeChoiceMenu != null && GodotObject.IsInstanceValid(_activeChoiceMenu))
+        {
+            _activeChoiceMenu.QueueFree();
+            _activeChoiceMenu = null;
         }
     }
 }
