@@ -1,0 +1,135 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" uid="uid://cpcvsqhcm1hvg" path="res://ui/MainMenu.cs" id="1_i5p73"]
+[ext_resource type="FontFile" uid="uid://kt1xh1gdfgwk" path="res://assets/fonts/yoster.ttf" id="2_ivc3g"]
+[ext_resource type="Texture2D" uid="uid://biodoyffardp0" path="res://assets/ui/chatbox.png" id="3_fcmdp"]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource("1_i5p73")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 0.85)
+mouse_filter = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="TitleLabel" type="Label" parent="."]
+offset_left = 160.0
+offset_top = 50.0
+offset_right = 480.0
+offset_bottom = 110.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_ivc3g")
+theme_override_font_sizes/font_size = 36
+text = "Eggbert"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuPanel" type="PanelContainer" parent="."]
+offset_left = 240.0
+offset_top = 130.0
+offset_right = 400.0
+offset_bottom = 290.0
+theme_override_styles/panel = null
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuPanel"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="NewGameButton" type="Button" parent="MenuPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ivc3g")
+theme_override_font_sizes/font_size = 18
+text = "New Game"
+
+[node name="ContinueButton" type="Button" parent="MenuPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ivc3g")
+theme_override_font_sizes/font_size = 18
+text = "Continue"
+
+[node name="SettingsButton" type="Button" parent="MenuPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ivc3g")
+theme_override_font_sizes/font_size = 18
+text = "Settings"
+
+[node name="QuitButton" type="Button" parent="MenuPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ivc3g")
+theme_override_font_sizes/font_size = 18
+text = "Quit"
+
+[node name="SettingsPanel" type="PanelContainer" parent="."]
+visible = false
+offset_left = 180.0
+offset_top = 30.0
+offset_right = 460.0
+offset_bottom = 330.0
+theme_override_styles/panel = null
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel"]
+layout_mode = 2
+
+[node name="MusicLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ivc3g")
+theme_override_font_sizes/font_size = 14
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+min_value = 0
+max_value = 100
+value = 100
+custom_minimum_size = Vector2(0, 24)
+
+[node name="SfxLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ivc3g")
+theme_override_font_sizes/font_size = 14
+text = "SFX"
+
+[node name="SfxSlider" type="HSlider" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+min_value = 0
+max_value = 100
+value = 100
+custom_minimum_size = Vector2(0, 24)
+
+[node name="FullscreenBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="FullscreenLabel" type="Label" parent="SettingsPanel/VBoxContainer/FullscreenBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ivc3g")
+theme_override_font_sizes/font_size = 14
+text = "Fullscreen"
+size_flags_horizontal = 3
+
+[node name="FullscreenCheck" type="CheckButton" parent="SettingsPanel/VBoxContainer/FullscreenBox"]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[node name="ScaleBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScaleLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScaleBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ivc3g")
+theme_override_font_sizes/font_size = 14
+text = "Window Scale"
+size_flags_horizontal = 3
+
+[node name="ScaleOption" type="OptionButton" parent="SettingsPanel/VBoxContainer/ScaleBox"]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[node name="BackButton" type="Button" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ivc3g")
+theme_override_font_sizes/font_size = 14
+text = "Back"
