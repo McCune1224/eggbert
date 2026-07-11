@@ -53,6 +53,12 @@ public partial class WorldFlags : Node, ISavable
         _flags.Remove(key);
     }
 
+    /// <summary>Remove all flags (used when starting a new game).</summary>
+    public void ClearAll()
+    {
+        _flags.Clear();
+    }
+
     // ponytail: Dictionary serializes via Godot's native Variant serialization in .tres
     public SaveResource Save(SaveResource newSave)
     {
