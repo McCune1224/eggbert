@@ -12,12 +12,10 @@ public partial class DialogManager : Node2D
     public enum TextSpeed { Instant, Fast, Normal }
     public static TextSpeed CurrentTextSpeed = TextSpeed.Normal;
 
-    private PackedScene TextBoxScene = ResourceLoader.Load<PackedScene>("res://ui/TextBox.tscn");
-
     private List<string> DialogLines;
     private int CurrentDialogLineIndex = 0;
 
-    private TextBox CurrentTextBox;
+    private DialogBox CurrentDialogBox;
     private DialogVoice _currentVoice;
     private ChoiceMenu _activeChoiceMenu;
 
@@ -59,20 +57,20 @@ public partial class DialogManager : Node2D
             return;
         }
 
-        CurrentTextBox = TextBoxScene.Instantiate<TextBox>();
-        CurrentTextBox.LineComplete += OnCurrentLineComplete;
+        CurrentDialogBox = new DialogBox();
+        CurrentDialogBox.LineComplete += OnCurrentLineComplete;
 
-        GetTree().Root.AddChild(CurrentTextBox);
-        CurrentTextBox.PlayText(DialogLines[CurrentDialogLineIndex], _currentVoice);
+        GetTree().Root.AddChild(CurrentDialogBox);
+        CurrentDialogBox.DisplayText(DialogLines[CurrentDialogLineIndex], _currentVoice);
     }
 
     private void OnCurrentLineComplete()
     {
-        if (CurrentTextBox != null && GodotObject.IsInstanceValid(CurrentTextBox))
+        if (CurrentDialogBox != null && GodotObject.IsInstanceValid(CurrentDialogBox))
         {
-            CurrentTextBox.LineComplete -= OnCurrentLineComplete;
-            CurrentTextBox.QueueFree();
-            CurrentTextBox = null;
+            CurrentDialogBox.LineComplete -= OnCurrentLineComplete;
+            CurrentDialogBox.QueueFree();
+            CurrentDialogBox = null;
         }
 
         CurrentDialogLineIndex++;
@@ -98,11 +96,11 @@ public partial class DialogManager : Node2D
         _currentVoice = null;
         if (Player.Instance != null)
             Player.Instance.InInteraction = false;
-        if (CurrentTextBox != null && GodotObject.IsInstanceValid(CurrentTextBox))
+        if (CurrentDialogBox != null && GodotObject.IsInstanceValid(CurrentDialogBox))
         {
-            CurrentTextBox.LineComplete -= OnCurrentLineComplete;
-            CurrentTextBox.QueueFree();
-            CurrentTextBox = null;
+            CurrentDialogBox.LineComplete -= OnCurrentLineComplete;
+            CurrentDialogBox.QueueFree();
+            CurrentDialogBox = null;
         }
         if (_activeChoiceMenu != null && GodotObject.IsInstanceValid(_activeChoiceMenu))
         {
