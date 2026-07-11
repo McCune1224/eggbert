@@ -7,7 +7,7 @@
 
 [node name="TextBox" type="Control"]
 layout_mode = 1
-anchors_preset = 14
+anchors_preset = 12
 anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 1.0
