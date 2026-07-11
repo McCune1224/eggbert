@@ -65,13 +65,60 @@ Phase 4 underway. `CombatOatmeal` fires 3 `RedBullet`s in a spread every 2s towa
 
 ## Design unknowns — ASK, don't assume
 
-Most major design decisions are resolved in `DESIGN.md` (combat = bullet-hell dodge, dialog = WorldFlags branching, etc.). Remaining open questions:
-- Story/narrative (who is Eggbert? what's the plot?)
-- Consumable items (what do they do?) — *framework ready, effects blocked on HealthComponent*
-- Equipment stats (what do they affect?) — *data fields exist, application blocked on stat system*
-- Difficulty tuning (easy mode? HP scaling?)
+Most major design decisions are resolved in `DESIGN.md` (combat = bullet-hell dodge, dialog = WorldFlags branching, etc.). Remaining open questions (each tracked as a `design` issue):
+- Story/narrative (who is Eggbert? what's the plot?) — **#9**
+- Consumable items (what do they do?) — **#6** *(framework ready, unblocked)*
+- Equipment stats (what do they affect?) — **#7** *(data fields exist, application wired but Attack/Speed unused)*
+- Difficulty tuning (easy mode? HP scaling?) — *not yet filed*
 
 **Use the `question` tool** before implementing anything that touches these areas. The user prefers being offered choices rather than having decisions made for them.
+
+## GitHub workflow — agents read issues before coding
+
+This project is tracked through GitHub Issues + a Project Board. **All non-trivial work is tied to an issue.** Read the tracker before starting; file a new issue before opening a branch.
+
+### Where things live
+- **Issues**: https://github.com/McCune1224/eggbert/issues
+- **Project Board**: Kanban (Backlog → Up Next → In Progress → Done). *(Board creation pending `gh auth refresh -s project` — see note below.)*
+- **Labels**: `bug`, `enhancement`, `design`, `documentation`, `question`; plus `priority-high|medium|low` and `phase-4|5|6`.
+- **Milestones**: `Phase 4 — Combat + Dialog` (#1), `Phase 5 — Game Structure` (#2), `Phase 6 — Content & Polish` (#3).
+
+### Working an issue (standard flow)
+1. **Pick an issue**. Issues tagged `priority-high` should go first. Confirm with the user if several are open.
+2. **Create a branch** named after the work — no worktrees, just branches:
+   - `fix/<short-slug>` for bugs (e.g. `fix/combat-controller-lambda`)
+   - `feat/<short-slug>` for features (e.g. `feat/enemy-state-machine`)
+   - `design/<short-slug>` for design decisions
+   - `docs/<short-slug>` for documentation
+3. **Implement** against the issue's acceptance criteria. The issue body lists files, repro, and a suggested fix — treat it as the spec.
+4. **Verify** with `dotnet build` (and `godot_run_project` + `godot_get_debug_output` for runtime behavior).
+5. **Open a PR** against `main`. Title/description reference the issue: `Closes #N`. Link the PR to the milestone if applicable.
+6. **Move the issue** on the project board to `In Progress` when starting, `Done` when the PR merges.
+
+### Filing a new issue
+Before writing any code that isn't a one-line fix, file an issue with:
+- A clear title prefixed by type where helpful ([Bug], [Enhancement], [Design]).
+- **Problem/Current state** — file path + line numbers, what's wrong or missing.
+- **Goal/Fix** — concrete proposal, with code sketches where useful.
+- **Acceptance criteria** — a checkbox list defining "done".
+- **Labels**: one of `bug`/`enhancement`/`design`/`documentation`; one `priority-*`; one `phase-*`; and the correct **milestone**.
+- A suggested branch name at the bottom (`→ PR closes #N`).
+
+### Agent conventions for the tracker
+- **Never** work without an issue number referenced in the branch/PR — the user needs the paper trail.
+- **Never** close an issue manually with a commit message unless the acceptance criteria are actually met. PR merge auto-closes via `Closes #N`.
+- **Design issues** require the `question` tool — walk the user through options and record the decision in `STORY.md` or `DESIGN.md` before closing.
+- If you discover new work while implementing, **file a fresh issue** rather than silently expanding scope. Link it ("related: #N") in the current PR.
+- Keep `TODO.md` reconciled with the tracker (see #5) — it's a curated index that links to issues, not the source of truth.
+
+### `gh` quick reference
+```bash
+gh issue list --state open                  # what's outstanding
+gh issue view <N>                           # read the spec before coding
+gh issue create --label bug --milestone "Phase 4 — Combat + Dialog"
+gh pr create --title "..." --body "Closes #N"
+gh pr merge --merge                          # after review
+```
 
 ## Godot MCP reference
 
@@ -84,3 +131,5 @@ The `godot-mcp` server provides these tools. Use them instead of manual scene ed
 GODOT_PATH: `/usr/lib/godot-mono/godot.linuxbsd.editor.x86_64.mono`
 
 > **Note — 2026-07-06**: The MCP `environment` field in `.opencode/opencode.json` must be named `environment` (not `env` — the schema rejects unknown keys silently). If `godot_run_project` returns success but `godot_get_debug_output` immediately reports "No active Godot process", the env var didn't propagate — check the field name.
+
+> **Note — 2026-07-10**: Project Board is live at https://github.com/users/McCune1224/projects/2. Status options: **Todo** (backlog), **In Progress**, **Done**. All 9 issues are added. When you pick up an issue, move it to In Progress; when the PR merges, move it to Done. 
