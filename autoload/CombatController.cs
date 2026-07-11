@@ -8,6 +8,7 @@ public partial class CombatController : Node
 
     private string _returnLevelPath;
     private Vector2 _returnPosition;
+    private CombatArena _currentArena;
 
     public override void _Ready()
     {
@@ -19,6 +20,14 @@ public partial class CombatController : Node
 
     public async void EnterCombat(string arenaPath, Vector2 playerSpawn)
     {
+        // Block re-entry: if we're already in a combat arena, ignore the call so the
+        // saved return position isn't overwritten and handlers don't pile up.
+        if (_currentArena != null)
+        {
+            GD.PushWarning("CombatController.EnterCombat called while already in combat — ignored.");
+            return;
+        }
+
         _returnLevelPath = GameController.Instance.CurrentLevel.SceneFilePath;
         _returnPosition = Player.Instance.Position;
 
@@ -27,25 +36,24 @@ public partial class CombatController : Node
 
         await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
 
-        var arena = GameController.Instance.CurrentLevel as CombatArena;
-        if (arena != null)
+        _currentArena = GameController.Instance.CurrentLevel as CombatArena;
+        if (_currentArena != null)
         {
-            arena.BattleWon += () => OnBattleWon(arena);
-            arena.BattleLost += () => OnBattleLost(arena);
+            // Method-group delegates so += and -= reference the same instance and actually unsubscribe.
+            _currentArena.BattleWon += OnBattleWon;
+            _currentArena.BattleLost += OnBattleLost;
         }
     }
 
-    private void OnBattleWon(CombatArena arena)
+    private void OnBattleWon()
     {
-        arena.BattleWon -= () => OnBattleWon(arena);
-        arena.BattleLost -= () => OnBattleLost(arena);
+        UnhookArena();
         ReturnToOverworld();
     }
 
-    private async void OnBattleLost(CombatArena arena)
+    private async void OnBattleLost()
     {
-        arena.BattleWon -= () => OnBattleWon(arena);
-        arena.BattleLost -= () => OnBattleLost(arena);
+        UnhookArena();
 
         DialogManager.Instance.StartDialog(
             new System.Collections.Generic.List<string> { "You collapsed..." }, new DialogVoice());
@@ -55,6 +63,16 @@ public partial class CombatController : Node
         await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
 
         Player.Instance.HealthComponent.Revive(50);
+    }
+
+    private void UnhookArena()
+    {
+        if (_currentArena == null)
+            return;
+
+        _currentArena.BattleWon -= OnBattleWon;
+        _currentArena.BattleLost -= OnBattleLost;
+        _currentArena = null;
     }
 
     public void ReturnToOverworld()
