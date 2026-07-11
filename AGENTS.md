@@ -132,4 +132,4 @@ GODOT_PATH: `/usr/lib/godot-mono/godot.linuxbsd.editor.x86_64.mono`
 
 > **Note — 2026-07-06**: The MCP `environment` field in `.opencode/opencode.json` must be named `environment` (not `env` — the schema rejects unknown keys silently). If `godot_run_project` returns success but `godot_get_debug_output` immediately reports "No active Godot process", the env var didn't propagate — check the field name.
 
-> **Note — 2026-07-10**: Project Board creation is blocked on the `project` OAuth scope. Run `gh auth refresh -s project` (interactive — opens a browser/device-code flow) to enable `gh project` commands. Once done, create a Board named `Eggbert Development` linked to the repo with columns `Backlog`, `Up Next`, `In Progress`, `Done`, then add all open issues to it. Issues #1–#9 already exist; the Board just isn't wired up yet.
+> **Note — 2026-07-10**: Project Board is live at https://github.com/users/McCune1224/projects/2. Status options: **Todo** (backlog), **In Progress**, **Done**. All 9 issues are added. When you pick up an issue, move it to In Progress; when the PR merges, move it to Done. 
