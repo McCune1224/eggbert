@@ -9,7 +9,6 @@ public partial class ParryComponent : Node2D
     private float _cooldownTimer = 0f;
     private bool _canParry = true;
     private float _ringFlash = 0f;
-    private bool _jWasPressed = false;
 
     private static readonly Color RingColor = new Color(0.3f, 0.8f, 1f, 0.2f);
     private static readonly Color MissColor = new Color(1f, 0.3f, 0.3f, 0.3f);
@@ -26,19 +25,8 @@ public partial class ParryComponent : Node2D
                 _canParry = true;
         }
 
-        if (inCombat)
-        {
-            bool jHeld = Input.IsKeyPressed(Key.J);
-            if (jHeld && !_jWasPressed && _canParry)
-            {
-                _jWasPressed = true;
-                TryParry();
-            }
-            else if (!jHeld)
-            {
-                _jWasPressed = false;
-            }
-        }
+        if (inCombat && _canParry && Input.IsActionJustPressed("combat_parry"))
+            TryParry();
 
         if (_ringFlash > 0f)
             _ringFlash -= (float)delta * 4f;
