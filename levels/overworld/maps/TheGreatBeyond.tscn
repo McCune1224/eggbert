@@ -740,3 +740,8 @@ metadata/_edit_lock_ = true
 position = Vector2(243, 54)
 Level = "uid://e1xv0dbe5grr"
 Size = 3
+
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
+[node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
+WarpId = "the_great_beyond"
+position = Vector2(0, -40)

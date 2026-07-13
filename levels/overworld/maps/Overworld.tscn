@@ -652,3 +652,8 @@ TargetDoorPath = NodePath("../Door")
 [node name="PushBlock" parent="." unique_id=955289274 instance=ExtResource("11_2vu1d")]
 position = Vector2(-220.61935, -108)
 _texture = ExtResource("12_r2jid")
+
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
+[node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
+WarpId = "overworld_entry"
+position = Vector2(0, 20)

@@ -220,3 +220,8 @@ tile_set = SubResource("TileSet_nkxpt")
 
 [node name="FactoryJamitor" parent="." instance=ExtResource("3_2xwn4")]
 position = Vector2(167, -58)
+
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
+[node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
+WarpId = "factory_gate"
+position = Vector2(0, 0)

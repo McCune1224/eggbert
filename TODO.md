@@ -1,9 +1,8 @@
 # TODO — Eggbert
 
-Curated index of work, sorted by priority. The **source of truth is GitHub Issues + the Project Board** — this file is a human-readable summary that links to issues. Read `AGENTS.md` for architecture & conventions, `DESIGN.md` for roadmap & open design questions.
+Curated index of work, sorted by priority. The **source of truth is GitHub Issues** — this file is a human-readable summary that links to issues. Read `AGENTS.md` for architecture & conventions, `DESIGN.md` for roadmap & open design questions.
 
 **Issue tracker:** https://github.com/McCune1224/eggbert/issues
-**Project Board:** https://github.com/users/McCune1224/projects/2
 
 ---
 
@@ -25,18 +24,24 @@ Curated index of work, sorted by priority. The **source of truth is GitHub Issue
 - TODO.md reconciliation started
 - DialogBubble (CanvasLayer-based), ChoiceMenu (CanvasLayer, wrap-around nav), screen shake
 
-### Phase 5 — Game Structure
-- Main menu (New Game/Continue/Settings/Quit) — completed
+### Phase 5 — Game Structure + Overworld Systems
+- Main menu (New Game/Continue/Settings/Quit)
+- CutsceneController full rewrite: CutsceneResource + CutsceneStep + CutsceneCondition — fully data-driven, editor-authorable .tres cutscenes (#23)
+- EarthBound-weird dialog for 3 working NPCs as CutsceneResources (#24)
+- MonsieurCroissant + FactoryJamitor migrated to CutsceneTrigger pattern (#24)
+- Fast travel wired: WarpPoints placed in 6 levels, stale courtyard path fixed, 6 warp destinations in DB (#25)
+- Puzzle variants: LatchingFloorSwitch, TimedDoor, KeyDoor, MultiSwitchGate, SequencePuzzle (#26)
+- Doc reconciliation: AGENTS.md stale entries fixed, DESIGN.md checkbox synced, DialogVoiceResource blip-duration consistent (#28)
+- STORY.md created — EarthBound-weird tone locked, protagonist anchored (#9 partially resolved) (#28)
 
-### Dev tooling + structure cleanup (done on main)
-- [x] Level folder standardization — all areas now `maps/` + `npcs/` subfolders (#20)
-- [x] Combat component consolidation — `ParryComponent`/`Targeting`/`HealthComponent` moved to `combat/components/` (#20)
-- [x] `CutsceneTrigger` node — reusable Area2D, eliminates per-NPC `_Input` + prompt boilerplate (#21)
-- [x] New `CutsceneAction` types — `MovePlayer`, `FaceDirection`, `PlayAnimation`, `CameraMove`, `Stop` (#21)
-- [x] `CutsceneController.Wait()` fix — uses `GetTree().CreateTimer` (respects pause) (#21)
-- [x] `CutsceneController.Stop()` — abort via `CancellationTokenSource` (#21)
-- [x] Migrated GrandpaSmith, OfficerBacon, Joe to CutsceneTrigger pattern (#21)
-- [x] Debug auto-start — `EGGBERT_SKIP_MENU=1` env var skips menu, loads last save (#22)
+### Dev tooling + structure cleanup
+- Level folder standardization — all areas now `maps/` + `npcs/` subfolders (#20)
+- Combat component consolidation — `ParryComponent`/`Targeting`/`HealthComponent` moved to `combat/components/` (#20)
+- `CutsceneTrigger` node — reusable Area2D, eliminates per-NPC `_Input` + prompt boilerplate (#21)
+- New `CutsceneAction` types (superseded by CutsceneStep rewrite in #23)
+- `CutsceneController.Wait()` fix, `Stop()` via `CancellationTokenSource` (#21)
+- Migrated GrandpaSmith, OfficerBacon, Joe to CutsceneTrigger pattern (#21)
+- Debug auto-start — `EGGBERT_SKIP_MENU=1` env var skips menu, loads last save (#22)
 
 ---
 
@@ -48,16 +53,17 @@ These need a human to decide before implementation.
 |-------|-------|---------------|
 | **#6** | Define concrete consumable items | Names, effects, heal values |
 | **#7** | What do Attack/Defense/Speed stats affect? | Decide which stats combat uses |
-| **#9** | Who is Eggbert? (story/narrative) | Plot, setting, tone |
+| **#9** | Who is Eggbert? (story/narrative) | Full plot (tone + protagonist locked in STORY.md) |
 
 ---
 
 ## 🟢 Phase 6 — Content & Polish
-- [ ] Fill Courtyard, Eggsile, Prison with tiles, NPCs, puzzles (once story is decided)
+- [ ] Fill Courtyard, Eggsile, Prison with tiles, NPCs, puzzles (#27)
 - [ ] Particles: dust on landing, sparkle on parry, etc.
 
 ---
 
 ## 🔍 Notes
+- **No branches, no PRs** — all work commits directly to `main` (see AGENTS.md)
 - **No test project** — intentional, game is pre-alpha
 - **No CI** — intentional

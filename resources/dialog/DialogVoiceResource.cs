@@ -67,7 +67,7 @@ public partial class DialogVoiceResource : Resource
     {
         if (_defaultBlip != null) return;
         int sampleRate = 22050;
-        float duration = 0.06f;
+        float duration = 0.08f;
         float freq = 440f;
         int samples = (int)(sampleRate * duration);
         byte[] data = new byte[samples * 2];

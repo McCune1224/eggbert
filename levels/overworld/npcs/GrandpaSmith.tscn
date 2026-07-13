@@ -1,8 +1,8 @@
 [gd_scene load_steps=15 format=3 uid="uid://dmg8py6ignrbd"]
 
-[ext_resource type="Script" uid="uid://et6fsl2fwqjd" path="res://levels/overworld/npcs/GrandpaSmith.cs" id="1_x2aec"]
-[ext_resource type="Texture2D" uid="uid://crr721c1r7lf5" path="res://assets/characters/GrandpaSmith.png" id="2_21vw5"]
-[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="3_2s1rw"]
+[ext_resource type="Texture2D" uid="uid://crr721c1r7lf5" path="res://assets/characters/GrandpaSmith.png" id="1_21vw5"]
+[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_2s1rw"]
+[ext_resource type="Resource" path="res://levels/overworld/npcs/Cutscene_GrandpaSmith.tres" id="3_cs"]
 
 [sub_resource type="Animation" id="Animation_ni1yi"]
 length = 0.1
@@ -151,11 +151,10 @@ radius = 44.0114
 size = Vector2(36, 34)
 
 [node name="GrandpaSmith" type="StaticBody2D"]
-script = ExtResource("1_x2aec")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("2_21vw5")
+texture = ExtResource("1_21vw5")
 hframes = 4
 vframes = 4
 metadata/_aseprite_wizard_interface_config_ = {
@@ -181,7 +180,8 @@ libraries = {
 &"": SubResource("AnimationLibrary_0iibd")
 }
 
-[node name="CutsceneTrigger" parent="." instance=ExtResource("3_2s1rw")]
+[node name="CutsceneTrigger" parent="." instance=ExtResource("2_2s1rw")]
+Cutscene = ExtResource("3_cs")
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
 shape = SubResource("CircleShape2D_bf53u")

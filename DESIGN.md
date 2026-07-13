@@ -143,7 +143,7 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - [x] Inventory — key items, consumables, equipment tabs (OverworldMenu Items panel). Effects deferred until HealthComponent exists.
 
 ### Phase 4 — Combat + Dialog
-- [ ] Dialog fixes (Reset soft-lock, null-sfx, text-speed, fast-forward)
+- [x] Dialog fixes (Reset soft-lock, null-sfx, text-speed, fast-forward)
 - [ ] `ChoiceMenu` — in-dialog choice UI with arrow-key nav + cutscene action
 - [ ] `HealthComponent` — reusable HP/damage Node (HP, Defense, signals)
 - [ ] `Equipment` autoload — equip/unequip, stat application (MaxHP, Defense)

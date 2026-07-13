@@ -50,13 +50,13 @@ public partial class Door : StaticBody2D
         }
     }
 
-    public void Open()
+    public virtual void Open()
     {
         CallDeferred(nameof(SetCollisionEnabled), false);
         Modulate = new Color(1, 1, 1, 0.3f);
     }
 
-    public void Close()
+    public virtual void Close()
     {
         CallDeferred(nameof(SetCollisionEnabled), true);
         Modulate = Colors.White;

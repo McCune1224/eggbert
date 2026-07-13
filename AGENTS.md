@@ -28,7 +28,7 @@ Godot editor + MCP tools are available via the `godot-mcp` server (configured in
 ## Architecture
 
 ### Boot order
-`boot/GameInit.tscn` (main scene) → `GameController.LoadLevel("overworld/Overworld.tscn")` → player placed at (0,0). No main menu exists yet.
+`boot/GameInit.tscn` (main scene) → Main menu (New Game / Continue / Settings / Quit) or debug-skip to last save → `GameController.LoadLevel(...)` → player placed at saved position.
 
 > **Debug auto-start**: Set the `EGGBERT_SKIP_MENU=1` environment variable to skip the main menu and load the last save directly (`GameInit.BootDeferred`). Wired into the MCP `godot_run_project` environment in `.opencode/opencode.json`, so agent runs auto-skip during dev. Override with `EGGBERT_SKIP_MENU=0` or unset to test the menu. CLI: `EGGBERT_SKIP_MENU=1 godot --path .`
 
@@ -36,7 +36,7 @@ Godot editor + MCP tools are available via the `godot-mcp` server (configured in
 | Singleton | Class | Role |
 |-----------|-------|------|
 | `GameController` | `Node` | Level loading/unloading, tilemap bounds → camera |
-| `DialogManager` | `Node2D` | NPC dialog lines + typewriter `TextBox` |
+| `DialogManager` | `Node2D` | NPC dialog lines + `DialogBubble` |
 | `AudioManager` | `Node` | Music cross-fade (2-player pool) |
 | `Player` | `CharacterBody2D` | WASD movement, dash, save/load |
 | `FadeTransition` | `CanvasLayer` | Screen fade between levels |
@@ -45,13 +45,11 @@ Godot editor + MCP tools are available via the `godot-mcp` server (configured in
 | `Equipment` | `Node` | Equip/unequip Weapon/Armor/Accessory, applies stats to HealthComponent + ParryComponent, ISavable |
 | `CombatController` | `Node` | EnterCombat scene swap, saved overworld position, win/lose flow |
 
-`components/core/SoundConfig.cs` was referenced but the file doesn't exist — not yet created.
-
 ### Level loading
 `GameController.LoadLevel(scenePath, position)` or `LoadLevel(scenePath, transitionName)`. Clears old children from `CurrentLevel` node, instantiates new packed scene, repositions player, fades in/out.
 
 ### Combat
-Phase 4 underway. `CombatOatmeal` fires 3 `RedBullet`s in a spread every 2s toward the player. `HealthComponent` (HP/damage Node) being built — unblocks consumables, equipment stats, combat HP, death/respawn. `ParryComponent` replaces graze meter. `CombatController` handles EnterCombat/return flow. `Equipment` autoload manages equip/unequip.
+`CombatOatmeal` fires 3 `RedBullet`s in a spread every 2s toward the player. `HealthComponent` handles HP/damage. `ParryComponent` handles proximity parry. `CombatController` manages EnterCombat/return flow. `Equipment` autoload applies stats.
 
 ### Dialog voice system
 - `DialogVoiceResource` (`resources/dialog/DialogVoiceResource.cs`) — Godot `[GlobalClass]` Resource. All pitch/volume/stream params are `[Export]` → visible in Inspector. Double-click a `.tres` to tweak.
@@ -67,7 +65,7 @@ Phase 4 underway. `CombatOatmeal` fires 3 `RedBullet`s in a spread every 2s towa
 - **No CI** — no GitHub Actions or other CI config.
 - **Physics layers**: 1=Player, 2=Walls, 3=NPCs, 4=Bullets, 5=Interactables, 6=Enemies, 7=TriggerAreas, 8=PlayerHitbox, 9=EnemyHitbox, 10=Items. Constants in `components/core/CollisionConfig.cs`.
 - **Inputs**: WASD movement, E=interact/dialog advance, F1/Esc=menu, Space=dash, Shift=sprint, J=parry (combat), arrow keys+E=choice menu selection.
-- `components/core/SoundConfig.cs` was referenced but the file doesn't exist — not yet created. Inventory is wired up (autoload + OverworldMenu Items panel + save).
+- Inventory and Equipment are wired up (autoload + OverworldMenu Items/Equipment panels + save).
 
 ## Design unknowns — ASK, don't assume
 

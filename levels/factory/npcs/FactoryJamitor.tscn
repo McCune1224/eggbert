@@ -1,19 +1,20 @@
 [gd_scene load_steps=5 format=3 uid="uid://5e4uopgmy56a"]
 
-[ext_resource type="PackedScene" uid="uid://dwmuatqe2ns5s" path="res://components/npcs/ComponentPromptCollision.tscn" id="1_4rhen"]
-[ext_resource type="Texture2D" uid="uid://b5huf2rg5ie8y" path="res://assets/characters/Jamitor.png" id="2_nssh1"]
+[ext_resource type="Texture2D" uid="uid://b5huf2rg5ie8y" path="res://assets/characters/Jamitor.png" id="1_spr"]
+[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_ct"]
+[ext_resource type="Resource" path="res://levels/factory/npcs/Cutscene_FactoryJamitor.tres" id="3_cs"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nssh1"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_phys"]
 size = Vector2(44, 40)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_nssh1"]
-radius = 41.0488
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 55.0
 
-[node name="FactoryJamitor" type="Node2D"]
+[node name="FactoryJamitor" type="StaticBody2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("2_nssh1")
+texture = ExtResource("1_spr")
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "pending_changes": {}
@@ -32,17 +33,12 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "bdbd245aa30096173c674f8717af6008"
 
-[node name="Area2D" type="StaticBody2D" parent="."]
-scale = Vector2(1.57482, -25.8797)
+[node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
+Cutscene = ExtResource("3_cs")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-visible = false
+[node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
+shape = SubResource("CircleShape2D_interact")
+
+[node name="PhysicsCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 8)
-shape = SubResource("RectangleShape2D_nssh1")
-debug_color = Color(0.992157, 0, 0.25098, 0.647059)
-
-[node name="ComponentPromptCollision" parent="." instance=ExtResource("1_4rhen")]
-
-[node name="Area2D2" type="CollisionShape2D" parent="ComponentPromptCollision"]
-position = Vector2(0, 8)
-shape = SubResource("CircleShape2D_nssh1")
+shape = SubResource("RectangleShape2D_phys")

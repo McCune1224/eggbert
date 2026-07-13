@@ -8,10 +8,12 @@ public partial class FloorSwitch : Area2D
     [Signal] public delegate void ReleasedEventHandler();
 
     [Export] public NodePath TargetDoorPath;
+    [Export] public bool Latching = false;
 
     private int _bodyCount = 0;
     private Door _targetDoor;
     private Label _debugLabel;
+    private bool _hasTriggered = false;
 
     public bool IsPressed => _bodyCount > 0;
 
@@ -50,12 +52,13 @@ public partial class FloorSwitch : Area2D
 
     private void OnBodyEntered(Node2D body)
     {
-        if (_bodyCount == 0)
+        if (_bodyCount == 0 && !_hasTriggered)
         {
             EmitSignal(SignalName.Pressed);
             _targetDoor?.Open();
         }
         _bodyCount++;
+        _hasTriggered = true;
     }
 
     private void OnBodyExited(Node2D body)
@@ -65,7 +68,14 @@ public partial class FloorSwitch : Area2D
         {
             _bodyCount = 0;
             EmitSignal(SignalName.Released);
-            _targetDoor?.Close();
+            if (!Latching || !_hasTriggered)
+                _targetDoor?.Close();
         }
+    }
+
+    public void Reset()
+    {
+        _hasTriggered = false;
+        _bodyCount = 0;
     }
 }

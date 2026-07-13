@@ -1,8 +1,8 @@
 [gd_scene load_steps=15 format=3 uid="uid://ck00c0rsy7qs"]
 
-[ext_resource type="Script" uid="uid://b5gw2xo5sfpb2" path="res://levels/overworld/npcs/OfficerBacon.cs" id="1_6kkq5"]
-[ext_resource type="Texture2D" uid="uid://10nsh7xbpdpi" path="res://assets/characters/Officer Bacon.png" id="2_6kkq5"]
-[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="3_6kkq5"]
+[ext_resource type="Texture2D" uid="uid://10nsh7xbpdpi" path="res://assets/characters/Officer Bacon.png" id="1_6kkq5"]
+[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_6kkq5"]
+[ext_resource type="Resource" path="res://levels/overworld/npcs/Cutscene_OfficerBacon.tres" id="3_cs"]
 
 [sub_resource type="Animation" id="Animation_2nhdl"]
 length = 0.1
@@ -151,11 +151,10 @@ size = Vector2(24, 54)
 radius = 40.05
 
 [node name="EvilBacon" type="StaticBody2D"]
-script = ExtResource("1_6kkq5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("2_6kkq5")
+texture = ExtResource("1_6kkq5")
 hframes = 4
 vframes = 3
 metadata/_aseprite_wizard_interface_config_ = {
@@ -185,7 +184,8 @@ libraries = {
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_6kkq5")
 
-[node name="CutsceneTrigger" parent="." instance=ExtResource("3_6kkq5")]
+[node name="CutsceneTrigger" parent="." instance=ExtResource("2_6kkq5")]
+Cutscene = ExtResource("3_cs")
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
 shape = SubResource("CircleShape2D_ucj4v")

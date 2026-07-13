@@ -1,0 +1,58 @@
+[gd_resource type="Resource" load_steps=9 format=3 uid="uid://gsmithcutscene001"]
+
+[ext_resource type="Script" uid="uid://cn451i4kwjk57" path="res://resources/cutscene/CutsceneResource.cs" id="1_res"]
+[ext_resource type="Script" uid="uid://dvhwgxm701bvh" path="res://resources/cutscene/CutsceneStep.cs" id="2_step"]
+[ext_resource type="Script" uid="uid://bhn02hmiipnne" path="res://resources/cutscene/CutsceneCondition.cs" id="3_cond"]
+
+[sub_resource type="Resource" id="cond_not_met"]
+script = ExtResource("3_cond")
+Type = 2
+FlagKey = "MetGrandpa"
+
+[sub_resource type="Resource" id="cond_met"]
+script = ExtResource("3_cond")
+Type = 1
+FlagKey = "MetGrandpa"
+
+[sub_resource type="Resource" id="step_intro"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = Array[String](["Oh! You startled me. I was just looking for my missing shoe.", "The left one. The right one's been acting suspicious lately.", "Anyway, I'm Grandpa Smith. Pleasure to meet you, Ernie — wait, Eggbert, is it?"])
+Condition = SubResource("cond_not_met")
+
+[sub_resource type="Resource" id="step_slide"]
+script = ExtResource("2_step")
+Type = 1
+TargetNode = NodePath("GrandpaSmith")
+MoveTarget = Vector2(260, -30)
+MoveDuration = 2.0
+Condition = SubResource("cond_not_met")
+
+[sub_resource type="Resource" id="step_wait"]
+script = ExtResource("2_step")
+Type = 6
+WaitSeconds = 0.5
+Condition = SubResource("cond_not_met")
+
+[sub_resource type="Resource" id="step_setflag"]
+script = ExtResource("2_step")
+Type = 7
+SetFlagKey = "MetGrandpa"
+SetFlagValue = true
+Condition = SubResource("cond_not_met")
+
+[sub_resource type="Resource" id="step_close"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = Array[String](["Stop by anytime! Just don't touch the humming fridge. It's... particular about that."])
+Condition = SubResource("cond_not_met")
+
+[sub_resource type="Resource" id="step_repeat"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = Array[String](["Still no sign of that shoe.", "The eggsile district has been unusually quiet. Normally they hold at least two historical reenactments per week.", "Makes you wonder."])
+Condition = SubResource("cond_met")
+
+[resource]
+script = ExtResource("1_res")
+steps = Array[ExtResource("2_step")]([SubResource("step_intro"), SubResource("step_slide"), SubResource("step_wait"), SubResource("step_setflag"), SubResource("step_close"), SubResource("step_repeat")])

@@ -133,3 +133,8 @@ Size = 5
 position = Vector2(-87, -83.1214)
 rotation = 0.011006861
 Voice = SubResource("Resource_onfhm")
+
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
+[node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
+WarpId = "eggsile_area1"
+position = Vector2(0, -30)

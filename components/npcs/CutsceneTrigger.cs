@@ -11,6 +11,7 @@ public partial class CutsceneTrigger : Area2D
     [Export] public TriggerMode Mode = TriggerMode.OnInteract;
     [Export] public bool Once = false;
     [Export] public string CutsceneId = "";
+    [Export] public CutsceneResource Cutscene { get; set; }
 
     [Signal]
     public delegate void TriggeredEventHandler();
@@ -27,7 +28,6 @@ public partial class CutsceneTrigger : Area2D
         if (_promptSprite != null)
             _promptSprite.Visible = false;
 
-        // Cache the parent NPC's Sprite2D (used for prompt positioning)
         foreach (Node sibling in GetParent().GetChildren())
         {
             if (sibling is Sprite2D s)
@@ -92,16 +92,8 @@ public partial class CutsceneTrigger : Area2D
 
     private void PositionPromptAboveNpc()
     {
-        // GetRect returns the rect of the visible frame (accounts for hframes/vframes).
         float frameHeight = _npcSprite.GetRect().Size.Y;
-        // For a centered sprite, the top edge is at -frameHeight/2 from origin.
-        // For a non-centered sprite, the top edge is at 0.
         float topEdge = _npcSprite.Centered ? -frameHeight / 2f : 0f;
-
-        // NPCPrompt sprite uses centered=false + offset=(-8, -16), so it draws
-        // 16px above the Position value. We place Position at the NPC's top
-        // edge minus a small gap so the bottom of the bubble sits just above
-        // the NPC's head.
         float promptY = topEdge - 4f;
         _promptSprite.Position = new Vector2(0, promptY);
         _promptPositioned = true;
@@ -115,7 +107,11 @@ public partial class CutsceneTrigger : Area2D
             WorldFlags.Instance.SetFlag("cutscene_" + CutsceneId, true);
 
         _hasFired = true;
-        EmitSignal(nameof(Triggered));
+
+        if (Cutscene != null)
+            CutsceneController.Instance.StartCutscene(Cutscene);
+        else
+            EmitSignal(SignalName.Triggered);
     }
 
     public bool IsPromptVisible() => _promptSprite?.Visible ?? false;

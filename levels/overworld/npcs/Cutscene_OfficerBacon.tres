@@ -1,0 +1,38 @@
+[gd_resource type="Resource" load_steps=7 format=3 uid="uid://baconcutscene001"]
+
+[ext_resource type="Script" uid="uid://cn451i4kwjk57" path="res://resources/cutscene/CutsceneResource.cs" id="1_res"]
+[ext_resource type="Script" uid="uid://dvhwgxm701bvh" path="res://resources/cutscene/CutsceneStep.cs" id="2_step"]
+[ext_resource type="Script" uid="uid://bhn02hmiipnne" path="res://resources/cutscene/CutsceneCondition.cs" id="3_cond"]
+
+[sub_resource type="Resource" id="cond_not_met"]
+script = ExtResource("3_cond")
+Type = 2
+FlagKey = "MetGrandpa"
+
+[sub_resource type="Resource" id="cond_met"]
+script = ExtResource("3_cond")
+Type = 1
+FlagKey = "MetGrandpa"
+
+[sub_resource type="Resource" id="step_suspicious"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = Array[String](["Hold it right there. Do you have a permit to be wandering around?", "This area has had seventeen unsolved refrigerator incidents this month."])
+Condition = SubResource("cond_not_met")
+
+[sub_resource type="Resource" id="step_friendly"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = Array[String](["Oh, you know Grandpa Smith? Small world.", "The precinct's running on a skeleton crew. Half the force is out investigating floating mailboxes in the courtyard."])
+Condition = SubResource("cond_met")
+
+[sub_resource type="Resource" id="step_setflag"]
+script = ExtResource("2_step")
+Type = 7
+SetFlagKey = "MetOfficer"
+SetFlagValue = true
+Condition = SubResource("cond_met")
+
+[resource]
+script = ExtResource("1_res")
+steps = Array[ExtResource("2_step")]([SubResource("step_suspicious"), SubResource("step_friendly"), SubResource("step_setflag")])
