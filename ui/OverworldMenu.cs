@@ -138,6 +138,8 @@ public partial class OverworldMenu : CanvasLayer
 
     private void Pause()
     {
+        CutsceneController.Instance.Stop();
+        DialogManager.Instance.Reset();
         GetTree().Paused = true;
         ShowMenu();
     }

@@ -56,6 +56,8 @@ public partial class GameController : Node
 	/// </summary>
 	public async void LoadLevel(string scenePath, Vector2 playerPosition, bool skipAutoSave = false)
 	{
+		CutsceneController.Instance.Stop();
+		DialogManager.Instance.Reset();
 		GetTree().Paused = true;
 		EmitSignal(nameof(LevelLoadStarted));
 
@@ -94,6 +96,8 @@ public partial class GameController : Node
 	/// </summary>
 	public async void LoadLevel(string scenePath, string targetTransitionName, bool skipAutoSave = false)
 	{
+		CutsceneController.Instance.Stop();
+		DialogManager.Instance.Reset();
 		GetTree().Paused = true;
 		EmitSignal(nameof(LevelLoadStarted));
 		await FadeTransition.Instance.PlayFadeOut();

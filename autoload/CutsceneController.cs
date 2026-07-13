@@ -60,6 +60,11 @@ public partial class CutsceneController : Node
             voice ?? DialogManager.Instance.DefaultVoice);
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
 
+        if (Cancelled)
+        {
+            DialogManager.Instance.Reset();
+        }
+
         _isPlaying = false;
         _cts = null;
         Player.Instance.InInteraction = false;
@@ -69,5 +74,6 @@ public partial class CutsceneController : Node
     {
         if (!_isPlaying || _cts == null) return;
         _cts.Cancel();
+        _isPlaying = false;
     }
 }
