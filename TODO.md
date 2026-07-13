@@ -22,7 +22,7 @@ Curated index of work, sorted by priority. The **source of truth is GitHub Issue
 - EnterCombat + Win/Lose flow, re-entry guard
 - Lambda unsubscribe bug (CombatController) fixed
 - TODO.md reconciliation started
-- DialogBubble (CanvasLayer-based), ChoiceMenu (CanvasLayer, wrap-around nav), screen shake
+- DialogBubble (CanvasLayer-based), ChoiceMenu (CanvasLayer, wrap-around nav)
 
 ### Phase 5 — Game Structure + Overworld Systems
 - Main menu (New Game/Continue/Settings/Quit)
@@ -30,7 +30,7 @@ Curated index of work, sorted by priority. The **source of truth is GitHub Issue
 - EarthBound-weird dialog for 3 working NPCs as CutsceneResources (#24)
 - MonsieurCroissant + FactoryJamitor migrated to CutsceneTrigger pattern (#24)
 - Fast travel wired: WarpPoints placed in 6 levels, stale courtyard path fixed, 6 warp destinations in DB (#25)
-- Puzzle variants: LatchingFloorSwitch, TimedDoor, KeyDoor, MultiSwitchGate, SequencePuzzle (#26)
+- Puzzle variants: FloorSwitch latching, TimedDoor, KeyDoor, MultiSwitchGate, SequencePuzzle (#26)
 - Doc reconciliation: AGENTS.md stale entries fixed, DESIGN.md checkbox synced, DialogVoiceResource blip-duration consistent (#28)
 - STORY.md created — EarthBound-weird tone locked, protagonist anchored (#9 partially resolved) (#28)
 

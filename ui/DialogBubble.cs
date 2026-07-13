@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public partial class DialogBubble : CanvasLayer
 {
     const int MAX_VISIBLE_LINES = 3;
-    const float BOX_WIDTH = 580f;
+    const float BOX_WIDTH = 576f;
     const float NORMAL_CPS = 40f;
     const float FAST_CPS = 80f;
     const int MAX_ACTIVE_BLIPS = 16;
@@ -113,7 +113,7 @@ public partial class DialogBubble : CanvasLayer
         _textLabel = new Label
         {
             MouseFilter = Control.MouseFilterEnum.Ignore,
-            AutowrapMode = TextServer.AutowrapMode.Arbitrary,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
             MaxLinesVisible = MAX_VISIBLE_LINES
         };
         _textLabel.AddThemeColorOverride("font_color", new Color(0, 0, 0));

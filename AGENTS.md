@@ -36,27 +36,30 @@ Godot editor + MCP tools are available via the `godot-mcp` server (configured in
 | Singleton | Class | Role |
 |-----------|-------|------|
 | `GameController` | `Node` | Level loading/unloading, tilemap bounds → camera |
+| `WorldFlags` | `Node` | `Dictionary<string, Variant>`, dialog branching, warp/quest progression, ISavable |
 | `DialogManager` | `Node2D` | NPC dialog lines + `DialogBubble` |
 | `AudioManager` | `Node` | Music cross-fade (2-player pool) |
 | `Player` | `CharacterBody2D` | WASD movement, dash, save/load |
 | `FadeTransition` | `CanvasLayer` | Screen fade between levels |
+| `CutsceneController` | `Node` | Resource-driven cutscene player (CutsceneResource + CutsceneStep + CutsceneCondition) |
+| `DebugOverlay` | `Node` | Debug HUD overlay (FPS, state info) |
 | `SaveLoadManager` | `Node` | Persist via `ResourceSaver` → `user://savegame.tres` |
 | `Inventory` | `Node` | Item stacks by id, ISavable, seeds test items on new game |
 | `Equipment` | `Node` | Equip/unequip Weapon/Armor/Accessory, applies stats to HealthComponent + ParryComponent, ISavable |
 | `CombatController` | `Node` | EnterCombat scene swap, saved overworld position, win/lose flow |
 
 ### Level loading
-`GameController.LoadLevel(scenePath, position)` or `LoadLevel(scenePath, transitionName)`. Clears old children from `CurrentLevel` node, instantiates new packed scene, repositions player, fades in/out.
+`GameController.LoadLevel(scenePath, playerPosition)` or `LoadLevel(scenePath, targetTransitionName)`. Both have a `skipAutoSave` parameter (used by CombatController to avoid overwriting the combat return position). Clears old children from `CurrentLevel` node, instantiates new packed scene, repositions player, fades in/out.
 
 ### Combat
-`CombatOatmeal` fires 3 `RedBullet`s in a spread every 2s toward the player. `HealthComponent` handles HP/damage. `ParryComponent` handles proximity parry. `CombatController` manages EnterCombat/return flow. `Equipment` autoload applies stats.
+`CombatController.EnterCombat(arenaPath, playerSpawn)` loads a `CombatArena` scene containing enemies. `CombatOatmeal` has 4 flavors (Vanilla/Mint/Strawberry/Chocolate) with different attack patterns — spread, burst, homing, aimed bullets. Uses a state machine (idle → telegraph → attack → cooldown). `CombatHUD` renders reactive HP bars with color thresholds. `HealthComponent` handles HP/damage. `ParryComponent` handles proximity parry (J key). `CombatTargeter` provides static targeting helpers. Arenas: `OatmealArena` (4 enemies), `GenericArena` (configurable). Win/lose flow returns to overworld.
 
 ### Dialog voice system
 - `DialogVoiceResource` (`resources/dialog/DialogVoiceResource.cs`) — Godot `[GlobalClass]` Resource. All pitch/volume/stream params are `[Export]` → visible in Inspector. Double-click a `.tres` to tweak.
 - NPCs have `[Export] public DialogVoiceResource Voice` — set in Inspector. Falls back to `DialogManager.DefaultVoice` (procedural 60ms sine blip at 440Hz) if null.
 - Each character blip gets its own `AudioStreamPlayer` (one-shot, create → play → QueueFree after `BlipDuration`). Max 16 concurrent. Cleaned up in `_Process`.
 - Friends send ~1–2 second .ogg recordings of vowel sounds → drop into `assets/audio/sfx/dialog/` → create a `DialogVoiceResource` .tres → assign to NPC. Only the first `BlipDuration` (default 80ms) of each clip plays per character, pitched per vowel.
-`Player`, `WorldFlags`, and `Inventory` implement `ISavable`. Nodes in the `"persist"` group are iterated by `SaveLoadManager`. Save/load triggered from `OverworldMenu` (Esc/F1) + auto-save on level transition. Warps persist implicitly via WorldFlags (`warp_<id>` flags). Player health field exists in `SaveDataPlayer` but is unused until `HealthComponent` lands.
+`Player`, `WorldFlags`, `Inventory`, and `Equipment` implement `ISavable`. Nodes in the `"persist"` group are iterated by `SaveLoadManager`. Save/load triggered from `OverworldMenu` (Esc/F1) + auto-save on level transition. Warps persist implicitly via WorldFlags (`warp_<id>` flags). Player HP saved/loaded through `HealthComponent`.
 
 ## Conventions
 

@@ -26,7 +26,7 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 
 ### Pause Menu (F1/Esc)
 - **EarthBound-style**: Items · Status · Map · Save · Settings
-- No Load button (that's main menu only).
+- Inventory and Equipment panels fully wired (Key Items, Consumables, Equipment tabs with Use/Equip buttons).
 
 ### Fast Travel
 - **Warp points**: Place `WarpPoint` nodes in levels. Touch one → unlocked. Menu lists unlocked warps → pick → fade → arrive.
@@ -77,9 +77,9 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - **Solo protagonist**. No companions. Add only if story demands it.
 
 ### Cutscenes
-- **Signal-chain controller**: `CutsceneController` singleton. In-game, no separate scene files.
-- Queue of actions: `LockPlayer`, `UnlockPlayer`, `MoveNpc`, `MovePlayer`, `FaceDirection`, `PlayAnimation`, `CameraMove`, `SayDialog`, `Wait`, `SetFlag`, `Fade`, `PromptChoice`, `Stop`.
-- **CutsceneTrigger node** (Area2D, `components/npcs/`): reusable component that eliminates per-NPC `_Input` + prompt boilerplate. `[Export] TriggerMode { OnInteract, OnEnter }`, `[Export] bool Once` + `CutsceneId` (dedup via `cutscene_<id>` WorldFlag). Emits `Triggered` signal; NPC connects and calls `CutsceneController.StartCutscene()`.
+- **Resource-driven controller**: `CutsceneController` singleton. Cutscenes are authored as `CutsceneResource` (.tres) files containing an array of `CutsceneStep` resources with optional `CutsceneCondition` branching (FlagSet/FlagNotSet/ChoiceEquals). In-game, no separate scene files.
+- Actions: `LockPlayer`, `UnlockPlayer`, `MoveNpc`, `MovePlayer`, `FaceDirection`, `PlayAnimation`, `CameraMove`, `SayDialog`, `Wait`, `SetFlag`, `Fade`, `PromptChoice`, `Stop`.
+- **CutsceneTrigger node** (Area2D, `components/npcs/`): `[Export] CutsceneResource Cutscene`, `[Export] string[] DialogLines` (inline fallback), `[Export] TriggerMode { OnInteract, OnEnter }`, `[Export] bool Once` + `CutsceneId` (dedup via `cutscene_<id>` WorldFlag). Calls `CutsceneController.StartCutscene()` directly.
 - **Stop()**: aborts the current cutscene after the in-progress action finishes.
 
 ### Main Menu
@@ -92,9 +92,9 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 
 ---
 
-## Combat System (decided, not yet built)
+## Combat System
 
-> **Status — 2026-07-09**: Phase 4 underway. `HealthComponent` (HP/damage Node) being built — unblocks consumable effects, equipment stats, combat HP, death/respawn. Parry mechanic replacing graze meter. Choice menu in dialog added. See Implementation Roadmap below.
+> **Status — 2026-07-13**: Phase 4 complete. Bullet-hell dodge + proximity parry (J key). CombatOatmeal (4 flavors), CombatHUD (HP bars), OatmealArena + GenericArena. EnterCombat/win/lose flow wired.
 
 ### Player
 - Movement: WASD (same as overworld), dash (Space), sprint (Shift)
@@ -129,7 +129,7 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - [x] `WorldFlags` singleton — Dictionary<string, Variant>, ISavable, autoload, "persist" group
 - [x] `CutsceneController` singleton — async action queue (LockPlayer, MoveNpc, SayDialog, Wait, SetFlag, Fade, UnlockPlayer)
 - [x] Settings — volume sliders (MUSIC/SFX), fullscreen toggle, window scale (1x–4x). Persisted via ConfigFile.
-- [x] Overworld menu — EarthBound layout. Map (warp list), Settings panels functional. Items/Status are placeholder buttons.
+- [x] Overworld menu — EarthBound layout. Map (warp list), Settings, Items (tabs: Key/Consumables/Equipment with Use/Equip) all functional.
 - [x] Save system — WorldFlags saved via ISavable. Single slot, auto-save on level transition.
 - [x] Save expansion — inventory serialized via SaveDataInventory; warps already persist via WorldFlags
 
@@ -140,27 +140,27 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - [x] Audio — PlaySfx() one-shot, PlayAmbience/StopAmbience, per-level ambience on BaseLevel, meep.mp3 for UI
 - [x] Environmental puzzles — PushBlock (CharacterBody2D, 90% auto-scale collision), FloorSwitch (Area2D, Pressed/Released + TargetDoorPath), Door (StaticBody2D, CallDeferred collision toggle)
 - [x] Location banner — drops from top on level transition (FadeTransition.ShowLocation)
-- [x] Inventory — key items, consumables, equipment tabs (OverworldMenu Items panel). Effects deferred until HealthComponent exists.
+- [x] Inventory — key items, consumables, equipment tabs (OverworldMenu Items panel). Use/Equip wired via HealthComponent.
 
-### Phase 4 — Combat + Dialog
+### Phase 4 — Combat + Dialog ✅
 - [x] Dialog fixes (Reset soft-lock, null-sfx, text-speed, fast-forward)
-- [ ] `ChoiceMenu` — in-dialog choice UI with arrow-key nav + cutscene action
-- [ ] `HealthComponent` — reusable HP/damage Node (HP, Defense, signals)
-- [ ] `Equipment` autoload — equip/unequip, stat application (MaxHP, Defense)
-- [ ] Wire consumable Use + Equipment stats to HealthComponent
-- [ ] `CombatArena` base scene — bounded box, camera
-- [ ] `CombatHUD` — HP bar + enemy name CanvasLayer
-- [ ] `ParryComponent` — proximity parry (J key), item radius/damage scaling
-- [ ] Enemy attack pattern toolkit
-- [ ] Enemy state machine
-- [ ] `EnterCombat()` unified entry point + scene swap
-- [ ] Win/lose flow + return to overworld
+- [x] `ChoiceMenu` — in-dialog choice UI with arrow-key nav + cutscene action
+- [x] `HealthComponent` — reusable HP/damage Node (HP, Defense, signals)
+- [x] `Equipment` autoload — equip/unequip, stat application (MaxHP, Defense)
+- [x] Wire consumable Use + Equipment stats to HealthComponent
+- [x] `CombatArena` base scene — bounded box, camera
+- [x] `CombatHUD` — HP bar + enemy name CanvasLayer
+- [x] `ParryComponent` — proximity parry (J key), item radius/damage scaling
+- [x] Enemy attack pattern toolkit
+- [x] Enemy state machine
+- [x] `EnterCombat()` unified entry point + scene swap
+- [x] Win/lose flow + return to overworld
 
 ### Phase 5 — Game structure
-- [ ] Main menu (New Game / Continue / Settings / Quit)
-- [ ] Death / game over + respawn
+- [x] Main menu (New Game / Continue / Settings / Quit)
+- [x] Death / game over + respawn
 - [ ] 3+ enemy types with distinct patterns
-- [ ] 2+ combat arenas
+- [x] 2+ combat arenas
 
 ### Phase 6 — Content & polish
 - [ ] More level areas (courtyard, eggsile, prison are empty)
@@ -170,10 +170,8 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 
 ## Open Design Questions
 
-- **Inventory consumables**: What consumables exist? What do they do? *(Framework ready; effects blocked on HealthComponent — decide concrete items + heal values before Phase 4.)*
-- **Equipment**: What stats does equipment affect? *(Data fields exist: attack/defense/speed. Decide which stats the combat system actually uses before Phase 4.)*
-- **Difficulty**: HP scaling? Easy mode?
-- **Story/Narrative**: What's the game about? Who is Eggbert?
+- **Inventory consumables**: What consumables exist? What do they do? *(Framework ready; effects wire through HealthComponent.Heal(). Need concrete item names + heal values.)*
+- **Equipment**: What stats does equipment affect? *(Data fields exist: attack/defense/speed. MaxHP/Defense/ParryRadius/ParryDamage are wired; Attack and Speed are unused.)*
 - **Difficulty**: HP scaling? Easy mode?
 - **Story/Narrative**: What's the game about? Who is Eggbert?
 
