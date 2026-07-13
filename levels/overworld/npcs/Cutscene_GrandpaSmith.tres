@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=9 format=3 uid="uid://gsmithcutscene001"]
+[gd_resource type="Resource" format=3 uid="uid://cha2ftymfa705"]
 
 [ext_resource type="Script" uid="uid://cn451i4kwjk57" path="res://resources/cutscene/CutsceneResource.cs" id="1_res"]
 [ext_resource type="Script" uid="uid://dvhwgxm701bvh" path="res://resources/cutscene/CutsceneStep.cs" id="2_step"]

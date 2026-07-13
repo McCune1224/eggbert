@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=4 uid="uid://ceft5j32lmxa0"]
+[gd_scene load_steps=8 format=4 uid="uid://ceft5j32lmxa0"]
 
 [ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_2xwn4"]
 [ext_resource type="Texture2D" uid="uid://d3g4p3asro7bd" path="res://assets/tilemaps/Texture/TX Tileset Stone Ground.png" id="1_3osvs"]
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="4"]
 [ext_resource type="PackedScene" uid="uid://5e4uopgmy56a" path="res://levels/factory/npcs/FactoryJamitor.tscn" id="3_2xwn4"]
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8lqvu"]
 texture = ExtResource("1_3osvs")
@@ -221,7 +222,6 @@ tile_set = SubResource("TileSet_nkxpt")
 [node name="FactoryJamitor" parent="." instance=ExtResource("3_2xwn4")]
 position = Vector2(167, -58)
 
-[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 [node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
 WarpId = "factory_gate"
 position = Vector2(0, 0)

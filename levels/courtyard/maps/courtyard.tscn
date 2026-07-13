@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://d203hfawkft4p"]
+[gd_scene load_steps=6 format=4 uid="uid://d203hfawkft4p"]
 
 [ext_resource type="Texture2D" uid="uid://c0m8ma1xjpjho" path="res://assets/tilemaps/grass tileset.png" id="1_aerj4"]
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2"]
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aywx3"]
 texture = ExtResource("1_aerj4")
@@ -92,7 +93,6 @@ metadata/_aseprite_wizard_interface_config_ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TileMapLayer"]
 
-[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 [node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
 WarpId = "courtyard"
 position = Vector2(0, 0)

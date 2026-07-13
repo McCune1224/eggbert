@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=4 uid="uid://bms1ioay0fp20"]
+[gd_scene load_steps=22 format=4 uid="uid://bms1ioay0fp20"]
 
 [ext_resource type="Texture2D" uid="uid://cag8djeu52niq" path="res://assets/tilemaps/prison tileset.png" id="1_3ox1m"]
 [ext_resource type="Texture2D" uid="uid://bv1b24fd22scx" path="res://levels/prison/maps/Officer Bacon.png" id="2_w7byb"]
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="3"]
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w7byb"]
 texture = ExtResource("1_3ox1m")
@@ -291,7 +292,6 @@ shape = SubResource("CircleShape2D_gh45r")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="characters"]
 
-[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 [node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
 WarpId = "prison"
 position = Vector2(0, 0)

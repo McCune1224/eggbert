@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://e1xv0dbe5grr"]
+[gd_scene load_steps=21 format=4 uid="uid://e1xv0dbe5grr"]
 
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="1_1r5ua"]
 [ext_resource type="AudioStream" uid="uid://imq0o15ypg7n" path="res://assets/audio/music/indie_meditations/lvl_2_the_village.ogg" id="2_1r5ua"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dc1kn3llv4x71" path="res://components/puzzles/FloorSwitch.tscn" id="10_u1a1b"]
 [ext_resource type="PackedScene" uid="uid://b60fv3x3u4y5c" path="res://components/puzzles/PushBlock.tscn" id="11_2vu1d"]
 [ext_resource type="Texture2D" uid="uid://bxk81c4fj77tt" path="res://levels/prison/npcs/Monsieur Croissant.png" id="12_r2jid"]
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l2fk0"]
 texture = ExtResource("2_7v7eg")
@@ -653,7 +654,6 @@ TargetDoorPath = NodePath("../Door")
 position = Vector2(-220.61935, -108)
 _texture = ExtResource("12_r2jid")
 
-[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 [node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
 WarpId = "overworld_entry"
 position = Vector2(0, 20)
