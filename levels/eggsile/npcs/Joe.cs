@@ -4,26 +4,22 @@ using System.Collections.Generic;
 public partial class Joe : StaticBody2D
 {
     [Export] public DialogVoiceResource Voice;
-    private ComponentPromptCollision promptCollision;
 
     public override void _Ready()
     {
-        promptCollision = GetNode<ComponentPromptCollision>("ComponentPromptCollision");
+        var trigger = GetNode<CutsceneTrigger>("CutsceneTrigger");
+        trigger.Triggered += OnTriggered;
     }
 
-    public override void _Input(InputEvent @event)
+    private void OnTriggered()
     {
-        if (promptCollision.isPromptVisible() && Input.IsActionJustPressed("interact"))
+        CutsceneController.Instance.StartCutscene(new List<CutsceneAction>
         {
-            promptCollision.HidePrompt();
-            CutsceneController.Instance.StartCutscene(new List<CutsceneAction>
+            CutsceneAction.SayDialog(new[]
             {
-                CutsceneAction.SayDialog(new[]
-                {
-                    "I hate the morning shift. There's always so much",
-                    "to clean down here and so little help."
-                }, Voice)
-            });
-        }
+                "I hate the morning shift. There's always so much",
+                "to clean down here and so little help."
+            }, Voice)
+        });
     }
 }

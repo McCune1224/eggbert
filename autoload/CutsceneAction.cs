@@ -7,11 +7,16 @@ public enum CutsceneActionType
     LockPlayer,
     UnlockPlayer,
     MoveNpc,
+    MovePlayer,
+    FaceDirection,
+    PlayAnimation,
+    CameraMove,
     SayDialog,
     Wait,
     SetFlag,
     Fade,
-    PromptChoice
+    PromptChoice,
+    Stop
 }
 
 /// <summary>A single step in a cutscene sequence.</summary>
@@ -33,6 +38,37 @@ public struct CutsceneAction
 
     public static CutsceneAction UnlockPlayer() =>
         new(CutsceneActionType.UnlockPlayer);
+
+    public static CutsceneAction MovePlayer(Vector2 targetPosition, float duration = 1.0f) =>
+        new(CutsceneActionType.MovePlayer, new Dictionary<string, Variant>
+        {
+            { "target_position", targetPosition },
+            { "duration", duration }
+        });
+
+    public static CutsceneAction FaceDirection(string nodePath, string direction) =>
+        new(CutsceneActionType.FaceDirection, new Dictionary<string, Variant>
+        {
+            { "node_path", nodePath },
+            { "direction", direction }
+        });
+
+    public static CutsceneAction PlayAnimation(string nodePath, string animationName) =>
+        new(CutsceneActionType.PlayAnimation, new Dictionary<string, Variant>
+        {
+            { "node_path", nodePath },
+            { "animation_name", animationName }
+        });
+
+    public static CutsceneAction CameraMove(Vector2 targetPosition, float duration = 1.0f) =>
+        new(CutsceneActionType.CameraMove, new Dictionary<string, Variant>
+        {
+            { "target_position", targetPosition },
+            { "duration", duration }
+        });
+
+    public static CutsceneAction Stop() =>
+        new(CutsceneActionType.Stop);
 
     public static CutsceneAction MoveNpc(string npcPath, Vector2 targetPosition, float duration = 1.0f) =>
         new(CutsceneActionType.MoveNpc, new Dictionary<string, Variant>

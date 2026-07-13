@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://et6fsl2fwqjd" path="res://levels/overworld/npcs/GrandpaSmith.cs" id="1_x2aec"]
 [ext_resource type="Texture2D" uid="uid://crr721c1r7lf5" path="res://assets/characters/GrandpaSmith.png" id="2_21vw5"]
-[ext_resource type="PackedScene" uid="uid://dwmuatqe2ns5s" path="res://components/npcs/ComponentPromptCollision.tscn" id="3_2s1rw"]
+[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="3_2s1rw"]
 
 [sub_resource type="Animation" id="Animation_ni1yi"]
 length = 0.1
@@ -181,9 +181,9 @@ libraries = {
 &"": SubResource("AnimationLibrary_0iibd")
 }
 
-[node name="ComponentPromptCollision" parent="." instance=ExtResource("3_2s1rw")]
+[node name="CutsceneTrigger" parent="." instance=ExtResource("3_2s1rw")]
 
-[node name="InteractionCollision" type="CollisionShape2D" parent="ComponentPromptCollision"]
+[node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
 shape = SubResource("CircleShape2D_bf53u")
 
 [node name="PhysicsCollision" type="CollisionShape2D" parent="."]

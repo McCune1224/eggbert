@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://lenli4fqegfg" path="res://levels/eggsile/npcs/Joe.cs" id="1_xyx71"]
 [ext_resource type="Texture2D" uid="uid://lnp4nyodyra5" path="res://assets/characters/Joe.png" id="2_etl7m"]
-[ext_resource type="PackedScene" uid="uid://dwmuatqe2ns5s" path="res://components/npcs/ComponentPromptCollision.tscn" id="4_qip81"]
+[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="4_qip81"]
 
 [sub_resource type="Animation" id="Animation_375ex"]
 length = 0.1
@@ -45,8 +45,8 @@ libraries/ = SubResource("AnimationLibrary_c3ico")
 position = Vector2(3.5, 3)
 shape = SubResource("RectangleShape2D_xyx71")
 
-[node name="ComponentPromptCollision" parent="." instance=ExtResource("4_qip81")]
+[node name="CutsceneTrigger" parent="." instance=ExtResource("4_qip81")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ComponentPromptCollision"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CutsceneTrigger"]
 position = Vector2(2, 2)
 shape = SubResource("CircleShape2D_xyx71")

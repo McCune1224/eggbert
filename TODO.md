@@ -26,7 +26,17 @@ Curated index of work, sorted by priority. The **source of truth is GitHub Issue
 - DialogBubble (CanvasLayer-based), ChoiceMenu (CanvasLayer, wrap-around nav), screen shake
 
 ### Phase 5 — Game Structure
-- Main menu (New Game/Continue/Settings/Quit) — completed via PR #15
+- Main menu (New Game/Continue/Settings/Quit) — completed
+
+### Dev tooling + structure cleanup (done on main)
+- [x] Level folder standardization — all areas now `maps/` + `npcs/` subfolders (#20)
+- [x] Combat component consolidation — `ParryComponent`/`Targeting`/`HealthComponent` moved to `combat/components/` (#20)
+- [x] `CutsceneTrigger` node — reusable Area2D, eliminates per-NPC `_Input` + prompt boilerplate (#21)
+- [x] New `CutsceneAction` types — `MovePlayer`, `FaceDirection`, `PlayAnimation`, `CameraMove`, `Stop` (#21)
+- [x] `CutsceneController.Wait()` fix — uses `GetTree().CreateTimer` (respects pause) (#21)
+- [x] `CutsceneController.Stop()` — abort via `CancellationTokenSource` (#21)
+- [x] Migrated GrandpaSmith, OfficerBacon, Joe to CutsceneTrigger pattern (#21)
+- [x] Debug auto-start — `EGGBERT_SKIP_MENU=1` env var skips menu, loads last save (#22)
 
 ---
 

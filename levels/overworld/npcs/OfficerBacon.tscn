@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b5gw2xo5sfpb2" path="res://levels/overworld/npcs/OfficerBacon.cs" id="1_6kkq5"]
 [ext_resource type="Texture2D" uid="uid://10nsh7xbpdpi" path="res://assets/characters/Officer Bacon.png" id="2_6kkq5"]
-[ext_resource type="PackedScene" uid="uid://dwmuatqe2ns5s" path="res://components/npcs/ComponentPromptCollision.tscn" id="3_6kkq5"]
+[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="3_6kkq5"]
 
 [sub_resource type="Animation" id="Animation_2nhdl"]
 length = 0.1
@@ -185,7 +185,7 @@ libraries = {
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_6kkq5")
 
-[node name="ComponentPromptCollision" parent="." instance=ExtResource("3_6kkq5")]
+[node name="CutsceneTrigger" parent="." instance=ExtResource("3_6kkq5")]
 
-[node name="InteractionCollision" type="CollisionShape2D" parent="ComponentPromptCollision"]
+[node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
 shape = SubResource("CircleShape2D_ucj4v")

@@ -78,7 +78,9 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 
 ### Cutscenes
 - **Signal-chain controller**: `CutsceneController` singleton. In-game, no separate scene files.
-- Queue of actions: `LockPlayer`, `MoveNpc`, `SayDialog`, `Wait`, `SetFlag`, `Fade`, `UnlockPlayer`, `PromptChoice`.
+- Queue of actions: `LockPlayer`, `UnlockPlayer`, `MoveNpc`, `MovePlayer`, `FaceDirection`, `PlayAnimation`, `CameraMove`, `SayDialog`, `Wait`, `SetFlag`, `Fade`, `PromptChoice`, `Stop`.
+- **CutsceneTrigger node** (Area2D, `components/npcs/`): reusable component that eliminates per-NPC `_Input` + prompt boilerplate. `[Export] TriggerMode { OnInteract, OnEnter }`, `[Export] bool Once` + `CutsceneId` (dedup via `cutscene_<id>` WorldFlag). Emits `Triggered` signal; NPC connects and calls `CutsceneController.StartCutscene()`.
+- **Stop()**: aborts the current cutscene after the in-progress action finishes.
 
 ### Main Menu
 - New Game / Continue / Settings / Quit

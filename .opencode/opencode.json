@@ -7,7 +7,8 @@
       "command": ["npx", "--yes", "@coding-solo/godot-mcp"],
       "enabled": true,
       "environment": {
-        "GODOT_PATH": "/usr/local/bin/godot"
+        "GODOT_PATH": "/usr/local/bin/godot",
+        "EGGBERT_SKIP_MENU": "1"
       }
     }
   },
