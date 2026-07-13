@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://bbkcsovvq8cd2" path="res://components/core/LevelTileMapLayer.cs" id="4_mael7"]
 [ext_resource type="Script" uid="uid://cswrwcu6al2mu" path="res://resources/dialog/DialogVoiceResource.cs" id="8_2vu1d"]
 [ext_resource type="PackedScene" uid="uid://bqpnrhgn1dngw" path="res://components/puzzles/Door.tscn" id="8_xd65o"]
-[ext_resource type="Texture2D" uid="uid://dhoqlivleeba0" path="res://assets/characters/Wiener Cop.png" id="9_onfhm"]
+[ext_resource type="Texture2D" path="res://levels/courtyard/Wiener Cop.png" id="9_onfhm"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="10_45llo"]
 [ext_resource type="PackedScene" uid="uid://dc1kn3llv4x71" path="res://components/puzzles/FloorSwitch.tscn" id="10_u1a1b"]
 [ext_resource type="PackedScene" uid="uid://b60fv3x3u4y5c" path="res://components/puzzles/PushBlock.tscn" id="11_2vu1d"]

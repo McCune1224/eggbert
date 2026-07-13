@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hfux3gfkm7bs"
-path="res://.godot/imported/Wiener Cop.png-5d2a51e48e27bd09f43cb68b6b4826ee.ctex"
+uid="uid://bqe6sht1t3lal"
+path="res://.godot/imported/Wiener Cop.png-a6a7e55eef9e3149782a6646812353f0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/Wiener Cop.png"
-dest_files=["res://.godot/imported/Wiener Cop.png-5d2a51e48e27bd09f43cb68b6b4826ee.ctex"]
+source_file="res://levels/courtyard/Wiener Cop.png"
+dest_files=["res://.godot/imported/Wiener Cop.png-a6a7e55eef9e3149782a6646812353f0.ctex"]
 
 [params]
 
