@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://bxk81c4fj77tt" path="res://levels/prison/npcs/Monsieur Croissant.png" id="1_spr"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_ct"]
-[ext_resource type="Resource" path="res://levels/prison/npcs/Cutscene_MonsieurCroissant.tres" id="3_cs"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
 radius = 40.0
@@ -16,7 +15,7 @@ size = Vector2(48, 35)
 texture = ExtResource("1_spr")
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
-Cutscene = ExtResource("3_cs")
+DialogLines = Array[String](["Ah, a visitor! How magnifique. I have been unjustly imprisoned in this, how you say... flavorless dungeon.", "The crime, they say, is excessive butter usage. But what is excessive butter? This is a philosophical question, non?", "When I escape I shall open a bakery. The first thing I shall bake is a cake filled with the finest... paperwork to clear my name."])
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
 shape = SubResource("CircleShape2D_interact")

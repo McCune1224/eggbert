@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://10nsh7xbpdpi" path="res://assets/characters/Officer Bacon.png" id="1_6kkq5"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_6kkq5"]
-[ext_resource type="Resource" path="res://levels/overworld/npcs/Cutscene_OfficerBacon.tres" id="3_cs"]
 
 [sub_resource type="Animation" id="Animation_2nhdl"]
 length = 0.1
@@ -185,7 +184,7 @@ position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_6kkq5")
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_6kkq5")]
-Cutscene = ExtResource("3_cs")
+DialogLines = Array[String](["Hold it right there. Do you have a permit to be wandering around?", "This area has had seventeen unsolved refrigerator incidents this month."])
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
 shape = SubResource("CircleShape2D_ucj4v")

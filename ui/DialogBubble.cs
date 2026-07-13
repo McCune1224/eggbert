@@ -463,6 +463,8 @@ public partial class DialogBubble : CanvasLayer
                 AdvancePage();
                 break;
         }
+
+        GetViewport().SetInputAsHandled();
     }
 
     public override void _Process(double delta)

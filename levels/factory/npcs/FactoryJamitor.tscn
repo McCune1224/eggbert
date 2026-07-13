@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://b5huf2rg5ie8y" path="res://assets/characters/Jamitor.png" id="1_spr"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_ct"]
-[ext_resource type="Resource" path="res://levels/factory/npcs/Cutscene_FactoryJamitor.tres" id="3_cs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phys"]
 size = Vector2(44, 40)
@@ -34,7 +33,7 @@ metadata/_aseprite_wizard_config_ = {
 metadata/_aseprite_wizard_source_file_hash_ = "bdbd245aa30096173c674f8717af6008"
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
-Cutscene = ExtResource("3_cs")
+DialogLines = Array[String](["I'm on lunch. This factory runs 24/7, but there's a guy on third shift I've never actually seen.", "He leaves notes on the breakroom fridge. They're all just lists of numbers. Nobody knows what they mean.", "Weird question: have you noticed the conveyor belts running backwards on Tuesdays? Nobody else seems to."])
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
 shape = SubResource("CircleShape2D_interact")

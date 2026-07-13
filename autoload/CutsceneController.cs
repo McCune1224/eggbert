@@ -45,6 +45,26 @@ public partial class CutsceneController : Node
         Player.Instance.InInteraction = false;
     }
 
+    public void StartDialog(string[] lines, DialogVoiceResource voice = null)
+    {
+        if (_isPlaying || lines == null || lines.Length == 0) return;
+        _isPlaying = true;
+        _cts = new CancellationTokenSource();
+
+        DoDialog(lines, voice);
+    }
+
+    private async void DoDialog(string[] lines, DialogVoiceResource voice)
+    {
+        DialogManager.Instance.StartDialog(new System.Collections.Generic.List<string>(lines),
+            voice ?? DialogManager.Instance.DefaultVoice);
+        await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
+
+        _isPlaying = false;
+        _cts = null;
+        Player.Instance.InInteraction = false;
+    }
+
     public void Stop()
     {
         if (!_isPlaying || _cts == null) return;

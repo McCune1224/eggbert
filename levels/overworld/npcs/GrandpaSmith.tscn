@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://crr721c1r7lf5" path="res://assets/characters/GrandpaSmith.png" id="1_21vw5"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_2s1rw"]
-[ext_resource type="Resource" path="res://levels/overworld/npcs/Cutscene_GrandpaSmith.tres" id="3_cs"]
 
 [sub_resource type="Animation" id="Animation_ni1yi"]
 length = 0.1
@@ -181,7 +180,7 @@ libraries = {
 }
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_2s1rw")]
-Cutscene = ExtResource("3_cs")
+DialogLines = Array[String](["Oh! You startled me. I was just looking for my missing shoe.", "The left one. The right one's been acting suspicious lately.", "Anyway, I'm Grandpa Smith. Pleasure to meet you, Ernie -- wait, Eggbert, is it?", "Stop by anytime! Just don't touch the humming fridge. It's particular about that."])
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
 shape = SubResource("CircleShape2D_bf53u")

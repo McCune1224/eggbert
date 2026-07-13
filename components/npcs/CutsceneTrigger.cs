@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 
 public enum TriggerMode
 {
@@ -12,6 +13,8 @@ public partial class CutsceneTrigger : Area2D
     [Export] public bool Once = false;
     [Export] public string CutsceneId = "";
     [Export] public CutsceneResource Cutscene { get; set; }
+    [Export] public string[] DialogLines { get; set; }
+    [Export] public DialogVoiceResource Voice { get; set; }
 
     [Signal]
     public delegate void TriggeredEventHandler();
@@ -102,16 +105,26 @@ public partial class CutsceneTrigger : Area2D
     private void Fire()
     {
         if (_hasFired) return;
+        if (CutsceneController.Instance.IsPlaying) return;
 
         if (Once && !string.IsNullOrEmpty(CutsceneId))
             WorldFlags.Instance.SetFlag("cutscene_" + CutsceneId, true);
 
-        _hasFired = true;
+        if (Once)
+            _hasFired = true;
 
         if (Cutscene != null)
+        {
             CutsceneController.Instance.StartCutscene(Cutscene);
+        }
+        else if (DialogLines != null && DialogLines.Length > 0)
+        {
+            CutsceneController.Instance.StartDialog(DialogLines, Voice);
+        }
         else
+        {
             EmitSignal(SignalName.Triggered);
+        }
     }
 
     public bool IsPromptVisible() => _promptSprite?.Visible ?? false;
