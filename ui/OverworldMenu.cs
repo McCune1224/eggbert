@@ -380,12 +380,6 @@ public partial class OverworldMenu : CanvasLayer
         DialogManager.CurrentTextSpeed = (DialogManager.TextSpeed)_textSpeedOption.GetItemId((int)index);
     }
 
-    private void OnQuitDesktopPressed()
-    {
-        SaveSettings();
-        GetTree().Quit();
-    }
-
     private void OnSettingsBackPressed()
     {
         SaveSettings();
@@ -465,6 +459,4 @@ public partial class OverworldMenu : CanvasLayer
         config.SetValue("display", "text_speed", (int)_textSpeedOption.GetItemId(_textSpeedOption.Selected));
         config.Save(SettingsPath);
     }
-
-    private void OnLoadPressed() { }
 }

@@ -44,8 +44,6 @@ public partial class LevelTransition : Area2D
             Update_Area();
             return true;
         }
-        //FIXME: For whatever reason this won't snap to grid, but 
-        //more a QOL thing so life will go on
         else if (property == "SnapToGrid" || property == "Snap to Grid")
         {
             if ((bool)value)
@@ -88,16 +86,6 @@ public partial class LevelTransition : Area2D
             Update_Area();
             return;
         }
-        // if (this.HasOverlappingBodies())
-        // {
-        //
-        //     if (Input.IsActionPressed("interact"))
-        //     {
-        //
-        //         GameController.Instance.LoadOverworldScene(Level, Vector2.Zero);
-        //     }
-        // }
-
     }
 
     public void SceneTransition(Node2D body)
@@ -118,13 +106,6 @@ public partial class LevelTransition : Area2D
             GD.PrintErr("LevelTransition: SceneTransition: Failed to load level: " + Level);
             throw;
         }
-        // Label prompt = new Label();
-        // //add prompt to "prompt group"
-        // prompt.Text = "Press 'E' to enter " + Level;
-        // prompt.Name = "prompt";
-        // //move the prompt to the top of the body
-        // prompt.Position = new Vector2(0, -50);
-        // body.AddChild(prompt);
     }
 
 

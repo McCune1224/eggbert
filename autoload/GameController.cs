@@ -32,7 +32,7 @@ public partial class GameController : Node
 		}
 		else
 		{
-			GD.PrintErr("Multiple instances of OverworldManager detected!");
+			GD.PrintErr("Multiple instances of GameController detected!");
 		}
 		_menu = GetNode<Control>("Menu");
 		PackedScene overworldMenu = ResourceLoader.Load<PackedScene>("res://ui/OverworldMenu.tscn");
@@ -40,7 +40,6 @@ public partial class GameController : Node
 		canvasLayer.AddChild(overworldMenu.Instantiate());
 		_menu.AddChild(canvasLayer);
 		CurrentLevel = GetNode("CurrentLevel");
-		// DialogManagerScene = ResourceLoader.Load<PackedScene>("res://scripts/ui/DialogManager.tscn");
 	}
 
 	/// <summary>

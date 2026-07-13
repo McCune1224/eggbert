@@ -59,25 +59,25 @@ public partial class SaveLoadManager : Node
         var saveData = loadedResource as SaveResource;
         if (saveData == null)
         {
-            GD.PrintErr($"Failed to load SaveGameData from {SavePath}. Resource type: {loadedResource?.GetType().Name}");
+            GD.PrintErr($"Failed to load SaveResource from {SavePath}. Resource type: {loadedResource?.GetType().Name}");
             return;
         }
 
-        var persistantNodes = new System.Collections.Generic.List<ISavable>();
+        var persistentNodes = new System.Collections.Generic.List<ISavable>();
 
         foreach (Node node in GetTree().GetNodesInGroup("persist"))
         {
             if (node is ISavable persistable)
             {
-                persistantNodes.Add(persistable);
+                persistentNodes.Add(persistable);
             }
             else
             {
                 GD.PrintErr($"Node {node.Name} is in 'persist' group but does not implement ISavable.");
             }
         }
-        persistantNodes.Sort((a, b) => a.GetLoadPriority().CompareTo(b.GetLoadPriority()));
-        persistantNodes.ForEach(persistable =>
+        persistentNodes.Sort((a, b) => a.GetLoadPriority().CompareTo(b.GetLoadPriority()));
+        persistentNodes.ForEach(persistable =>
         {
             persistable.Load(saveData);
         });

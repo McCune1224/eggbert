@@ -20,8 +20,6 @@ public partial class MainMenu : CanvasLayer
     private OptionButton _textSpeedOption;
     private Button _settingsBackButton;
 
-    private AnimationPlayer _animationPlayer;
-
     private enum View { Menu, Settings }
     private View _currentView = View.Menu;
 
@@ -39,8 +37,6 @@ public partial class MainMenu : CanvasLayer
         _fullscreenCheck = GetNode<CheckButton>("SettingsPanel/VBoxContainer/FullscreenBox/FullscreenCheck");
         _scaleOption = GetNode<OptionButton>("SettingsPanel/VBoxContainer/ScaleBox/ScaleOption");
         _settingsBackButton = GetNode<Button>("SettingsPanel/VBoxContainer/BackButton");
-
-        _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
         // Create the text speed option picker before connecting signals (it's built
         // dynamically so the connection below doesn't null-ref).
