@@ -39,8 +39,6 @@ public partial class CutsceneTrigger : Area2D
             }
         }
 
-        if (_npcSprite == null)
-            GD.PrintErr($"CutsceneTrigger ({GetParent().Name}): no Sprite2D sibling found for prompt positioning.");
 
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;

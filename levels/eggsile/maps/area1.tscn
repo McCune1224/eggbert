@@ -118,6 +118,7 @@ size = Vector2(32, 8)
 [node name="Area1" type="Node2D" unique_id=1585467900]
 scale = Vector2(1, 1.01057)
 script = ExtResource("1_6jprg")
+LevelName = "Eggsile Area 1"
 LevelMusic = ExtResource("2_pttgg")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1771002572]

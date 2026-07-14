@@ -86,6 +86,7 @@ size = Vector2(32, 8)
 
 [node name="Courtyard" type="Node2D"]
 script = ExtResource("2")
+LevelName = "Courtyard"
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(421, 204)

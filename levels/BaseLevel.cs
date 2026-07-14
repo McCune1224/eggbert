@@ -30,7 +30,6 @@ public partial class BaseLevel : Node2D
         if (LevelName == "")
         {
             LevelName = Name;
-            GD.Print($"LevelName not set, using default: {LevelName}");
         }
 
         EmitSignal(SignalName.LevelStarted);
