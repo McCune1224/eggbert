@@ -5,28 +5,66 @@ public partial class WarpPoint : Area2D
     [Export] public string WarpId = "";
     [Export] public string PromptText = "Press E to unlock warp";
 
-    private ComponentPromptCollision _prompt;
+    private Area2D _promptArea;
+    private Label _interactionLabel;
+    private Sprite2D _promptSprite;
     private bool _unlocked = false;
 
     public override void _Ready()
     {
         _unlocked = WarpDatabase.IsUnlocked(WarpId);
-        _prompt = GetNode<ComponentPromptCollision>("ComponentPromptCollision");
+        _promptArea = GetNode<Area2D>("PromptArea2D");
+        _interactionLabel = _promptArea.GetNode<Label>("Label");
+        _promptSprite = _promptArea.GetNode<Sprite2D>("Sprite2D");
+
+        _promptSprite.Visible = false;
+        _promptArea.BodyEntered += OnBodyEntered;
+        _promptArea.BodyExited += OnBodyExited;
+
         if (_unlocked)
-            _prompt.HidePrompt();
+            HidePrompt();
+    }
+
+    private void OnBodyEntered(Node2D body)
+    {
+        if (!body.IsInGroup("player"))
+            return;
+        ShowPrompt();
+    }
+
+    private void OnBodyExited(Node2D body)
+    {
+        if (!body.IsInGroup("player"))
+            return;
+        HidePrompt();
     }
 
     public override void _Process(double delta)
     {
         if (_unlocked) return;
-        if (_prompt.isPromptVisible() && Input.IsActionJustPressed("interact"))
+        if (IsPromptVisible() && Input.IsActionJustPressed("interact"))
         {
             _unlocked = true;
             WarpDatabase.Unlock(WarpId);
-            _prompt.HidePrompt();
+            HidePrompt();
             if (WarpDatabase.All.TryGetValue(WarpId, out var dest))
                 DialogManager.Instance.StartDialog(
                     new System.Collections.Generic.List<string> { $"Warp unlocked: {dest.Name}" });
         }
+    }
+
+    public bool IsPromptVisible() => _interactionLabel?.Visible ?? false;
+
+    public void HidePrompt()
+    {
+        _interactionLabel.Visible = false;
+        _promptSprite.Visible = false;
+    }
+
+    public void ShowPrompt()
+    {
+        _interactionLabel.Visible = true;
+        _interactionLabel.Text = PromptText;
+        _promptSprite.Visible = true;
     }
 }

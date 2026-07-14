@@ -5,9 +5,9 @@ public partial class AudioManager : Node
     private static AudioManager _instance;
     public static AudioManager Instance => _instance;
 
-    // ponytail: trailing space matches default_bus_layout.tres bus name
+
     public readonly string MUSIC_BUS = "MUSIC";
-    public readonly string SFX_BUS = "SFX ";
+	public readonly string SFX_BUS = "SFX";
 
     private int _musicAudioPlayerCount = 2;
     private int _currentMusicPlayerIndex = 0;

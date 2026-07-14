@@ -177,11 +177,7 @@ public partial class CombatOatmeal : Area2D
         }
     }
 
-    /// <summary>Plays the sprite idle animation. Kept for parity with external callers.</summary>
-    public void Fire()
-    {
-        _animationPlayer?.Play("default");
-    }
+
 
     private void Attack()
     {

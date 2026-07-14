@@ -67,8 +67,6 @@ public partial class LevelTransition : Area2D
         Update_Area();
         if (Engine.IsEditorHint()) { return; }
 
-        // this.Monitoring = true;
-        // this.Monitorable = false;
         BodyEntered += SceneTransition;
         BodyExited += (Node2D body) =>
         {
