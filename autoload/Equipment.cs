@@ -56,10 +56,10 @@ public partial class Equipment : Node, ISavable
         if (current != null)
             Unequip(item.Slot);
 
+        _slots[item.Slot] = item.Id;
+
         // Apply stat bonuses
         ApplyItemStats(item, 1);
-
-        _slots[item.Slot] = item.Id;
         Inventory.Instance.Remove(item.Id, 1);
     }
 
@@ -115,7 +115,25 @@ public partial class Equipment : Node, ISavable
         {
             if (string.IsNullOrEmpty(id)) continue;
             var item = ItemDatabase.Get(id);
-            if (item != null) total += item.ParryDamageBoost;
+            if (item != null)
+            {
+                total += item.ParryDamageBoost;
+                total += item.AttackBoost;
+            }
+        }
+        return total;
+    }
+
+    public int TotalSpeedBoost => GetTotalSpeedBoost();
+
+    private int GetTotalSpeedBoost()
+    {
+        int total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.SpeedBoost;
         }
         return total;
     }
@@ -154,12 +172,7 @@ public partial class Equipment : Node, ISavable
 
         _slots[slot] = id;
 
-        var hc = Player.Instance.HealthComponent;
-        if (hc != null)
-        {
-            hc.SetMaxHP(hc.MaxHP + item.MaxHPBoost);
-            hc.Defense += item.DefenseBoost;
-        }
+        ApplyItemStats(item, 1);
     }
 
     public int GetLoadPriority() => 5;

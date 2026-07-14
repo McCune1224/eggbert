@@ -94,7 +94,8 @@ public partial class Player : CharacterBody2D, ISavable
         {
             direction = direction.Normalized();
         }
-        Velocity = direction * PlayerSpeed;
+        float speed = PlayerSpeed + Equipment.Instance.TotalSpeedBoost;
+        Velocity = direction * Mathf.Max(PlayerSpeed * 0.5f, speed);
         if (Input.IsActionJustPressed("dash"))
         {
             Vector2 dashDirection = _dash.StartDash(direction);

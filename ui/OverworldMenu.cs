@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 
 public partial class OverworldMenu : CanvasLayer
 {
@@ -24,6 +25,10 @@ public partial class OverworldMenu : CanvasLayer
     private OptionButton _scaleOption;
     private OptionButton _textSpeedOption;
     private Button _settingsBackButton;
+    // Keybinding section
+    private Dictionary<string, Button> _keybindButtons = new();
+    private bool _awaitingRebind = false;
+    private string _rebindingAction = null;
 
     // Map panel
     private PanelContainer _mapPanel;
@@ -81,6 +86,8 @@ public partial class OverworldMenu : CanvasLayer
         _scaleOption.Selected = 1;
 
         SetupTextSpeedOption();
+
+        SetupKeybindSection();
 
         _musicSlider.Connect("value_changed", new Callable(this, nameof(OnMusicVolumeChanged)));
         _sfxSlider.Connect("value_changed", new Callable(this, nameof(OnSfxVolumeChanged)));
@@ -163,6 +170,25 @@ public partial class OverworldMenu : CanvasLayer
 
     public override void _Input(InputEvent @event)
     {
+        // Rebinding capture — eat the event and apply the new key
+        if (_awaitingRebind && @event is InputEventKey keyEv && keyEv.Pressed && !keyEv.Echo)
+        {
+            Key key = keyEv.PhysicalKeycode;
+            if (key != Key.None)
+            {
+                KeybindManager.RebindAction(_rebindingAction, key);
+                _keybindButtons[_rebindingAction].Text = KeybindManager.GetCurrentKeyLabel(_rebindingAction);
+            }
+            else
+            {
+                _keybindButtons[_rebindingAction].Text = KeybindManager.GetCurrentKeyLabel(_rebindingAction);
+            }
+            _awaitingRebind = false;
+            _rebindingAction = null;
+            GetViewport().SetInputAsHandled();
+            return;
+        }
+
         if (Input.IsActionJustPressed("menu_pause"))
         {
             if (_currentPanel == Panel.Settings)
@@ -407,6 +433,62 @@ public partial class OverworldMenu : CanvasLayer
         vbox.MoveChild(hbox, vbox.GetChildCount() - 2);
     }
 
+    // --- Keybindings ---
+
+    private void SetupKeybindSection()
+    {
+        var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer");
+        var backButton = vbox.GetChild(vbox.GetChildCount() - 1);
+
+        var title = new Label { Text = "Controls:" };
+        title.AddThemeFontSizeOverride("font_size", 14);
+        vbox.AddChild(title);
+        vbox.MoveChild(title, vbox.GetChildCount() - 2);
+
+        foreach (string action in KeybindManager.RebindableActions)
+        {
+            var hbox = new HBoxContainer();
+            var label = new Label
+            {
+                Text = KeybindManager.GetActionDisplayName(action),
+                CustomMinimumSize = new Vector2(120, 0),
+            };
+            hbox.AddChild(label);
+
+            var btn = new Button { Text = KeybindManager.GetCurrentKeyLabel(action) };
+            string captured = action;
+            btn.Pressed += () => StartRebind(captured);
+            hbox.AddChild(btn);
+            _keybindButtons[action] = btn;
+
+            vbox.AddChild(hbox);
+            vbox.MoveChild(hbox, vbox.GetChildCount() - 2);
+        }
+
+        var resetBtn = new Button { Text = "Reset Controls" };
+        resetBtn.Pressed += OnResetKeybindsPressed;
+        vbox.AddChild(resetBtn);
+        vbox.MoveChild(resetBtn, vbox.GetChildCount() - 2);
+    }
+
+    private void StartRebind(string action)
+    {
+        // Restore previous button label if switching mid-rebind
+        if (_awaitingRebind && _rebindingAction != null && _keybindButtons.ContainsKey(_rebindingAction))
+            _keybindButtons[_rebindingAction].Text = KeybindManager.GetCurrentKeyLabel(_rebindingAction);
+
+        _awaitingRebind = true;
+        _rebindingAction = action;
+        _keybindButtons[action].Text = "...";
+    }
+
+    private void OnResetKeybindsPressed()
+    {
+        KeybindManager.ResetAllBindings();
+        foreach (var kv in _keybindButtons)
+            kv.Value.Text = KeybindManager.GetCurrentKeyLabel(kv.Key);
+    }
+
     // --- Persistence ---
 
     private void LoadSettings()
@@ -459,6 +541,7 @@ public partial class OverworldMenu : CanvasLayer
         config.SetValue("display", "fullscreen", _fullscreenCheck.ButtonPressed);
         config.SetValue("display", "window_scale", (int)_scaleOption.GetItemId(_scaleOption.Selected));
         config.SetValue("display", "text_speed", (int)_textSpeedOption.GetItemId(_textSpeedOption.Selected));
+        KeybindManager.SaveBindings();
         config.Save(SettingsPath);
     }
 }

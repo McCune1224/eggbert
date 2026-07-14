@@ -33,6 +33,7 @@ SaveLoadManager="*res://autoload/SaveLoadManager.tscn"
 Inventory="*res://autoload/Inventory.cs"
 Equipment="*res://autoload/Equipment.cs"
 CombatController="*res://autoload/CombatController.cs"
+KeybindManager="*res://autoload/KeybindManager.cs"
 
 [display]
 
