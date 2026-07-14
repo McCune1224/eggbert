@@ -49,7 +49,7 @@ public partial class Player : CharacterBody2D, ISavable
         }
         else
         {
-            GD.PrintErr("Multiple instances of Player detected!");
+            GameLogger.Error("Player", "Multiple instances of Player detected!");
         }
 
         CollisionMask = CollisionConfig.WallsLayer | CollisionConfig.InteractableLayer;

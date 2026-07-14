@@ -101,7 +101,7 @@ public partial class LevelTransition : Area2D
         }
         catch (Exception)
         {
-            GD.PrintErr("LevelTransition: SceneTransition: Failed to load level: " + Level);
+            GameLogger.Error("LevelTransition", "SceneTransition: Failed to load level: " + Level);
             throw;
         }
     }
@@ -112,7 +112,7 @@ public partial class LevelTransition : Area2D
     {
         if (_collisionShape == null)
         {
-            GD.PrintErr("CollisionShape2D not found.");
+            GameLogger.Error("LevelTransition", "CollisionShape2D not found.");
             return;
         }
         Vector2 newRectangleSize = new Vector2(16, 16);

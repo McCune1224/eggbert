@@ -20,7 +20,7 @@ public partial class Inventory : Node, ISavable
             _instance = this;
         else
         {
-            GD.PrintErr("Multiple Inventory instances detected!");
+            GameLogger.Error("Inventory", "Multiple Inventory instances detected!");
             QueueFree();
             return;
         }
@@ -35,7 +35,7 @@ public partial class Inventory : Node, ISavable
     {
         if (!ItemDatabase.All.ContainsKey(id))
         {
-            GD.PrintErr($"Inventory.Add: unknown item id '{id}'");
+            GameLogger.Error("Inventory", $"Inventory.Add: unknown item id '{id}'");
             return;
         }
         _stacks[id] = _stacks.TryGetValue(id, out int c) ? c + count : count;

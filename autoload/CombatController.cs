@@ -24,7 +24,7 @@ public partial class CombatController : Node
         // saved return position isn't overwritten and handlers don't pile up.
         if (_currentArena != null)
         {
-            GD.PushWarning("CombatController.EnterCombat called while already in combat — ignored.");
+            GameLogger.Warn("Combat", "EnterCombat called while already in combat — ignored.");
             return;
         }
 

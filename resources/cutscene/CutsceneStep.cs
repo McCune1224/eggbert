@@ -124,14 +124,14 @@ public partial class CutsceneStep : Resource
         var level = GameController.Instance?.CurrentLevel;
         if (level == null || TargetNode == null)
         {
-            GD.PrintErr("Cutscene MoveNpc: no level loaded or no TargetNode set.");
+            GameLogger.Error("Cutscene", "MoveNpc: no level loaded or no TargetNode set.");
             return;
         }
 
         var npc = level.GetNodeOrNull(TargetNode);
         if (npc == null)
         {
-            GD.PrintErr($"Cutscene MoveNpc: no node found at '{TargetNode}'.");
+            GameLogger.Error("Cutscene", $"MoveNpc: no node found at '{TargetNode}'.");
             return;
         }
 
@@ -148,7 +148,7 @@ public partial class CutsceneStep : Resource
         var player = Player.Instance;
         if (player == null)
         {
-            GD.PrintErr("Cutscene MovePlayer: no Player instance.");
+            GameLogger.Error("Cutscene", "MovePlayer: no Player instance.");
             return;
         }
 
@@ -186,7 +186,7 @@ public partial class CutsceneStep : Resource
             var anim = n2d.GetNode<AnimationPlayer>("AnimationPlayer");
             if (!anim.HasAnimation(AnimationName))
             {
-                GD.PrintErr($"Cutscene PlayAnimation: no animation '{AnimationName}' on '{AnimationNode}'.");
+            GameLogger.Error("Cutscene", $"PlayAnimation: no animation '{AnimationName}' on '{AnimationNode}'.");
                 return;
             }
             anim.Play(AnimationName);
@@ -199,7 +199,7 @@ public partial class CutsceneStep : Resource
         var camera = Player.Instance?.GetNodeOrNull<Camera2D>("PlayerCamera");
         if (camera == null)
         {
-            GD.PrintErr("Cutscene CameraMove: no PlayerCamera found.");
+            GameLogger.Error("Cutscene", "CameraMove: no PlayerCamera found.");
             return;
         }
 

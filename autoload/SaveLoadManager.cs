@@ -41,7 +41,7 @@ public partial class SaveLoadManager : Node
             }
             else
             {
-                GD.PrintErr($"Node {node.Name} is in 'persist' group but does not implement ISavable.");
+                GameLogger.Error("SaveLoad", $"Node {node.Name} is in 'persist' group but does not implement ISavable.");
             }
         }
 
@@ -51,7 +51,7 @@ public partial class SaveLoadManager : Node
 
     public void LoadGame()
     {
-        GD.Print("Loading game...");
+        GameLogger.Info("SaveLoad", "Loading game...");
         if (!ResourceLoader.Exists(SavePath))
             return;
 
@@ -59,7 +59,7 @@ public partial class SaveLoadManager : Node
         var saveData = loadedResource as SaveResource;
         if (saveData == null)
         {
-            GD.PrintErr($"Failed to load SaveResource from {SavePath}. Resource type: {loadedResource?.GetType().Name}");
+            GameLogger.Error("SaveLoad", $"Failed to load SaveResource from {SavePath}. Resource type: {loadedResource?.GetType().Name}");
             return;
         }
 
@@ -73,7 +73,7 @@ public partial class SaveLoadManager : Node
             }
             else
             {
-                GD.PrintErr($"Node {node.Name} is in 'persist' group but does not implement ISavable.");
+                GameLogger.Error("SaveLoad", $"Node {node.Name} is in 'persist' group but does not implement ISavable.");
             }
         }
         persistentNodes.Sort((a, b) => a.GetLoadPriority().CompareTo(b.GetLoadPriority()));
