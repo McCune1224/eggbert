@@ -59,10 +59,8 @@ public partial class CombatController : Node
             new System.Collections.Generic.List<string> { "You collapsed..." });
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
 
-        ReturnToOverworld();
-        await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
-
-        Player.Instance.HealthComponent.Revive(50);
+        // Reload the pre-combat save to restore overworld state and full HP.
+        SaveLoadManager.Instance?.LoadGame();
     }
 
     private void UnhookArena()

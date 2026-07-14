@@ -164,6 +164,14 @@ public partial class Player : CharacterBody2D, ISavable
                 Vector2.Zero
             );
         }
+
+        if (@event.IsActionPressed("debug_start_combat_eggroller"))
+        {
+            CombatController.Instance?.EnterCombat(
+                "res://combat/arena/EggrollerArena.tscn",
+                Vector2.Zero
+            );
+        }
     }
 
     public void StartInteraction()

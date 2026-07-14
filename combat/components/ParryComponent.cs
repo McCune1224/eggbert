@@ -71,6 +71,21 @@ public partial class ParryComponent : Node2D
             }
         }
 
+        foreach (Node node in GetTree().GetNodesInGroup("enemy"))
+        {
+            if (node is RollingEgg egg && GodotObject.IsInstanceValid(egg) && egg.Health != null && !egg.Health.IsDead)
+            {
+                float dist = GlobalPosition.DistanceTo(egg.GlobalPosition);
+                if (dist <= ParryRadius)
+                {
+                    Vector2 knockback = GlobalPosition.DirectionTo(egg.GlobalPosition) * 300f;
+                    egg.OnParried(knockback);
+                    egg.Health.TakeDamage(ParryDamage, this);
+                    anyReflected = true;
+                }
+            }
+        }
+
         if (anyReflected)
             OnParrySuccess();
         else
@@ -84,13 +99,17 @@ public partial class ParryComponent : Node2D
 
         foreach (Node node in GetTree().GetNodesInGroup("enemy"))
         {
-            if (node is CombatOatmeal enemy && enemy.Health != null && !enemy.Health.IsDead)
+            if (node is Node2D enemyNode && enemyNode.HasNode("HealthComponent"))
             {
-                float d = from.DistanceTo(enemy.GlobalPosition);
-                if (d < minDist)
+                var health = enemyNode.GetNode<HealthComponent>("HealthComponent");
+                if (health != null && !health.IsDead)
                 {
-                    minDist = d;
-                    nearest = enemy.GlobalPosition;
+                    float d = from.DistanceTo(enemyNode.GlobalPosition);
+                    if (d < minDist)
+                    {
+                        minDist = d;
+                        nearest = enemyNode.GlobalPosition;
+                    }
                 }
             }
         }
