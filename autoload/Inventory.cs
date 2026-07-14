@@ -71,11 +71,6 @@ public partial class Inventory : Node, ISavable
 
     public void SeedTestItems()
     {
-        // ponytail: test seed, remove once pickups exist
-        Add("rusty_key");
-        Add("hardboiled_egg", 3);
-        Add("scrambled_egg", 1);
-        Add("eggshell_helm");
     }
 
     // --- ISavable ---

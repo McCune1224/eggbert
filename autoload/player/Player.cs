@@ -192,7 +192,8 @@ public partial class Player : CharacterBody2D, ISavable
         SaveDataPlayer saveData = new();
 
         saveData.Position = Position;
-        saveData.Health = HealthComponent.CurrentHP;
+        saveData.Health = HealthComponent.MaxHP;
+        HealthComponent.CurrentHP = HealthComponent.MaxHP;
         saveData.LevelScenePath = GameController.Instance.CurrentLevel.SceneFilePath;
 
         newSave.PlayerData = saveData;
