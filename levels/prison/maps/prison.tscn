@@ -1,8 +1,15 @@
-[gd_scene load_steps=22 format=4 uid="uid://bms1ioay0fp20"]
+[gd_scene load_steps=31 format=4 uid="uid://bms1ioay0fp20"]
 
 [ext_resource type="Texture2D" uid="uid://cag8djeu52niq" path="res://assets/tilemaps/prison tileset.png" id="1_3ox1m"]
 [ext_resource type="Texture2D" uid="uid://bv1b24fd22scx" path="res://levels/prison/maps/Officer Bacon.png" id="2_w7byb"]
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="3"]
+[ext_resource type="PackedScene" uid="uid://bvih45a2jp1fh" path="res://levels/prison/npcs/monsieurcroissant.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bqpnrhgn1dngw" path="res://components/puzzles/Door.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://dc1kn3llv4x71" path="res://components/puzzles/FloorSwitch.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://b60fv3x3u4y5c" path="res://components/puzzles/PushBlock.tscn" id="7"]
+[ext_resource type="Script" uid="uid://c5nkwg6g27ibr" path="res://components/items/PickupItem.cs" id="8"]
+[ext_resource type="PackedScene" uid="uid://dpfm2hyuyl70t" path="res://components/puzzles/KeyDoor.tscn" id="9"]
+[ext_resource type="Script" uid="uid://8clepm7jq7yu" path="res://components/puzzles/MultiSwitchGate.cs" id="10"]
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w7byb"]
@@ -252,6 +259,15 @@ size = Vector2(25, 55.5)
 [sub_resource type="CircleShape2D" id="CircleShape2D_gh45r"]
 radius = 32.0156
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(32, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_switch"]
+size = Vector2(32, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 16.0
+
 [node name="Node2D" type="Node2D"]
 script = ExtResource("3")
 LevelName = "Prison"
@@ -295,3 +311,50 @@ shape = SubResource("CircleShape2D_gh45r")
 [node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
 WarpId = "prison"
 position = Vector2(0, 0)
+
+[node name="MonsieurCroissant" parent="." instance=ExtResource("4")]
+position = Vector2(-200, 100)
+
+[node name="CellKeyPickup" type="Area2D" parent="."]
+script = ExtResource("8")
+ItemId = "cell_key"
+Count = 1
+SetFlag = "has_cell_key"
+DialogLines = Array[String](["Got the Cell Key! This looks like it opens a cell in Block C."])
+
+[node name="CellKeySprite" type="Sprite2D" parent="CellKeyPickup"]
+[node name="CellKeyCollision" type="CollisionShape2D" parent="CellKeyPickup"]
+shape = SubResource("CircleShape2D_pickup")
+
+[node name="CellDoor" parent="." instance=ExtResource("9")]
+position = Vector2(-100, 50)
+RequiredFlag = "has_cell_key"
+LockedMessage = "You need to find the cell key first."
+
+[node name="BlockPuzzleDoor" parent="." instance=ExtResource("5")]
+position = Vector2(300, -50)
+
+[node name="BlockPuzzleSwitch" parent="." instance=ExtResource("6")]
+position = Vector2(200, 0)
+TargetDoorPath = NodePath("../BlockPuzzleDoor")
+
+[node name="BlockPuzzleBlock" parent="." instance=ExtResource("7")]
+position = Vector2(150, 0)
+
+[node name="ExitSwitch1" parent="." instance=ExtResource("6")]
+position = Vector2(400, 100)
+Latching = true
+
+[node name="ExitSwitch2" parent="." instance=ExtResource("6")]
+position = Vector2(-300, 200)
+Latching = true
+
+[node name="ExitDoor" parent="." instance=ExtResource("5")]
+position = Vector2(500, 0)
+
+[node name="ExitGateController" type="Node" parent="."]
+script = ExtResource("10")
+SwitchPaths = Array[NodePath]([NodePath("../ExitSwitch1"), NodePath("../ExitSwitch2")])
+TargetDoorPath = NodePath("../ExitDoor")
+Mode = 1
+LatchOpen = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://depdaleq10rfx"]
+[gd_scene load_steps=17 format=4 uid="uid://depdaleq10rfx"]
 
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="1_6jprg"]
 [ext_resource type="Texture2D" uid="uid://cag8djeu52niq" path="res://assets/tilemaps/prison tileset.png" id="1_huy63"]
@@ -8,6 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://p6m0e88omobs" path="res://levels/eggsile/npcs/Joe.tscn" id="6_pttgg"]
 [ext_resource type="AudioStream" uid="uid://dqt6p5ov60v7t" path="res://assets/audio/characters/emily.ogg" id="7_1qho7"]
 [ext_resource type="Script" uid="uid://cswrwcu6al2mu" path="res://resources/dialog/DialogVoiceResource.cs" id="8_eaft5"]
+[ext_resource type="PackedScene" uid="uid://bqpnrhgn1dngw" path="res://components/puzzles/Door.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://dc1kn3llv4x71" path="res://components/puzzles/FloorSwitch.tscn" id="10"]
+[ext_resource type="Script" uid="uid://wuxyo48h368n" path="res://components/puzzles/SequencePuzzle.cs" id="11"]
+[ext_resource type="Script" uid="uid://c5nkwg6g27ibr" path="res://components/items/PickupItem.cs" id="12"]
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eirxw"]
@@ -105,6 +109,15 @@ VolumeDb = -11.2
 VolumeVariance = 2.3
 metadata/_custom_type_script = "uid://cswrwcu6al2mu"
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(32, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_switch"]
+size = Vector2(32, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 16.0
+
 [node name="Area1" type="Node2D" unique_id=1585467900]
 scale = Vector2(1, 1.01057)
 script = ExtResource("1_6jprg")
@@ -138,3 +151,35 @@ Voice = SubResource("Resource_onfhm")
 [node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
 WarpId = "eggsile_area1"
 position = Vector2(0, -30)
+
+[node name="SeqSwitch1" parent="." instance=ExtResource("10")]
+position = Vector2(200, -200)
+Latching = true
+
+[node name="SeqSwitch2" parent="." instance=ExtResource("10")]
+position = Vector2(250, -200)
+Latching = true
+
+[node name="SeqSwitch3" parent="." instance=ExtResource("10")]
+position = Vector2(300, -200)
+Latching = true
+
+[node name="RewardDoor" parent="." instance=ExtResource("9")]
+position = Vector2(350, -200)
+
+[node name="DrainMonsterSequence" type="Node" parent="."]
+script = ExtResource("11")
+SwitchSequence = Array[NodePath]([NodePath("../SeqSwitch1"), NodePath("../SeqSwitch3"), NodePath("../SeqSwitch2")])
+TargetDoorPath = NodePath("../RewardDoor")
+LatchOnComplete = true
+
+[node name="RewardPickup" type="Area2D" parent="."]
+script = ExtResource("12")
+ItemId = "scrambled_egg"
+Count = 2
+DialogLines = Array[String](["You found the drain monster's stash! Got 2 Scrambled Eggs!"])
+position = Vector2(400, -200)
+
+[node name="RewardSprite" type="Sprite2D" parent="RewardPickup"]
+[node name="RewardCollision" type="CollisionShape2D" parent="RewardPickup"]
+shape = SubResource("CircleShape2D_pickup")
