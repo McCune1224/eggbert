@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="8"]
 [ext_resource type="Texture2D" path="res://levels/courtyard/Wiener Cop.png" id="9"]
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
+[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="10_lt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aywx3"]
 texture = ExtResource("1_aerj4")
@@ -129,6 +130,13 @@ SetFlag = "has_rusty_key"
 DialogLines = Array[String](["Got the Rusty Key! Now find a matching lock..."])
 
 [node name="RustyKeySprite" type="Sprite2D" parent="RustyKeyPickup"]
+[node name="Placeholder" type="ColorRect" parent="RustyKeyPickup"]
+offset_left = -8
+offset_top = -8
+offset_right = 8
+offset_bottom = 8
+color = Color(0.8, 0.6, 0.2, 0.8)
+mouse_filter = 2
 
 [node name="RustyKeyCollision" type="CollisionShape2D" parent="RustyKeyPickup"]
 shape = SubResource("CircleShape2D_interact")
@@ -137,3 +145,17 @@ shape = SubResource("CircleShape2D_interact")
 position = Vector2(350, -150)
 RequiredFlag = "has_rusty_key"
 LockedMessage = "The rusty key doesn't fit... wait, it probably needs the specific key from over there."
+
+[node name="OverworldEntrance" parent="." instance=ExtResource("10_lt")]
+position = Vector2(-500, 0)
+Level = "uid://e1xv0dbe5grr"
+TargetTransitionName = "CourtyardEntrance"
+Size = 7
+Side = 2
+
+[node name="DepthsEntrance" parent="." instance=ExtResource("10_lt")]
+position = Vector2(400, 300)
+Level = "res://levels/courtyard/maps/CourtyardDepths.tscn"
+TargetTransitionName = "CourtyardSurfaceExit"
+Size = 5
+Side = 1

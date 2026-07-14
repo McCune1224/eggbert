@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dpfm2hyuyl70t" path="res://components/puzzles/KeyDoor.tscn" id="9"]
 [ext_resource type="Script" uid="uid://8clepm7jq7yu" path="res://components/puzzles/MultiSwitchGate.cs" id="10"]
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
+[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="11_lt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w7byb"]
 texture = ExtResource("1_3ox1m")
@@ -358,3 +359,17 @@ SwitchPaths = Array[NodePath]([NodePath("../ExitSwitch1"), NodePath("../ExitSwit
 TargetDoorPath = NodePath("../ExitDoor")
 Mode = 1
 LatchOpen = true
+
+[node name="OverworldPrisonGate" parent="." instance=ExtResource("11_lt")]
+position = Vector2(100, 0)
+Level = "uid://e1xv0dbe5grr"
+TargetTransitionName = "PrisonEntrance"
+Size = 7
+Side = 0
+
+[node name="PrisonBlockCEntry" parent="." instance=ExtResource("11_lt")]
+position = Vector2(580, 300)
+Level = "res://levels/prison/maps/PrisonBlockC.tscn"
+TargetTransitionName = "ExitTransition"
+Size = 3
+Side = 3

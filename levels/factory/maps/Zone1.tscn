@@ -2,8 +2,16 @@
 
 [ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_ncro3"]
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2"]
+[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="3_lt"]
 
 [node name="Zone1" type="Node2D"]
 script = ExtResource("2")
 
 [node name="CoreTilemapLayer" parent="." instance=ExtResource("1_ncro3")]
+
+[node name="OpeningZoneExit" parent="." instance=ExtResource("3_lt")]
+position = Vector2(0, 160)
+Level = "uid://ceft5j32lmxa0"
+TargetTransitionName = "Zone1Entrance"
+Size = 5
+Side = 2

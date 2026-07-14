@@ -657,3 +657,31 @@ _texture = ExtResource("12_r2jid")
 [node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
 WarpId = "overworld_entry"
 position = Vector2(0, 20)
+
+[node name="GreatBeyondExit" parent="." instance=ExtResource("10_45llo")]
+position = Vector2(600, 50)
+Level = "uid://cgey7l0cikahr"
+TargetTransitionName = "LevelTransition"
+Size = 7
+Side = 3
+
+[node name="CourtyardEntrance" parent="." instance=ExtResource("10_45llo")]
+position = Vector2(300, 200)
+Level = "uid://d203hfawkft4p"
+TargetTransitionName = "OverworldEntrance"
+Size = 7
+Side = 3
+
+[node name="PrisonEntrance" parent="." instance=ExtResource("10_45llo")]
+position = Vector2(100, 300)
+Level = "uid://bms1ioay0fp20"
+TargetTransitionName = "OverworldPrisonGate"
+Size = 7
+Side = 1
+
+[node name="FactoryGateEntrance" parent="." instance=ExtResource("10_45llo")]
+position = Vector2(400, -100)
+Level = "uid://ceft5j32lmxa0"
+TargetTransitionName = "OverworldFactoryGate"
+Size = 7
+Side = 0

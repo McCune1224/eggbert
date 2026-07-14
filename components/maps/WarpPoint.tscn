@@ -151,6 +151,13 @@ script = ExtResource("1_57ocq")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 modulate = Color(0.3, 0.8, 1, 0.5)
+[node name="WarpCrystal" type="ColorRect" parent="WarpPoint"]
+offset_left = -16
+offset_top = -16
+offset_right = 16
+offset_bottom = 16
+color = Color(0.3, 0.8, 1, 0.5)
+mouse_filter = 2
 
 [node name="PromptArea2D" type="Area2D" parent="."]
 

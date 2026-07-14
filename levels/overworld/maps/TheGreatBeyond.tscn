@@ -740,6 +740,7 @@ metadata/_edit_lock_ = true
 [node name="LevelTransition" parent="." instance=ExtResource("5_bvnao")]
 position = Vector2(243, 54)
 Level = "uid://e1xv0dbe5grr"
+TargetTransitionName = "GreatBeyondExit"
 Size = 3
 
 [node name="WarpPoint" parent="." instance=ExtResource("99_warp")]

@@ -181,5 +181,19 @@ DialogLines = Array[String](["You found the drain monster's stash! Got 2 Scrambl
 position = Vector2(400, -200)
 
 [node name="RewardSprite" type="Sprite2D" parent="RewardPickup"]
+[node name="Placeholder" type="ColorRect" parent="RewardPickup"]
+offset_left = -8
+offset_top = -8
+offset_right = 8
+offset_bottom = 8
+color = Color(0.9, 0.7, 0.3, 0.8)
+mouse_filter = 2
 [node name="RewardCollision" type="CollisionShape2D" parent="RewardPickup"]
 shape = SubResource("CircleShape2D_pickup")
+
+[node name="SewersEntrance" parent="." instance=ExtResource("2_eirxw")]
+position = Vector2(0, 300)
+Level = "res://levels/eggsile/maps/EggsileSewers.tscn"
+TargetTransitionName = "Area1Exit"
+Size = 5
+Side = 2

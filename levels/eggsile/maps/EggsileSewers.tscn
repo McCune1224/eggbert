@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="5_ct"]
 [ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="6_wp"]
 [ext_resource type="Script" path="res://components/items/PickupItem.cs" id="7_pi"]
+[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="8_lt"]
 
 [sub_resource type="RectangleShape2D" id="RectShape_topwall"]
 size = Vector2(640, 16)
@@ -109,3 +110,10 @@ shape = SubResource("CircleShape_interact")
 [node name="WarpPoint" parent="." instance=ExtResource("6_wp")]
 WarpId = "eggsile_sewers"
 position = Vector2(16, 160)
+
+[node name="Area1Exit" parent="." instance=ExtResource("8_lt")]
+position = Vector2(320, 360)
+Level = "uid://depdaleq10rfx"
+TargetTransitionName = "SewersEntrance"
+Size = 5
+Side = 1
