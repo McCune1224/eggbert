@@ -26,7 +26,7 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - **World-state branching**: NPC dialog lists change based on `WorldFlags` (e.g. `HasMetPlayer`, `BossDefeated`). Branching is implicit — the world state determines what NPCs say.
 - **Choice menu**: Optional in-dialog choice menu for explicit player responses (pick from 2–4 options). Arrow keys + E to select. Selection sets a WorldFlag — the cutscene caller picks which flag based on the choice index. Not all dialogs use choices; the default path remains WorldFlags-only.
 
-### Pause Menu (F1/Esc)
+### Pause Menu (Esc)
 - **EarthBound-style**: Items · Status · Map · Save · Settings
 - Inventory and Equipment panels fully wired (Key Items, Consumables, Equipment tabs with Use/Equip buttons).
 

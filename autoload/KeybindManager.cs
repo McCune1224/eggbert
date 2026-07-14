@@ -19,7 +19,7 @@ public partial class KeybindManager : Node
         { "player_left", new[] { Key.A } },
         { "player_right", new[] { Key.D } },
         { "interact", new[] { Key.E } },
-        { "menu_pause", new[] { Key.Escape, Key.F1 } },
+        { "menu_pause", new[] { Key.Escape } },
         { "player_sprint", new[] { Key.Shift } },
         { "dash", new[] { Key.Space } },
         { "combat_parry", new[] { Key.J } },
@@ -148,8 +148,7 @@ public partial class KeybindManager : Node
         else
             QueueFree();
 
-        // Switch default menu_pause primary to Escape for sanity, but keep F1
-        // as secondary. LoadBindings will override if the user has saved bindings.
+        // Reset to defaults, then overlay any saved bindings.
         ResetAllBindings();
         LoadBindings();
     }

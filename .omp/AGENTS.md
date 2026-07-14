@@ -49,7 +49,7 @@ ISavable interface. Nodes in "persist" group auto-saved. Single slot: user://sav
 - C# only for game code. GDScript in addons/ only (AsepriteWizard).
 - No tests, no CI.
 - Physics layers: constants in components/core/CollisionConfig.cs. 1=Player, 2=Walls, 3=NPCs, 4=Bullets, 5=Interactables, 6=Enemies, 7=TriggerAreas, 8=PlayerHitbox, 9=EnemyHitbox, 10=Items.
-- Inputs: WASD, E=interact, F1/Esc=menu, Space=dash, Shift=sprint, J=parry.
+- Inputs: WASD, E=interact, Esc=menu, Space=dash, Shift=sprint, J=parry.
 - All work commits directly to main. No branches, no PRs.
 
 ## Design unknowns — ASK, don't assume
