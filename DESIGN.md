@@ -2,6 +2,8 @@
 
 Game design document. What we're building, what's decided, what's still open.
 
+> This file records settled design decisions. For feature status and objectives, see ROADMAP.md.
+
 ---
 
 ## Core Loop
@@ -54,8 +56,6 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - **Save triggers**: Menu (OverworldMenu Save button) + auto-save on level transition.
 - **Format**: Godot .tres via `ResourceSaver`. Each `ISavable` implementation writes its data into `SaveResource` sub-objects.
 
-> **Status — 2026-07-06**: Player, WorldFlags, and Inventory all implement `ISavable` and persist via `SaveResource`. Warps persist implicitly through WorldFlags (`warp_<id>` flags). Quest state will ride on WorldFlags once quests exist. Player health field exists in `SaveDataPlayer` but is unused until `HealthComponent` lands.
-
 ### Settings
 - Volume sliders (MUSIC, SFX) — buses already exist
 - Text speed (Instant / Fast / Normal) — critical for dialog feel
@@ -67,11 +67,9 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - **No quest log**. WorldFlags drive everything. NPCs remember what happened, dialog changes accordingly. EarthBound/Undertale style — the world *is* the quest tracker.
 
 ### Inventory
-- **Categories**: Key Items (story), Consumables (overworld healing), Equipment (1-2 slots, stat boosts)
+- **Categories**: Key Items (story), Consumables (overworld healing), Equipment (1–2 slots, stat boosts)
 - **EarthBound-style UI**: Categorized tabs in pause menu
 - **Overworld only**: No item usage during combat (combat is dodge-only)
-
-> **Status — 2026-07-06**: Framework shipped — `Item` resource (flat, one class for all categories), `ItemDatabase` static registry (4 test items), `Inventory` autoload (ISavable, persist group, seeds test items on new game), Items panel in OverworldMenu with Key/Consumables/Equipment tabs + description + Use button. **Effects deferred**: consumable Use is a no-op stub (no HP system), equipment stats are data-only (no stat system to apply to). Both unblock when `HealthComponent` lands. Add real items to `ItemDatabase.All`; add world pickups (Area2D layer 10) when content phase starts.
 
 ### Party
 - **Solo protagonist**. No companions. Add only if story demands it.
@@ -94,8 +92,6 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 
 ## Combat System
 
-> **Status — 2026-07-13**: Phase 4 complete. Bullet-hell dodge + proximity parry (J key). CombatOatmeal (4 flavors), CombatHUD (HP bars), OatmealArena + GenericArena. EnterCombat/win/lose flow wired.
-
 ### Player
 - Movement: WASD (same as overworld), dash (Space), sprint (Shift)
 - Offense: Proximity parry (J key) — press near enemy within a brief window to deal damage. Items extend parry radius and parry damage.
@@ -112,59 +108,6 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 
 ### Transition
 - `EnterCombat(enemyData, arenaPath)` — touch enemy, random encounter, or scripted trigger.
-
----
-
-## Implementation Roadmap
-
-> **Checkpoint — 2026-07-09**: Phases 1–3 complete. Phase 4 underway — `HealthComponent` (HP/damage Node), dialog choice menu, parry mechanic, combat arena + entry flow.
-
-### Phase 1 — Polish & consolidate ✅
-- [x] Delete stale csproj backups, dead code
-- [x] Fix SaveLoadManager error strings
-- [x] Fix ComponentPromptCollision sprite cache + AlignLabelText
-- [x] Migrate OfficerBacon to component pattern
-
-### Phase 2 — Core infrastructure ✅
-- [x] `WorldFlags` singleton — Dictionary<string, Variant>, ISavable, autoload, "persist" group
-- [x] `CutsceneController` singleton — async action queue (LockPlayer, MoveNpc, SayDialog, Wait, SetFlag, Fade, UnlockPlayer)
-- [x] Settings — volume sliders (MUSIC/SFX), fullscreen toggle, window scale (1x–4x). Persisted via ConfigFile.
-- [x] Overworld menu — EarthBound layout. Map (warp list), Settings, Items (tabs: Key/Consumables/Equipment with Use/Equip) all functional.
-- [x] Save system — WorldFlags saved via ISavable. Single slot, auto-save on level transition.
-- [x] Save expansion — inventory serialized via SaveDataInventory; warps already persist via WorldFlags
-
-### Phase 3 — Overworld systems ✅
-- [x] Dialog branching — WorldFlags-driven NPC dialog (GrandpaSmith, OfficerBacon)
-- [x] Warp points — WarpPoint (Area2D + E prompt), WarpDatabase static registry, WorldFlags-backed unlocks
-- [x] Region map — pause menu panel listing unlocked warps, click to warp
-- [x] Audio — PlaySfx() one-shot, PlayAmbience/StopAmbience, per-level ambience on BaseLevel, meep.mp3 for UI
-- [x] Environmental puzzles — PushBlock (CharacterBody2D, 90% auto-scale collision), FloorSwitch (Area2D, Pressed/Released + TargetDoorPath), Door (StaticBody2D, CallDeferred collision toggle)
-- [x] Location banner — drops from top on level transition (FadeTransition.ShowLocation)
-- [x] Inventory — key items, consumables, equipment tabs (OverworldMenu Items panel). Use/Equip wired via HealthComponent.
-
-### Phase 4 — Combat + Dialog ✅
-- [x] Dialog fixes (Reset soft-lock, null-sfx, text-speed, fast-forward)
-- [x] `ChoiceMenu` — in-dialog choice UI with arrow-key nav + cutscene action
-- [x] `HealthComponent` — reusable HP/damage Node (HP, Defense, signals)
-- [x] `Equipment` autoload — equip/unequip, stat application (MaxHP, Defense)
-- [x] Wire consumable Use + Equipment stats to HealthComponent
-- [x] `CombatArena` base scene — bounded box, camera
-- [x] `CombatHUD` — HP bar + enemy name CanvasLayer
-- [x] `ParryComponent` — proximity parry (J key), item radius/damage scaling
-- [x] Enemy attack pattern toolkit
-- [x] Enemy state machine
-- [x] `EnterCombat()` unified entry point + scene swap
-- [x] Win/lose flow + return to overworld
-
-### Phase 5 — Game structure
-- [x] Main menu (New Game / Continue / Settings / Quit)
-- [x] Death / game over + respawn
-- [ ] 3+ enemy types with distinct patterns
-- [x] 2+ combat arenas
-
-### Phase 6 — Content & polish
-- [ ] More level areas (courtyard, eggsile, prison are empty)
-- [ ] Polish pass (screen shake, particles, juice)
 
 ---
 
