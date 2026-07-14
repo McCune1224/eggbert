@@ -151,7 +151,8 @@ script = ExtResource("1_57ocq")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 modulate = Color(0.3, 0.8, 1, 0.5)
-[node name="WarpCrystal" type="ColorRect" parent="WarpPoint"]
+
+[node name="WarpCrystal" type="ColorRect" parent="."]
 offset_left = -16
 offset_top = -16
 offset_right = 16
