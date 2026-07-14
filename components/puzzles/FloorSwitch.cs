@@ -15,7 +15,7 @@ public partial class FloorSwitch : Area2D
     private Label _debugLabel;
     private bool _hasTriggered = false;
 
-    public bool IsPressed => _bodyCount > 0;
+    public bool IsPressed => _bodyCount > 0 || (Latching && _hasTriggered);
 
     public override void _Ready()
     {

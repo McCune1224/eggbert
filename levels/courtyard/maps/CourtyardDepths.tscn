@@ -1,0 +1,122 @@
+[gd_scene load_steps=12 format=4]
+
+[ext_resource type="Script" path="res://levels/BaseLevel.cs" id="1_base"]
+[ext_resource type="PackedScene" path="res://components/puzzles/FloorSwitch.tscn" id="2_fs"]
+[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="3_ct"]
+[ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="4_wp"]
+[ext_resource type="Script" path="res://components/puzzles/MultiSwitchGate.cs" id="5_msg"]
+[ext_resource type="Script" path="res://components/puzzles/TimedDoor.cs" id="6_td"]
+[ext_resource type="Script" path="res://components/items/PickupItem.cs" id="7_pi"]
+
+[sub_resource type="RectangleShape2D" id="RectShape_topwall"]
+size = Vector2(640, 16)
+
+[sub_resource type="RectangleShape2D" id="RectShape_sidewall"]
+size = Vector2(16, 360)
+
+[sub_resource type="RectangleShape2D" id="RectShape_door"]
+size = Vector2(32, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape_interact"]
+radius = 40.0
+
+[sub_resource type="RectangleShape2D" id="RectShape_pickup"]
+size = Vector2(24, 24)
+
+[node name="CourtyardDepths" type="Node2D"]
+script = ExtResource("1_base")
+LevelName = "Courtyard Depths"
+
+[node name="Floor" type="ColorRect" parent="."]
+offset_left = 0
+offset_top = 0
+offset_right = 640
+offset_bottom = 360
+color = Color(0.35, 0.35, 0.35, 1)
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="WallLeft" type="StaticBody2D" parent="Walls"]
+position = Vector2(8, 180)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallLeft"]
+shape = SubResource("RectShape_sidewall")
+
+[node name="WallRight" type="StaticBody2D" parent="Walls"]
+position = Vector2(632, 180)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallRight"]
+shape = SubResource("RectShape_sidewall")
+
+[node name="WallTop" type="StaticBody2D" parent="Walls"]
+position = Vector2(320, 8)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallTop"]
+shape = SubResource("RectShape_topwall")
+
+[node name="WallBottom" type="StaticBody2D" parent="Walls"]
+position = Vector2(320, 352)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallBottom"]
+shape = SubResource("RectShape_topwall")
+
+[node name="PuzzleRoom" type="Node2D" parent="."]
+
+[node name="TimedDoor" type="StaticBody2D" parent="PuzzleRoom"]
+script = ExtResource("6_td")
+OpenDuration = 3.0
+position = Vector2(480, 160)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PuzzleRoom/TimedDoor"]
+shape = SubResource("RectShape_door")
+[node name="Sprite2D" type="Sprite2D" parent="PuzzleRoom/TimedDoor"]
+texture_filter = 1
+
+[node name="GateWallTop" type="StaticBody2D" parent="PuzzleRoom"]
+position = Vector2(480, 60)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PuzzleRoom/GateWallTop"]
+shape = SubResource("RectShape_sidewall")
+
+[node name="GateWallBottom" type="StaticBody2D" parent="PuzzleRoom"]
+position = Vector2(480, 260)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PuzzleRoom/GateWallBottom"]
+shape = SubResource("RectShape_sidewall")
+
+[node name="Switch1" parent="PuzzleRoom" instance=ExtResource("2_fs")]
+Latching = true
+position = Vector2(80, 100)
+
+[node name="Switch2" parent="PuzzleRoom" instance=ExtResource("2_fs")]
+Latching = true
+position = Vector2(180, 200)
+
+[node name="Switch3" parent="PuzzleRoom" instance=ExtResource("2_fs")]
+Latching = true
+position = Vector2(280, 100)
+
+[node name="GateController" type="Node" parent="PuzzleRoom"]
+script = ExtResource("5_msg")
+SwitchPaths = [NodePath("../Switch1"), NodePath("../Switch2"), NodePath("../Switch3")]
+TargetDoorPath = NodePath("../TimedDoor")
+Mode = 0
+LatchOpen = true
+
+[node name="RewardArea" type="Node2D" parent="."]
+position = Vector2(560, 240)
+
+[node name="Pickup" type="Area2D" parent="RewardArea"]
+script = ExtResource("7_pi")
+ItemId = "hardboiled_egg"
+Count = 2
+DialogLines = Array[String](["You found some... glowing eggs? They smell like oregano."])
+position = Vector2(40, 0)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RewardArea/Pickup"]
+shape = SubResource("RectShape_pickup")
+
+[node name="NPC_Gardener" type="Node2D" parent="."]
+position = Vector2(120, 280)
+
+[node name="Trigger" parent="NPC_Gardener" instance=ExtResource("3_ct")]
+DialogLines = Array[String](["I've been tending these rocks for seven years.", "They don't grow, but they appreciate the attention.", "The mushrooms under the third switch are the chatty ones."])
+Mode = 0
+[node name="InteractionCollision" type="CollisionShape2D" parent="NPC_Gardener/Trigger"]
+shape = SubResource("CircleShape_interact")
+
+[node name="WarpPoint" parent="." instance=ExtResource("4_wp")]
+WarpId = "courtyard_depths"
+position = Vector2(16, 160)

@@ -54,6 +54,8 @@ public partial class SequencePuzzle : Node
     private void ResetAll()
     {
         _currentIndex = 0;
+        foreach (var s in _switches)
+            s?.Reset();
         _targetDoor?.Close();
     }
 }

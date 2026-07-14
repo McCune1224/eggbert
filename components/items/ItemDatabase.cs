@@ -20,6 +20,15 @@ public static class ItemDatabase
                 Category = ItemCategory.Key,
             }
         },
+        {
+            "cell_key", new Item
+            {
+                Id = "cell_key",
+                DisplayName = "Cell Key",
+                Description = "A cold iron key stamped 'BLOCK C'. Feels important.",
+                Category = ItemCategory.Key,
+            }
+        },
         // --- Consumables ---
         {
             "hardboiled_egg", new Item
