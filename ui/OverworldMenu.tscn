@@ -1,9 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://cj5aw1u0r2gte"]
+[gd_scene load_steps=9 format=3 uid="uid://cj5aw1u0r2gte"]
 
 [ext_resource type="Script" uid="uid://28qsckkkb1kv" path="res://ui/OverworldMenu.cs" id="1_d4due"]
 
-[sub_resource type="StyleBoxFlat" id="sb_overlay"]
-bg_color = Color(0, 0, 0, 0.4)
 
 [sub_resource type="StyleBoxFlat" id="sb_panel"]
 bg_color = Color(0.08, 0.08, 0.12, 0.92)
@@ -87,9 +85,8 @@ script = ExtResource("1_d4due")
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_right = 640.0
 offset_bottom = 360.0
-color = Color(0, 0, 0, 0)
+color = Color(0, 0, 0, 0.5)
 mouse_filter = 2
-theme_override_styles/panel = SubResource("sb_overlay")
 
 [node name="MainPanel" type="PanelContainer" parent="."]
 offset_left = 230.0
