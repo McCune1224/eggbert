@@ -1,7 +1,5 @@
 using Godot;
 using Godot.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 public partial class Player : CharacterBody2D, ISavable
 {
@@ -26,7 +24,6 @@ public partial class Player : CharacterBody2D, ISavable
     public HealthComponent HealthComponent { get; private set; }
     public ParryComponent Parry { get; private set; }
 
-    private string _facedDirection = "down";
 
     public Array<Node2D> GetCollidingBodies()
     {

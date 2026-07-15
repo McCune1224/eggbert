@@ -87,7 +87,10 @@ public partial class ParryComponent : Node2D
         }
 
         if (anyReflected)
+        {
+            GameLogger.Debug("Parry", "Parry success — bullet(s) reflected");
             OnParrySuccess();
+        }
         else
             OnParryMiss();
     }
@@ -140,6 +143,7 @@ public partial class ParryComponent : Node2D
     private void OnParryMiss()
     {
         _ringFlash = -1f;
+        GameLogger.Debug("Parry", "Parry miss — no valid targets in range");
     }
 
     public override void _Draw()

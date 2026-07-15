@@ -1,6 +1,5 @@
 using Godot;
 using System.Threading;
-using System.Threading.Tasks;
 
 public partial class CutsceneController : Node
 {

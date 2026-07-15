@@ -61,6 +61,7 @@ public partial class Equipment : Node, ISavable
         // Apply stat bonuses
         ApplyItemStats(item, 1);
         Inventory.Instance.Remove(item.Id, 1);
+        GameLogger.Info("Equipment", $"Equipped: {item.Id} → {item.Slot}");
     }
 
     public void Unequip(EquipSlot slot)
@@ -80,6 +81,7 @@ public partial class Equipment : Node, ISavable
 
         _slots[slot] = "";
         Inventory.Instance.Add(id, 1);
+        GameLogger.Info("Equipment", $"Unequipped: {id} from {slot}");
     }
 
     private void ApplyItemStats(Item item, int sign)

@@ -1,4 +1,3 @@
-using Godot;
 
 public static class CollisionConfig
 {
@@ -14,6 +13,4 @@ public static class CollisionConfig
     public const uint ItemLayer = 512;
 
     public const uint PlayerBulletMask = PlayerLayer | WallsLayer;
-    public const uint WallsMask = PlayerLayer | NPCLayer | BulletLayer | EnemyLayer | InteractableLayer;
-    public const uint ItemMask = PlayerLayer | NPCLayer | BulletLayer | EnemyLayer;
 }

@@ -1,5 +1,4 @@
 using Godot;
-using Godot.Collections;
 using System.Collections.Generic;
 
 /// <summary>
@@ -39,6 +38,7 @@ public partial class Inventory : Node, ISavable
             return;
         }
         _stacks[id] = _stacks.TryGetValue(id, out int c) ? c + count : count;
+        GameLogger.Debug("Inventory", $"Add: {id} x{count} (total: {_stacks[id]})");
     }
 
     public bool Remove(string id, int count = 1)
@@ -47,9 +47,9 @@ public partial class Inventory : Node, ISavable
             return false;
         if (c == count) _stacks.Remove(id);
         else _stacks[id] = c - count;
+        GameLogger.Debug("Inventory", $"Remove: {id} x{count}");
         return true;
     }
-
     public bool Has(string id) => _stacks.TryGetValue(id, out int c) && c > 0;
     public int GetCount(string id) => _stacks.TryGetValue(id, out int c) ? c : 0;
 

@@ -18,6 +18,7 @@ public static class ItemDatabase
                 DisplayName = "Rusty Key",
                 Description = "A heavy iron key, orange with age. Opens something, probably.",
                 Category = ItemCategory.Key,
+                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0010.png"),
             }
         },
         {
@@ -27,6 +28,7 @@ public static class ItemDatabase
                 DisplayName = "Cell Key",
                 Description = "A cold iron key stamped 'BLOCK C'. Feels important.",
                 Category = ItemCategory.Key,
+                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0009.png"),
             }
         },
         // --- Consumables ---
@@ -38,6 +40,7 @@ public static class ItemDatabase
                 Description = "Restores a bit of pep. (+10 HP)",
                 Category = ItemCategory.Consumable,
                 HealAmount = 10,
+                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0019.png"),
             }
         },
         {
@@ -48,6 +51,7 @@ public static class ItemDatabase
                 Description = "A messy comfort. Heals more than it should. (+25 HP)",
                 Category = ItemCategory.Consumable,
                 HealAmount = 25,
+                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0020.png"),
             }
         },
         // --- Equipment ---
@@ -61,6 +65,7 @@ public static class ItemDatabase
                 Slot = EquipSlot.Armor,
                 DefenseBoost = 3,
                 MaxHPBoost = 10,
+                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/icons/icon_0192.png"),
             }
         },
     };

@@ -27,10 +27,14 @@ public partial class HealthComponent : Node
     {
         if (IsDead) return;
         int dmg = Mathf.Max(1, rawDamage - Defense);
+        GameLogger.Debug("Health", $"TakeDamage: {dmg} (raw={rawDamage}, def={Defense}) → HP={CurrentHP}");
         CurrentHP = Mathf.Max(0, CurrentHP - dmg);
         EmitSignal(SignalName.Damaged, dmg, source);
         if (CurrentHP <= 0)
+        {
             EmitSignal(SignalName.Died);
+            GameLogger.Info("Health", "Entity died.");
+        }
     }
 
     public void Heal(int amount)
@@ -38,6 +42,7 @@ public partial class HealthComponent : Node
         if (IsDead) return;
         int before = CurrentHP;
         CurrentHP = Mathf.Min(MaxHP, CurrentHP + amount);
+        GameLogger.Debug("Health", $"Heal: +{CurrentHP - before} → HP={CurrentHP}/{MaxHP}");
         EmitSignal(SignalName.Healed, CurrentHP - before);
     }
 
@@ -53,6 +58,7 @@ public partial class HealthComponent : Node
     public void Revive(int hpPercent = 50)
     {
         CurrentHP = Mathf.Max(1, MaxHP * hpPercent / 100);
+        GameLogger.Info("Health", $"Revived → HP={CurrentHP}/{MaxHP}");
         EmitSignal(SignalName.Revived);
     }
 }

@@ -12,8 +12,6 @@ public partial class BaseLevel : Node2D
     [Export]
     public AudioStream LevelAmbience;
 
-    // // UI
-    // protected CanvasLayer _uiLayer;
 
     // Signals
     [Signal] public delegate void LevelStartedEventHandler();

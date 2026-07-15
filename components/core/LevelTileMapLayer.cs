@@ -7,7 +7,6 @@ public partial class LevelTileMapLayer : TileMapLayer
     {
         GameController.Instance.ChangeTileMapBounds(GetTilemapBounds());
     }
-    public override void _Process(double delta) { }
     public Array<Vector2> GetTilemapBounds()
     {
         Array<Vector2> bounds = new Array<Vector2>();

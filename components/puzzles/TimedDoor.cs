@@ -7,8 +7,7 @@ public partial class TimedDoor : Door
 
     private Timer _timer;
     private Tween _blinkTween;
-    private float _blinkDuration = 1.0f;
-    private bool _isTimedOpen = false;
+    private const float BlinkDuration = 1.0f;
 
     public override void _Ready()
     {
@@ -22,10 +21,9 @@ public partial class TimedDoor : Door
     public override void Open()
     {
         base.Open();
-        _isTimedOpen = true;
 
         float timerSeconds = OpenDuration;
-        float blinkOffset = OpenDuration - _blinkDuration;
+        float blinkOffset = OpenDuration - BlinkDuration;
         if (BlinkBeforeClose && blinkOffset > 0.3f)
         {
             timerSeconds = blinkOffset;
@@ -40,21 +38,19 @@ public partial class TimedDoor : Door
         _blinkTween?.Kill();
         _blinkTween = CreateTween();
         _blinkTween.SetLoops(6);
-        _blinkTween.TweenProperty(this, "modulate", new Color(1, 1, 1, 0.15f), _blinkDuration / 12f);
-        _blinkTween.TweenProperty(this, "modulate", new Color(1, 1, 1, 0.45f), _blinkDuration / 12f);
+        _blinkTween.TweenProperty(this, "modulate", new Color(1, 1, 1, 0.15f), BlinkDuration / 12f);
+        _blinkTween.TweenProperty(this, "modulate", new Color(1, 1, 1, 0.45f), BlinkDuration / 12f);
     }
 
     private void OnTimerTimeout()
     {
         _blinkTween?.Kill();
-        _isTimedOpen = false;
         base.Close();
     }
 
     public override void Close()
     {
         _blinkTween?.Kill();
-        _isTimedOpen = false;
         base.Close();
     }
 }

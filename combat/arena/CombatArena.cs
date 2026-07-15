@@ -28,7 +28,6 @@ public partial class CombatArena : Node2D
         Player.Instance.Position = PlayerSpawnPosition;
         Player.Instance.HealthComponent.Died += OnPlayerDied;
 
-        ConnectEnemySignals();
     }
 
     public override void _ExitTree()
@@ -43,9 +42,6 @@ public partial class CombatArena : Node2D
         EmitSignal(SignalName.BattleLost);
     }
 
-    protected virtual void ConnectEnemySignals()
-    {
-    }
 
     public void OnEnemyDefeated()
     {

@@ -10,7 +10,6 @@ public partial class WarpPoint : Area2D
 	private Sprite2D _promptSprite;
 	private bool _unlocked = false;
 
-	private Tween _floatTween;
 	public override void _Ready()
 	{
 		_unlocked = WarpDatabase.IsUnlocked(WarpId);
@@ -26,10 +25,10 @@ public partial class WarpPoint : Area2D
 			HidePrompt();
 
 		var crystal = GetNode<ColorRect>("WarpCrystal");
-		_floatTween = CreateTween().SetLoops();
-		_floatTween.TweenProperty(crystal, "position:y", -4.0f, 0.75f)
+        var floatTween = CreateTween().SetLoops();
+        floatTween.TweenProperty(crystal, "position:y", -4.0f, 0.75f)
 			.AsRelative().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Sine);
-		_floatTween.TweenProperty(crystal, "position:y", 4.0f, 0.75f)
+        floatTween.TweenProperty(crystal, "position:y", 4.0f, 0.75f)
 			.AsRelative().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Sine);
 	}
 
