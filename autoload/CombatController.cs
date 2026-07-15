@@ -20,6 +20,7 @@ public partial class CombatController : Node
 
     public async void EnterCombat(string arenaPath, Vector2 playerSpawn)
     {
+        GameLogger.Info("Combat", $"Entering combat arena: {arenaPath}");
         // Block re-entry: if we're already in a combat arena, ignore the call so the
         // saved return position isn't overwritten and handlers don't pile up.
         if (_currentArena != null)
@@ -75,6 +76,7 @@ public partial class CombatController : Node
 
     public void ReturnToOverworld()
     {
+        GameLogger.Info("Combat", $"Returning to overworld: {_returnLevelPath}");
         GameController.Instance.LoadLevel(_returnLevelPath, _returnPosition);
     }
 }

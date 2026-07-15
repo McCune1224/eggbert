@@ -33,6 +33,7 @@ public partial class WorldFlags : Node, ISavable
     public void SetFlag(string key, Variant value)
     {
         _flags[key] = value;
+        GameLogger.Debug("WorldFlags", $"Flag set: {key} = {value}");
     }
 
     /// <summary>Get a flag value, or default if not set.</summary>

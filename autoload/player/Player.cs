@@ -215,6 +215,7 @@ public partial class Player : CharacterBody2D, ISavable
     {
         if (_deathInProgress) return;
         _deathInProgress = true;
+        GameLogger.Info("Player", "Player died — reloading from checkpoint.");
 
         if (GameController.Instance?.CurrentLevel is CombatArena)
         {

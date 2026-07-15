@@ -56,6 +56,7 @@ public partial class GameController : Node
 	/// </summary>
 	public async void LoadLevel(string scenePath, Vector2 playerPosition, bool skipAutoSave = false)
 	{
+        GameLogger.Info("GameController", $"Loading level (pos): {scenePath}");
 		CutsceneController.Instance.Stop();
 		DialogManager.Instance.Reset();
 		GetTree().Paused = true;
@@ -97,6 +98,7 @@ public partial class GameController : Node
 	public async void LoadLevel(string scenePath, string targetTransitionName, bool skipAutoSave = false)
 	{
 		CutsceneController.Instance.Stop();
+        GameLogger.Info("GameController", $"Loading level (transition): {scenePath}");
 		DialogManager.Instance.Reset();
 		GetTree().Paused = true;
 		EmitSignal(nameof(LevelLoadStarted));

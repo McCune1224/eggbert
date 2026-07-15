@@ -22,6 +22,7 @@ public partial class RollingEgg : Area2D
     private Color _baseTint = new Color(0.9f, 0.2f, 0.2f);
     private static readonly Color TelegraphColor = new Color(1f, 1f, 0.3f);
     private static readonly Color StunColor = new Color(0.5f, 0.5f, 1f);
+    private static readonly RandomNumberGenerator _rng = new();
 
     public override void _Ready()
     {
@@ -122,15 +123,15 @@ public partial class RollingEgg : Area2D
     private void EnterState(State newState)
     {
         _state = newState;
+        GameLogger.Debug("RollingEgg", $"State → {newState}");
         _stateTimer = 0f;
 
         switch (newState)
         {
             case State.Idle:
-                _stateDuration = (float)GD.RandRange(0.8, 1.5);
+                _stateDuration = _rng.RandfRange(0.8f, 1.5f);
                 if (_sprite != null) _sprite.Modulate = _baseTint;
-                // Pick new direction toward player (weighted) or random
-                float randomChance = (float)GD.RandRange(0f, 1f);
+                float randomChance = _rng.RandfRange(0f, 1f);
                 if (randomChance < 0.6f)
                 {
                     Vector2 toPlayer = CombatTargeter.GetPlayerPosition() - GlobalPosition;
@@ -138,7 +139,7 @@ public partial class RollingEgg : Area2D
                 }
                 else
                 {
-                    _moveDirection = Vector2.Right.Rotated((float)GD.RandRange(0, Mathf.Pi * 2));
+                    _moveDirection = Vector2.Right.Rotated(_rng.RandfRange(0, Mathf.Pi * 2));
                 }
                 break;
 
@@ -149,7 +150,7 @@ public partial class RollingEgg : Area2D
 
             // Attacking is instantaneous — EnterState transitions same frame.
             case State.Cooldown:
-                _stateDuration = (float)GD.RandRange(0.5, 1.0);
+                _stateDuration = _rng.RandfRange(0.5f, 1.0f);
                 if (_sprite != null) _sprite.Modulate = _baseTint;
                 break;
 

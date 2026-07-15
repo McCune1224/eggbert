@@ -2,7 +2,6 @@ using Godot;
 
 public partial class PushBlock : CharacterBody2D
 {
-    public static bool DebugVisible = false;
 
     [Export] public float PushSpeed = 200f;
 
@@ -16,7 +15,6 @@ public partial class PushBlock : CharacterBody2D
 
     private Sprite2D _sprite;
     private CollisionShape2D _collisionShape;
-    private Label _debugLabel;
 
     public override void _Ready()
     {
@@ -28,25 +26,6 @@ public partial class PushBlock : CharacterBody2D
         ApplyTexture();
     }
 
-    public override void _Process(double delta)
-    {
-        if (_debugLabel == null && DebugVisible)
-        {
-            _debugLabel = new Label();
-            _debugLabel.AddThemeFontSizeOverride("font_size", 10);
-            _debugLabel.AddThemeColorOverride("font_color", Colors.Orange);
-            _debugLabel.AddThemeColorOverride("font_outline_color", Colors.Black);
-            _debugLabel.AddThemeConstantOverride("outline_size", 1);
-            AddChild(_debugLabel);
-            _debugLabel.Position = new Vector2(-40, -32);
-        }
-        if (_debugLabel != null)
-        {
-            _debugLabel.Visible = DebugVisible;
-            if (DebugVisible)
-                _debugLabel.Text = $"[Block] {Position.Round()}";
-        }
-    }
 
     private void ApplyTexture()
     {

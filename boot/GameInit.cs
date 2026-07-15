@@ -30,8 +30,8 @@ public partial class GameInit : Node
 
         var menuPacked = ResourceLoader.Load<PackedScene>("res://ui/MainMenu.tscn");
         if (menuPacked == null)
+        {
             GameLogger.Error("GameInit", "Failed to load MainMenu.tscn");
-            GD.PrintErr("Failed to load MainMenu.tscn");
             return;
         }
         GetTree().Root.AddChild(menuPacked.Instantiate());

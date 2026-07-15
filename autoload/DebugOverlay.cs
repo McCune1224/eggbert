@@ -11,6 +11,7 @@ public partial class DebugOverlay : CanvasLayer
     private Label _label;
     private bool _visible = false;
 
+    private StringBuilder _sb = new();
     public override void _Ready()
     {
         if (_instance == null)
@@ -48,32 +49,20 @@ public partial class DebugOverlay : CanvasLayer
     public override void _Process(double delta)
     {
         if (!_visible)
-        {
-            if (Door.DebugVisible || FloorSwitch.DebugVisible || PushBlock.DebugVisible)
-            {
-                Door.DebugVisible = false;
-                FloorSwitch.DebugVisible = false;
-                PushBlock.DebugVisible = false;
-            }
             return;
-        }
 
-        Door.DebugVisible = true;
-        FloorSwitch.DebugVisible = true;
-        PushBlock.DebugVisible = true;
-
-        var sb = new StringBuilder();
+        _sb.Clear();
 
         // FPS / perf
         var perf = Performance.GetMonitor(Performance.Monitor.TimeFps);
-        sb.AppendLine($"FPS: {perf}  Nodes: {Performance.GetMonitor(Performance.Monitor.ObjectNodeCount)}");
+        _sb.AppendLine($"FPS: {perf}  Nodes: {Performance.GetMonitor(Performance.Monitor.ObjectNodeCount)}");
 
         // Player
         var player = Player.Instance;
         if (player != null)
         {
-            sb.AppendLine($"Player pos: {player.Position.Round()}  vel: {player.Velocity.Round()}");
-            sb.AppendLine($"Player interaction locked: {player.InInteraction}  mask: {player.CollisionMask}");
+            _sb.AppendLine($"Player pos: {player.Position.Round()}  vel: {player.Velocity.Round()}");
+            _sb.AppendLine($"Player interaction locked: {player.InInteraction}  mask: {player.CollisionMask}");
         }
 
         // Level
@@ -84,14 +73,14 @@ public partial class DebugOverlay : CanvasLayer
             string path = level.SceneFilePath;
             if (!string.IsNullOrEmpty(path))
                 name = path.GetFile().GetBaseName();
-            sb.AppendLine($"Level: {name}  children: {level.GetChildCount()}");
+            _sb.AppendLine($"Level: {name}  children: {level.GetChildCount()}");
         }
 
         // Cutscene
-        sb.AppendLine($"Cutscene playing: {CutsceneController.Instance?.IsPlaying}");
+        _sb.AppendLine($"Cutscene playing: {CutsceneController.Instance?.IsPlaying}");
 
         // Dialog
-        sb.AppendLine($"Dialog active: {DialogManager.Instance?.IsDialogActive}");
+        _sb.AppendLine($"Dialog active: {DialogManager.Instance?.IsDialogActive}");
 
         // Audio
         var audio = AudioManager.Instance;
@@ -99,7 +88,7 @@ public partial class DebugOverlay : CanvasLayer
         {
             float musicDb = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("MUSIC"));
             float sfxDb = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("SFX"));
-            sb.AppendLine($"Audio: music={musicDb:F1}dB  sfx={sfxDb:F1}dB");
+            _sb.AppendLine($"Audio: music={musicDb:F1}dB  sfx={sfxDb:F1}dB");
         }
 
         // WorldFlags (compact — just flag count + names)
@@ -109,12 +98,12 @@ public partial class DebugOverlay : CanvasLayer
             var saveRes = new SaveResource();
             wf.Save(saveRes);
             int count = saveRes.WorldFlagsData?.Flags?.Count ?? 0;
-            sb.AppendLine($"WorldFlags ({count}):");
+            _sb.AppendLine($"WorldFlags ({count}):");
             if (saveRes.WorldFlagsData?.Flags != null)
                 foreach (var kvp in saveRes.WorldFlagsData.Flags)
-                    sb.AppendLine($"  {kvp.Key} = {kvp.Value}");
+                    _sb.AppendLine($"  {kvp.Key} = {kvp.Value}");
         }
 
-        _label.Text = sb.ToString();
+        _label.Text = _sb.ToString();
     }
 }

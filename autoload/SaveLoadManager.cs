@@ -30,6 +30,7 @@ public partial class SaveLoadManager : Node
 
     public void SaveGame()
     {
+        GameLogger.Info("SaveLoad", "Saving game...");
         SaveResource newSave = new();
 
         // Collect all nodes in the 'persist' group that implement ISavable

@@ -2,7 +2,6 @@ using Godot;
 
 public partial class Door : StaticBody2D
 {
-    public static bool DebugVisible = false;
 
     [Export] public bool StartOpen = false;
 
@@ -16,7 +15,6 @@ public partial class Door : StaticBody2D
 
     private CollisionShape2D _collision;
     private Sprite2D _sprite;
-    private Label _debugLabel;
 
     public bool IsOpen => _collision.Disabled;
 
@@ -30,25 +28,6 @@ public partial class Door : StaticBody2D
             Open();
     }
 
-    public override void _Process(double delta)
-    {
-        if (_debugLabel == null && DebugVisible)
-        {
-            _debugLabel = new Label();
-            _debugLabel.AddThemeFontSizeOverride("font_size", 10);
-            _debugLabel.AddThemeColorOverride("font_color", Colors.Yellow);
-            _debugLabel.AddThemeColorOverride("font_outline_color", Colors.Black);
-            _debugLabel.AddThemeConstantOverride("outline_size", 1);
-            AddChild(_debugLabel);
-            _debugLabel.Position = new Vector2(-40, -48);
-        }
-        if (_debugLabel != null)
-        {
-            _debugLabel.Visible = DebugVisible;
-            if (DebugVisible)
-                _debugLabel.Text = IsOpen ? "[Door] Open" : "[Door] Closed";
-        }
-    }
 
     public virtual void Open()
     {

@@ -25,6 +25,7 @@ public partial class CutsceneController : Node
     public async void StartCutscene(CutsceneResource resource)
     {
         if (_isPlaying || resource == null || resource.Steps == null) return;
+        GameLogger.Info("Cutscene", $"Starting cutscene: {resource.ResourcePath}");
         _isPlaying = true;
         _cts = new CancellationTokenSource();
 
@@ -72,6 +73,7 @@ public partial class CutsceneController : Node
 
     public void Stop()
     {
+        GameLogger.Info("Cutscene", "Cutscene stopped (cancelled).");
         if (!_isPlaying || _cts == null) return;
         _cts.Cancel();
         _isPlaying = false;

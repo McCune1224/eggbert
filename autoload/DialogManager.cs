@@ -39,6 +39,7 @@ public partial class DialogManager : Node2D
 
     public void StartDialog(List<string> lines, DialogVoiceResource voice = null)
     {
+        GameLogger.Debug("Dialog", $"Starting dialog ({lines.Count} lines)");
         if (IsDialogActive) return;
 
         _currentVoice = voice ?? DefaultVoice;
@@ -94,6 +95,7 @@ public partial class DialogManager : Node2D
 
     public void Reset()
     {
+        GameLogger.Debug("Dialog", "Dialog reset.");
         IsDialogActive = false;
         CurrentDialogLineIndex = 0;
         DialogLines = new List<string>();

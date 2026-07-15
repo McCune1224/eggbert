@@ -62,6 +62,9 @@ public partial class CombatOatmeal : Area2D
 
     private static readonly Color TelegraphColor = new Color(1f, 0.35f, 0.3f);
 
+
+    private static PackedScene _cachedBulletScene;
+    private static PackedScene BulletScene => _cachedBulletScene ??= ResourceLoader.Load<PackedScene>("res://combat/bullets/RedBullet.tscn");
     public override void _Ready()
     {
         AddToGroup("enemy");
@@ -156,6 +159,7 @@ public partial class CombatOatmeal : Area2D
     private void EnterState(State newState)
     {
         _state = newState;
+        GameLogger.Debug("CombatOatmeal", $"State → {newState} (flavor: {Flavor})");
         _stateTimer = 0f;
 
         var profile = FlavorProfile.GetValueOrDefault(Flavor, FlavorProfile[OatmealFlavor.Vanilla]);
@@ -269,8 +273,7 @@ public partial class CombatOatmeal : Area2D
 
     private RedBullet SpawnBullet()
     {
-        RedBullet bullet = ResourceLoader.Load<PackedScene>("res://combat/bullets/RedBullet.tscn")
-            .Instantiate<RedBullet>();
+        RedBullet bullet = BulletScene.Instantiate<RedBullet>();
 
         if (bullet.GetParent() != null)
             bullet.GetParent().RemoveChild(bullet);
