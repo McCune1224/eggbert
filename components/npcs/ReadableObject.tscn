@@ -3,8 +3,14 @@
 [ext_resource type="Script" path="res://components/npcs/ReadableObject.cs" id="1_pxk0n"]
 [ext_resource type="Texture2D" uid="uid://l00ofsfnsxb4" path="res://assets/ui/NPCPrompt.png" id="2_6a2y7"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_1cak7"]
+radius = 48.0
+
 [node name="ReadableObject" type="Area2D"]
 script = ExtResource("1_pxk0n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1cak7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
