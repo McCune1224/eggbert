@@ -32,9 +32,16 @@ public partial class PushBlock : CharacterBody2D
     {
         Texture2D tex = _texture ?? _sprite?.Texture;
         if (_sprite != null && _texture != null)
+        {
             _sprite.Texture = _texture;
+            _sprite.RegionEnabled = true;
+            // Show only the first 32x32 tile from the tileset
+            _sprite.RegionRect = new Rect2(0, 0, 32, 32);
+        }
         if (tex == null || _collisionShape?.Shape is not RectangleShape2D rect) return;
-        rect.Size = tex.GetSize() * 0.6f;
+        // Scale collision to match the displayed tile region
+        float region = 32f;
+        rect.Size = Vector2.One * region * 0.6f;
     }
 
     /// <summary>Try sliding one step in the given direction. Returns false if blocked.</summary>

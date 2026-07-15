@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b60fv3x3u4y5c"]
+[gd_scene load_steps=4 format=3 uid="uid://b60fv3x3u4y5c"]
 
 [ext_resource type="Script" path="res://components/puzzles/PushBlock.cs" id="1_v8xva"]
-
+[ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0023.png" id="2_block"]
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n2av2"]
 size = Vector2(32, 32)
 
@@ -13,3 +13,6 @@ shape = SubResource("RectangleShape2D_n2av2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
+texture = ExtResource("2_block")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)

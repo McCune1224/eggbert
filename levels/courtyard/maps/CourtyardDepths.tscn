@@ -109,7 +109,7 @@ shape = SubResource("CircleShape_interact")
 WarpId = "courtyard_depths"
 position = Vector2(16, 160)
 
-[node name="CourtyardSurfaceExit" parent="." instance=ExtResource("8_lt")]
+[node name="CourtyardSurfaceEntrance" parent="." instance=ExtResource("8_lt")]
 position = Vector2(320, 0)
 Level = "uid://d203hfawkft4p"
 TargetTransitionName = "DepthsEntrance"
