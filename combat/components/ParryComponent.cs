@@ -80,7 +80,7 @@ public partial class ParryComponent : Node2D
                 {
                     Vector2 knockback = GlobalPosition.DirectionTo(egg.GlobalPosition) * 300f;
                     egg.OnParried(knockback);
-                    egg.Health.TakeDamage(ParryDamage, this);
+                    egg.Health.TakeDamage(ParryDamage + Equipment.Instance.TotalAttackBoost, this);
                     anyReflected = true;
                 }
             }

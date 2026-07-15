@@ -15,10 +15,10 @@ corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
-content_margin_left = 8
-content_margin_top = 8
-content_margin_right = 8
-content_margin_bottom = 8
+content_margin_left = 12
+content_margin_top = 12
+content_margin_right = 12
+content_margin_bottom = 12
 
 [sub_resource type="StyleBoxFlat" id="sb_btn_normal"]
 bg_color = Color(0.15, 0.2, 0.3, 0.8)
@@ -31,8 +31,8 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
-content_margin_left = 12
-content_margin_right = 12
+content_margin_left = 16
+content_margin_right = 16
 
 [sub_resource type="StyleBoxFlat" id="sb_btn_hover"]
 bg_color = Color(0.25, 0.35, 0.5, 0.9)
@@ -94,49 +94,47 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MenuPanel" type="PanelContainer" parent="."]
-offset_left = 230.0
-offset_top = 125.0
-offset_right = 410.0
-offset_bottom = 295.0
+offset_left = 200.0
+offset_top = 110.0
+offset_right = 440.0
+offset_bottom = 305.0
 theme_override_styles/panel = SubResource("sb_panel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MenuPanel"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+layout_mode = 0
 
 [node name="NewGameButton" type="Button" parent="MenuPanel/VBoxContainer"]
-layout_mode = 2
+layout_mode = 0
 text = "New Game"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
 [node name="ContinueButton" type="Button" parent="MenuPanel/VBoxContainer"]
-layout_mode = 2
+layout_mode = 0
 text = "Continue"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
 [node name="SettingsButton" type="Button" parent="MenuPanel/VBoxContainer"]
-layout_mode = 2
+layout_mode = 0
 text = "Settings"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
 [node name="QuitButton" type="Button" parent="MenuPanel/VBoxContainer"]
-layout_mode = 2
+layout_mode = 0
 text = "Quit"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
@@ -144,74 +142,83 @@ theme_override_styles/pressed = SubResource("sb_btn_pressed")
 [node name="SettingsPanel" type="PanelContainer" parent="."]
 visible = false
 offset_left = 120.0
-offset_top = 20.0
+offset_top = 8.0
 offset_right = 520.0
-offset_bottom = 340.0
+offset_bottom = 352.0
 theme_override_styles/panel = SubResource("sb_panel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel"]
-layout_mode = 2
+layout_mode = 0
 
-[node name="MusicLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 0
+follow_focus = true
+vertical_scroll_mode = 0
+size_flags_vertical = 3
+
+[node name="SettingsVBox" type="VBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer"]
+layout_mode = 0
+
+[node name="MusicLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
 text = "Music"
 
-[node name="MusicSlider" type="HSlider" parent="SettingsPanel/VBoxContainer"]
+[node name="MusicSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox"]
 layout_mode = 2
 min_value = 0
 max_value = 100
 value = 100
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 28)
 theme_override_styles/grabber = SubResource("sb_slider_grabber")
 
-[node name="SfxLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+[node name="SfxLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
 text = "SFX"
 
-[node name="SfxSlider" type="HSlider" parent="SettingsPanel/VBoxContainer"]
+[node name="SfxSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox"]
 layout_mode = 2
 min_value = 0
 max_value = 100
 value = 100
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 28)
 theme_override_styles/grabber = SubResource("sb_slider_grabber")
 
-[node name="FullscreenBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+[node name="FullscreenBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox"]
 layout_mode = 2
 
-[node name="FullscreenLabel" type="Label" parent="SettingsPanel/VBoxContainer/FullscreenBox"]
+[node name="FullscreenLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/FullscreenBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
 text = "Fullscreen"
 size_flags_horizontal = 3
 
-[node name="FullscreenCheck" type="CheckButton" parent="SettingsPanel/VBoxContainer/FullscreenBox"]
+[node name="FullscreenCheck" type="CheckButton" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/FullscreenBox"]
 layout_mode = 2
 size_flags_horizontal = 1
 
-[node name="ScaleBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+[node name="ScaleBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox"]
 layout_mode = 2
 
-[node name="ScaleLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScaleBox"]
+[node name="ScaleLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/ScaleBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
 text = "Window Scale"
 size_flags_horizontal = 3
 
-[node name="ScaleOption" type="OptionButton" parent="SettingsPanel/VBoxContainer/ScaleBox"]
+[node name="ScaleOption" type="OptionButton" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/ScaleBox"]
 layout_mode = 2
 size_flags_horizontal = 1
 
 [node name="BackButton" type="Button" parent="SettingsPanel/VBoxContainer"]
-layout_mode = 2
+layout_mode = 0
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")

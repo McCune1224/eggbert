@@ -14,10 +14,10 @@ corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
-content_margin_left = 8
-content_margin_top = 8
-content_margin_right = 8
-content_margin_bottom = 8
+content_margin_left = 12
+content_margin_top = 12
+content_margin_right = 12
+content_margin_bottom = 12
 
 [sub_resource type="StyleBoxFlat" id="sb_btn_normal"]
 bg_color = Color(0.15, 0.2, 0.3, 0.8)
@@ -30,8 +30,8 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
-content_margin_left = 12
-content_margin_right = 12
+content_margin_left = 16
+content_margin_right = 16
 
 [sub_resource type="StyleBoxFlat" id="sb_btn_hover"]
 bg_color = Color(0.25, 0.35, 0.5, 0.9)
@@ -89,79 +89,111 @@ color = Color(0, 0, 0, 0.5)
 mouse_filter = 2
 
 [node name="MainPanel" type="PanelContainer" parent="."]
-offset_left = 230.0
-offset_top = 55.0
-offset_right = 410.0
-offset_bottom = 310.0
+offset_left = 160.0
+offset_top = 40.0
+offset_right = 480.0
+offset_bottom = 320.0
 theme_override_styles/panel = SubResource("sb_panel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainPanel"]
-layout_mode = 2
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -80.0
-offset_top = -120.0
-offset_right = 80.0
-offset_bottom = 120.0
+layout_mode = 0
 
 [node name="ResumeButton" type="Button" parent="MainPanel/VBoxContainer"]
-layout_mode = 2
+layout_mode = 0
 size_flags_horizontal = 4
+custom_minimum_size = Vector2(0, 36)
 text = "Resume"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
-[node name="InventoryButton" type="Button" parent="MainPanel/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
+[node name="GridRow1" type="HBoxContainer" parent="MainPanel/VBoxContainer"]
+layout_mode = 0
+size_flags_vertical = 3
+
+[node name="InventoryButton" type="Button" parent="MainPanel/VBoxContainer/GridRow1"]
+layout_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 4
 text = "Items"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
-[node name="MapButton" type="Button" parent="MainPanel/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
+[node name="MapButton" type="Button" parent="MainPanel/VBoxContainer/GridRow1"]
+layout_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 4
 text = "Map"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
-[node name="SaveButton" type="Button" parent="MainPanel/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
+[node name="GridRow2" type="HBoxContainer" parent="MainPanel/VBoxContainer"]
+layout_mode = 0
+size_flags_vertical = 3
+
+[node name="HelpButton" type="Button" parent="MainPanel/VBoxContainer/GridRow2"]
+layout_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Help"
+theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("sb_btn_normal")
+theme_override_styles/hover = SubResource("sb_btn_hover")
+theme_override_styles/pressed = SubResource("sb_btn_pressed")
+
+[node name="SaveButton" type="Button" parent="MainPanel/VBoxContainer/GridRow2"]
+layout_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 4
 text = "Save"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
-[node name="SettingsButton" type="Button" parent="MainPanel/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
+[node name="GridRow3" type="HBoxContainer" parent="MainPanel/VBoxContainer"]
+layout_mode = 0
+size_flags_vertical = 3
+
+[node name="SettingsButton" type="Button" parent="MainPanel/VBoxContainer/GridRow3"]
+layout_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 4
 text = "Settings"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("sb_btn_normal")
+theme_override_styles/hover = SubResource("sb_btn_hover")
+theme_override_styles/pressed = SubResource("sb_btn_pressed")
+
+[node name="MainMenuButton" type="Button" parent="MainPanel/VBoxContainer/GridRow3"]
+layout_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Main Menu"
+theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
 [node name="QuitButton" type="Button" parent="MainPanel/VBoxContainer"]
-layout_mode = 2
+layout_mode = 0
 size_flags_horizontal = 4
+custom_minimum_size = Vector2(0, 36)
 text = "Quit"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
@@ -169,126 +201,158 @@ theme_override_styles/pressed = SubResource("sb_btn_pressed")
 [node name="SettingsPanel" type="PanelContainer" parent="."]
 visible = false
 offset_left = 120.0
-offset_top = 15.0
+offset_top = 8.0
 offset_right = 520.0
-offset_bottom = 345.0
+offset_bottom = 352.0
 theme_override_styles/panel = SubResource("sb_panel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel"]
+layout_mode = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 0
+follow_focus = true
+vertical_scroll_mode = 0
+size_flags_vertical = 3
+
+[node name="SettingsVBox" type="VBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer"]
+layout_mode = 0
+
+[node name="MusicBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox"]
 layout_mode = 2
 
-[node name="MusicLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+[node name="MusicLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/MusicBox"]
 layout_mode = 2
 text = "Music"
 theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
+size_flags_horizontal = 3
 
-[node name="MusicSlider" type="HSlider" parent="SettingsPanel/VBoxContainer"]
+[node name="MusicSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/MusicBox"]
 layout_mode = 2
 min_value = 0
 max_value = 100
 value = 100
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 28)
+size_flags_horizontal = 3
 theme_override_styles/grabber = SubResource("sb_slider_grabber")
 
-[node name="SfxLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+[node name="SfxBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox"]
+layout_mode = 2
+
+[node name="SfxLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/SfxBox"]
 layout_mode = 2
 text = "SFX"
 theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
+size_flags_horizontal = 3
 
-[node name="SfxSlider" type="HSlider" parent="SettingsPanel/VBoxContainer"]
+[node name="SfxSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/SfxBox"]
 layout_mode = 2
 min_value = 0
 max_value = 100
 value = 100
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 28)
+size_flags_horizontal = 3
 theme_override_styles/grabber = SubResource("sb_slider_grabber")
 
-[node name="FullscreenBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+[node name="FullscreenBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox"]
 layout_mode = 2
 
-[node name="FullscreenLabel" type="Label" parent="SettingsPanel/VBoxContainer/FullscreenBox"]
+[node name="FullscreenLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/FullscreenBox"]
 layout_mode = 2
 text = "Fullscreen"
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
 
-[node name="FullscreenCheck" type="CheckButton" parent="SettingsPanel/VBoxContainer/FullscreenBox"]
+[node name="FullscreenCheck" type="CheckButton" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/FullscreenBox"]
 layout_mode = 2
 size_flags_horizontal = 1
 
-[node name="ScaleBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+[node name="ScaleBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox"]
 layout_mode = 2
 
-[node name="ScaleLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScaleBox"]
+[node name="ScaleLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/ScaleBox"]
 layout_mode = 2
 text = "Window Scale"
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
 
-[node name="ScaleOption" type="OptionButton" parent="SettingsPanel/VBoxContainer/ScaleBox"]
+[node name="ScaleOption" type="OptionButton" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/ScaleBox"]
 layout_mode = 2
 size_flags_horizontal = 1
 
 [node name="BackButton" type="Button" parent="SettingsPanel/VBoxContainer"]
-layout_mode = 2
+layout_mode = 0
 text = "Back"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
 [node name="MapPanel" type="PanelContainer" parent="."]
 visible = false
-offset_left = 130.0
-offset_top = 25.0
-offset_right = 510.0
-offset_bottom = 335.0
+offset_left = 100.0
+offset_top = 20.0
+offset_right = 540.0
+offset_bottom = 340.0
 theme_override_styles/panel = SubResource("sb_panel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MapPanel"]
-layout_mode = 2
+layout_mode = 0
 
 [node name="MapTexture" type="TextureRect" parent="MapPanel/VBoxContainer"]
-layout_mode = 2
+layout_mode = 0
 custom_minimum_size = Vector2(200, 100)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 expand = true
 stretch_mode = 4
 
-[node name="WarpList" type="VBoxContainer" parent="MapPanel/VBoxContainer"]
-layout_mode = 2
+[node name="WarpGrid" type="GridContainer" parent="MapPanel/VBoxContainer"]
+layout_mode = 0
+size_flags_vertical = 3
+columns = 2
 
 [node name="MapBackButton" type="Button" parent="MapPanel/VBoxContainer"]
-layout_mode = 2
+layout_mode = 0
 text = "Back"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
 [node name="InventoryPanel" type="PanelContainer" parent="."]
 visible = false
-offset_left = 80.0
-offset_top = 20.0
-offset_right = 560.0
-offset_bottom = 340.0
+offset_left = 36.0
+offset_top = 8.0
+offset_right = 604.0
+offset_bottom = 352.0
 theme_override_styles/panel = SubResource("sb_panel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="InventoryPanel"]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="InventoryPanel/VBoxContainer"]
+[node name="HpRow" type="HBoxContainer" parent="InventoryPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="InventoryPanel/VBoxContainer/HpRow"]
 layout_mode = 2
 text = "Items"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
+
+[node name="HpLabel" type="Label" parent="InventoryPanel/VBoxContainer/HpRow"]
+layout_mode = 2
+text = "HP 100/100"
+size_flags_horizontal = 10
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
+theme_override_font_sizes/font_size = 14
 
 [node name="TabBox" type="HBoxContainer" parent="InventoryPanel/VBoxContainer"]
 layout_mode = 2
@@ -298,7 +362,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Key"
 theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("sb_tab_normal")
 theme_override_styles/hover = SubResource("sb_tab_hover")
 
@@ -307,7 +371,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Consumables"
 theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("sb_tab_normal")
 theme_override_styles/hover = SubResource("sb_tab_hover")
 
@@ -316,23 +380,63 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Equipment"
 theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("sb_tab_normal")
 theme_override_styles/hover = SubResource("sb_tab_hover")
 
-[node name="ItemList" type="ItemList" parent="InventoryPanel/VBoxContainer"]
+[node name="ContentRow" type="HBoxContainer" parent="InventoryPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-custom_minimum_size = Vector2(0, 100)
+
+[node name="ItemList" type="ItemList" parent="InventoryPanel/VBoxContainer/ContentRow"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(180, 0)
 theme_override_styles/panel = SubResource("sb_itemlist")
 
-[node name="DescriptionLabel" type="Label" parent="InventoryPanel/VBoxContainer"]
+[node name="DetailPanel" type="PanelContainer" parent="InventoryPanel/VBoxContainer/ContentRow"]
 layout_mode = 2
 size_flags_vertical = 3
-custom_minimum_size = Vector2(0, 45)
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("sb_panel")
+
+[node name="DetailVBox" type="VBoxContainer" parent="InventoryPanel/VBoxContainer/ContentRow/DetailPanel"]
+layout_mode = 2
+
+[node name="DetailHeader" type="HBoxContainer" parent="InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox"]
+layout_mode = 2
+
+[node name="IconRect" type="TextureRect" parent="InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox/DetailHeader"]
+layout_mode = 2
+custom_minimum_size = Vector2(48, 48)
+expand = true
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="NameLabel" type="Label" parent="InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox/DetailHeader"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 16
+
+[node name="CountLabel" type="Label" parent="InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="DescriptionLabel" type="Label" parent="InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
 text = ""
 autowrap_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.7, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="StatsLabel" type="Label" parent="InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox"]
+layout_mode = 2
+text = ""
+autowrap_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.8, 0.5, 1)
 theme_override_font_sizes/font_size = 12
 
 [node name="ButtonRow" type="HBoxContainer" parent="InventoryPanel/VBoxContainer"]
@@ -344,7 +448,7 @@ size_flags_horizontal = 3
 text = "Use"
 disabled = true
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")
@@ -354,7 +458,43 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Back"
 theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("sb_btn_normal")
+theme_override_styles/hover = SubResource("sb_btn_hover")
+theme_override_styles/pressed = SubResource("sb_btn_pressed")
+
+[node name="HelpPanel" type="PanelContainer" parent="."]
+visible = false
+offset_left = 80.0
+offset_top = 20.0
+offset_right = 560.0
+offset_bottom = 340.0
+theme_override_styles/panel = SubResource("sb_panel")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HelpPanel"]
+layout_mode = 0
+size_flags_vertical = 3
+
+[node name="TitleLabel" type="Label" parent="HelpPanel/VBoxContainer"]
+layout_mode = 2
+text = "Help"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HelpPanel/VBoxContainer"]
+layout_mode = 0
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="HelpVBox" type="VBoxContainer" parent="HelpPanel/VBoxContainer/ScrollContainer"]
+layout_mode = 0
+
+[node name="HelpBackButton" type="Button" parent="HelpPanel/VBoxContainer"]
+layout_mode = 0
+text = "Back"
+theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("sb_btn_normal")
 theme_override_styles/hover = SubResource("sb_btn_hover")
 theme_override_styles/pressed = SubResource("sb_btn_pressed")

@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="10_lt"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0010.png" id="11_key"]
+[ext_resource type="PackedScene" uid="uid://egguardo_npc" path="res://levels/courtyard/npcs/Egguardo.tscn" id="12_npc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aywx3"]
 texture = ExtResource("1_aerj4")
@@ -128,6 +129,7 @@ position = Vector2(160, -50)
 _texture = ExtResource("1_aerj4")
 
 [node name="RustyKeyPickup" type="Area2D" parent="."]
+position = Vector2(500, -100)
 script = ExtResource("7")
 ItemId = "rusty_key"
 Count = 1
@@ -165,3 +167,20 @@ Level = "res://levels/courtyard/maps/CourtyardDepths.tscn"
 TargetTransitionName = "CourtyardSurfaceExit"
 Size = 5
 Side = 1
+[node name="Egguardo" parent="." instance=ExtResource("12_npc")]
+position = Vector2(200, -100)
+
+[node name="CourtyardWelcome" parent="." instance=ExtResource("8")]
+position = Vector2(-460, 0)
+DialogLines = Array[String](["Eggs Isle Courtyard — fresh air and fresh hostility.", "Inmates eye you warily. Keep your shell up."])
+Mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CourtyardWelcome"]
+shape = SubResource("CircleShape2D_interact")
+
+[node name="DepthsRightEntrance" parent="." instance=ExtResource("10_lt")]
+position = Vector2(640, 180)
+Level = "res://levels/courtyard/maps/CourtyardDepths.tscn"
+TargetTransitionName = "CourtyardSurfaceEntrance"
+Size = 5
+Side = 3

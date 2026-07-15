@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=4 uid="uid://waffles_npc"]
+
+[ext_resource type="Texture2D" path="res://assets/characters/Officer Bacon.png" id="1_spr"]
+[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_ct"]
+
+[sub_resource type="RectangleShape2D" id="RectShape_phys"]
+size = Vector2(64, 56)
+
+[sub_resource type="CircleShape2D" id="CircleShape_interact"]
+radius = 60.0
+
+[node name="Waffles" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_spr")
+scale = Vector2(1.5, 1.5)
+modulate = Color(0.7, 0.5, 0.3, 1)
+
+[node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
+DialogLines = Array[String](["Hmph. You the new egg? I'm Waffles. I guard things. Big things.", "Behind me? Nothing. Just a wall. A very boring, normal wall.", "...", "You beat Oatmeal and Yogurt? Maybe you're not COMPLETELY soft-boiled. Come back when you've got more fight in you."])
+Mode = 0
+
+[node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
+shape = SubResource("CircleShape_interact")
+
+[node name="PhysicsCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectShape_phys")

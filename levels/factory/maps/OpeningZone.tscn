@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://ceft5j32lmxa0"]
+[gd_scene load_steps=12 format=4 uid="uid://ceft5j32lmxa0"]
 
 [ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_2xwn4"]
 [ext_resource type="Texture2D" uid="uid://d3g4p3asro7bd" path="res://assets/tilemaps/Texture/TX Tileset Stone Ground.png" id="1_3osvs"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://5e4uopgmy56a" path="res://levels/factory/npcs/FactoryJamitor.tscn" id="3_2xwn4"]
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="5_lt"]
+[ext_resource type="Script" uid="uid://c5nkwg6g27ibr" path="res://components/items/PickupItem.cs" id="6_pi"]
+[ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="7_ct"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8lqvu"]
 texture = ExtResource("1_3osvs")
@@ -212,6 +214,11 @@ texture = ExtResource("1_3osvs")
 
 [sub_resource type="TileSet" id="TileSet_nkxpt"]
 sources/0 = SubResource("TileSetAtlasSource_8lqvu")
+[sub_resource type="CircleShape2D" id="CircleShape2D_d7t2w"]
+radius = 40.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h9k3v"]
+size = Vector2(64, 64)
 
 [node name="OpeningZone" type="Node2D"]
 script = ExtResource("4")
@@ -241,3 +248,42 @@ Level = "uid://bmym6w5bpq0uv"
 TargetTransitionName = "OpeningZoneExit"
 Size = 5
 Side = 3
+[node name="Checkpoint" type="Marker2D" parent="."]
+position = Vector2(150, 200)
+
+[node name="HardboiledEggPickup" type="Area2D" parent="."]
+position = Vector2(400, 200)
+script = ExtResource("6_pi")
+ItemId = "hardboiled_egg"
+Count = 1
+DialogLines = Array[String](["Got a Hardboiled Egg! Restores a bit of pep."])
+
+[node name="EggCollision" type="CollisionShape2D" parent="HardboiledEggPickup"]
+shape = SubResource("CircleShape2D_d7t2w")
+
+[node name="EggshellHelmPickup" type="Area2D" parent="."]
+position = Vector2(500, 200)
+script = ExtResource("6_pi")
+ItemId = "eggshell_helm"
+Count = 1
+DialogLines = Array[String](["Got the Eggshell Helm! Your head feels slightly more protected. (Equip in the menu.)"])
+
+[node name="HelmCollision" type="CollisionShape2D" parent="EggshellHelmPickup"]
+shape = SubResource("CircleShape2D_d7t2w")
+
+
+[node name="ArrestCutscene" parent="." instance=ExtResource("7_ct")]
+position = Vector2(580, 160)
+Mode = 1
+Once = true
+DialogLines = Array[String](["Officer Bacon: YOU! You're the egg who was in the wrong place at the wrong time!", "Officer Bacon: You're getting shipped off to Eggs Isle. Don't bother writing."])
+
+[node name="ArrestCollision" type="CollisionShape2D" parent="ArrestCutscene"]
+shape = SubResource("RectangleShape2D_h9k3v")
+
+[node name="EggsileTransition" parent="." instance=ExtResource("5_lt")]
+position = Vector2(480, 320)
+Level = "res://levels/eggsile/maps/area1.tscn"
+TargetTransitionName = "FactoryGateExit"
+Size = 5
+Side = 1

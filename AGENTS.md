@@ -62,3 +62,7 @@ ISavable interface. Nodes in "persist" group auto-saved. Single slot: user://sav
 
 ## GitHub workflow
 File an issue before non-trivial work. Commit with `Closes #N` on main. Push.
+
+## Feature ideas
+`FEATURE_IDEAS.md` is a loose bucket of feature ideas — dialog, puzzles, NPC behaviors,
+atmosphere, items, secrets. No priority, no phases. Pull from it when you want something to build.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=4 uid="uid://bms1ioay0fp20"]
+[gd_scene load_steps=34 format=4 uid="uid://bms1ioay0fp20"]
 
 [ext_resource type="Texture2D" uid="uid://cag8djeu52niq" path="res://assets/tilemaps/prison tileset.png" id="1_3ox1m"]
 [ext_resource type="Texture2D" uid="uid://bv1b24fd22scx" path="res://levels/prison/maps/Officer Bacon.png" id="2_w7byb"]
@@ -13,6 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="11_lt"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0009.png" id="12_key"]
+[ext_resource type="PackedScene" uid="uid://waffles_npc" path="res://levels/prison/npcs/Waffles.tscn" id="13_waffles"]
+[ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="14_ct"]
+[ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0014.png" id="15_food"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w7byb"]
 texture = ExtResource("1_3ox1m")
@@ -379,3 +382,35 @@ Level = "res://levels/prison/maps/PrisonBlockC.tscn"
 TargetTransitionName = "ExitTransition"
 Size = 3
 Side = 3
+
+[node name="Waffles" parent="." instance=ExtResource("13_waffles")]
+position = Vector2(300, -100)
+
+[node name="PosterReveal" parent="." instance=ExtResource("14_ct")]
+position = Vector2(300, -200)
+DialogLines = Array[String](["A faded poster of a band called 'The Yolked Four.' One corner is peeling away from the wall...", "Behind it, a dark hole. This must be the entrance to the secret tunnels."])
+CutsceneId = "found_secret_tunnel"
+Once = true
+Mode = 0
+
+[node name="TunnelEntrance" parent="." instance=ExtResource("11_lt")]
+position = Vector2(300, -200)
+Level = "res://levels/prison/maps/PrisonBlockC.tscn"
+TargetTransitionName = "TunnelEntrance"
+Size = 3
+Side = 2
+
+[node name="CommissaryPickup" type="Area2D" parent="."]
+script = ExtResource("8")
+ItemId = "egg_salad_sandwich"
+Count = 1
+SetFlag = ""
+DialogLines = Array[String](["Got an Egg Salad Sandwich! A hearty sandwich. Fills you right up."])
+
+[node name="CommissarySprite" type="Sprite2D" parent="CommissaryPickup"]
+texture = ExtResource("15_food")
+[node name="CommissaryCollision" type="CollisionShape2D" parent="CommissaryPickup"]
+shape = SubResource("CircleShape2D_pickup")
+
+[node name="Checkpoint" type="Marker2D" parent="."]
+position = Vector2(100, 180)

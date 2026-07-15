@@ -140,6 +140,20 @@ public partial class Equipment : Node, ISavable
         return total;
     }
 
+    public int TotalAttackBoost => GetTotalAttackBoost();
+
+    private int GetTotalAttackBoost()
+    {
+        int total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.AttackBoost;
+        }
+        return total;
+    }
+
     public SaveResource Save(SaveResource newSave)
     {
         SaveDataEquipment data = new()

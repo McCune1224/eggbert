@@ -33,7 +33,7 @@ public partial class OverworldMenu : CanvasLayer
     // Map panel
     private PanelContainer _mapPanel;
     private TextureRect _mapTexture;
-    private VBoxContainer _warpList;
+    private GridContainer _warpGrid;
     private Button _mapBackButton;
 
     // Inventory panel
@@ -47,8 +47,19 @@ public partial class OverworldMenu : CanvasLayer
     private Button _inventoryBackButton;
     private ItemCategory _currentTab = ItemCategory.Key;
     private string _selectedItemId;
+    private TextureRect _iconRect;
+    private Label _nameLabel;
+    private Label _countLabel;
+    private Label _statsLabel;
+    private Label _hpLabel;
+    // Help panel
+    private PanelContainer _helpPanel;
+    private Button _helpButton;
+    private Button _helpBackButton;
+    private VBoxContainer _helpVBox;
+    private Button _mainMenuButton;
 
-    private enum Panel { Main, Settings, Map, Inventory }
+    private enum Panel { Main, Settings, Map, Inventory, Help }
     private Panel _currentPanel = Panel.Main;
 
     public override void _Ready()
@@ -58,11 +69,12 @@ public partial class OverworldMenu : CanvasLayer
         // Main menu
         _mainPanel = GetNode<PanelContainer>("MainPanel");
         _resumeButton = GetNode<Button>("MainPanel/VBoxContainer/ResumeButton");
-        _mapButton = GetNode<Button>("MainPanel/VBoxContainer/MapButton");
-        _inventoryButton = GetNode<Button>("MainPanel/VBoxContainer/InventoryButton");
-        _saveButton = GetNode<Button>("MainPanel/VBoxContainer/SaveButton");
-        _settingsButton = GetNode<Button>("MainPanel/VBoxContainer/SettingsButton");
+        _mapButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow1/MapButton");
+        _inventoryButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow1/InventoryButton");
+        _saveButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow2/SaveButton");
+        _settingsButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow3/SettingsButton");
         _quitButton = GetNode<Button>("MainPanel/VBoxContainer/QuitButton");
+        _mainMenuButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow3/MainMenuButton");
 
         _resumeButton.Connect("pressed", new Callable(this, nameof(OnResumePressed)));
         _mapButton.Connect("pressed", new Callable(this, nameof(OnMapPressed)));
@@ -70,13 +82,14 @@ public partial class OverworldMenu : CanvasLayer
         _saveButton.Connect("pressed", new Callable(this, nameof(OnSavePressed)));
         _settingsButton.Connect("pressed", new Callable(this, nameof(OnSettingsPressed)));
         _quitButton.Connect("pressed", new Callable(this, nameof(OnQuitPressed)));
+        _mainMenuButton.Connect("pressed", new Callable(this, nameof(OnMainMenuPressed)));
 
         // Settings panel
         _settingsPanel = GetNode<PanelContainer>("SettingsPanel");
-        _musicSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/MusicSlider");
-        _sfxSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/SfxSlider");
-        _fullscreenCheck = GetNode<CheckButton>("SettingsPanel/VBoxContainer/FullscreenBox/FullscreenCheck");
-        _scaleOption = GetNode<OptionButton>("SettingsPanel/VBoxContainer/ScaleBox/ScaleOption");
+        _musicSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/MusicBox/MusicSlider");
+        _sfxSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/SfxBox/SfxSlider");
+        _fullscreenCheck = GetNode<CheckButton>("SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/FullscreenBox/FullscreenCheck");
+        _scaleOption = GetNode<OptionButton>("SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/ScaleBox/ScaleOption");
         _settingsBackButton = GetNode<Button>("SettingsPanel/VBoxContainer/BackButton");
 
         _scaleOption.AddItem("1x", 1);
@@ -99,7 +112,7 @@ public partial class OverworldMenu : CanvasLayer
         // Map panel
         _mapPanel = GetNode<PanelContainer>("MapPanel");
         _mapTexture = GetNode<TextureRect>("MapPanel/VBoxContainer/MapTexture");
-        _warpList = GetNode<VBoxContainer>("MapPanel/VBoxContainer/WarpList");
+        _warpGrid = GetNode<GridContainer>("MapPanel/VBoxContainer/WarpGrid");
         _mapBackButton = GetNode<Button>("MapPanel/VBoxContainer/MapBackButton");
         _mapBackButton.Connect("pressed", new Callable(this, nameof(OnMapBackPressed)));
 
@@ -108,12 +121,28 @@ public partial class OverworldMenu : CanvasLayer
         _keyTab = GetNode<Button>("InventoryPanel/VBoxContainer/TabBox/KeyTab");
         _consumableTab = GetNode<Button>("InventoryPanel/VBoxContainer/TabBox/ConsumableTab");
         _equipmentTab = GetNode<Button>("InventoryPanel/VBoxContainer/TabBox/EquipmentTab");
-        _itemList = GetNode<ItemList>("InventoryPanel/VBoxContainer/ItemList");
-        _descriptionLabel = GetNode<Label>("InventoryPanel/VBoxContainer/DescriptionLabel");
+        _itemList = GetNode<ItemList>("InventoryPanel/VBoxContainer/ContentRow/ItemList");
+        _descriptionLabel = GetNode<Label>("InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox/DescriptionLabel");
         _useButton = GetNode<Button>("InventoryPanel/VBoxContainer/ButtonRow/UseButton");
         _inventoryBackButton = GetNode<Button>("InventoryPanel/VBoxContainer/ButtonRow/InventoryBackButton");
+        _iconRect = GetNode<TextureRect>("InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox/DetailHeader/IconRect");
+        _nameLabel = GetNode<Label>("InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox/DetailHeader/NameLabel");
+        _countLabel = GetNode<Label>("InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox/CountLabel");
+        _statsLabel = GetNode<Label>("InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox/StatsLabel");
+        _hpLabel = GetNode<Label>("InventoryPanel/VBoxContainer/HpRow/HpLabel");
 
         _keyTab.Connect("pressed", new Callable(this, nameof(OnKeyTabPressed)));
+        
+        // Help panel
+        _helpPanel = GetNode<PanelContainer>("HelpPanel");
+        _helpButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow2/HelpButton");
+        _helpBackButton = GetNode<Button>("HelpPanel/VBoxContainer/HelpBackButton");
+        _helpVBox = GetNode<VBoxContainer>("HelpPanel/VBoxContainer/ScrollContainer/HelpVBox");
+        
+        _helpButton.Connect("pressed", new Callable(this, nameof(OnHelpPressed)));
+        _helpBackButton.Connect("pressed", new Callable(this, nameof(OnHelpBackPressed)));
+        
+        SetupHelpContent();
         _consumableTab.Connect("pressed", new Callable(this, nameof(OnConsumableTabPressed)));
         _equipmentTab.Connect("pressed", new Callable(this, nameof(OnEquipmentTabPressed)));
         _itemList.Connect("item_selected", new Callable(this, nameof(OnItemSelected)));
@@ -132,6 +161,7 @@ public partial class OverworldMenu : CanvasLayer
         _settingsPanel.Visible = panel == Panel.Settings;
         _mapPanel.Visible = panel == Panel.Map;
         _inventoryPanel.Visible = panel == Panel.Inventory;
+        _helpPanel.Visible = panel == Panel.Help;
         _currentPanel = panel;
     }
 
@@ -153,6 +183,7 @@ public partial class OverworldMenu : CanvasLayer
 
     private void ShowMenu()
     {
+        Input.MouseMode = Input.MouseModeEnum.Visible;
         Visible = true;
         ShowPanel(Panel.Main);
         if (_animationPlayer != null && _animationPlayer.HasAnimation("show_menu"))
@@ -197,6 +228,8 @@ public partial class OverworldMenu : CanvasLayer
                 OnMapBackPressed();
             else if (_currentPanel == Panel.Inventory)
                 OnInventoryBackPressed();
+            else if (_currentPanel == Panel.Help)
+                OnHelpBackPressed();
             else
                 ToggleEscape();
         }
@@ -231,25 +264,27 @@ public partial class OverworldMenu : CanvasLayer
     private void RefreshWarpList()
     {
         // Clear old buttons
-        foreach (Node child in _warpList.GetChildren())
+        foreach (Node child in _warpGrid.GetChildren())
             child.QueueFree();
 
         var unlocked = WarpDatabase.GetUnlocked();
         if (unlocked.Count == 0)
         {
             var lbl = new Label { Text = "No warps discovered" };
+            lbl.LayoutMode = 0;
             lbl.AddThemeColorOverride("font_color", new Color(0.6f, 0.6f, 0.6f));
-            _warpList.AddChild(lbl);
+            _warpGrid.AddChild(lbl);
             return;
         }
 
         foreach (var warp in unlocked)
         {
             var btn = new Button { Text = warp.Name };
+            btn.LayoutMode = 0;
             string levelPath = warp.LevelPath;
             Vector2 pos = warp.Position;
             btn.Pressed += () => WarpTo(levelPath, pos);
-            _warpList.AddChild(btn);
+            _warpGrid.AddChild(btn);
         }
     }
 
@@ -263,6 +298,7 @@ public partial class OverworldMenu : CanvasLayer
     {
         AudioManager.Instance.PlaySfx(_confirmSfx);
         _currentTab = ItemCategory.Key;
+        UpdateHpLabel();
         RefreshInventory();
         ShowPanel(Panel.Inventory);
         _keyTab.GrabFocus();
@@ -281,7 +317,11 @@ public partial class OverworldMenu : CanvasLayer
     private void RefreshInventory()
     {
         _itemList.Clear();
+        _iconRect.Texture = null;
+        _nameLabel.Text = "";
+        _countLabel.Text = "";
         _descriptionLabel.Text = "";
+        _statsLabel.Text = "";
         _selectedItemId = null;
         _useButton.Disabled = true;
 
@@ -291,8 +331,7 @@ public partial class OverworldMenu : CanvasLayer
             if (item == null) continue;
             int count = Inventory.Instance.GetCount(id);
             string label = count > 1 ? $"{item.DisplayName} x{count}" : item.DisplayName;
-            _itemList.AddItem(label);
-            // ponytail: store id at same index via metadata
+            _itemList.AddItem(label, item.Icon);
             _itemList.SetItemMetadata(_itemList.ItemCount - 1, id);
         }
 
@@ -301,6 +340,7 @@ public partial class OverworldMenu : CanvasLayer
             _itemList.Select(0);
             OnItemSelected(0);
         }
+        UpdateHpLabel();
     }
 
     private void OnItemSelected(long index)
@@ -309,23 +349,44 @@ public partial class OverworldMenu : CanvasLayer
         _selectedItemId = (string)_itemList.GetItemMetadata((int)index);
         Item item = ItemDatabase.Get(_selectedItemId);
         if (item == null) return;
+
+        _iconRect.Texture = item.Icon;
+        _nameLabel.Text = item.DisplayName;
+        int count = Inventory.Instance.GetCount(item.Id);
+        _countLabel.Text = count > 1 ? $"x{count}" : "";
         _descriptionLabel.Text = item.Description;
 
-        if (item.Category == ItemCategory.Consumable)
+        if (item.Category == ItemCategory.Key)
         {
+            _statsLabel.Text = "";
+            _useButton.Disabled = true;
+            _useButton.Text = "Use";
+        }
+        else if (item.Category == ItemCategory.Consumable)
+        {
+            _statsLabel.Text = item.HealAmount > 0 ? $"Restores {item.HealAmount} HP" : "";
             _useButton.Disabled = false;
             _useButton.Text = "Use";
         }
         else if (item.Category == ItemCategory.Equipment)
         {
-            bool alreadyEquipped = Equipment.Instance.IsEquipped(item.Id);
-            _useButton.Disabled = alreadyEquipped;
-            _useButton.Text = alreadyEquipped ? "Equipped" : "Equip";
-        }
-        else
-        {
-            _useButton.Disabled = true;
-            _useButton.Text = "Use";
+            var boosts = new System.Collections.Generic.List<string>();
+            if (item.MaxHPBoost > 0) boosts.Add($"+{item.MaxHPBoost} HP");
+            if (item.AttackBoost > 0) boosts.Add($"+{item.AttackBoost} ATK");
+            if (item.DefenseBoost > 0) boosts.Add($"+{item.DefenseBoost} DEF");
+            if (item.SpeedBoost > 0) boosts.Add($"+{item.SpeedBoost} SPD");
+            _statsLabel.Text = string.Join(", ", boosts);
+            if (Equipment.Instance.IsEquipped(item.Id))
+            {
+                _statsLabel.Text += " (Equipped)";
+                _useButton.Disabled = false;
+                _useButton.Text = "Unequip";
+            }
+            else
+            {
+                _useButton.Disabled = false;
+                _useButton.Text = "Equip";
+            }
         }
     }
 
@@ -344,12 +405,73 @@ public partial class OverworldMenu : CanvasLayer
                 hc.Heal(item.HealAmount);
             Inventory.Instance.Remove(_selectedItemId, 1);
         }
-        else if (item.Category == ItemCategory.Equipment && !Equipment.Instance.IsEquipped(item.Id))
+        else if (item.Category == ItemCategory.Equipment)
         {
-            Equipment.Instance.Equip(item);
+            if (Equipment.Instance.IsEquipped(item.Id))
+                Equipment.Instance.Unequip(item.Slot);
+            else
+                Equipment.Instance.Equip(item);
         }
 
         RefreshInventory();
+    }
+
+    private void UpdateHpLabel()
+    {
+        var hc = Player.Instance.HealthComponent;
+        if (hc != null)
+            _hpLabel.Text = $"HP {hc.CurrentHP}/{hc.MaxHP}";
+    }
+
+    // --- Help ---
+
+    private void SetupHelpContent()
+    {
+        foreach (Node child in _helpVBox.GetChildren())
+            child.QueueFree();
+
+        string currentSection = "";
+        foreach (string action in KeybindManager.RebindableActions)
+        {
+            string section = action switch
+            {
+                "player_up" or "player_down" or "player_left" or "player_right" => "Movement",
+                "interact" or "player_sprint" or "dash" or "combat_parry" => "Actions",
+                "menu_pause" => "Menu",
+                _ => null
+            };
+            if (section != null && section != currentSection)
+            {
+                currentSection = section;
+                var sectionLabel = new Label { Text = section + ":", ThemeTypeVariation = "" };
+                sectionLabel.AddThemeFontSizeOverride("font_size", 14);
+                sectionLabel.AddThemeColorOverride("font_color", new Color(0.4f, 0.75f, 1.0f));
+                _helpVBox.AddChild(sectionLabel);
+            }
+
+            var row = new HBoxContainer();
+            var nameLabel = new Label { Text = KeybindManager.GetActionDisplayName(action), CustomMinimumSize = new Vector2(140, 0) };
+            nameLabel.AddThemeColorOverride("font_color", new Color(0.75f, 0.8f, 1.0f));
+            row.AddChild(nameLabel);
+            var keyLabel = new Label { Text = KeybindManager.GetCurrentKeyLabel(action) };
+            keyLabel.AddThemeColorOverride("font_color", new Color(0.6f, 0.7f, 0.9f));
+            row.AddChild(keyLabel);
+            _helpVBox.AddChild(row);
+        }
+    }
+
+    private void OnHelpPressed()
+    {
+        AudioManager.Instance.PlaySfx(_confirmSfx);
+        SetupHelpContent();
+        ShowPanel(Panel.Help);
+        _helpBackButton.GrabFocus();
+    }
+
+    private void OnHelpBackPressed()
+    {
+        ShowPanel(Panel.Main);
+        _helpButton.GrabFocus();
     }
 
     private void OnSavePressed()
@@ -369,6 +491,13 @@ public partial class OverworldMenu : CanvasLayer
     {
         AudioManager.Instance.PlaySfx(_confirmSfx);
         GetTree().Quit();
+    }
+
+    private void OnMainMenuPressed()
+    {
+        AudioManager.Instance.PlaySfx(_confirmSfx);
+        GetTree().Paused = false;
+        GetTree().ChangeSceneToFile("res://ui/MainMenu.tscn");
     }
 
     // --- Settings ---
@@ -414,11 +543,11 @@ public partial class OverworldMenu : CanvasLayer
         ShowPanel(Panel.Main);
         _resumeButton.GrabFocus();
     }
-
     private void SetupTextSpeedOption()
     {
-        var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer");
+        var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer/ScrollContainer/SettingsVBox");
         var hbox = new HBoxContainer { Name = "TextSpeedBox" };
+        hbox.LayoutMode = 0;
         var label = new Label { Text = "Text Speed:", CustomMinimumSize = new Vector2(120, 0) };
         hbox.AddChild(label);
         _textSpeedOption = new OptionButton();
@@ -427,48 +556,50 @@ public partial class OverworldMenu : CanvasLayer
         _textSpeedOption.AddItem("Instant", (int)DialogManager.TextSpeed.Instant);
         _textSpeedOption.Selected = (int)DialogManager.TextSpeed.Fast;
         hbox.AddChild(_textSpeedOption);
-        // Insert before the back button (last child)
-        var backButton = vbox.GetChild(vbox.GetChildCount() - 1);
         vbox.AddChild(hbox);
-        vbox.MoveChild(hbox, vbox.GetChildCount() - 2);
     }
 
     // --- Keybindings ---
 
     private void SetupKeybindSection()
     {
-        var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer");
-        var backButton = vbox.GetChild(vbox.GetChildCount() - 1);
+        var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer/ScrollContainer/SettingsVBox");
 
         var title = new Label { Text = "Controls:" };
+        title.LayoutMode = 0;
         title.AddThemeFontSizeOverride("font_size", 14);
         vbox.AddChild(title);
-        vbox.MoveChild(title, vbox.GetChildCount() - 2);
+
+        var grid = new GridContainer();
+        grid.Columns = 2;
+        grid.LayoutMode = 0;
+        vbox.AddChild(grid);
 
         foreach (string action in KeybindManager.RebindableActions)
         {
-            var hbox = new HBoxContainer();
             var label = new Label
             {
                 Text = KeybindManager.GetActionDisplayName(action),
                 CustomMinimumSize = new Vector2(120, 0),
             };
-            hbox.AddChild(label);
+            label.LayoutMode = 0;
+            label.AddThemeColorOverride("font_color", new Color(0.7f, 0.8f, 1.0f));
+            grid.AddChild(label);
 
             var btn = new Button { Text = KeybindManager.GetCurrentKeyLabel(action) };
+            btn.LayoutMode = 0;
             string captured = action;
             btn.Pressed += () => StartRebind(captured);
-            hbox.AddChild(btn);
             _keybindButtons[action] = btn;
-
-            vbox.AddChild(hbox);
-            vbox.MoveChild(hbox, vbox.GetChildCount() - 2);
+            grid.AddChild(btn);
         }
 
+        // Full-width reset button below the grid
         var resetBtn = new Button { Text = "Reset Controls" };
+        resetBtn.LayoutMode = 0;
+        resetBtn.AddThemeFontSizeOverride("font_size", 14);
         resetBtn.Pressed += OnResetKeybindsPressed;
         vbox.AddChild(resetBtn);
-        vbox.MoveChild(resetBtn, vbox.GetChildCount() - 2);
     }
 
     private void StartRebind(string action)

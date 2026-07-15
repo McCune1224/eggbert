@@ -57,7 +57,7 @@ public partial class RedBullet : Area2D
         {
             if (area is CombatOatmeal enemy && enemy.Health != null)
             {
-                enemy.Health.TakeDamage(10, this);
+                enemy.Health.TakeDamage(10 + Equipment.Instance.TotalAttackBoost, this);
             }
             QueueFree();
             return;

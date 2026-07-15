@@ -36,10 +36,10 @@ public partial class MainMenu : CanvasLayer
         _quitButton = GetNode<Button>("MenuPanel/VBoxContainer/QuitButton");
 
         _settingsPanel = GetNode<PanelContainer>("SettingsPanel");
-        _musicSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/MusicSlider");
-        _sfxSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/SfxSlider");
-        _fullscreenCheck = GetNode<CheckButton>("SettingsPanel/VBoxContainer/FullscreenBox/FullscreenCheck");
-        _scaleOption = GetNode<OptionButton>("SettingsPanel/VBoxContainer/ScaleBox/ScaleOption");
+        _musicSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/MusicSlider");
+        _sfxSlider = GetNode<HSlider>("SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/SfxSlider");
+        _fullscreenCheck = GetNode<CheckButton>("SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/FullscreenBox/FullscreenCheck");
+        _scaleOption = GetNode<OptionButton>("SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/ScaleBox/ScaleOption");
         _settingsBackButton = GetNode<Button>("SettingsPanel/VBoxContainer/BackButton");
         // Create the text speed option picker before connecting signals (it's built
         // dynamically so the connection below doesn't null-ref).
@@ -192,8 +192,9 @@ public partial class MainMenu : CanvasLayer
 
     private void SetupTextSpeedOption()
     {
-        var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer");
+        var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer/ScrollContainer/SettingsVBox");
         var hbox = new HBoxContainer { Name = "TextSpeedBox" };
+        hbox.LayoutMode = 0;
         var label = new Label { Text = "Text Speed:", CustomMinimumSize = new Vector2(120, 0) };
         hbox.AddChild(label);
         _textSpeedOption = new OptionButton();
@@ -202,47 +203,49 @@ public partial class MainMenu : CanvasLayer
         _textSpeedOption.AddItem("Instant", (int)DialogManager.TextSpeed.Instant);
         _textSpeedOption.Selected = (int)DialogManager.TextSpeed.Fast;
         hbox.AddChild(_textSpeedOption);
-        var backButton = vbox.GetChild(vbox.GetChildCount() - 1);
         vbox.AddChild(hbox);
-        vbox.MoveChild(hbox, vbox.GetChildCount() - 2);
     }
 
     // --- Keybindings ---
 
     private void SetupKeybindSection()
     {
-        var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer");
-        var backButton = vbox.GetChild(vbox.GetChildCount() - 1);
+        var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer/ScrollContainer/SettingsVBox");
 
         var title = new Label { Text = "Controls:" };
+        title.LayoutMode = 0;
         title.AddThemeFontSizeOverride("font_size", 14);
         vbox.AddChild(title);
-        vbox.MoveChild(title, vbox.GetChildCount() - 2);
+
+        var grid = new GridContainer();
+        grid.Columns = 2;
+        grid.LayoutMode = 0;
+        vbox.AddChild(grid);
 
         foreach (string action in KeybindManager.RebindableActions)
         {
-            var hbox = new HBoxContainer();
             var label = new Label
             {
                 Text = KeybindManager.GetActionDisplayName(action),
                 CustomMinimumSize = new Vector2(120, 0),
             };
-            hbox.AddChild(label);
+            label.LayoutMode = 0;
+            label.AddThemeColorOverride("font_color", new Color(0.7f, 0.8f, 1.0f));
+            grid.AddChild(label);
 
             var btn = new Button { Text = KeybindManager.GetCurrentKeyLabel(action) };
+            btn.LayoutMode = 0;
             string captured = action;
             btn.Pressed += () => StartRebind(captured);
-            hbox.AddChild(btn);
             _keybindButtons[action] = btn;
-
-            vbox.AddChild(hbox);
-            vbox.MoveChild(hbox, vbox.GetChildCount() - 2);
+            grid.AddChild(btn);
         }
 
         var resetBtn = new Button { Text = "Reset Controls" };
+        resetBtn.LayoutMode = 0;
+        resetBtn.AddThemeFontSizeOverride("font_size", 14);
         resetBtn.Pressed += OnResetKeybindsPressed;
         vbox.AddChild(resetBtn);
-        vbox.MoveChild(resetBtn, vbox.GetChildCount() - 2);
     }
 
     private void StartRebind(string action)

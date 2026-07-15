@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4]
+[gd_scene load_steps=21 format=4]
 
 [ext_resource type="Script" path="res://levels/BaseLevel.cs" id="1_base"]
 [ext_resource type="Script" path="res://components/puzzles/KeyDoor.cs" id="2_kd"]
@@ -12,6 +12,9 @@
 [ext_resource type="PackedScene" path="res://levels/LevelTransition.tscn" id="10_lt"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0009.png" id="11_key"]
 [ext_resource type="Texture2D" uid="uid://cag8djeu52niq" path="res://assets/tilemaps/prison tileset.png" id="12_prison"]
+[ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0017.png" id="13_soup"]
+[ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0021.png" id="14_deviled"]
+[ext_resource type="Script" path="res://levels/prison/CerealEncounterTrigger.cs" id="15_ce"]
 
 [sub_resource type="RectangleShape2D" id="RectShape_topwall"]
 size = Vector2(640, 16)
@@ -39,6 +42,8 @@ size = Vector2(24, 24)
 
 [sub_resource type="RectangleShape2D" id="RectShape_desk"]
 size = Vector2(48, 32)
+[sub_resource type="RectangleShape2D" id="RectShape_cereal"]
+size = Vector2(32, 32)
 
 [node name="PrisonBlockC" type="Node2D"]
 script = ExtResource("1_base")
@@ -166,3 +171,42 @@ position = Vector2(580, 90)
 [node name="WarpPoint" parent="." instance=ExtResource("4_wp")]
 WarpId = "prison_block_c"
 position = Vector2(16, 160)
+[node name="Pickup_EggdropSoup" type="Area2D" parent="."]
+script = ExtResource("9_pi")
+ItemId = "eggdrop_soup"
+Count = 1
+DialogLines = Array[String](["Found Egg Drop Soup! Steamy and restorative."])
+position = Vector2(200, 80)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickup_EggdropSoup"]
+shape = SubResource("RectShape_pickup")
+[node name="Sprite2D" type="Sprite2D" parent="Pickup_EggdropSoup"]
+texture = ExtResource("13_soup")
+
+[node name="Pickup_DeviledEgg" type="Area2D" parent="."]
+script = ExtResource("9_pi")
+ItemId = "deviled_egg"
+Count = 1
+DialogLines = Array[String](["Found a Deviled Egg! Spicy little number."])
+position = Vector2(550, 180)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickup_DeviledEgg"]
+shape = SubResource("RectShape_pickup")
+[node name="Sprite2D" type="Sprite2D" parent="Pickup_DeviledEgg"]
+texture = ExtResource("14_deviled")
+
+[node name="CerealEncounter" type="Area2D" parent="."]
+script = ExtResource("15_ce")
+ArenaPath = "res://combat/arena/GenericArena.tscn"
+position = Vector2(400, 280)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CerealEncounter"]
+shape = SubResource("RectShape_cereal")
+
+[node name="TunnelWarp" parent="." instance=ExtResource("4_wp")]
+WarpId = "prison_tunnels"
+position = Vector2(16, 16)
+
+[node name="TunnelExit" parent="." instance=ExtResource("10_lt")]
+Level = "res://levels/overworld/maps/TheGreatBeyond.tscn"
+TargetTransitionName = "TunnelExit"
+Size = 5
+Side = 0
+position = Vector2(320, 0)
