@@ -164,7 +164,7 @@ Side = 2
 [node name="DepthsEntrance" parent="." instance=ExtResource("10_lt")]
 position = Vector2(400, 300)
 Level = "res://levels/courtyard/maps/CourtyardDepths.tscn"
-TargetTransitionName = "CourtyardSurfaceExit"
+TargetTransitionName = "CourtyardSurfaceEntrance"
 Size = 5
 Side = 1
 [node name="Egguardo" parent="." instance=ExtResource("12_npc")]
