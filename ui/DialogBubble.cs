@@ -31,10 +31,11 @@ public partial class DialogBubble : CanvasLayer
     List<Page> _pages = new();
     int _pageIndex = 0;
     int _visibleCharCount = 0;
-
-    float _currentCps = NORMAL_CPS;
     float _charAccumulator = 0f;
     float _pendingPause = 0f;
+    float _currentCps = NORMAL_CPS;
+    double _lastAdvanceTime = 0d;
+    const double ADVANCE_COOLDOWN = 0.15d;
 
     DialogVoiceResource _voice;
     List<ActiveBlip> _activeBlips = new(MAX_ACTIVE_BLIPS);
@@ -454,6 +455,9 @@ public partial class DialogBubble : CanvasLayer
     {
         if (!@event.IsActionPressed("interact")) return;
 
+        double now = Time.GetTicksMsec() / 1000.0;
+        if (now - _lastAdvanceTime < ADVANCE_COOLDOWN) return;
+
         switch (_state)
         {
             case State.Typing:
@@ -464,6 +468,7 @@ public partial class DialogBubble : CanvasLayer
                 break;
         }
 
+        _lastAdvanceTime = now;
         GetViewport().SetInputAsHandled();
     }
 

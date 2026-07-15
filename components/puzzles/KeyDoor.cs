@@ -4,6 +4,7 @@ public partial class KeyDoor : Door
 {
     [Export] public string RequiredFlag;
     [Export] public string LockedMessage = "It's locked.";
+    [Export] public AudioStream UnlockJingle { get; set; }
 
     private bool _permanentlyUnlocked = false;
 
@@ -24,6 +25,8 @@ public partial class KeyDoor : Door
         if (WorldFlags.Instance.HasFlag(RequiredFlag))
         {
             _permanentlyUnlocked = true;
+            if (UnlockJingle != null)
+                AudioManager.Instance.PlaySfx(UnlockJingle);
             base.Open();
             GD.Print($"KeyDoor: unlocked by flag '{RequiredFlag}'");
         }

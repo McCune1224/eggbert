@@ -4,13 +4,16 @@ using Godot.Collections;
 public partial class Player : CharacterBody2D, ISavable
 {
     public readonly float PlayerSpeed = 150.0f;
-    public readonly float SprintScale = 1.7f; // Sprinting increases speed by 70%
+    public readonly float SprintScale = 1.7f;
+
     private bool _inInteraction = false;
     public bool InInteraction
     {
         get => _inInteraction;
         set => _inInteraction = value;
     }
+
+    public Vector2 FacingDirection { get; private set; } = Vector2.Down;
 
     private static Player _instance;
     public static Player Instance => _instance;
@@ -91,16 +94,19 @@ public partial class Player : CharacterBody2D, ISavable
         {
             direction = direction.Normalized();
         }
+
+        if (direction != Vector2.Zero)
+            FacingDirection = direction;
+
         float speed = PlayerSpeed * (1 + Equipment.Instance.TotalSpeedBoost / 100f);
         Velocity = direction * Mathf.Max(PlayerSpeed * 0.5f, speed);
         if (Input.IsActionJustPressed("dash"))
         {
-            Vector2 dashDirection = _dash.StartDash(direction);
+            _dash.StartDash(direction);
         }
         else if (Input.IsActionPressed("player_sprint"))
         {
             if (!_dash.IsDashing()) Velocity *= SprintScale;
-            ;
         }
 
         if (_dash.IsDashing())
@@ -121,7 +127,6 @@ public partial class Player : CharacterBody2D, ISavable
             }
         }
 
-        KinematicCollision2D coll = GetLastSlideCollision();
         UpdateAnimation(direction);
     }
 
@@ -169,6 +174,58 @@ public partial class Player : CharacterBody2D, ISavable
                 "res://combat/arena/EggrollerArena.tscn",
                 Vector2.Zero
             );
+        }
+
+        if (@event.IsActionPressed("check"))
+        {
+            PerformCheck();
+        }
+    }
+
+    private void PerformCheck()
+    {
+        if (DialogManager.Instance.IsDialogActive) return;
+        if (CutsceneController.Instance.IsPlaying) return;
+
+        // Scan for the nearest CheckableComponent in the facing direction
+        var space = GetWorld2D().DirectSpaceState;
+        var query = new PhysicsShapeQueryParameters2D();
+
+        // Use a rectangle slightly larger than the player, offset in facing direction
+        var rect = new RectangleShape2D
+        {
+            Size = new Vector2(48, 48)
+        };
+        query.Shape = rect;
+        query.CollisionMask = CollisionConfig.InteractableLayer;
+        query.Transform = new Transform2D(0f, Position + FacingDirection * 40);
+        query.CollideWithAreas = true;
+        query.CollideWithBodies = false;
+
+        var results = space.IntersectShape(query);
+        if (results.Count == 0) return;
+
+        CheckableComponent closest = null;
+        float closestDist = float.MaxValue;
+
+        foreach (var result in results)
+        {
+            if (result["collider"].Obj is CheckableComponent checkable &&
+                !string.IsNullOrEmpty(checkable.CheckLine))
+            {
+                float dist = GlobalPosition.DistanceSquaredTo(checkable.GlobalPosition);
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    closest = checkable;
+                }
+            }
+        }
+
+        if (closest != null)
+        {
+            var lines = new System.Collections.Generic.List<string> { closest.CheckLine };
+            DialogManager.Instance.StartDialog(lines, closest.GetNodeOrNull<DialogVoiceResource>("Voice"));
         }
     }
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=4 uid="uid://bms1ioay0fp20"]
+[gd_scene load_steps=35 format=4 uid="uid://bms1ioay0fp20"]
 
 [ext_resource type="Texture2D" uid="uid://cag8djeu52niq" path="res://assets/tilemaps/prison tileset.png" id="1_3ox1m"]
 [ext_resource type="Texture2D" uid="uid://bv1b24fd22scx" path="res://levels/prison/maps/Officer Bacon.png" id="2_w7byb"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://waffles_npc" path="res://levels/prison/npcs/Waffles.tscn" id="13_waffles"]
 [ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="14_ct"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0014.png" id="15_food"]
+[ext_resource type="PackedScene" uid="uid://bqwe0fl4n2y1p" path="res://components/npcs/ReadableObject.tscn" id="16_sign"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w7byb"]
 texture = ExtResource("1_3ox1m")
@@ -414,3 +415,7 @@ shape = SubResource("CircleShape2D_pickup")
 
 [node name="Checkpoint" type="Marker2D" parent="."]
 position = Vector2(100, 180)
+
+[node name="CellSign" parent="." instance=ExtResource("16_sign")]
+position = Vector2(160, 180)
+DialogLines = Array[String](["PRISON RULES:", "1. Don't try to escape.", "2. Don't talk to the guards.", "3. Don't eat the yellow eggs.", "...", "The sign has been here so long the bottom half is unreadable."])

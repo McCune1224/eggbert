@@ -4,6 +4,8 @@ public partial class Door : StaticBody2D
 {
 
     [Export] public bool StartOpen = false;
+    [Export] public AudioStream OpenSfx { get; set; }
+    [Export] public AudioStream CloseSfx { get; set; }
 
     [Export]
     private Texture2D _texture;
@@ -31,12 +33,16 @@ public partial class Door : StaticBody2D
 
     public virtual void Open()
     {
+        if (OpenSfx != null)
+            AudioManager.Instance.PlaySfx(OpenSfx);
         CallDeferred(nameof(SetCollisionEnabled), false);
         Modulate = new Color(1, 1, 1, 0.3f);
     }
 
     public virtual void Close()
     {
+        if (CloseSfx != null)
+            AudioManager.Instance.PlaySfx(CloseSfx);
         CallDeferred(nameof(SetCollisionEnabled), true);
         Modulate = Colors.White;
     }
