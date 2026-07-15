@@ -1,8 +1,63 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" uid="uid://cpcvsqhcm1hvg" path="res://ui/MainMenu.cs" id="1_i5p73"]
 [ext_resource type="FontFile" uid="uid://kt1xh1gdfgwk" path="res://assets/fonts/yoster.ttf" id="2_ivc3g"]
 [ext_resource type="Texture2D" uid="uid://biodoyffardp0" path="res://assets/ui/chatbox.png" id="3_fcmdp"]
+
+[sub_resource type="StyleBoxFlat" id="sb_panel"]
+bg_color = Color(0.08, 0.08, 0.12, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.6, 0.9, 0.6)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 8
+content_margin_top = 8
+content_margin_right = 8
+content_margin_bottom = 8
+
+[sub_resource type="StyleBoxFlat" id="sb_btn_normal"]
+bg_color = Color(0.15, 0.2, 0.3, 0.8)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.6, 0.9, 0.4)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 12
+content_margin_right = 12
+
+[sub_resource type="StyleBoxFlat" id="sb_btn_hover"]
+bg_color = Color(0.25, 0.35, 0.5, 0.9)
+border_color = Color(0.4, 0.7, 1.0, 0.7)
+
+[sub_resource type="StyleBoxFlat" id="sb_btn_pressed"]
+bg_color = Color(0.1, 0.15, 0.25, 0.9)
+border_color = Color(0.2, 0.5, 0.8, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="sb_title_bg"]
+bg_color = Color(0.1, 0.12, 0.18, 0.6)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.6, 0.9, 0.3)
+
+[sub_resource type="StyleBoxFlat" id="sb_slider_grabber"]
+bg_color = Color(0.3, 0.6, 0.9, 0.8)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_i5p73")
@@ -16,23 +71,34 @@ mouse_filter = 2
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="TitleLabel" type="Label" parent="."]
-offset_left = 160.0
-offset_top = 50.0
-offset_right = 480.0
-offset_bottom = 110.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+offset_left = 180.0
+offset_top = 40.0
+offset_right = 460.0
+offset_bottom = 95.0
+theme_override_colors/font_color = Color(0.4, 0.75, 1.0, 1)
 theme_override_fonts/font = ExtResource("2_ivc3g")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 40
 text = "Eggbert"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="SubtitleLabel" type="Label" parent="."]
+offset_left = 200.0
+offset_top = 90.0
+offset_right = 440.0
+offset_bottom = 115.0
+theme_override_colors/font_color = Color(0.5, 0.6, 0.8, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "A Yolk's Adventure"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="MenuPanel" type="PanelContainer" parent="."]
-offset_left = 240.0
-offset_top = 130.0
-offset_right = 400.0
-offset_bottom = 290.0
-theme_override_styles/panel = null
+offset_left = 230.0
+offset_top = 125.0
+offset_right = 410.0
+offset_bottom = 295.0
+theme_override_styles/panel = SubResource("sb_panel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MenuPanel"]
 layout_mode = 2
@@ -41,43 +107,55 @@ size_flags_vertical = 4
 
 [node name="NewGameButton" type="Button" parent="MenuPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ivc3g")
-theme_override_font_sizes/font_size = 18
 text = "New Game"
+theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("sb_btn_normal")
+theme_override_styles/hover = SubResource("sb_btn_hover")
+theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
 [node name="ContinueButton" type="Button" parent="MenuPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ivc3g")
-theme_override_font_sizes/font_size = 18
 text = "Continue"
+theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("sb_btn_normal")
+theme_override_styles/hover = SubResource("sb_btn_hover")
+theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
 [node name="SettingsButton" type="Button" parent="MenuPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ivc3g")
-theme_override_font_sizes/font_size = 18
 text = "Settings"
+theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("sb_btn_normal")
+theme_override_styles/hover = SubResource("sb_btn_hover")
+theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
 [node name="QuitButton" type="Button" parent="MenuPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ivc3g")
-theme_override_font_sizes/font_size = 18
 text = "Quit"
+theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("sb_btn_normal")
+theme_override_styles/hover = SubResource("sb_btn_hover")
+theme_override_styles/pressed = SubResource("sb_btn_pressed")
 
 [node name="SettingsPanel" type="PanelContainer" parent="."]
 visible = false
-offset_left = 180.0
-offset_top = 30.0
-offset_right = 460.0
-offset_bottom = 330.0
-theme_override_styles/panel = null
+offset_left = 120.0
+offset_top = 20.0
+offset_right = 520.0
+offset_bottom = 340.0
+theme_override_styles/panel = SubResource("sb_panel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel"]
 layout_mode = 2
 
 [node name="MusicLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ivc3g")
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
+theme_override_font_sizes/font_size = 13
 text = "Music"
 
 [node name="MusicSlider" type="HSlider" parent="SettingsPanel/VBoxContainer"]
@@ -85,12 +163,13 @@ layout_mode = 2
 min_value = 0
 max_value = 100
 value = 100
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 20)
+theme_override_styles/grabber = SubResource("sb_slider_grabber")
 
 [node name="SfxLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ivc3g")
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
+theme_override_font_sizes/font_size = 13
 text = "SFX"
 
 [node name="SfxSlider" type="HSlider" parent="SettingsPanel/VBoxContainer"]
@@ -98,15 +177,16 @@ layout_mode = 2
 min_value = 0
 max_value = 100
 value = 100
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 20)
+theme_override_styles/grabber = SubResource("sb_slider_grabber")
 
 [node name="FullscreenBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
 layout_mode = 2
 
 [node name="FullscreenLabel" type="Label" parent="SettingsPanel/VBoxContainer/FullscreenBox"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ivc3g")
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
+theme_override_font_sizes/font_size = 13
 text = "Fullscreen"
 size_flags_horizontal = 3
 
@@ -119,8 +199,8 @@ layout_mode = 2
 
 [node name="ScaleLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScaleBox"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ivc3g")
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.7, 0.8, 1.0, 1)
+theme_override_font_sizes/font_size = 13
 text = "Window Scale"
 size_flags_horizontal = 3
 
@@ -130,6 +210,9 @@ size_flags_horizontal = 1
 
 [node name="BackButton" type="Button" parent="SettingsPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ivc3g")
+theme_override_colors/font_color = Color(0.85, 0.9, 1.0, 1)
 theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("sb_btn_normal")
+theme_override_styles/hover = SubResource("sb_btn_hover")
+theme_override_styles/pressed = SubResource("sb_btn_pressed")
 text = "Back"

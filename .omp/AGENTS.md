@@ -2,7 +2,7 @@
 
 Godot 4.7 C# RPG. Undertale/EarthBound inspired, 640×360, top-down (zero gravity).
 
-Read ROADMAP.md for feature objectives. Read DESIGN.md for design decisions.
+Read ROADMAP.md for feature objectives. Read DESIGN.md for design decisions. Read LOGGING.md for the logging system and AI debugging recipes.
 
 ## Commands
 
@@ -44,6 +44,13 @@ DialogVoiceResource ([GlobalClass] Resource) per NPC, procedural fallback (60ms 
 
 ### Save system
 ISavable interface. Nodes in "persist" group auto-saved. Single slot: user://savegame.tres.
+
+### Logging system
+See LOGGING.md for the full logging reference. Quick facts:
+- **File:** `user://logs/eggbert_YYYY-MM-DD.log` (auto-rotates)
+- **Env:** `EGGBERT_LOG_LEVEL=debug` for verbose traces
+- **Bridge:** `GameLogBridge` captures engine errors to file
+- **Init:** `GameLogger.InitializeFromEnv()` in `boot/GameInit.cs`
 
 ## Conventions
 - C# only for game code. GDScript in addons/ only (AsepriteWizard).
