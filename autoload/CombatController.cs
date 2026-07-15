@@ -47,6 +47,7 @@ public partial class CombatController : Node
 
     private void OnBattleWon()
     {
+        GameLogger.Info("Combat", "Battle won — returning to overworld.");
         UnhookArena();
         ReturnToOverworld();
     }
@@ -54,6 +55,7 @@ public partial class CombatController : Node
     private async void OnBattleLost()
     {
         UnhookArena();
+        GameLogger.Info("Combat", "Battle lost — reloading save.");
 
         DialogManager.Instance.StartDialog(
             new System.Collections.Generic.List<string> { "You collapsed..." });

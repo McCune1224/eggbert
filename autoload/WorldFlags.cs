@@ -52,12 +52,14 @@ public partial class WorldFlags : Node, ISavable
     public void ClearFlag(string key)
     {
         _flags.Remove(key);
+        GameLogger.Debug("WorldFlags", $"Flag cleared: {key}");
     }
 
     /// <summary>Remove all flags (used when starting a new game).</summary>
     public void ClearAll()
     {
         _flags.Clear();
+        GameLogger.Info("WorldFlags", "All flags cleared.");
     }
 
     // ponytail: Dictionary serializes via Godot's native Variant serialization in .tres

@@ -174,11 +174,13 @@ public partial class Player : CharacterBody2D, ISavable
 
     public void StartInteraction()
     {
+        GameLogger.Debug("Player", "Interaction started (movement locked)");
         _inInteraction = true;
     }
 
     public void EndInteraction()
     {
+        GameLogger.Debug("Player", "Interaction ended (movement unlocked)");
         _inInteraction = false;
     }
 
@@ -202,7 +204,14 @@ public partial class Player : CharacterBody2D, ISavable
         if (saveData.PlayerData != null)
         {
             HealthComponent.CurrentHP = saveData.PlayerData.Health;
-            GameController.Instance.LoadLevel(saveData.PlayerData.LevelScenePath, saveData.PlayerData.Position);
+            string scenePath = saveData.PlayerData.LevelScenePath;
+            Vector2 position = saveData.PlayerData.Position;
+            if (string.IsNullOrEmpty(scenePath))
+            {
+                scenePath = GameController.Instance.CheckpointLevelPath;
+                position = GameController.Instance.CheckpointPosition;
+            }
+            GameController.Instance.LoadLevel(scenePath, position);
         }
     }
 

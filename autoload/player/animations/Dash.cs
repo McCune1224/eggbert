@@ -66,6 +66,7 @@ public partial class Dash : Node2D
         _durationTimer.Start(defaultDashDuration);
         _canDash = false;
         _dashDirection = direction.Normalized();
+        GameLogger.Debug("Player", $"Dash started: dir={_dashDirection}");
 
         Sprite2D playerSprite = Player.Instance.GetNode<Sprite2D>("Sprite2D");
         Shader whiteShader = ResourceLoader.Load<Shader>("res://autoload/player/animations/DashGhost.gdshader");
@@ -80,6 +81,7 @@ public partial class Dash : Node2D
 
     public void StopDash()
     {
+        GameLogger.Debug("Player", "Dash ended");
         _ghostTimer.Stop();
         GetTree().CreateTimer(_dashCooldown).Timeout += () =>
         {

@@ -46,6 +46,7 @@ public partial class AudioManager : Node
 
     public void PlayMusic(AudioStream audio, bool loop = false)
     {
+        GameLogger.Debug("Audio", $"PlayMusic: streaming={audio != null} loop={loop}");
         if (audio == _musicAudioPlayers[_currentMusicPlayerIndex].Stream)
             return;
 
@@ -61,12 +62,14 @@ public partial class AudioManager : Node
 
     public void PlayAmbience(AudioStream ambience)
     {
+        GameLogger.Debug("Audio", $"PlayAmbience: {ambience?.ResourcePath ?? "none"}");
         _ambientPlayer.Stream = ambience;
         _ambientPlayer.Play();
     }
 
     public void StopAmbience()
     {
+        GameLogger.Debug("Audio", "StopAmbience");
         _ambientPlayer.Stop();
         _ambientPlayer.Stream = null;
     }

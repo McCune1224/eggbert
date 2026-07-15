@@ -46,10 +46,12 @@ public partial class CombatArena : Node2D
     public void OnEnemyDefeated()
     {
         EnemiesRemaining--;
+        GameLogger.Info("Combat", $"Enemy defeated — {EnemiesRemaining} remaining.");
         if (EnemiesRemaining <= 0)
         {
             HUD.QueueFree();
             EmitSignal(SignalName.BattleWon);
+            GameLogger.Info("Combat", "All enemies defeated — battle won!");
         }
     }
 }

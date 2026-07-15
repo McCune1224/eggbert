@@ -86,11 +86,14 @@ public partial class DialogManager : Node2D
     {
         _activeChoiceMenu = new ChoiceMenu();
         _activeChoiceMenu.SetChoices(choices);
+        GameLogger.Debug("Dialog", $"Prompting choices ({choices.Count} options)");
         GetTree().Root.AddChild(_activeChoiceMenu);
         Variant[] result = await ToSignal(_activeChoiceMenu, ChoiceMenu.SignalName.ChoiceSelected);
         _activeChoiceMenu.QueueFree();
         _activeChoiceMenu = null;
-        return (int)result[0];
+        int choice = (int)result[0];
+        GameLogger.Debug("Dialog", $"Choice selected: {choice}");
+        return choice;
     }
 
     public void Reset()

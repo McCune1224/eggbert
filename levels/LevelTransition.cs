@@ -88,7 +88,8 @@ public partial class LevelTransition : Area2D
 
     public void SceneTransition(Node2D body)
     {
-        GameLogger.Info("LevelTransition", $"Transition triggered → {Level} (target: {TargetTransitionName})");
+        if (body.IsInGroup("player"))
+            GameLogger.Info("LevelTransition", $"Transition triggered → {Level} (target: {TargetTransitionName})");
         try
         {
             if (TargetTransitionName != "")

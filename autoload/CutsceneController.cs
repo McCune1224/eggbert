@@ -48,6 +48,7 @@ public partial class CutsceneController : Node
     public void StartDialog(string[] lines, DialogVoiceResource voice = null)
     {
         if (_isPlaying || lines == null || lines.Length == 0) return;
+        GameLogger.Debug("Cutscene", $"Starting dialog-only ({lines.Length} lines)");
         _isPlaying = true;
         _cts = new CancellationTokenSource();
 
@@ -56,6 +57,7 @@ public partial class CutsceneController : Node
 
     private async void DoDialog(string[] lines, DialogVoiceResource voice)
     {
+        GameLogger.Debug("Cutscene", "DoDialog started");
         DialogManager.Instance.StartDialog(new System.Collections.Generic.List<string>(lines),
             voice ?? DialogManager.Instance.DefaultVoice);
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);

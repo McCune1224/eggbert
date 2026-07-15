@@ -25,10 +25,10 @@ public partial class WarpPoint : Area2D
 			HidePrompt();
 
 		var crystal = GetNode<ColorRect>("WarpCrystal");
-        var floatTween = CreateTween().SetLoops();
-        floatTween.TweenProperty(crystal, "position:y", -4.0f, 0.75f)
+		var floatTween = CreateTween().SetLoops();
+		floatTween.TweenProperty(crystal, "position:y", -4.0f, 0.75f)
 			.AsRelative().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Sine);
-        floatTween.TweenProperty(crystal, "position:y", 4.0f, 0.75f)
+		floatTween.TweenProperty(crystal, "position:y", 4.0f, 0.75f)
 			.AsRelative().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Sine);
 	}
 
