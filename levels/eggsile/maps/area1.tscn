@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://wuxyo48h368n" path="res://components/puzzles/SequencePuzzle.cs" id="11"]
 [ext_resource type="Script" uid="uid://c5nkwg6g27ibr" path="res://components/items/PickupItem.cs" id="12"]
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
+[ext_resource type="Texture2D" uid="uid://d3g4p3asro7bd" path="res://assets/tilemaps/Texture/TX Tileset Stone Ground.png" id="13_stone"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eirxw"]
 texture = ExtResource("1_huy63")
@@ -164,6 +165,7 @@ Latching = true
 
 [node name="RewardDoor" parent="." instance=ExtResource("9")]
 position = Vector2(350, -200)
+_texture = ExtResource("13_stone")
 
 [node name="DrainMonsterSequence" type="Node" parent="."]
 script = ExtResource("11")

@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" path="res://levels/courtyard/Wiener Cop.png" id="9"]
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="10_lt"]
+[ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0010.png" id="11_key"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aywx3"]
 texture = ExtResource("1_aerj4")
@@ -116,6 +117,7 @@ shape = SubResource("RectangleShape2D_phys")
 
 [node name="BlockedDoor" parent="." instance=ExtResource("3")]
 position = Vector2(300, -50)
+_texture = ExtResource("1_aerj4")
 
 [node name="FloorSwitch" parent="." instance=ExtResource("4")]
 position = Vector2(200, -50)
@@ -123,6 +125,7 @@ TargetDoorPath = NodePath("../BlockedDoor")
 
 [node name="PushBlock" parent="." instance=ExtResource("5")]
 position = Vector2(160, -50)
+_texture = ExtResource("1_aerj4")
 
 [node name="RustyKeyPickup" type="Area2D" parent="."]
 script = ExtResource("7")
@@ -132,6 +135,7 @@ SetFlag = "has_rusty_key"
 DialogLines = Array[String](["Got the Rusty Key! Now find a matching lock..."])
 
 [node name="RustyKeySprite" type="Sprite2D" parent="RustyKeyPickup"]
+texture = ExtResource("11_key")
 [node name="Placeholder" type="ColorRect" parent="RustyKeyPickup"]
 offset_left = -8
 offset_top = -8

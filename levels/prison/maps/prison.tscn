@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://8clepm7jq7yu" path="res://components/puzzles/MultiSwitchGate.cs" id="10"]
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="11_lt"]
+[ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0009.png" id="12_key"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w7byb"]
 texture = ExtResource("1_3ox1m")
@@ -324,15 +325,18 @@ SetFlag = "has_cell_key"
 DialogLines = Array[String](["Got the Cell Key! This looks like it opens a cell in Block C."])
 
 [node name="CellKeySprite" type="Sprite2D" parent="CellKeyPickup"]
+texture = ExtResource("12_key")
 [node name="CellKeyCollision" type="CollisionShape2D" parent="CellKeyPickup"]
 shape = SubResource("CircleShape2D_pickup")
 
 [node name="CellDoor" parent="." instance=ExtResource("9")]
+_texture = ExtResource("1_3ox1m")
 position = Vector2(-100, 50)
 RequiredFlag = "has_cell_key"
 LockedMessage = "You need to find the cell key first."
 
 [node name="BlockPuzzleDoor" parent="." instance=ExtResource("5")]
+_texture = ExtResource("1_3ox1m")
 position = Vector2(300, -50)
 
 [node name="BlockPuzzleSwitch" parent="." instance=ExtResource("6")]
@@ -340,6 +344,7 @@ position = Vector2(200, 0)
 TargetDoorPath = NodePath("../BlockPuzzleDoor")
 
 [node name="BlockPuzzleBlock" parent="." instance=ExtResource("7")]
+_texture = ExtResource("1_3ox1m")
 position = Vector2(150, 0)
 
 [node name="ExitSwitch1" parent="." instance=ExtResource("6")]
@@ -351,6 +356,7 @@ position = Vector2(-300, 200)
 Latching = true
 
 [node name="ExitDoor" parent="." instance=ExtResource("5")]
+_texture = ExtResource("1_3ox1m")
 position = Vector2(500, 0)
 
 [node name="ExitGateController" type="Node" parent="."]
