@@ -4,6 +4,7 @@ public partial class PushBlock : CharacterBody2D
 {
 
     [Export] public float PushSpeed = 200f;
+    [Export] public bool DirectionalMode = false;
 
     [Export]
     private Texture2D _texture;
@@ -40,7 +41,18 @@ public partial class PushBlock : CharacterBody2D
     public bool TryPush(Vector2 direction)
     {
         Vector2 from = GlobalPosition;
-        Velocity = direction.Normalized() * PushSpeed;
+        Vector2 pushDir = direction.Normalized();
+
+        if (DirectionalMode)
+        {
+            // In directional mode, constrain movement to the push axis only
+            pushDir = new Vector2(
+                Mathf.Abs(pushDir.X) > Mathf.Abs(pushDir.Y) ? Mathf.Sign(pushDir.X) : 0f,
+                Mathf.Abs(pushDir.Y) > Mathf.Abs(pushDir.X) ? Mathf.Sign(pushDir.Y) : 0f
+            );
+        }
+
+        Velocity = pushDir * PushSpeed;
         MoveAndSlide();
         bool moved = GlobalPosition.DistanceSquaredTo(from) > 0.01f;
         Velocity = Vector2.Zero;
