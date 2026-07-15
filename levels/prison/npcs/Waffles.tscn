@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=4 uid="uid://waffles_npc"]
+[gd_scene load_steps=6 format=4 uid="uid://waffles_npc"]
 
 [ext_resource type="Texture2D" path="res://assets/characters/Officer Bacon.png" id="1_spr"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_ct"]
 [ext_resource type="Script" path="res://components/core/CheckableComponent.cs" id="3_check"]
+[ext_resource type="Resource" uid="uid://draki0hfv6rb" path="res://levels/prison/npcs/WafflesCutscene.tres" id="4_cutscene"]
 
 [sub_resource type="RectangleShape2D" id="RectShape_phys"]
 size = Vector2(64, 56)
@@ -19,7 +20,7 @@ scale = Vector2(1.5, 1.5)
 modulate = Color(0.7, 0.5, 0.3, 1)
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
-DialogLines = Array[String](["Hmph. You the new egg? I'm Waffles. I guard things. Big things.", "Behind me? Nothing. Just a wall. A very boring, normal wall.", "...", "You beat Oatmeal and Yogurt? Maybe you're not COMPLETELY soft-boiled. Come back when you've got more fight in you."])
+Cutscene = ExtResource("4_cutscene")
 Mode = 0
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]

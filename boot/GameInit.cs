@@ -28,6 +28,14 @@ public partial class GameInit : Node
             return;
         }
 
+
+        // Show first-boot text speed picker
+        if (!WorldFlags.Instance.HasFlag("first_boot_speed_chosen"))
+        {
+            var speedDialog = new FirstBootDialog();
+            GetTree().Root.AddChild(speedDialog);
+            await ToSignal(speedDialog, FirstBootDialog.SignalName.Completed);
+        }
         var menuPacked = ResourceLoader.Load<PackedScene>("res://ui/MainMenu.tscn");
         if (menuPacked == null)
         {

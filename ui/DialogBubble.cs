@@ -186,8 +186,21 @@ public partial class DialogBubble : CanvasLayer
     {
         _voice = voice;
 
-        _nameLabel.Text = voice?.SpeakerName ?? "";
-        bool showName = !string.IsNullOrEmpty(voice?.SpeakerName);
+        string speaker = voice?.SpeakerName ?? "";
+        _nameLabel.Text = speaker;
+        bool showName = !string.IsNullOrEmpty(speaker);
+
+        // Narrator styling: muted gray text, distinct voice character
+        bool isNarrator = speaker == "Narrator";
+        if (isNarrator)
+        {
+            _textLabel.AddThemeColorOverride("font_color", new Color(0.3f, 0.3f, 0.3f));
+        }
+        else
+        {
+            _textLabel.AddThemeColorOverride("font_color", new Color(0, 0, 0));
+        }
+
         if (showName && !_namePlate.Visible)
         {
             _namePlate.Position = new Vector2(16, -60);

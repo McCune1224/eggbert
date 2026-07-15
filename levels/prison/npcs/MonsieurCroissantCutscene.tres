@@ -1,0 +1,70 @@
+[gd_resource type="Resource" format=3 uid="uid://cq21tb37xpj0e"]
+
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneResource.cs" id="1_cs"]
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneCondition.cs" id="2_cond"]
+[ext_resource type="Script" path="res://resources/dialog/DialogVoiceResource.cs" id="3_voice"]
+
+[sub_resource type="Resource" id="SubResource_cond_notmet"]
+script = ExtResource("2_cond")
+Type = 2
+FlagKey = "has_met_croissant"
+
+[sub_resource type="Resource" id="SubResource_cond_met"]
+script = ExtResource("2_cond")
+Type = 1
+FlagKey = "has_met_croissant"
+
+[sub_resource type="Resource" id="SubResource_cond_gossip_heard"]
+script = ExtResource("2_cond")
+Type = 1
+FlagKey = "gossip_waffles_about_croissant"
+
+[sub_resource type="Resource" id="SubResource_cond_no_gossip"]
+script = ExtResource("2_cond")
+Type = 2
+FlagKey = "gossip_waffles_about_croissant"
+
+[sub_resource type="Resource" id="SubResource_voice_croissant"]
+script = ExtResource("3_voice")
+SpeakerName = "Monsieur Croissant"
+BasePitch = 1.15
+VolumeDb = -2.0
+ConsonantPitchVariance = 0.08
+
+[resource]
+script = ExtResource("1_cs")
+Steps = [{
+"Type": 0,
+"Condition": SubResource("SubResource_cond_notmet"),
+"DialogLines": ["Bonjour. I am Monsieur Croissant. I keep to myself.", "The food here is terrible, but ze bread is... acceptable."],
+"DialogVoice": SubResource("SubResource_voice_croissant")
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_notmet"),
+"DialogLines": ["Do not listen to anything ze guards say about me. Zey are... jealous of my mustache."],
+"DialogVoice": SubResource("SubResource_voice_croissant")
+}, {
+"Type": 7,
+"Condition": SubResource("SubResource_cond_notmet"),
+"SetFlagKey": "has_met_croissant",
+"SetFlagValue": true
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_no_gossip"),
+"DialogLines": ["Bonjour. I have done nothing wrong. Why do you look at me like zat?"],
+"DialogVoice": SubResource("SubResource_voice_croissant")
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_gossip_heard"),
+"DialogLines": ["Waffles told you he saw me in ze kitchen? Ze fool!", "I was simply... inspecting ze quality of ze ingredients.", "For hygiene purposes. Yes. Ze hygiene."],
+"DialogVoice": SubResource("SubResource_voice_croissant")
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_gossip_heard"),
+"DialogLines": ["Now if you'll excuse me, I have... important business.", "(He quickly walks away, adjusting his collar.)"],
+"DialogVoice": SubResource("SubResource_voice_croissant")
+}, {
+"Type": 0,
+"DialogLines": ["That is all. I have nothing more to say."],
+"DialogVoice": SubResource("SubResource_voice_croissant")
+}]

@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bvih45a2jp1fh"]
+[gd_scene load_steps=6 format=4 uid="uid://bvih45a2jp1fh"]
 
 [ext_resource type="Texture2D" uid="uid://bxk81c4fj77tt" path="res://levels/prison/npcs/Monsieur Croissant.png" id="1_spr"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_ct"]
+[ext_resource type="Script" path="res://components/core/CheckableComponent.cs" id="3_check"]
+[ext_resource type="Resource" uid="uid://cq21tb37xpj0e" path="res://levels/prison/npcs/MonsieurCroissantCutscene.tres" id="4_cutscene"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
 radius = 40.0
@@ -15,7 +17,8 @@ size = Vector2(48, 35)
 texture = ExtResource("1_spr")
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
-DialogLines = Array[String](["Ah, a visitor! How magnifique. I have been unjustly imprisoned in this, how you say... flavorless dungeon.", "The crime, they say, is excessive butter usage. But what is excessive butter? This is a philosophical question, non?", "When I escape I shall open a bakery. The first thing I shall bake is a cake filled with the finest... paperwork to clear my name."])
+Cutscene = ExtResource("4_cutscene")
+Mode = 0
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
 shape = SubResource("CircleShape2D_interact")
@@ -23,3 +26,10 @@ shape = SubResource("CircleShape2D_interact")
 [node name="PhysicsCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_phys")
+
+[node name="Checkable" type="Area2D" parent="."]
+script = ExtResource("3_check")
+CheckLine = "Monsieur Croissant: A dapper French egg with a mysterious past. His mustache is impeccable."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkable"]
+shape = SubResource("CircleShape2D_interact")

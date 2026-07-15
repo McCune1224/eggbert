@@ -1,0 +1,70 @@
+[gd_resource type="Resource" format=3 uid="uid://draki0hfv6rb"]
+
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneResource.cs" id="1_cs"]
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneCondition.cs" id="2_cond"]
+[ext_resource type="Script" path="res://resources/dialog/DialogVoiceResource.cs" id="3_voice"]
+
+[sub_resource type="Resource" id="SubResource_cond_notmet"]
+script = ExtResource("2_cond")
+Type = 2
+FlagKey = "has_met_waffles"
+
+[sub_resource type="Resource" id="SubResource_cond_met"]
+script = ExtResource("2_cond")
+Type = 1
+FlagKey = "has_met_waffles"
+
+[sub_resource type="Resource" id="SubResource_cond_gossip_not_sent"]
+script = ExtResource("2_cond")
+Type = 2
+FlagKey = "gossip_waffles_about_croissant"
+
+[sub_resource type="Resource" id="SubResource_cond_gossip_sent"]
+script = ExtResource("2_cond")
+Type = 1
+FlagKey = "gossip_waffles_about_croissant"
+
+[sub_resource type="Resource" id="SubResource_voice_waffles"]
+script = ExtResource("3_voice")
+SpeakerName = "Waffles"
+BasePitch = 0.75
+VolumeDb = -3.0
+
+[resource]
+script = ExtResource("1_cs")
+Steps = [{
+"Type": 0,
+"Condition": SubResource("SubResource_cond_notmet"),
+"DialogLines": ["Hmph. You the new egg? I'm Waffles. I guard things. Big things.", "Behind me? Nothing. Just a wall. A very boring, normal wall."],
+"DialogVoice": SubResource("SubResource_voice_waffles")
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_notmet"),
+"DialogLines": ["...", "You beat Oatmeal and Yogurt? Maybe you're not COMPLETELY soft-boiled. Come back when you've got more fight in you."],
+"DialogVoice": SubResource("SubResource_voice_waffles")
+}, {
+"Type": 7,
+"Condition": SubResource("SubResource_cond_notmet"),
+"SetFlagKey": "has_met_waffles",
+"SetFlagValue": true
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_met"),
+"DialogLines": ["You again. Still haven't escaped, huh?", "What do you want this time?"],
+"DialogVoice": SubResource("SubResource_voice_waffles")
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_gossip_not_sent"),
+"DialogLines": ["Actually... I saw Croissant acting weird last night. Sneaking around the kitchen.", "Don't tell him I said anything."],
+"DialogVoice": SubResource("SubResource_voice_waffles")
+}, {
+"Type": 7,
+"Condition": SubResource("SubResource_cond_gossip_not_sent"),
+"SetFlagKey": "gossip_waffles_about_croissant",
+"SetFlagValue": true
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_gossip_sent"),
+"DialogLines": ["That's all I know. Stay out of trouble."],
+"DialogVoice": SubResource("SubResource_voice_waffles")
+}]
