@@ -250,7 +250,12 @@ public partial class Player : CharacterBody2D, ISavable
         saveData.Position = Position;
         saveData.Health = HealthComponent.MaxHP;
         HealthComponent.CurrentHP = HealthComponent.MaxHP;
-        saveData.LevelScenePath = GameController.Instance.CurrentLevel.SceneFilePath;
+
+        string levelPath = GameController.Instance.CurrentLevel?.SceneFilePath;
+        if (!string.IsNullOrEmpty(levelPath))
+            saveData.LevelScenePath = levelPath;
+        else
+            saveData.LevelScenePath = GameController.Instance.CheckpointLevelPath;
 
         newSave.PlayerData = saveData;
         return newSave;
