@@ -577,7 +577,16 @@ public partial class OverworldMenu : CanvasLayer
 
     private void SetupKeybindSection()
     {
+        // Fix the container chain to use Container layout so children get arranged.
+        var panelVBox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer");
+        panelVBox.LayoutMode = 2;
+        var scroll = _settingsPanel.GetNode<ScrollContainer>("VBoxContainer/ScrollContainer");
+        scroll.LayoutMode = 2;
+        var backBtn = _settingsPanel.GetNode<Button>("VBoxContainer/BackButton");
+        backBtn.LayoutMode = 2;
+
         var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer/ScrollContainer/SettingsVBox");
+        vbox.LayoutMode = 2;
 
         var title = new Label { Text = "Controls:" };
         title.AddThemeFontSizeOverride("font_size", 14);
@@ -585,7 +594,7 @@ public partial class OverworldMenu : CanvasLayer
 
         var grid = new GridContainer();
         grid.Columns = 2;
-        grid.CustomMinimumSize = new Vector2(380, 0);
+        grid.LayoutMode = 2;
         vbox.AddChild(grid);
 
         foreach (string action in KeybindManager.RebindableActions)
@@ -593,16 +602,18 @@ public partial class OverworldMenu : CanvasLayer
             var label = new Label
             {
                 Text = KeybindManager.GetActionDisplayName(action),
-                CustomMinimumSize = new Vector2(160, 24),
+                CustomMinimumSize = new Vector2(120, 24),
             };
+            label.LayoutMode = 2;
             label.AddThemeColorOverride("font_color", new Color(0.7f, 0.8f, 1.0f));
             grid.AddChild(label);
 
             var btn = new Button
             {
                 Text = KeybindManager.GetCurrentKeyLabel(action),
-                CustomMinimumSize = new Vector2(100, 24),
+                CustomMinimumSize = new Vector2(80, 24),
             };
+            btn.LayoutMode = 2;
             string captured = action;
             btn.Pressed += () => StartRebind(captured);
             _keybindButtons[action] = btn;
