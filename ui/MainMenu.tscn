@@ -153,7 +153,7 @@ layout_mode = 0
 [node name="ScrollContainer" type="ScrollContainer" parent="SettingsPanel/VBoxContainer"]
 layout_mode = 0
 follow_focus = true
-vertical_scroll_mode = 0
+vertical_scroll_mode = 2
 size_flags_vertical = 3
 
 [node name="SettingsVBox" type="VBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer"]
