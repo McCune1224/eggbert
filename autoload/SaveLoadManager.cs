@@ -1,11 +1,15 @@
 using Godot;
 
 
+
 public partial class SaveLoadManager : Node
 {
+    [Signal]
+    public delegate void SaveCompletedEventHandler();
 
     private static SaveLoadManager _instance;
     public static SaveLoadManager Instance => _instance;
+
 
     private const string SavePath = "user://savegame.tres";
 
@@ -45,8 +49,8 @@ public partial class SaveLoadManager : Node
             }
         }
 
-
         ResourceSaver.Save(newSave, SavePath);
+        EmitSignal(SignalName.SaveCompleted);
     }
 
     public void LoadGame()

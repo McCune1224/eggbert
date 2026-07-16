@@ -126,7 +126,6 @@ TargetDoorPath = NodePath("../BlockedDoor")
 
 [node name="PushBlock" parent="." instance=ExtResource("5")]
 position = Vector2(160, -50)
-_texture = ExtResource("1_aerj4")
 
 [node name="RustyKeyPickup" type="Area2D" parent="."]
 position = Vector2(500, -100)

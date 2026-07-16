@@ -29,6 +29,7 @@ public partial class CutsceneTrigger : Area2D
         _promptSprite = GetNodeOrNull<Sprite2D>("Sprite2D");
         if (_promptSprite != null)
             _promptSprite.Visible = false;
+        if (!Settings.ShowInteractionPrompt) _promptSprite?.QueueFree();
 
         foreach (Node sibling in GetParent().GetChildren())
         {

@@ -348,7 +348,6 @@ position = Vector2(200, 0)
 TargetDoorPath = NodePath("../BlockPuzzleDoor")
 
 [node name="BlockPuzzleBlock" parent="." instance=ExtResource("7")]
-_texture = ExtResource("1_3ox1m")
 position = Vector2(150, 0)
 
 [node name="ExitSwitch1" parent="." instance=ExtResource("6")]

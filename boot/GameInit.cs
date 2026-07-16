@@ -12,6 +12,7 @@ public partial class GameInit : Node
     private async void BootDeferred()
     {
         GameLogger.InitializeFromEnv();
+        Settings.Load();
         // Debug auto-start: skip the main menu and load the last save directly.
         // Set the EGGBERT_SKIP_MENU environment variable to "1" to activate.
         //   - In the MCP godot_run_project environment (.opencode/opencode.json).
@@ -36,6 +37,10 @@ public partial class GameInit : Node
             GetTree().Root.AddChild(speedDialog);
             await ToSignal(speedDialog, FirstBootDialog.SignalName.Completed);
         }
+
+        // Add persistent save icon
+        var saveIcon = new SaveIcon();
+        GetTree().Root.AddChild(saveIcon);
         var menuPacked = ResourceLoader.Load<PackedScene>("res://ui/MainMenu.tscn");
         if (menuPacked == null)
         {
