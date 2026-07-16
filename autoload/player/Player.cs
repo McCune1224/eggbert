@@ -268,6 +268,14 @@ public partial class Player : CharacterBody2D, ISavable
                 scenePath = GameController.Instance.CheckpointLevelPath;
                 position = GameController.Instance.CheckpointPosition;
             }
+
+            // Safety: guard against empty/invalid paths
+            if (string.IsNullOrEmpty(scenePath))
+            {
+                GameLogger.Warn("Player", "Load: no valid scene path in save or checkpoint, using default.");
+                scenePath = "res://levels/overworld/maps/Overworld.tscn";
+            }
+
             GameController.Instance.LoadLevel(scenePath, position);
         }
     }
