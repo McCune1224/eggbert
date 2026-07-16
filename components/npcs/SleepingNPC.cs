@@ -4,8 +4,11 @@ using Godot;
 /// An NPC that starts asleep. On interact, wakes with grumpy dialog.
 /// Uses InteractableArea base class for player detection + prompt.
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class SleepingNPC : InteractableArea
 {
+    [ExportGroup("SleepingNPC")]
     [Export] public string[] WakeLines { get; set; }
     [Export] public string[] AwakeLines { get; set; }
     [Export] public string NpcId { get; set; } = "";

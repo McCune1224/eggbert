@@ -12,8 +12,11 @@ public enum TriggerMode
 /// Adds TriggerMode (OnInteract/OnEnter), Once/CutsceneId lifecycle,
 /// and dispatch to CutsceneResource, DialogLines, or raw signal.
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class CutsceneTrigger : InteractableArea
 {
+    [ExportGroup("Trigger")]
     [Export] public TriggerMode Mode = TriggerMode.OnInteract;
     [Export] public bool Once = false;
     [Export] public string CutsceneId = "";

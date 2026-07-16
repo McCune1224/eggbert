@@ -5,6 +5,8 @@ using Godot;
 /// Pauses movement and faces player when interacted with.
 /// Resumes patrol after the dialog ends.
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class PatrolComponent : Node
 {
     [Export] public NodePath[] Waypoints { get; set; }

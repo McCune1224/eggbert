@@ -4,6 +4,8 @@ using Godot;
 /// Makes an NPC flee when the player gets too close.
 /// Can be chased for unique dialog. Respawns at original position after fleeing.
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class FleeComponent : Node
 {
     [Export] public float FleeRadius { get; set; } = 120f;

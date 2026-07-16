@@ -6,8 +6,11 @@ public enum GateMode
     Or
 }
 
+[GlobalClass]
+[Tool]
 public partial class MultiSwitchGate : Node
 {
+    [ExportGroup("Targets")]
     [Export] public NodePath[] SwitchPaths = System.Array.Empty<NodePath>();
     [Export] public NodePath TargetDoorPath;
     [Export] public GateMode Mode = GateMode.And;
@@ -17,6 +20,16 @@ public partial class MultiSwitchGate : Node
     private Door _targetDoor;
     private bool _hasOpened = false;
 
+
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (SwitchPaths == null || SwitchPaths.Length == 0)
+            warnings.Add("SwitchPaths is empty. No switches are connected.");
+        if (TargetDoorPath == null || TargetDoorPath.IsEmpty)
+            warnings.Add("TargetDoorPath is not set. The gate won't open any door.");
+        return warnings.ToArray();
+    }
     public override void _Ready()
     {
         _switches = new FloorSwitch[SwitchPaths.Length];

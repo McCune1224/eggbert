@@ -6,8 +6,8 @@ public partial class AudioManager : Node
     public static AudioManager Instance => _instance;
 
 
-    public readonly string MUSIC_BUS = "MUSIC";
-	public readonly string SFX_BUS = "SFX";
+    public const string MUSIC_BUS = "MUSIC";
+	public const string SFX_BUS = "SFX";
 
     private int _musicAudioPlayerCount = 2;
     private int _currentMusicPlayerIndex = 0;

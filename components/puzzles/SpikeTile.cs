@@ -3,6 +3,8 @@ using Godot;
 /// <summary>
 /// Tile that damages the player on contact.
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class SpikeTile : Area2D
 {
     [ExportGroup("Damage")]

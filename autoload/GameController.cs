@@ -71,8 +71,14 @@ public partial class GameController : Node
 			child.QueueFree();
 		}
 
-		await ToSignal(GetTree(), "process_frame"); // Wait for the next frame to ensure nodes are freed
+		await ToSignal(GetTree(), "process_frame");
 		PackedScene mapScene = ResourceLoader.Load<PackedScene>(scenePath);
+		if (mapScene == null)
+		{
+			GameLogger.Error("GameController", $"Failed to load scene: {scenePath}");
+			GetTree().Paused = false;
+			return;
+		}
 
 		Node loadedLevel = mapScene.Instantiate();
 		levelRoot.AddChild(loadedLevel);
@@ -111,15 +117,27 @@ public partial class GameController : Node
 			child.QueueFree();
 		}
 
-		await ToSignal(GetTree(), "process_frame"); // Wait for the next frame to ensure nodes are freed
+		await ToSignal(GetTree(), "process_frame");
 		PackedScene mapScene = ResourceLoader.Load<PackedScene>(scenePath);
+		if (mapScene == null)
+		{
+			GameLogger.Error("GameController", $"Failed to load scene: {scenePath}");
+			GetTree().Paused = false;
+			return;
+		}
 
 		Node loadedLevel = mapScene.Instantiate();
 		levelRoot.AddChild(loadedLevel);
 		CurrentLevel = loadedLevel;
 
 		// Place player at the transition area
-		LevelTransition transitionArea = CurrentLevel.GetNode<LevelTransition>(targetTransitionName);
+		LevelTransition transitionArea = CurrentLevel.GetNodeOrNull<LevelTransition>(targetTransitionName);
+		if (transitionArea == null)
+		{
+			GameLogger.Error("GameController", $"Transition '{targetTransitionName}' not found in {scenePath}");
+			GetTree().Paused = false;
+			return;
+		}
 		switch (transitionArea.Side)
 		{
 			case TransitionSide.Left:

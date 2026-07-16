@@ -1,11 +1,13 @@
 using Godot;
 
+[GlobalClass]
+[Tool]
 public partial class PushBlock : CharacterBody2D
 {
 
+    [ExportGroup("PushBlock")]
     [Export] public float PushSpeed = 200f;
     [Export] public bool DirectionalMode = false;
-
     [Export]
     private Texture2D _texture;
     public Texture2D Texture

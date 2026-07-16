@@ -1,5 +1,7 @@
 using Godot;
 
+[GlobalClass]
+[Tool]
 public partial class ComplaintComponent : Node
 {
     [Export] public string[] ComplaintTemplate { get; set; }

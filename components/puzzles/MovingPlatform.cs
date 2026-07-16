@@ -3,6 +3,8 @@ using Godot;
 /// <summary>
 /// Platform that follows an AnimationPlayer path. Player rides it via AnimatableBody2D.
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class MovingPlatform : AnimatableBody2D
 {
     [ExportGroup("Platform")]

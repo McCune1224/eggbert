@@ -1,11 +1,13 @@
 using Godot;
 
+[GlobalClass]
+[Tool]
 public partial class SequencePuzzle : Node
 {
+    [ExportGroup("Sequence")]
     [Export] public NodePath[] SwitchSequence;
     [Export] public NodePath TargetDoorPath;
     [Export] public bool LatchOnComplete = true;
-
     private FloorSwitch[] _switches;
     private Door _targetDoor;
     private int _currentIndex = 0;
@@ -18,11 +20,24 @@ public partial class SequencePuzzle : Node
         {
             _switches[i] = GetNodeOrNull<FloorSwitch>(SwitchSequence[i]);
             if (_switches[i] != null)
-                _switches[i].Pressed += () => OnSwitchPressed(_switches[i]);
+            {
+                int capturedIndex = i;
+                _switches[i].Pressed += () => OnSwitchPressed(_switches[capturedIndex]);
+            }
         }
 
         if (!TargetDoorPath.IsEmpty)
             _targetDoor = GetNodeOrNull<Door>(TargetDoorPath);
+    }
+
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (SwitchSequence == null || SwitchSequence.Length == 0)
+            warnings.Add("SwitchSequence is empty. No switches are connected.");
+        if (TargetDoorPath == null || TargetDoorPath.IsEmpty)
+            warnings.Add("TargetDoorPath is not set. The puzzle won't open any door.");
+        return warnings.ToArray();
     }
 
     private void OnSwitchPressed(FloorSwitch pressedSwitch)

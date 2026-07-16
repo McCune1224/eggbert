@@ -4,9 +4,11 @@ using Godot;
 /// A pushable mirror that reflects light beams.
 /// Grid-aligned: placed at 45° angles for orthogonal beam reflection.
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class LightMirror : StaticBody2D
 {
-    /// Texture to display on the mirror surface.
+    [ExportGroup("Mirror")]
     [Export] public Texture2D MirrorTexture { get; set; }
 
     private Sprite2D _sprite;

@@ -4,6 +4,8 @@ using Godot;
 /// Interact-triggered dialog for signs, posters, books, scribbled notes.
 /// Reuses InteractableArea base class for player detection + prompt.
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class ReadableObject : InteractableArea
 {
     [Export] public string[] DialogLines { get; set; }

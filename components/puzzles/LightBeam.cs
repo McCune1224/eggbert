@@ -4,6 +4,8 @@ using Godot;
 /// A light beam emitted from a source. Casts rays, reflects off mirrors,
 /// and activates sensors on contact. Uses Line2D for visual beam.
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class LightBeam : Node2D
 {
     [Export] public float BeamLength { get; set; } = 400f;

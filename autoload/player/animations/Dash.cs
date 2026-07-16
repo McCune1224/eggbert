@@ -29,11 +29,14 @@ public partial class Dash : Node2D
         };
 
         _dashGhostAnmiationPlayerScene = ResourceLoader.Load<PackedScene>("res://autoload/player/animations/DashGhost.tscn");
+        if (_dashGhostAnmiationPlayerScene == null)
+            GameLogger.Error("Dash", "Failed to load DashGhost.tscn");
 
     }
 
     private void InstantiateDashGhost()
     {
+        if (_dashGhostAnmiationPlayerScene == null) return;
         Sprite2D newGhost = _dashGhostAnmiationPlayerScene.Instantiate<Sprite2D>();
         // Sprite2D currentPlayerSprite = Player.Instance.AnimationPlayer;
         Sprite2D playerSprite = Player.Instance.GetNode<Sprite2D>("Sprite2D");
@@ -70,9 +73,16 @@ public partial class Dash : Node2D
 
         Sprite2D playerSprite = Player.Instance.GetNode<Sprite2D>("Sprite2D");
         Shader whiteShader = ResourceLoader.Load<Shader>("res://autoload/player/animations/DashGhost.gdshader");
-        ShaderMaterial shader = new ShaderMaterial();
-        shader.Shader = whiteShader;
-        playerSprite.Material = shader; // Apply the shader to the player's sprite
+        if (whiteShader == null)
+        {
+            GameLogger.Warn("Dash", "DashGhost.gdshader not found — skipping shader effect");
+        }
+        else
+        {
+            ShaderMaterial shader = new ShaderMaterial();
+            shader.Shader = whiteShader;
+            playerSprite.Material = shader;
+        }
 
 
         return _dashDirection;
@@ -89,7 +99,7 @@ public partial class Dash : Node2D
             _canDash = true;
             _durationTimer.Stop();
         };
-        Player.Instance.GetNode<Sprite2D>("Sprite2D").Material = null; // Reset the player's material to remove the dash effect
+        Player.Instance.GetNode<Sprite2D>("Sprite2D").Material = null;
     }
 
     public bool IsDashing()

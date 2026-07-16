@@ -1,5 +1,7 @@
 using Godot;
 
+[GlobalClass]
+[Tool]
 public partial class SequencePuzzleController : Node
 {
     [ExportGroup("Targets")]
@@ -37,6 +39,16 @@ public partial class SequencePuzzleController : Node
         }
     }
 
+
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (PlatePaths == null || PlatePaths.Length == 0)
+            warnings.Add("PlatePaths is empty. No pressure plates are connected.");
+        if (TargetDoorPath == null || TargetDoorPath.IsEmpty)
+            warnings.Add("TargetDoorPath is not set. The puzzle won't open any door.");
+        return warnings.ToArray();
+    }
     public void StepPressed(int index)
     {
         if (index == _nextExpectedIndex)

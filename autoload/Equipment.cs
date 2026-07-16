@@ -56,12 +56,15 @@ public partial class Equipment : Node, ISavable
         if (current != null)
             Unequip(item.Slot);
 
+        // Verify item exists in inventory before equipping
+        if (item.Id != GetEquippedId(item.Slot) && !Inventory.Instance.Remove(item.Id, 1))
+            return;
+
         _slots[item.Slot] = item.Id;
 
         // Apply stat bonuses
         ApplyItemStats(item, 1);
-        Inventory.Instance.Remove(item.Id, 1);
-        GameLogger.Info("Equipment", $"Equipped: {item.Id} → {item.Slot}");
+        GameLogger.Info("Equipment", $"Equipped: {item.Id} \u2192 {item.Slot}");
     }
 
     public void Unequip(EquipSlot slot)
@@ -86,14 +89,17 @@ public partial class Equipment : Node, ISavable
 
     private void ApplyItemStats(Item item, int sign)
     {
-        var hc = Player.Instance.HealthComponent;
+        var player = Player.Instance;
+        if (player == null) return;
+
+        var hc = player.HealthComponent;
         if (hc != null)
         {
             hc.SetMaxHP(hc.MaxHP + item.MaxHPBoost * sign);
             hc.Defense = Mathf.Max(0, hc.Defense + item.DefenseBoost * sign);
         }
 
-        var parry = Player.Instance.Parry;
+        var parry = player.Parry;
         if (parry != null)
             parry.UpdateStats(GetTotalParryRadius(), GetTotalParryDamage());
     }

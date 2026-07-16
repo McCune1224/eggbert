@@ -95,13 +95,10 @@ public partial class DebugOverlay : CanvasLayer
         var wf = WorldFlags.Instance;
         if (wf != null)
         {
-            var saveRes = new SaveResource();
-            wf.Save(saveRes);
-            int count = saveRes.WorldFlagsData?.Flags?.Count ?? 0;
-            _sb.AppendLine($"WorldFlags ({count}):");
-            if (saveRes.WorldFlagsData?.Flags != null)
-                foreach (var kvp in saveRes.WorldFlagsData.Flags)
-                    _sb.AppendLine($"  {kvp.Key} = {kvp.Value}");
+            var allFlags = wf.GetAllFlags();
+            _sb.AppendLine($"WorldFlags ({allFlags.Count}):");
+            foreach (var kvp in allFlags)
+                _sb.AppendLine($"  {kvp.Key} = {kvp.Value}");
         }
 
         _label.Text = _sb.ToString();

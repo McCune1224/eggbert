@@ -1,5 +1,7 @@
 using Godot;
 
+[GlobalClass]
+[Tool]
 public partial class TradeComponent : Node
 {
     [Export] public string RequiredItemId { get; set; } = "";

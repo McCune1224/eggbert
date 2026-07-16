@@ -1,7 +1,10 @@
 using Godot;
 
+[GlobalClass]
+[Tool]
 public partial class TimedDoor : Door
 {
+    [ExportGroup("TimedDoor")]
     [Export] public float OpenDuration = 3.0f;
     [Export] public bool BlinkBeforeClose = true;
 

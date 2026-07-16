@@ -3,8 +3,8 @@ using Godot.Collections;
 
 public partial class Player : CharacterBody2D, ISavable
 {
-    public readonly float PlayerSpeed = 150.0f;
-    public readonly float SprintScale = 1.7f;
+    public const float PlayerSpeed = 150.0f;
+    public const float SprintScale = 1.7f;
 
     private bool _inInteraction = false;
     public bool InInteraction

@@ -3,6 +3,8 @@ using Godot;
 /// <summary>
 /// Spikes that retract and extend on a timer with telegraph animation.
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class TimedSpikes : Area2D
 {
     [ExportGroup("Timing")]

@@ -1,7 +1,10 @@
 using Godot;
 
+[GlobalClass]
+[Tool]
 public partial class KeyDoor : Door
 {
+    [ExportGroup("KeyDoor")]
     [Export] public string RequiredFlag;
     [Export] public string LockedMessage = "It's locked.";
     [Export] public AudioStream UnlockJingle { get; set; }

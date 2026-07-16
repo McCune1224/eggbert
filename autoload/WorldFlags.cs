@@ -55,6 +55,12 @@ public partial class WorldFlags : Node, ISavable
         GameLogger.Debug("WorldFlags", $"Flag cleared: {key}");
     }
 
+    /// <summary>Return all flags (for debug overlay / inspection).</summary>
+    public Dictionary<string, Variant> GetAllFlags()
+    {
+        return new Dictionary<string, Variant>(_flags);
+    }
+
     /// <summary>Remove all flags (used when starting a new game).</summary>
     public void ClearAll()
     {

@@ -1,8 +1,11 @@
 using Godot;
 
+[GlobalClass]
+[Tool]
 public partial class Door : StaticBody2D
 {
 
+    [ExportGroup("Door")]
     [Export] public bool StartOpen = false;
     [Export] public AudioStream OpenSfx { get; set; }
     [Export] public AudioStream CloseSfx { get; set; }

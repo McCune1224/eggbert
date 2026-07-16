@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Collections;
 
+[GlobalClass]
+[Tool]
 public partial class RumorComponent : Node
 {
     [Export] public Array<string> Rumors { get; set; } = new();
