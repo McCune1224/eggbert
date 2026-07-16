@@ -157,7 +157,7 @@ vertical_scroll_mode = 0
 size_flags_vertical = 3
 
 [node name="SettingsVBox" type="VBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer"]
-layout_mode = 0
+layout_mode = 2
 
 [node name="MusicLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox"]
 layout_mode = 2

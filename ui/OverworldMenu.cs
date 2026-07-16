@@ -561,7 +561,6 @@ public partial class OverworldMenu : CanvasLayer
     {
         var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer/ScrollContainer/SettingsVBox");
         var hbox = new HBoxContainer { Name = "TextSpeedBox" };
-        hbox.LayoutMode = 0;
         var label = new Label { Text = "Text Speed:", CustomMinimumSize = new Vector2(120, 0) };
         hbox.AddChild(label);
         _textSpeedOption = new OptionButton();
@@ -580,13 +579,12 @@ public partial class OverworldMenu : CanvasLayer
         var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer/ScrollContainer/SettingsVBox");
 
         var title = new Label { Text = "Controls:" };
-        title.LayoutMode = 0;
         title.AddThemeFontSizeOverride("font_size", 14);
         vbox.AddChild(title);
 
         var grid = new GridContainer();
         grid.Columns = 2;
-        grid.LayoutMode = 0;
+        grid.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
         vbox.AddChild(grid);
 
         foreach (string action in KeybindManager.RebindableActions)
@@ -596,12 +594,11 @@ public partial class OverworldMenu : CanvasLayer
                 Text = KeybindManager.GetActionDisplayName(action),
                 CustomMinimumSize = new Vector2(120, 0),
             };
-            label.LayoutMode = 0;
             label.AddThemeColorOverride("font_color", new Color(0.7f, 0.8f, 1.0f));
             grid.AddChild(label);
 
             var btn = new Button { Text = KeybindManager.GetCurrentKeyLabel(action) };
-            btn.LayoutMode = 0;
+            btn.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
             string captured = action;
             btn.Pressed += () => StartRebind(captured);
             _keybindButtons[action] = btn;
@@ -610,7 +607,6 @@ public partial class OverworldMenu : CanvasLayer
 
         // Full-width reset button below the grid
         var resetBtn = new Button { Text = "Reset Controls" };
-        resetBtn.LayoutMode = 0;
         resetBtn.AddThemeFontSizeOverride("font_size", 14);
         resetBtn.Pressed += OnResetKeybindsPressed;
         vbox.AddChild(resetBtn);
