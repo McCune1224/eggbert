@@ -5,8 +5,10 @@ using Godot;
 /// </summary>
 public partial class MovingPlatform : AnimatableBody2D
 {
-    [Export] public float Speed { get; set; } = 1.0f;
-
+    [ExportGroup("Platform")]
+    [Export]
+    /// Speed multiplier for the platform animation. 1.0 = normal speed.
+    public float Speed { get; set; } = 1.0f;
     private AnimationPlayer _animationPlayer;
     private bool _movingForward = true;
 

@@ -3,12 +3,28 @@ using Godot;
 /// <summary>
 /// A wall that looks solid but can be walked through.
 /// Toggles collision on proximity or interaction, revealing hidden rooms.
+///
+/// Usage: place in a level, configure RequireInteract.
+/// - RequireInteract=true: player presses E to reveal
+/// - RequireInteract=false: reveals automatically on touch
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class FakeWall : StaticBody2D
 {
-    [Export] public bool RequireInteract { get; set; } = false;
-    [Export] public string[] RevealDialogLines { get; set; }
-    [Export] public DialogVoiceResource RevealVoice { get; set; }
+    [ExportGroup("Behavior")]
+    [Export]
+    /// If true, player must press E to reveal the wall. If false, walking into it reveals automatically.
+    public bool RequireInteract { get; set; } = false;
+
+    [ExportGroup("Dialog")]
+    [Export]
+    /// Optional lines shown when the wall is revealed.
+    public string[] RevealDialogLines { get; set; }
+
+    [Export]
+    /// Voice style for reveal dialog.
+    public DialogVoiceResource RevealVoice { get; set; }
 
     private CollisionShape2D _collision;
     private Sprite2D _sprite;
@@ -24,13 +40,10 @@ public partial class FakeWall : StaticBody2D
         _triggerArea = GetNodeOrNull<Area2D>("TriggerArea");
 
         if (!RequireInteract && _triggerArea != null)
-        {
             _triggerArea.BodyEntered += OnBodyEntered;
-        }
 
         if (RequireInteract && _triggerArea != null)
         {
-            // Wire up input handling via the trigger area
             _triggerArea.BodyEntered += OnProximityEntered;
             _triggerArea.BodyExited += OnProximityExited;
         }
@@ -75,9 +88,7 @@ public partial class FakeWall : StaticBody2D
             _sprite.Modulate = new Color(1, 1, 1, 0.3f);
 
         if (RevealDialogLines != null && RevealDialogLines.Length > 0)
-        {
             CutsceneController.Instance.StartDialog(RevealDialogLines, RevealVoice);
-        }
 
         GameLogger.Debug("FakeWall", $"Fake wall '{Name}' revealed.");
     }

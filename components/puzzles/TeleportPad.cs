@@ -3,11 +3,22 @@ using Godot;
 /// <summary>
 /// Paired warp tile. Step on one → appear at the other.
 /// Supports player and PushBlock teleportation with cooldown.
+///
+/// Usage: place two TeleportPads in a level, assign each other's TargetPadPath.
+/// The pads will teleport anything in groups 'player' or 'pushable'.
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class TeleportPad : Area2D
 {
-    [Export] public NodePath TargetPadPath { get; set; }
-    [Export] public float CooldownSeconds { get; set; } = 0.5f;
+    [ExportGroup("Teleport")]
+    [Export]
+    /// Path to the paired TeleportPad node that bodies warp to.
+    public NodePath TargetPadPath { get; set; }
+
+    [Export]
+    /// Minimum seconds between consecutive teleports (prevents infinite loops).
+    public float CooldownSeconds { get; set; } = 0.5f;
 
     private TeleportPad _targetPad;
     private float _cooldownTimer = 0f;
@@ -46,7 +57,6 @@ public partial class TeleportPad : Area2D
         _onCooldown = true;
         _cooldownTimer = CooldownSeconds;
 
-        // Brief visual feedback at both pads
         if (_targetPad._onCooldown == false)
         {
             _targetPad._onCooldown = true;

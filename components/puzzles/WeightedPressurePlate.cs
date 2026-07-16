@@ -3,7 +3,12 @@ using Godot;
 /// <summary>
 /// Pressure plate that stays pressed while a body (player or PushBlock) is on it.
 /// Emits signals for connected doors/gates to open/close.
+///
+/// Usage: place in a level, assign TargetDoorPath, ensure collision layer
+/// detects player + pushable objects.
 /// </summary>
+[GlobalClass]
+[Tool]
 public partial class WeightedPressurePlate : Area2D
 {
     [Signal]
@@ -12,7 +17,10 @@ public partial class WeightedPressurePlate : Area2D
     [Signal]
     public delegate void PlateReleasedEventHandler();
 
-    [Export] public NodePath TargetDoorPath { get; set; }
+    [ExportGroup("Target")]
+    [Export]
+    /// Path to a Door node that opens while the plate is pressed.
+    public NodePath TargetDoorPath { get; set; }
 
     private int _bodyCount = 0;
     private Door _targetDoor;
@@ -38,9 +46,7 @@ public partial class WeightedPressurePlate : Area2D
 
         _bodyCount++;
         if (_bodyCount == 1)
-        {
             Press();
-        }
     }
 
     private void OnBodyExited(Node2D body)

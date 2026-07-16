@@ -2,8 +2,10 @@ using Godot;
 
 public partial class SequencePressurePlate : Area2D
 {
-    [Export] public int SequenceIndex { get; set; } = 0;
-
+    [ExportGroup("Sequence")]
+    [Export]
+    /// Order index in the sequence (0-based). Plates must be pressed in ascending order.
+    public int SequenceIndex { get; set; } = 0;
     internal SequencePuzzleController _controller;
     private Sprite2D _sprite;
 

@@ -5,10 +5,19 @@ using Godot;
 /// </summary>
 public partial class TimedSpikes : Area2D
 {
-    [Export] public int Damage { get; set; } = 1;
-    [Export] public float ActiveDuration { get; set; } = 2.0f;
-    [Export] public float InactiveDuration { get; set; } = 2.0f;
-    [Export] public float TelegraphDuration { get; set; } = 0.5f;
+    [ExportGroup("Timing")]
+    [Export]
+    /// HP lost on contact while spikes are extended.
+    public int Damage { get; set; } = 1;
+    [Export]
+    /// Seconds spikes remain extended and dangerous.
+    public float ActiveDuration { get; set; } = 2.0f;
+    [Export]
+    /// Seconds spikes remain retracted (safe).
+    public float InactiveDuration { get; set; } = 2.0f;
+    [Export]
+    /// Seconds of red telegraph flash before spikes extend.
+    public float TelegraphDuration { get; set; } = 0.5f;
 
     private CollisionShape2D _collision;
     private Sprite2D _sprite;

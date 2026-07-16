@@ -5,9 +5,13 @@ using Godot;
 /// </summary>
 public partial class SpikeTile : Area2D
 {
-    [Export] public int Damage { get; set; } = 1;
-    [Export] public bool OneShot { get; set; } = false;
-
+    [ExportGroup("Damage")]
+    [Export]
+    /// HP lost on contact.
+    public int Damage { get; set; } = 1;
+    [Export]
+    /// If true, the spike only damages the player once, then deactivates.
+    public bool OneShot { get; set; } = false;
     private bool _hasTriggered = false;
 
     public override void _Ready()
