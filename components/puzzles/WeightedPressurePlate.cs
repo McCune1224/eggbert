@@ -40,6 +40,13 @@ public partial class WeightedPressurePlate : Area2D
         BodyExited += OnBodyExited;
     }
 
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (TargetDoorPath == null || TargetDoorPath.IsEmpty)
+            warnings.Add("TargetDoorPath is not set. The plate will emit signals but won't open any door.");
+        return warnings.ToArray();
+    }
     private void OnBodyEntered(Node2D body)
     {
         if (!body.IsInGroup("player") && !body.IsInGroup("pushable")) return;

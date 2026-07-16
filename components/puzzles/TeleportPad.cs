@@ -35,6 +35,13 @@ public partial class TeleportPad : Area2D
         BodyEntered += OnBodyEntered;
     }
 
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (TargetPadPath == null || TargetPadPath.IsEmpty)
+            warnings.Add("TargetPadPath is not set. This teleport pad leads nowhere.");
+        return warnings.ToArray();
+    }
     public override void _Process(double delta)
     {
         if (_onCooldown)

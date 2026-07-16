@@ -2,8 +2,13 @@ using Godot;
 
 public partial class SequencePuzzleController : Node
 {
+    [ExportGroup("Targets")]
+    /// Array of NodePaths to SequencePressurePlate nodes, in expected press order.
     [Export] public NodePath[] PlatePaths { get; set; }
+    /// Door node that opens when the sequence is solved.
     [Export] public NodePath TargetDoorPath { get; set; }
+    [ExportGroup("Timing")]
+    /// Seconds the player has to press the next plate before the sequence resets.
     [Export] public float TimeWindow { get; set; } = 5.0f;
 
     private int _nextExpectedIndex = 0;

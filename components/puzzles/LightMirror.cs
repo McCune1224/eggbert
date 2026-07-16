@@ -6,6 +6,7 @@ using Godot;
 /// </summary>
 public partial class LightMirror : StaticBody2D
 {
+    /// Texture to display on the mirror surface.
     [Export] public Texture2D MirrorTexture { get; set; }
 
     private Sprite2D _sprite;
