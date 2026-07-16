@@ -6,43 +6,41 @@ public enum TriggerMode
     OnEnter
 }
 
-public partial class CutsceneTrigger : Area2D
+/// <summary>
+/// Cutscene/dialog trigger for NPCs and world objects.
+/// Inherits from InteractableArea for player detection + prompt.
+/// Adds TriggerMode (OnInteract/OnEnter), Once/CutsceneId lifecycle,
+/// and dispatch to CutsceneResource, DialogLines, or raw signal.
+/// </summary>
+public partial class CutsceneTrigger : InteractableArea
 {
     [Export] public TriggerMode Mode = TriggerMode.OnInteract;
     [Export] public bool Once = false;
     [Export] public string CutsceneId = "";
     [Export] public CutsceneResource Cutscene { get; set; }
     [Export] public string[] DialogLines { get; set; }
-    [Export] public DialogVoiceResource Voice { get; set; }
 
     [Signal]
     public delegate void TriggeredEventHandler();
 
-    private Sprite2D _promptSprite;
     private Sprite2D _npcSprite;
-    private bool _playerInRange = false;
     private bool _hasFired = false;
     private bool _promptPositioned = false;
 
     public override void _Ready()
     {
-        _promptSprite = GetNodeOrNull<Sprite2D>("Sprite2D");
-        if (_promptSprite != null)
-            _promptSprite.Visible = false;
-        if (!Settings.ShowInteractionPrompt) _promptSprite?.QueueFree();
-
+        // Find NPC sprite sibling for prompt positioning
         foreach (Node sibling in GetParent().GetChildren())
         {
-            if (sibling is Sprite2D s)
+            if (sibling is Sprite2D s && sibling.Name != "Sprite2D")
             {
                 _npcSprite = s;
                 break;
             }
         }
 
-
-        BodyEntered += OnBodyEntered;
-        BodyExited += OnBodyExited;
+        // Call base AFTER finding npcSprite so PositionPromptAboveNpc can use it
+        base._Ready();
 
         if (Once && !string.IsNullOrEmpty(CutsceneId) && WorldFlags.Instance.HasFlag("cutscene_" + CutsceneId))
         {
@@ -54,16 +52,19 @@ public partial class CutsceneTrigger : Area2D
     public override void _Input(InputEvent @event)
     {
         if (Mode != TriggerMode.OnInteract) return;
-        if (!_playerInRange || _hasFired) return;
+        if (_hasFired) return;
+        if (!PlayerInRange) return;
         if (!@event.IsActionPressed("interact")) return;
-
-        Fire();
+        OnInteract();
+        GetViewport().SetInputAsHandled();
     }
 
-    private void OnBodyEntered(Node2D body)
+
+
+    protected override void OnBodyEntered(Node2D body)
     {
         if (!body.IsInGroup("player")) return;
-        _playerInRange = true;
+        PlayerInRange = true;
 
         if (Mode == TriggerMode.OnEnter)
         {
@@ -71,33 +72,29 @@ public partial class CutsceneTrigger : Area2D
             return;
         }
 
-        if (_promptSprite != null)
+        if (PromptSprite != null && GodotObject.IsInstanceValid(PromptSprite))
         {
             if (!_promptPositioned && _npcSprite != null)
                 PositionPromptAboveNpc();
-
-            _promptSprite.Visible = true;
+            PromptSprite.Visible = true;
         }
     }
 
-    private void OnBodyExited(Node2D body)
+    protected override void OnBodyExited(Node2D body)
     {
         if (!body.IsInGroup("player")) return;
-        _playerInRange = false;
-        if (_promptSprite != null)
-            _promptSprite.Visible = false;
+        PlayerInRange = false;
+
+        if (PromptSprite != null && GodotObject.IsInstanceValid(PromptSprite))
+            PromptSprite.Visible = false;
 
         if (!CutsceneController.Instance.IsPlaying)
             DialogManager.Instance.Reset();
     }
 
-    private void PositionPromptAboveNpc()
+    protected override void OnInteract()
     {
-        float frameHeight = _npcSprite.GetRect().Size.Y;
-        float topEdge = _npcSprite.Centered ? -frameHeight / 2f : 0f;
-        float promptY = topEdge - 4f;
-        _promptSprite.Position = new Vector2(0, promptY);
-        _promptPositioned = true;
+        Fire();
     }
 
     private void Fire()
@@ -125,17 +122,26 @@ public partial class CutsceneTrigger : Area2D
         }
     }
 
-    public bool IsPromptVisible() => _promptSprite?.Visible ?? false;
+    private void PositionPromptAboveNpc()
+    {
+        float frameHeight = _npcSprite.GetRect().Size.Y;
+        float topEdge = _npcSprite.Centered ? -frameHeight / 2f : 0f;
+        float promptY = topEdge - 4f;
+        PromptSprite.Position = new Vector2(0, promptY);
+        _promptPositioned = true;
+    }
+
+    public bool IsPromptVisible() => PromptSprite?.Visible ?? false;
 
     public void HidePrompt()
     {
-        if (_promptSprite != null)
-            _promptSprite.Visible = false;
+        if (PromptSprite != null)
+            PromptSprite.Visible = false;
     }
 
     public void ShowPrompt()
     {
-        if (_promptSprite != null)
-            _promptSprite.Visible = true;
+        if (PromptSprite != null)
+            PromptSprite.Visible = true;
     }
 }

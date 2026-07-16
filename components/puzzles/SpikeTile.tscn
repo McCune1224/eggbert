@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://cwcf1hqndq2lv"]
+[gd_scene format=3 uid="uid://cwcf1hqndq2lv"]
 
 [ext_resource type="Script" path="res://components/puzzles/SpikeTile.cs" id="1_st"]
 

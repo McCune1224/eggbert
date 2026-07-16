@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Persistent scrollable dialog log shown during conversations.
-/// Holds the last N lines and displays via a toggle key.
+/// Holds the last N lines and toggles via Tab/Esc.
 /// </summary>
 public partial class DialogLog : CanvasLayer
 {
@@ -35,7 +35,6 @@ public partial class DialogLog : CanvasLayer
             Position = new Vector2(20, 20),
             Size = new Vector2(600, 320),
             MouseFilter = Control.MouseFilterEnum.Ignore,
-            ScrollFollowing = true,
             BbcodeEnabled = true
         };
         var font = ResourceLoader.Load<Font>("res://assets/fonts/yoster.ttf");
@@ -51,20 +50,16 @@ public partial class DialogLog : CanvasLayer
     public override void _Input(InputEvent @event)
     {
         if (!DialogManager.Instance.IsDialogActive) return;
-        if (@event.IsActionPressed("menu_pause"))
+        if (@event.IsActionPressed("ui_focus_next") || @event.IsActionPressed("menu_pause"))
         {
             Toggle();
             GetViewport().SetInputAsHandled();
         }
     }
 
-    /// <summary>
-    /// Appends a dialog line to the buffer.
-    /// Called by DialogBubble when showing a new line.
-    /// </summary>
     public static void AppendLine(string speaker, string text)
     {
-        string entry = speaker ?? "???";
+        string entry;
         if (!string.IsNullOrEmpty(speaker))
             entry = $"[b]{speaker}:[/b] {text}";
         else

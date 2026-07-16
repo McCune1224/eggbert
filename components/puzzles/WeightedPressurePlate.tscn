@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dp6bxsv2fnq6x"]
+[gd_scene format=3 uid="uid://dp6bxsv2fnq6x"]
 
 [ext_resource type="Script" path="res://components/puzzles/WeightedPressurePlate.cs" id="1_wpp"]
 

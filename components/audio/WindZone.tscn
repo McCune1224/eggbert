@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://b6hm2nbnjmwo8"]
+[gd_scene format=3 uid="uid://b6hm2nbnjmwo8"]
 
 [ext_resource type="Script" path="res://components/audio/WindZone.cs" id="1_wz"]
 

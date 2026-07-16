@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://d4b1w0yfyrqep"]
+[gd_scene format=3 uid="uid://d4b1w0yfyrqep"]
 
 [ext_resource type="Script" path="res://components/puzzles/MovingPlatform.cs" id="1_mp"]
 [ext_resource type="Texture2D" uid="uid://c0m8ma1xjpjho" path="res://assets/tilemaps/grass tileset.png" id="2_grass"]

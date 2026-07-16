@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://d0kg3d2oh5pde"]
+[gd_scene format=3 uid="uid://d0kg3d2oh5pde"]
 
 [ext_resource type="Script" path="res://components/puzzles/LightMirror.cs" id="1_lm"]
 

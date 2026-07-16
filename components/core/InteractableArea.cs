@@ -14,9 +14,7 @@ public abstract partial class InteractableArea : Area2D
     [Export] public DialogVoiceResource Voice { get; set; }
 
     protected Sprite2D PromptSprite { get; private set; }
-    protected bool PlayerInRange { get; private set; } = false;
-
-    private bool _promptPositioned = false;
+    protected bool PlayerInRange { get; set; } = false;
 
     public override void _Ready()
     {
@@ -28,20 +26,9 @@ public abstract partial class InteractableArea : Area2D
         {
             PromptSprite.Visible = false;
             if (!Settings.ShowInteractionPrompt)
-                PromptSprite.QueueFree();
-        }
-
-        // Try to find an NPC sprite sibling for positioning
-        if (PromptSprite != null && !_promptPositioned)
-        {
-            foreach (Node sibling in GetParent().GetChildren())
             {
-                if (sibling != this && sibling is Sprite2D s && sibling.Name != "Sprite2D")
-                {
-                    PositionPromptAbove(s);
-                    _promptPositioned = true;
-                    break;
-                }
+                PromptSprite.QueueFree();
+                PromptSprite = null;
             }
         }
 
@@ -91,12 +78,5 @@ public abstract partial class InteractableArea : Area2D
     {
         if (lines == null || lines.Length == 0) return;
         CutsceneController.Instance.StartDialog(lines, voice ?? Voice);
-    }
-
-    private void PositionPromptAbove(Sprite2D npcSprite)
-    {
-        float frameHeight = npcSprite.GetRect().Size.Y;
-        float topEdge = npcSprite.Centered ? -frameHeight / 2f : 0f;
-        PromptSprite.Position = new Vector2(0, topEdge - 4f);
     }
 }
