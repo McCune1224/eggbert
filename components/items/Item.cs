@@ -16,6 +16,7 @@ public partial class Item : Resource
     [Export] public string DisplayName { get; set; }
     [Export] public string Description { get; set; }
     [Export] public Texture2D Icon { get; set; }
+    [Export] public string DescriptionUsed { get; set; }
     [Export] public ItemCategory Category { get; set; }
 
     // Consumable — used once HealthComponent exists.

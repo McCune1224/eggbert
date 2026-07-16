@@ -354,8 +354,11 @@ public partial class OverworldMenu : CanvasLayer
         _nameLabel.Text = item.DisplayName;
         int count = Inventory.Instance.GetCount(item.Id);
         _countLabel.Text = count > 1 ? $"x{count}" : "";
-        _descriptionLabel.Text = item.Description;
 
+        // Show alternate description if item has been used
+        bool wasUsed = WorldFlags.Instance.HasFlag($"item_{item.Id}_used");
+        _descriptionLabel.Text = (wasUsed && !string.IsNullOrEmpty(item.DescriptionUsed))
+            ? item.DescriptionUsed : item.Description;
         if (item.Category == ItemCategory.Key)
         {
             _statsLabel.Text = "";
@@ -404,6 +407,7 @@ public partial class OverworldMenu : CanvasLayer
             if (hc != null && !hc.IsDead)
                 hc.Heal(item.HealAmount);
             Inventory.Instance.Remove(_selectedItemId, 1);
+            WorldFlags.Instance.SetFlag($"item_{item.Id}_used", true);
         }
         else if (item.Category == ItemCategory.Equipment)
         {
@@ -411,6 +415,7 @@ public partial class OverworldMenu : CanvasLayer
                 Equipment.Instance.Unequip(item.Slot);
             else
                 Equipment.Instance.Equip(item);
+            WorldFlags.Instance.SetFlag($"item_{item.Id}_used", true);
         }
 
         RefreshInventory();
