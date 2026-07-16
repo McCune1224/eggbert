@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://csfjihf8bm7m4"]
+
+[ext_resource type="Script" path="res://components/puzzles/TeleportPad.cs" id="1_tp"]
+[ext_resource type="Texture2D" uid="uid://c0m8ma1xjpjho" path="res://assets/tilemaps/grass tileset.png" id="2_grass"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3cp4p"]
+size = Vector2(32, 32)
+
+[node name="TeleportPad" type="Area2D"]
+script = ExtResource("1_tp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3cp4p")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_grass")
+region_enabled = true
+region_rect = Rect2(64, 64, 32, 32)
+modulate = Color(0.3, 0.8, 1, 0.7)

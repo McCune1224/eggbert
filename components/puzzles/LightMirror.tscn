@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0kg3d2oh5pde"]
+
+[ext_resource type="Script" path="res://components/puzzles/LightMirror.cs" id="1_lm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3cp4p"]
+size = Vector2(32, 8)
+
+[node name="LightMirror" type="StaticBody2D"]
+script = ExtResource("1_lm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3cp4p")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -16.0
+offset_top = -4.0
+offset_right = 16.0
+offset_bottom = 4.0
+color = Color(0.8, 0.8, 0.9, 0.8)

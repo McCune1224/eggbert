@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b60fv3x3u4y5c"]
 
 [ext_resource type="Script" path="res://components/puzzles/PushBlock.cs" id="1_v8xva"]
-[ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0023.png" id="2_block"]
+[ext_resource type="Texture2D" uid="uid://d3g4p3asro7bd" path="res://assets/tilemaps/Texture/TX Tileset Stone Ground.png" id="2_block"]
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n2av2"]
 size = Vector2(32, 32)
 

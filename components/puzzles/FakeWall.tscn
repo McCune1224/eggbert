@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1f4v3qhqxah6"]
+
+[ext_resource type="Script" path="res://components/puzzles/FakeWall.cs" id="1_pyh3j"]
+[ext_resource type="Texture2D" uid="uid://bfuoybtdj8wis" path="res://assets/tilemaps/Texture/TX Tileset Wall.png" id="2_wall"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3cp4p"]
+size = Vector2(32, 64)
+
+[node name="FakeWall" type="StaticBody2D"]
+script = ExtResource("1_pyh3j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3cp4p")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_wall")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 64)
+
+[node name="TriggerArea" type="Area2D" parent="."]
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+shape = SubResource("RectangleShape2D_3cp4p")

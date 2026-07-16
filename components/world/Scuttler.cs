@@ -3,14 +3,13 @@ using Godot;
 /// <summary>
 /// Small background creature (rat, bug) that scuttles back and forth.
 /// Triggers movement when player gets close.
-/// </summary>
-/// <summary>
-/// Small background creature (rat, bug) that scuttles back and forth.
-/// Triggers movement when player gets close.
 /// Can be configured with any small sprite texture.
 /// </summary>
 public partial class Scuttler : Sprite2D
+{
     [Export] public float TriggerRadius { get; set; } = 80f;
+    [Export] public float ScuttleDistance { get; set; } = 48f;
+    [Export] public float ScuttleSpeed { get; set; } = 60f;
     [Export] public float PauseMin { get; set; } = 1f;
     [Export] public float PauseMax { get; set; } = 3f;
 

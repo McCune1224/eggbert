@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://bv8u2r2jgwqy1"]
+
+[ext_resource type="Script" path="res://components/world/Scuttler.cs" id="1_sctl"]
+[ext_resource type="Texture2D" path="res://assets/items/icons/icon_0000.png" id="2_spr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3cp4p"]
+radius = 4.0
+
+[node name="Scuttler" type="Sprite2D"]
+texture_filter = 1
+texture = ExtResource("2_spr")
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_sctl")
