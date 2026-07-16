@@ -41,6 +41,10 @@ public partial class GameInit : Node
         // Add persistent save icon
         var saveIcon = new SaveIcon();
         GetTree().Root.AddChild(saveIcon);
+
+        // Add persistent dialog log
+        var dialogLog = new DialogLog();
+        GetTree().Root.AddChild(dialogLog);
         var menuPacked = ResourceLoader.Load<PackedScene>("res://ui/MainMenu.tscn");
         if (menuPacked == null)
         {

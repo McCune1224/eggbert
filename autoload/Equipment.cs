@@ -154,6 +154,39 @@ public partial class Equipment : Node, ISavable
         return total;
     }
 
+    /// <summary>
+    /// Returns a stat-change preview string for equipping an item,
+    /// showing current vs projected values with +/- deltas.
+    /// </summary>
+    public string PreviewDeltas(Item item)
+    {
+        if (item == null || item.Slot == EquipSlot.None) return "";
+
+        var deltas = new System.Collections.Generic.List<string>();
+
+        string currentId = GetEquippedId(item.Slot);
+        Item current = string.IsNullOrEmpty(currentId) ? null : ItemDatabase.Get(currentId);
+
+        int currentHp = current?.MaxHPBoost ?? 0;
+        int currentAtk = current?.AttackBoost ?? 0;
+        int currentDef = current?.DefenseBoost ?? 0;
+        int currentSpd = current?.SpeedBoost ?? 0;
+
+        void AddDelta(string label, int cur, int nxt)
+        {
+            int delta = nxt - cur;
+            if (delta == 0) return;
+            deltas.Add($"{label} {(delta > 0 ? "+" : "")}{delta}");
+        }
+
+        AddDelta("HP", currentHp, item.MaxHPBoost);
+        AddDelta("ATK", currentAtk, item.AttackBoost);
+        AddDelta("DEF", currentDef, item.DefenseBoost);
+        AddDelta("SPD", currentSpd, item.SpeedBoost);
+
+        return string.Join(", ", deltas);
+    }
+
     public SaveResource Save(SaveResource newSave)
     {
         SaveDataEquipment data = new()

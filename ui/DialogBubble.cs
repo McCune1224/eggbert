@@ -206,12 +206,17 @@ public partial class DialogBubble : CanvasLayer
             _namePlate.Position = new Vector2(16, -60);
             _namePlate.Visible = true;
             var tween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+
             tween.TweenProperty(_namePlate, "position", new Vector2(16, -28), 0.25f);
         }
         else
         {
             _namePlate.Visible = showName;
         }
+
+        // Append to persistent dialog log
+        DialogLog.AppendLine(voice?.SpeakerName, text);
+
 
         var segments = DialogTagParser.Parse(text);
         BuildCharData(segments);

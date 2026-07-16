@@ -379,6 +379,15 @@ public partial class OverworldMenu : CanvasLayer
             if (item.DefenseBoost > 0) boosts.Add($"+{item.DefenseBoost} DEF");
             if (item.SpeedBoost > 0) boosts.Add($"+{item.SpeedBoost} SPD");
             _statsLabel.Text = string.Join(", ", boosts);
+
+            // Show stat preview for unequipped items
+            if (!Equipment.Instance.IsEquipped(item.Id))
+            {
+                string preview = Equipment.Instance.PreviewDeltas(item);
+                if (!string.IsNullOrEmpty(preview))
+                    _statsLabel.Text += $"\n[{preview}]";
+            }
+
             if (Equipment.Instance.IsEquipped(item.Id))
             {
                 _statsLabel.Text += " (Equipped)";
