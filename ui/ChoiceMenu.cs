@@ -11,12 +11,8 @@ public partial class ChoiceMenu : CanvasLayer
     private int _selectedIndex;
     private Control _root;
     private VBoxContainer _choiceContainer;
-    private static Font _yosterFont;
+    private static Font _yosterFont => FontCache.Yoster;
 
-    static ChoiceMenu()
-    {
-        _yosterFont = ResourceLoader.Load<Font>("res://assets/fonts/yoster.ttf");
-    }
 
     public override void _Ready()
     {

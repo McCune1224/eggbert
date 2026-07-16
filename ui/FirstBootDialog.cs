@@ -55,7 +55,7 @@ public partial class FirstBootDialog : CanvasLayer
             Text = "Text Speed",
             HorizontalAlignment = HorizontalAlignment.Center
         };
-        var yosterFont = ResourceLoader.Load<Font>("res://assets/fonts/yoster.ttf");
+        var yosterFont = FontCache.Yoster;
         if (yosterFont != null)
             title.AddThemeFontOverride("font", yosterFont);
         title.AddThemeFontSizeOverride("font_size", 16);

@@ -37,7 +37,7 @@ public partial class DialogLog : CanvasLayer
             MouseFilter = Control.MouseFilterEnum.Ignore,
             BbcodeEnabled = true
         };
-        var font = ResourceLoader.Load<Font>("res://assets/fonts/yoster.ttf");
+        var font = FontCache.Yoster;
         if (font != null)
             _logLabel.AddThemeFontOverride("normal_font", font);
         _logLabel.AddThemeFontSizeOverride("normal_font_size", 10);

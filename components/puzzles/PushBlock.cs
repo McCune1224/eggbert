@@ -29,6 +29,14 @@ public partial class PushBlock : CharacterBody2D
         ApplyTexture();
     }
 
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (_collisionShape?.Shape is not RectangleShape2D)
+            warnings.Add("PushBlock expects a RectangleShape2D collision shape for proper sizing.");
+        return warnings.ToArray();
+    }
+
 
     private void ApplyTexture()
     {

@@ -24,6 +24,14 @@ public partial class SpikeTile : Area2D
         BodyEntered += OnBodyEntered;
     }
 
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (Damage <= 0)
+            warnings.Add("Damage is zero or negative — spike tile has no effect.");
+        return warnings.ToArray();
+    }
+
     private void OnBodyEntered(Node2D body)
     {
         if (_hasTriggered && OneShot) return;

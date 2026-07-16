@@ -49,6 +49,14 @@ public partial class FakeWall : StaticBody2D
         }
     }
 
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (_triggerArea == null)
+            warnings.Add("FakeWall requires a TriggerArea child node for player detection.");
+        return warnings.ToArray();
+    }
+
     public override void _Input(InputEvent @event)
     {
         if (!RequireInteract || _revealed || !_playerNear) return;

@@ -24,6 +24,16 @@ public partial class ConveyorTile : Area2D
         BodyEntered += OnBodyEntered;
     }
 
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (ConveyorDirection == Vector2.Zero)
+            warnings.Add("ConveyorDirection is zero — conveyor will not push anything.");
+        if (ConveyorSpeed <= 0f)
+            warnings.Add("ConveyorSpeed is zero or negative — conveyor will not push anything.");
+        return warnings.ToArray();
+    }
+
     private void OnBodyEntered(Node2D body)
     {
         if (body is PushBlock block)

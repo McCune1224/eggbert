@@ -48,6 +48,14 @@ public partial class TimedSpikes : Area2D
         _timer.Start(InactiveDuration);
     }
 
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (Damage <= 0)
+            warnings.Add("Damage is zero or negative — timed spikes have no effect.");
+        return warnings.ToArray();
+    }
+
     private void OnTimerTimeout()
     {
         switch (_state)

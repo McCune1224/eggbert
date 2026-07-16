@@ -26,6 +26,14 @@ public partial class MovingPlatform : AnimatableBody2D
         }
     }
 
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (_animationPlayer == null || !_animationPlayer.HasAnimation("move"))
+            warnings.Add("MovingPlatform requires an AnimationPlayer child with a 'move' animation.");
+        return warnings.ToArray();
+    }
+
     public override void _Process(double delta)
     {
         if (_animationPlayer == null) return;

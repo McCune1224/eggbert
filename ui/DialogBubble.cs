@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Text;
 
 public partial class DialogBubble : CanvasLayer
 {
@@ -58,7 +59,7 @@ public partial class DialogBubble : CanvasLayer
     static DialogBubble()
     {
         _chime = ResourceLoader.Load<AudioStream>("res://assets/audio/sfx/retro/SoundClick.wav");
-        _yosterFont = ResourceLoader.Load<Font>("res://assets/fonts/yoster.ttf");
+        _yosterFont = FontCache.Yoster;
         _chatboxTexture = ResourceLoader.Load<Texture2D>("res://assets/ui/chatbox.png");
         _arrowTexture = ResourceLoader.Load<Texture2D>("res://assets/ui/Arrow.png");
     }
@@ -232,7 +233,7 @@ public partial class DialogBubble : CanvasLayer
 
     void BuildCharData(List<TextSegment> segments)
     {
-        _displayText = "";
+        var sb = new StringBuilder();
         _charPauses.Clear();
         _charCps.Clear();
 
@@ -240,11 +241,12 @@ public partial class DialogBubble : CanvasLayer
         {
             for (int j = 0; j < seg.Text.Length; j++)
             {
-                _displayText += seg.Text[j];
+                sb.Append(seg.Text[j]);
                 _charPauses.Add(j == 0 ? seg.PauseBefore : 0f);
                 _charCps.Add(seg.CpsOverride);
             }
         }
+        _displayText = sb.ToString();
     }
 
     void BuildPages()
