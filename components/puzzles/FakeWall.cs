@@ -38,7 +38,7 @@ public partial class FakeWall : StaticBody2D
 
     public override void _Input(InputEvent @event)
     {
-        if (!RequireInteract || _revealed) return;
+        if (!RequireInteract || _revealed || !_playerNear) return;
         if (!@event.IsActionPressed("interact")) return;
         Reveal();
     }

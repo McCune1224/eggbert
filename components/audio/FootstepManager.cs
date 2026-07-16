@@ -60,7 +60,7 @@ public partial class FootstepManager : Node
         {
             From = _player.GlobalPosition + new Vector2(0, 16),
             To = _player.GlobalPosition + new Vector2(0, 32),
-            CollisionMask = CollisionConfig.WallsLayer
+            CollisionMask = CollisionConfig.WallsLayer | CollisionConfig.InteractableLayer | CollisionConfig.PlayerLayer
         };
 
         var result = space.IntersectRay(query);

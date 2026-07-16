@@ -2,45 +2,29 @@ using Godot;
 
 /// <summary>
 /// Interact-triggered dialog for signs, posters, books, scribbled notes.
-/// Reuses DialogManager to show lines on interaction.
-/// WorldFlags can gate which line shows via optional flag checks.
+/// Reuses InteractableArea base class for player detection + prompt.
 /// </summary>
-public partial class ReadableObject : Area2D
+public partial class ReadableObject : InteractableArea
 {
     [Export] public string[] DialogLines { get; set; }
-    [Export] public DialogVoiceResource Voice { get; set; }
+    [Export] public string[] AlternateLines { get; set; }
 
     /// <summary>
     /// If set, the WorldFlag to check before showing dialog.
-    /// When the flag is true, the alternate lines (if provided) are shown instead.
+    /// When true, AlternateLines are shown instead.
     /// </summary>
     [Export] public string GateFlag { get; set; } = "";
 
     /// <summary>
-    /// Dialog lines to show when GateFlag is true. If empty, falls back to DialogLines.
-    /// </summary>
-    [Export] public string[] GateDialogLines { get; set; }
-
-    /// <summary>
-    /// If true, this readable can only be read once (sets a flag after reading).
+    /// If true, this readable can only be read once.
     /// </summary>
     [Export] public bool Once { get; set; } = false;
 
-    private Sprite2D _promptSprite;
-    private bool _playerInRange = false;
     private bool _hasBeenRead = false;
 
     public override void _Ready()
     {
-        CollisionLayer = 0;
-        CollisionMask = CollisionConfig.PlayerLayer;
-
-        _promptSprite = GetNodeOrNull<Sprite2D>("Sprite2D");
-        if (_promptSprite != null)
-            _promptSprite.Visible = false;
-
-        BodyEntered += OnBodyEntered;
-        BodyExited += OnBodyExited;
+        base._Ready();
 
         if (Once && !string.IsNullOrEmpty(GateFlag) && WorldFlags.Instance.HasFlag("read_" + GateFlag))
         {
@@ -49,38 +33,10 @@ public partial class ReadableObject : Area2D
         }
     }
 
-    public override void _Input(InputEvent @event)
+    protected override void OnInteract()
     {
-        if (!_playerInRange || _hasBeenRead) return;
-        if (!@event.IsActionPressed("interact")) return;
+        if (_hasBeenRead) return;
 
-        Read();
-        GetViewport().SetInputAsHandled();
-    }
-
-    private void OnBodyEntered(Node2D body)
-    {
-        if (!body.IsInGroup("player")) return;
-        _playerInRange = true;
-
-        if (_promptSprite != null)
-            _promptSprite.Visible = true;
-    }
-
-    private void OnBodyExited(Node2D body)
-    {
-        if (!body.IsInGroup("player")) return;
-        _playerInRange = false;
-
-        if (_promptSprite != null)
-            _promptSprite.Visible = false;
-
-        if (!CutsceneController.Instance.IsPlaying)
-            DialogManager.Instance.Reset();
-    }
-
-    private void Read()
-    {
         if (Once)
         {
             string flag = "read_" + (string.IsNullOrEmpty(GateFlag) ? Name : GateFlag);
@@ -88,11 +44,13 @@ public partial class ReadableObject : Area2D
             _hasBeenRead = true;
         }
 
-        string[] lines = DialogLines;
+        string[] lines;
+        if (!string.IsNullOrEmpty(GateFlag) && WorldFlags.Instance.HasFlag(GateFlag)
+            && AlternateLines != null && AlternateLines.Length > 0)
+            lines = AlternateLines;
+        else
+            lines = DialogLines;
 
-        if (lines != null && lines.Length > 0)
-        {
-            CutsceneController.Instance.StartDialog(lines, Voice);
-        }
+        ShowDialog(lines);
     }
 }

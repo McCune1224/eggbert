@@ -47,7 +47,6 @@ public partial class WeatherSystem : Node
             _rainParticles.Amount = 100;
         }
 
-        // Add dark overlay to root
         var root = GetTree().Root;
         root.AddChild(_darkOverlay);
         _darkOverlay.Visible = true;
@@ -55,11 +54,10 @@ public partial class WeatherSystem : Node
         _tween = CreateTween();
         _tween.TweenProperty(_darkOverlay, "color", new Color(0, 0, 0, 0.15f), 2f);
 
-        // Schedule end
-        var endTimer = new Timer { OneShot = true };
-        AddChild(endTimer);
-        endTimer.Timeout += StopRain;
-        endTimer.Start(RainDuration);
+        // Reuse main timer for rain duration
+        _timer.Timeout -= StartRain;
+        _timer.Timeout += StopRain;
+        _timer.Start(RainDuration);
     }
 
     private void StopRain()
@@ -77,7 +75,9 @@ public partial class WeatherSystem : Node
             _darkOverlay.GetParent()?.RemoveChild(_darkOverlay);
         }));
 
-        // Schedule next
+        // Schedule next rain
+        _timer.Timeout -= StopRain;
+        _timer.Timeout += StartRain;
         _timer.Start((float)GD.RandRange(MinInterval, MaxInterval));
     }
 }

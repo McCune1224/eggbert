@@ -16,7 +16,7 @@ public partial class SaveIcon : Control
 
         _icon = new TextureRect
         {
-            Texture = ResourceLoader.Load<Texture2D>("res://assets/ui/NPCPrompt.png"),
+            Texture = ResourceLoader.Load<Texture2D>("res://assets/items/icons/icon_0023.png"),
             StretchMode = TextureRect.StretchModeEnum.KeepCentered,
             Position = new Vector2(10, 10),
             Scale = new Vector2(0.5f, 0.5f)
@@ -38,6 +38,6 @@ public partial class SaveIcon : Control
         _tween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
         _tween.TweenProperty(this, "position", new Vector2(10, 30), 1.5f);
         _tween.Parallel().TweenProperty(this, "modulate", new Color(1, 1, 1, 0), 1.5f);
-        _tween.TweenCallback(Callable.From(() => Visible = false));
+        _tween.Chain().TweenCallback(Callable.From(() => Visible = false));
     }
 }

@@ -3,18 +3,17 @@ using Godot;
 /// <summary>
 /// Payphone that player can use to call home.
 /// Dialog changes based on story progression (WorldFlags).
+/// Uses InteractableArea base class for player detection + prompt.
 /// </summary>
-public partial class PhoneBooth : Area2D
+public partial class PhoneBooth : InteractableArea
 {
-    [Export] public DialogVoiceResource PhoneVoice { get; set; }
-
     /// <summary>
     /// Dialog lines shown when no story progress has been made.
     /// </summary>
     [Export] public string[] IntroLines { get; set; }
 
     /// <summary>
-    /// Dialog lines for mid-game call (after some progress).
+    /// Dialog lines for mid-game call.
     /// </summary>
     [Export] public string[] MidgameLines { get; set; }
 
@@ -34,70 +33,24 @@ public partial class PhoneBooth : Area2D
     [Export] public string EndgameFlag { get; set; } = "";
 
     /// <summary>
-    /// WorldFlag set after the call is made (to prevent repeat calls or for state tracking).
+    /// WorldFlag set after the call is made.
     /// </summary>
     [Export] public string CallCompleteFlag { get; set; } = "";
 
-    private Sprite2D _promptSprite;
-    private bool _playerInRange = false;
     private bool _hasDialled = false;
 
-    public override void _Ready()
+    protected override void OnInteract()
     {
-        CollisionLayer = 0;
-        CollisionMask = CollisionConfig.PlayerLayer;
+        if (_hasDialled) return;
 
-        _promptSprite = GetNodeOrNull<Sprite2D>("Sprite2D");
-        if (_promptSprite != null)
-            _promptSprite.Visible = false;
-
-        BodyEntered += OnBodyEntered;
-        BodyExited += OnBodyExited;
-    }
-
-    public override void _Input(InputEvent @event)
-    {
-        if (!_playerInRange || _hasDialled) return;
-        if (!@event.IsActionPressed("interact")) return;
-
-        PerformCall();
-        GetViewport().SetInputAsHandled();
-    }
-
-    private void OnBodyEntered(Node2D body)
-    {
-        if (!body.IsInGroup("player")) return;
-        _playerInRange = true;
-
-        if (_promptSprite != null)
-            _promptSprite.Visible = true;
-    }
-
-    private void OnBodyExited(Node2D body)
-    {
-        if (!body.IsInGroup("player")) return;
-        _playerInRange = false;
-
-        if (_promptSprite != null)
-            _promptSprite.Visible = false;
-
-        if (!CutsceneController.Instance.IsPlaying)
-            DialogManager.Instance.Reset();
-    }
-
-    private void PerformCall()
-    {
         string[] lines = IntroLines;
-
         if (!string.IsNullOrEmpty(EndgameFlag) && WorldFlags.Instance.HasFlag(EndgameFlag))
             lines = EndgameLines;
         else if (!string.IsNullOrEmpty(MidgameFlag) && WorldFlags.Instance.HasFlag(MidgameFlag))
             lines = MidgameLines;
 
         if (lines == null || lines.Length == 0)
-        {
             lines = new[] { "*click*", "...", "No answer." };
-        }
 
         if (!string.IsNullOrEmpty(CallCompleteFlag))
         {
@@ -105,7 +58,6 @@ public partial class PhoneBooth : Area2D
             _hasDialled = true;
         }
 
-
-        CutsceneController.Instance.StartDialog(lines, PhoneVoice);
+        ShowDialog(lines);
     }
 }
