@@ -1,0 +1,87 @@
+[gd_scene load_steps=10 format=4 uid="uid://kitchenzone01"]
+
+[ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_core"]
+[ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2_base"]
+[ext_resource type="PackedScene" uid="uid://dmg8py6ignrbd" path="res://levels/overworld/npcs/GrandpaSmith.tscn" id="3_grandpa"]
+[ext_resource type="PackedScene" uid="uid://chef_npc" path="res://levels/eggsile/npcs/Chef.tscn" id="4_chef"]
+[ext_resource type="Script" uid="uid://c5nkwg6g27ibr" path="res://components/items/PickupItem.cs" id="5_pick"]
+[ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0020.png" id="6_egg"]
+[ext_resource type="Script" path="res://components/npcs/MercyEncounterTrigger.cs" id="7_mercy"]
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="8_warp"]
+[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="9_lt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 16.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
+size = Vector2(80, 64)
+
+[node name="Kitchen" type="Node2D"]
+script = ExtResource("2_base")
+LevelName = "Kitchen"
+
+[node name="CoreTilemapLayer" parent="." instance=ExtResource("1_core")]
+
+[node name="GrandpaSmith" parent="." instance=ExtResource("3_grandpa")]
+position = Vector2(-180, 80)
+
+[node name="Chef" parent="." instance=ExtResource("4_chef")]
+position = Vector2(40, -40)
+
+[node name="HardboiledEggPickup" type="Area2D" parent="."]
+position = Vector2(-300, 80)
+script = ExtResource("5_pick")
+ItemId = "hardboiled_egg"
+Count = 1
+SetFlag = Array[String]([])
+DialogLines = Array[String](["Found a Hardboiled Egg. Restores a bit of pep."])
+
+[node name="Sprite2D" type="Sprite2D" parent="HardboiledEggPickup"]
+texture = ExtResource("6_egg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HardboiledEggPickup"]
+shape = SubResource("CircleShape2D_pickup")
+
+[node name="ScrambledEggPickup" type="Area2D" parent="."]
+position = Vector2(-260, 140)
+script = ExtResource("5_pick")
+ItemId = "scrambled_egg"
+Count = 1
+SetFlag = Array[String]([])
+DialogLines = Array[String](["Found a Scrambled Egg! A messy comfort."])
+
+[node name="Sprite2D" type="Sprite2D" parent="ScrambledEggPickup"]
+texture = ExtResource("6_egg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScrambledEggPickup"]
+shape = SubResource("CircleShape2D_pickup")
+
+[node name="OatmealEncounter" type="Area2D" parent="."]
+position = Vector2(120, -40)
+script = ExtResource("7_mercy")
+ArenaPath = "res://combat/arena/OatmealArena.tscn"
+PlayerSpawn = Vector2(0, 0)
+SpareFlag = "spared_oatmeal"
+FightFlag = "fought_oatmeal"
+BeatFlag = "beat_oatmeal"
+OnceFlag = "resolved_oatmeal"
+IntroLines = Array[String](["The great pot begins to boil. A colossal Oatmeal rises from the steam, bubbling angrily.", "It smells like breakfast. It looks like a threat."])
+SpareLines = Array[String](["You lower your spoon. The Oatmeal settles, steaming quietly.", "'Maybe,' it burbles, 'I'm not so bad. Just... misoatmealunderstood.'", "It sinks back into the pot. The kitchen is calm again."])
+FightLines = Array[String](["You raise your spoon. The Oatmeal roils and lunges!", "It's oatmeal o'clock."])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OatmealEncounter"]
+shape = SubResource("RectangleShape2D_trigger")
+
+[node name="WarpPoint" parent="." instance=ExtResource("8_warp")]
+WarpId = "kitchen"
+position = Vector2(0, 0)
+
+[node name="Checkpoint" type="Marker2D" parent="."]
+position = Vector2(0, 120)
+
+[node name="KitchenExit" parent="." instance=ExtResource("9_lt")]
+position = Vector2(400, 0)
+Level = "uid://d203hfawkft4p"
+TargetTransitionName = "KitchenExit"
+Size = 5
+Side = 3

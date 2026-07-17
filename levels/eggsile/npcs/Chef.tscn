@@ -17,7 +17,8 @@ texture = ExtResource("1_spr")
 modulate = Color(0.9, 0.9, 0.7, 1)
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
-DialogLines = Array[String](["Lunch duty sign-ups are over there. We need hands in the kitchen.", "Oh, you're an egg! That must mean you believe breakfast is the most important meal of the day, right?", "What? You think all mealtimes have their benefits? Oh jeez, I bet you're one of those freaks that thinks eggs can hang with the dinner crowd.", "Finish the KP duties and I'll give you the closet keys. Fair trade."])
+DialogLines = Array[String](["Lunch duty sign-ups are over there. We need hands in the kitchen.", "Oh, you're an egg! That must mean you believe breakfast is the most important meal of the day, right?", "What? You think all mealtimes have their benefits? Oh jeez, I bet you're one of those freaks that thinks eggs can hang with the dinner crowd.", "Word of advice? The Sunnysides don't think so. They think breakfast is the ONLY meal. Weird cloaked eggs in the east wing. Don't stare.", "Finish the KP duties and I'll give you the closet keys. Fair trade."])
+SetFlagsOnFire = Array[String](["met_chef"])
 Mode = 0
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
