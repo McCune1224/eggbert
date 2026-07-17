@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 [ext_resource type="Script" uid="uid://c5nkwg6g27ibr" path="res://components/items/PickupItem.cs" id="7_pickup"]
 [ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="8_cutscene"]
-[ext_resource type="Script" path="res://levels/overworld/maps/FinalBossTrigger.gd" id="9_combat"]
+[ext_resource type="Script" path="res://levels/overworld/maps/FinalBossTrigger.cs" id="9_combat"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pavv6"]
 texture = ExtResource("1_jkt6b")
