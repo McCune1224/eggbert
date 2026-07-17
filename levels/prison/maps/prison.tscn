@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://bms1ioay0fp20"]
+[gd_scene load_steps=38 format=4 uid="uid://bms1ioay0fp20"]
 
 [ext_resource type="Texture2D" uid="uid://cag8djeu52niq" path="res://assets/tilemaps/prison tileset.png" id="1_3ox1m"]
 [ext_resource type="Texture2D" uid="uid://bv1b24fd22scx" path="res://levels/prison/maps/Officer Bacon.png" id="2_w7byb"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://bqwe0fl4n2y1p" path="res://components/npcs/ReadableObject.tscn" id="16_sign"]
 [ext_resource type="PackedScene" uid="uid://dwe4dxpb1qtrj" path="res://components/interactables/PhoneBooth.tscn" id="17_phone"]
 [ext_resource type="Script" path="res://components/npcs/SleepingNPC.cs" id="18_sleep"]
+[ext_resource type="PackedScene" uid="uid://frankcellmate01" path="res://levels/prison/npcs/Frank.tscn" id="22_frank"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w7byb"]
 texture = ExtResource("1_3ox1m")
@@ -327,7 +328,7 @@ position = Vector2(-200, 100)
 script = ExtResource("8")
 ItemId = "cell_key"
 Count = 1
-SetFlag = "has_cell_key"
+SetFlag = ["has_cell_key", "found_cell_key"]
 DialogLines = Array[String](["Got the Cell Key! This looks like it opens a cell in Block C."])
 
 [node name="CellKeySprite" type="Sprite2D" parent="CellKeyPickup"]
@@ -406,7 +407,7 @@ Side = 2
 script = ExtResource("8")
 ItemId = "egg_salad_sandwich"
 Count = 1
-SetFlag = ""
+SetFlag = Array[String]([])
 DialogLines = Array[String](["Got an Egg Salad Sandwich! A hearty sandwich. Fills you right up."])
 
 [node name="CommissarySprite" type="Sprite2D" parent="CommissaryPickup"]
@@ -416,10 +417,18 @@ shape = SubResource("CircleShape2D_pickup")
 
 [node name="Checkpoint" type="Marker2D" parent="."]
 position = Vector2(100, 180)
-
 [node name="CellSign" parent="." instance=ExtResource("16_sign")]
 position = Vector2(160, 180)
 DialogLines = Array[String](["PRISON RULES:", "1. Don't try to escape.", "2. Don't talk to the guards.", "3. Don't eat the yellow eggs.", "...", "The sign has been here so long the bottom half is unreadable."])
+
+[node name="Frank" parent="." instance=ExtResource("22_frank")]
+position = Vector2(60, 220)
+
+[node name="HistoryBook" parent="." instance=ExtResource("16_sign")]
+position = Vector2(220, 260)
+DialogLines = Array[String](["'Eggs Isle: A History' — a dusty tome bolted to a reading stand.", "I. Founding: Eggs Isle was built by the Order of the Sunnyside as a refuge for eggs who had cracked. The warden's throne sits atop the original shrine.", "II. The Great Yolking: A schism split the Order. Those who kept the yolk became the Sunnyside; those who drained it were exiled to the Factory.", "III. The Three Laws of the Isle: 1) The yolk is sacred. 2) The warden speaks for the Shrine. 3) No egg shall leave unbroken. (This one is crossed out and redrawn in red.)", "IV. Quiz of the Gate: All who seek exit must answer three questions on the island's history. Answers: founding = Sunnyside Order; schism = the yolk; third law = no egg leaves unbroken.", "...the rest of the page is glued together with egg whites."])
+GateFlag = "history_book"
+Once = true
 
 
 [node name="PhoneBooth" parent="." instance=ExtResource("17_phone")]

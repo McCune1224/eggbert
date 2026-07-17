@@ -84,7 +84,7 @@ shape = SubResource("RectShape_topwall")
 script = ExtResource("9_pi")
 ItemId = "cell_key"
 Count = 1
-SetFlag = "has_cell_key"
+SetFlag = Array[String](["has_cell_key"])
 DialogLines = Array[String](["Picked up Cell Key."])
 position = Vector2(100, 180)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GuardRoom/Pickup_CellKey"]

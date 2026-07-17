@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=4 uid="uid://frankcellmate01"]
+
+[ext_resource type="Texture2D" uid="uid://bererk51y6d1k" path="res://assets/characters/Frank.png" id="1_spr"]
+[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_ct"]
+[ext_resource type="Script" path="res://components/core/CheckableComponent.cs" id="3_check"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 40.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_phys"]
+size = Vector2(28, 55)
+
+[node name="Frank" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_spr")
+
+[node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
+DialogLines = Array[String](["Frank: Oh — a new cellmate. Name's Frank. I've been in this cell longer than the wallpaper.", "Layout? Cell Block C is past the north door. Guard room's got the key. Don't ask how I know.", "Block A's collapsed. Block B's where they keep the noisy ones. The kitchen's through the west hall — if you smell oatmeal, you've gone too far.", "There's a book around here somewhere — 'Eggs Isle: A History.' Boring, but the warden quizzes everyone who wants out. Read it. Trust me.", "Me? I'm not going anywhere. Someone has to keep the moss company."])
+SetFlagsOnFire = Array[String](["met_frank"])
+Mode = 0
+
+[node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
+shape = SubResource("CircleShape2D_interact")
+
+[node name="PhysicsCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_phys")
+
+[node name="Checkable" type="Area2D" parent="."]
+script = ExtResource("3_check")
+CheckLine = "Frank: A weary egg with a patchy beard and a permanent slouch. He's been here long enough to memorize the cracks in the wall."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkable"]
+shape = SubResource("CircleShape2D_interact")

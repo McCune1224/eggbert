@@ -132,7 +132,7 @@ position = Vector2(500, -100)
 script = ExtResource("7")
 ItemId = "rusty_key"
 Count = 1
-SetFlag = "has_rusty_key"
+SetFlag = Array[String](["has_rusty_key"])
 DialogLines = Array[String](["Got the Rusty Key! Now find a matching lock..."])
 
 [node name="RustyKeySprite" type="Sprite2D" parent="RustyKeyPickup"]

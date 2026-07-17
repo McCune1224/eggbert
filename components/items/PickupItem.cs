@@ -9,7 +9,8 @@ public partial class PickupItem : Area2D
     [Export] public string ItemId = "";
     [Export] public int Count = 1;
     [Export] public string[] DialogLines;
-    [Export] public string SetFlag = "";
+    /// <summary>World flags set to true on pickup (e.g. "has_cell_key").</summary>
+    [Export] public string[] SetFlag = System.Array.Empty<string>();
 
     public override void _Ready()
     {
@@ -22,14 +23,35 @@ public partial class PickupItem : Area2D
     {
         if (!body.IsInGroup("player")) return;
 
-        Inventory.Instance.Add(ItemId, Count);
+        if (string.IsNullOrEmpty(ItemId))
+        {
+            GameLogger.Warn("PickupItem", $"'{Name}': ItemId is empty — nothing picked up");
+            QueueFree();
+            return;
+        }
 
-        if (!string.IsNullOrEmpty(SetFlag))
-            WorldFlags.Instance.SetFlag(SetFlag, true);
+        Inventory.Instance.Add(ItemId, Count);
+        GameLogger.Info("PickupItem", $"'{Name}': picked up (id={ItemId}, count={Count})");
+
+        if (SetFlag != null)
+        {
+            foreach (string flag in SetFlag)
+            {
+                if (!string.IsNullOrEmpty(flag))
+                {
+                    WorldFlags.Instance.SetFlag(flag, true);
+                    GameLogger.Info("PickupItem", $"'{Name}': set flag '{flag}'=true");
+                }
+            }
+        }
 
         if (DialogLines != null && DialogLines.Length > 0)
+        {
+            GameLogger.Debug("PickupItem", $"'{Name}': showing dialog ({DialogLines.Length} lines)");
             DialogManager.Instance.StartDialog(new System.Collections.Generic.List<string>(DialogLines));
+        }
 
+        GameLogger.Info("PickupItem", $"'{Name}': destroyed after pickup");
         QueueFree();
     }
 }
