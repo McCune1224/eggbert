@@ -1,0 +1,88 @@
+[gd_scene load_steps=13 format=4 uid="uid://solitaryzone01"]
+
+[ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_core"]
+[ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2_base"]
+[ext_resource type="Script" uid="uid://0pqa3w86kd1k" path="res://components/world/FlickeringLight.cs" id="3_flick"]
+[ext_resource type="PackedScene" uid="uid://bqwe0fl4n2y1p" path="res://components/npcs/ReadableObject.tscn" id="4_readable"]
+[ext_resource type="PackedScene" uid="uid://dc1kn3llv4x71" path="res://components/puzzles/FloorSwitch.tscn" id="5_switch"]
+[ext_resource type="PackedScene" uid="uid://bqpnrhgn1dngw" path="res://components/puzzles/Door.tscn" id="6_door"]
+[ext_resource type="Script" uid="uid://wuxyo48h368n" path="res://components/puzzles/SequencePuzzle.cs" id="7_seq"]
+[ext_resource type="PackedScene" uid="uid://csfjihf8bm7m4" path="res://components/puzzles/TeleportPad.tscn" id="8_tp"]
+[ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="11_ct"]
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="9_warp"]
+[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="10_lt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_switch"]
+radius = 20.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_entry"]
+size = Vector2(40, 40)
+
+[node name="Solitary" type="Node2D"]
+script = ExtResource("2_base")
+LevelName = "Solitary"
+
+[node name="CoreTilemapLayer" parent="." instance=ExtResource("1_core")]
+
+[node name="FlickeringLight" type="PointLight2D" parent="."]
+script = ExtResource("3_flick")
+position = Vector2(0, -40)
+texture_filter = 1
+energy = 0.6
+MinEnergy = 0.1
+MaxEnergy = 0.8
+FlickerSpeed = 7.0
+
+[node name="HiddenMessage" parent="." instance=ExtResource("4_readable")]
+position = Vector2(-100, 0)
+DialogLines = Array[String](["Scratched into the wall in a shaky hand:", "'Day forty-something. Or fifty. Light's a liar.'", "'There's a tune. Four notes. The switches in here hum when you step on them in the right order.'", "'I heard it in the pipes last winter. LOW, HIGH, then the two in the middle. The light flickers when you're close.'", "'If you're reading this, you're me, later. I'm sorry. Get out.'"])
+GateFlag = "solitary_message"
+Once = true
+
+[node name="PuzzleSwitch1" parent="." instance=ExtResource("5_switch")]
+position = Vector2(-120, 100)
+Latching = false
+
+[node name="PuzzleSwitch2" parent="." instance=ExtResource("5_switch")]
+position = Vector2(-40, 100)
+Latching = false
+
+[node name="PuzzleSwitch3" parent="." instance=ExtResource("5_switch")]
+position = Vector2(40, 100)
+Latching = false
+
+[node name="PuzzleSwitch4" parent="." instance=ExtResource("5_switch")]
+position = Vector2(120, 100)
+Latching = false
+
+[node name="CellDoor" parent="." instance=ExtResource("6_door")]
+position = Vector2(0, -120)
+
+[node name="SequenceController" type="Node" parent="."]
+script = ExtResource("7_seq")
+SwitchSequence = Array[NodePath]([NodePath("../PuzzleSwitch1"), NodePath("../PuzzleSwitch4"), NodePath("../PuzzleSwitch2"), NodePath("../PuzzleSwitch3")])
+TargetDoorPath = NodePath("../CellDoor")
+LatchOnComplete = true
+
+[node name="EscapePad" parent="." instance=ExtResource("8_tp")]
+position = Vector2(0, -200)
+TargetPadPath = NodePath("../BeachArrivalPad")
+
+[node name="BeachArrivalPad" parent="." instance=ExtResource("8_tp")]
+position = Vector2(400, 0)
+TargetPadPath = NodePath("../EscapePad")
+
+[node name="EscapeFlagTrigger" parent="." instance=ExtResource("11_ct")]
+position = Vector2(350, 0)
+Mode = 1
+Once = true
+CutsceneId = "escaped_solitary"
+DialogLines = Array[String](["The cell falls away behind you. Cold air, salt, gulls.", "You're out. Wherever you are, it isn't Solitary anymore."])
+SetFlagsOnFire = Array[String](["escaped_solitary"])
+
+[node name="BeachExit" parent="." instance=ExtResource("10_lt")]
+position = Vector2(400, 0)
+Level = "uid://beachfinale01"
+TargetTransitionName = "SolitaryExit"
+Size = 5
+Side = 3
