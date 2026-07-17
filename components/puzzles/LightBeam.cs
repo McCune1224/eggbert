@@ -15,6 +15,7 @@ public partial class LightBeam : Node2D
 
     private Line2D _line;
     private Vector2 _direction = Vector2.Right;
+    private LightSensor _activeSensor;
 
     public override void _Ready()
     {
@@ -43,6 +44,10 @@ public partial class LightBeam : Node2D
         Vector2 origin = Vector2.Zero;
         Vector2 dir = _direction;
         var space = GetWorld2D().DirectSpaceState;
+        int reflections = 0;
+        LightSensor hitSensor = null;
+
+        GameLogger.Debug("LightBeam", $"{Name}: casting beam — direction={dir}, maxLength={BeamLength}");
 
         for (int i = 0; i < MaxReflections; i++)
         {
@@ -59,6 +64,7 @@ public partial class LightBeam : Node2D
             if (result.Count == 0)
             {
                 points.Add(origin + dir * BeamLength);
+                GameLogger.Debug("LightBeam", $"{Name}: beam end — no collision, segmentLength={origin.Length() + BeamLength}");
                 break;
             }
 
@@ -71,18 +77,30 @@ public partial class LightBeam : Node2D
                 Vector2 normal = result["normal"].AsVector2();
                 dir = dir.Bounce(normal).Normalized();
                 origin = hitPoint;
+                reflections++;
+                GameLogger.Debug("LightBeam", $"{Name}: reflected off mirror '{mirror.Name}', reflection={reflections}, newDirection={dir}");
                 continue;
             }
 
             if (collider is LightSensor sensor)
             {
+                hitSensor = sensor;
                 sensor.Activate();
+                GameLogger.Info("LightBeam", $"{Name}: activated sensor '{sensor.Name}'");
                 break;
             }
 
+            GameLogger.Debug("LightBeam", $"{Name}: beam blocked by '{collider}' at {hitPoint}");
             break;
         }
 
+        // Deactivate the sensor we previously lit if the beam no longer hits it.
+        if (_activeSensor != null && _activeSensor != hitSensor)
+        {
+            _activeSensor.Deactivate();
+            GameLogger.Info("LightBeam", $"{Name}: deactivated sensor '{_activeSensor.Name}'");
+        }
+        _activeSensor = hitSensor;
         _line.Points = points.ToArray();
     }
 }

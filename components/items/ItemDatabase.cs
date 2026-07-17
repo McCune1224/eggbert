@@ -14,117 +14,131 @@ public static class ItemDatabase
         {
             "rusty_key", new Item
             {
-                Id = "rusty_key",
-                DisplayName = "Rusty Key",
-                Description = "A heavy iron key, orange with age. Opens something, probably.",
-                Category = ItemCategory.Key,
-                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0010.png"),
+                Id = "rusty_key", DisplayName = "Rusty Key", Category = ItemCategory.Key,
+                Description = "An old rusted key. Probably opens something nearby.",
             }
         },
         {
             "cell_key", new Item
             {
-                Id = "cell_key",
-                DisplayName = "Cell Key",
-                Description = "A cold iron key stamped 'BLOCK C'. Feels important.",
-                Category = ItemCategory.Key,
-                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0009.png"),
+                Id = "cell_key", DisplayName = "Cell Key", Category = ItemCategory.Key,
+                Description = "A heavy iron key marked with a 'C'.",
             }
         },
         // --- Consumables ---
         {
             "hardboiled_egg", new Item
             {
-                Id = "hardboiled_egg",
-                DisplayName = "Hardboiled Egg",
-                Description = "Restores a bit of pep. (+10 HP)",
-                Category = ItemCategory.Consumable,
-                HealAmount = 10,
-                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0019.png"),
+                Id = "hardboiled_egg", DisplayName = "Hardboiled Egg", Category = ItemCategory.Consumable,
+                Description = "A perfectly boiled egg. Restores 30 HP.",
+                HealAmount = 30,
             }
         },
         {
             "scrambled_egg", new Item
             {
-                Id = "scrambled_egg",
-                DisplayName = "Scrambled Egg",
-                Description = "A messy comfort. Heals more than it should. (+25 HP)",
-                Category = ItemCategory.Consumable,
-                HealAmount = 25,
-                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0020.png"),
+                Id = "scrambled_egg", DisplayName = "Scrambled Egg", Category = ItemCategory.Consumable,
+                Description = "Fluffy scrambled eggs. Restores 60 HP.",
+                HealAmount = 60,
             }
         },
         // --- Equipment ---
         {
-            "eggshell_helm", new Item
+            "butter_knife", new Item
             {
-                Id = "eggshell_helm",
-                DisplayName = "Eggshell Helm",
-                Description = "Cracked but sturdy. Worn on the head, mostly. (+10 HP, +3 DEF)",
-                Category = ItemCategory.Equipment,
-                Slot = EquipSlot.Armor,
-                DefenseBoost = 3,
-                MaxHPBoost = 10,
-                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/icons/icon_0192.png"),
+                Id = "butter_knife", DisplayName = "Butter Knife", Slot = EquipSlot.Weapon,
+                Category = ItemCategory.Equipment, AttackBoost = 3,
+                Description = "Dull but dependable. +3 ATK",
             }
         },
         {
-            "egg_salad_sandwich", new Item
+            "egg_shell", new Item
+        {
+                Id = "egg_shell", DisplayName = "Egg Shell", Slot = EquipSlot.Armor,
+                Category = ItemCategory.Equipment, DefenseBoost = 5,
+                Description = "Surprisingly sturdy. +5 DEF",
+            }
+        },
+        {
+            "lucky_yolk", new Item
             {
-                Id = "egg_salad_sandwich",
-                DisplayName = "Egg Salad Sandwich",
-                Description = "A hearty sandwich. Fills you right up. (+40 HP)",
-                Category = ItemCategory.Consumable,
-                HealAmount = 40,
-                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0018.png"),
+                Id = "lucky_yolk", DisplayName = "Lucky Yolk", Slot = EquipSlot.Accessory,
+                Category = ItemCategory.Equipment, SpeedBoost = 2,
+                Description = "A warm, golden yolk. +2 SPD",
+            }
+        },
+        {
+            "baseball_bat", new Item
+            {
+                Id = "baseball_bat", DisplayName = "Baseball Bat", Slot = EquipSlot.Weapon,
+                Category = ItemCategory.Equipment, AttackBoost = 5,
+                Description = "Crack! +5 ATK",
+            }
+        },
+        {
+            "soda_can_armor", new Item
+            {
+                Id = "soda_can_armor", DisplayName = "Soda Can Armor", Slot = EquipSlot.Armor,
+                Category = ItemCategory.Equipment, DefenseBoost = 8,
+                Description = "Fashionable and functional. +8 DEF",
+            }
+        },
+        {
+            "dice", new Item
+            {
+                Id = "dice", DisplayName = "Dice", Slot = EquipSlot.Accessory,
+                Category = ItemCategory.Equipment, AttackBoost = 3, DefenseBoost = 3,
+                Description = "Roll the bones. +3 ATK, +3 DEF",
+            }
+        },
+        // --- Items referenced by scenes but previously missing (demo plan Step A1) ---
+        {
+            "eggshell_helm", new Item
+            {
+                Id = "eggshell_helm", DisplayName = "Eggshell Helm", Slot = EquipSlot.Armor,
+                Category = ItemCategory.Equipment, DefenseBoost = 4, MaxHPBoost = 10,
+                Description = "A helm fashioned from a cracked eggshell. +4 DEF, +10 Max HP",
             }
         },
         {
             "eggdrop_soup", new Item
             {
-                Id = "eggdrop_soup",
-                DisplayName = "Egg Drop Soup",
-                Description = "Steamy and restorative. Like a hug in a bowl. (+60 HP)",
-                Category = ItemCategory.Consumable,
-                HealAmount = 60,
-                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0017.png"),
-            }
-        },
-        {
-            "golden_yolk", new Item
-            {
-                Id = "golden_yolk",
-                DisplayName = "Golden Yolk",
-                Description = "Radiant and warm. Tastes like victory. (Full HP)",
-                Category = ItemCategory.Consumable,
-                HealAmount = 9999,
-                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0016.png"),
+                Id = "eggdrop_soup", DisplayName = "Eggdrop Soup", Category = ItemCategory.Consumable,
+                Description = "A warm bowl of eggdrop soup. Restores 25 HP.",
+                HealAmount = 25,
             }
         },
         {
             "deviled_egg", new Item
             {
-                Id = "deviled_egg",
-                DisplayName = "Deviled Egg",
-                Description = "Spicy little number. Two bites. (+20 HP)",
-                Category = ItemCategory.Consumable,
+                Id = "deviled_egg", DisplayName = "Deviled Egg", Category = ItemCategory.Consumable,
+                Description = "A spicy deviled egg. Restores 20 HP.",
                 HealAmount = 20,
-                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0021.png"),
             }
         },
         {
-            "egg_tea", new Item
+            "egg_salad_sandwich", new Item
             {
-                Id = "egg_tea",
-                DisplayName = "Egg Tea",
-                Description = "A calm, quiet sip. Clears the head. (+15 HP)",
-                Category = ItemCategory.Consumable,
-                HealAmount = 15,
-                Icon = ResourceLoader.Load<Texture2D>("res://assets/items/sprites/item_sprite_0022.png"),
+                Id = "egg_salad_sandwich", DisplayName = "Egg Salad Sandwich", Category = ItemCategory.Consumable,
+                Description = "A sturdy sandwich. Restores 45 HP.",
+                HealAmount = 45,
+            }
+        },
+        {
+            "golden_yolk", new Item
+            {
+                Id = "golden_yolk", DisplayName = "Golden Yolk", Category = ItemCategory.Key,
+                Description = "A radiant yolk that pulses with warmth. The heart of the Sunnyside shrine.",
             }
         },
     };
 
-    public static Item Get(string id) =>
-        All.TryGetValue(id, out Item item) ? item : null;
+    public static Item Get(string id)
+    {
+        if (All.TryGetValue(id, out Item item))
+            return item;
+
+        GameLogger.Warn("ItemDatabase", $"Item not found: '{id}'");
+        return null;
+    }
 }
