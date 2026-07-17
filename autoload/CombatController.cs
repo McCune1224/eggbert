@@ -31,8 +31,8 @@ public partial class CombatController : Node
         _returnLevelPath = GameController.Instance.CurrentLevel.SceneFilePath;
         _returnPosition = Player.Instance.Position;
 
-        SaveLoadManager.Instance?.SaveGame();
-        GameController.Instance.LoadLevel(arenaPath, playerSpawn, true);
+        // NO pre-combat save — death in battle reloads from last save point (Undertale-style)
+        GameController.Instance.LoadLevel(arenaPath, playerSpawn);
 
         await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
 
@@ -61,8 +61,8 @@ public partial class CombatController : Node
             new System.Collections.Generic.List<string> { "You collapsed..." });
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
 
-        // Reload the pre-combat save to restore overworld state and full HP.
-        SaveLoadManager.Instance?.LoadGame();
+        // Reload the last save point save to restore overworld state.
+        SaveManager.Instance?.LoadGame();
     }
 
     private void UnhookArena()

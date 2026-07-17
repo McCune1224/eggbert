@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://br2jqbfdhmpbe"]
+
+[ext_resource type="Script" path="res://saves/SaveManager.cs" id="1_sm"]
+
+[node name="SaveManager" type="Node"]
+script = ExtResource("1_sm")

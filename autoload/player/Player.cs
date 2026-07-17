@@ -243,47 +243,57 @@ public partial class Player : CharacterBody2D, ISavable
 
 
 
-    public SaveResource Save(SaveResource newSave)
+    // --- ISavable ---
+
+    public string SaveKey => "player";
+    public Dictionary<string, Variant> Serialize()
     {
-        SaveDataPlayer saveData = new();
-
-        saveData.Position = Position;
-        saveData.Health = HealthComponent.MaxHP;
-        HealthComponent.CurrentHP = HealthComponent.MaxHP;
-
-        string levelPath = GameController.Instance.CurrentLevel?.SceneFilePath;
-        if (!string.IsNullOrEmpty(levelPath))
-            saveData.LevelScenePath = levelPath;
-        else
-            saveData.LevelScenePath = GameController.Instance.CheckpointLevelPath;
-
-        newSave.PlayerData = saveData;
-        return newSave;
-    }
-
-    public void Load(SaveResource saveData)
-    {
-        if (saveData.PlayerData != null)
+        string levelPath = GameController.Instance.CurrentLevel?.SceneFilePath ?? "res://levels/overworld/maps/Overworld.tscn";
+        GameLogger.Debug("Player", $"Serialize: pos={Position}, hp={HealthComponent.CurrentHP}, scene={levelPath}");
+        return new Dictionary<string, Variant>
         {
-            HealthComponent.CurrentHP = saveData.PlayerData.Health;
-            string scenePath = saveData.PlayerData.LevelScenePath;
-            Vector2 position = saveData.PlayerData.Position;
-            if (string.IsNullOrEmpty(scenePath))
-            {
-                scenePath = GameController.Instance.CheckpointLevelPath;
-                position = GameController.Instance.CheckpointPosition;
-            }
-
-            // Safety: guard against empty/invalid paths
-            if (string.IsNullOrEmpty(scenePath))
-            {
-                GameLogger.Warn("Player", "Load: no valid scene path in save or checkpoint, using default.");
-                scenePath = "res://levels/overworld/maps/Overworld.tscn";
-            }
-
-            GameController.Instance.LoadLevel(scenePath, position);
-        }
+            ["position_x"] = Position.X,
+            ["position_y"] = Position.Y,
+            ["health"] = HealthComponent.CurrentHP,
+            ["facing_dir"] = FacingDirection.ToString(),
+            ["level_scene_path"] = levelPath
+        };
     }
+
+    public void Deserialize(Dictionary<string, Variant> data)
+    {
+        GameLogger.Debug("Player", $"Deserialize: data keys=[{string.Join(",", data.Keys)}]");
+        int health = 100;
+        if (data.TryGetValue("health", out var healthVar))
+            health = healthVar.AsInt32();
+        HealthComponent.CurrentHP = health;
+        GameLogger.Debug("Player", $"Deserialize: health={health}");
+
+        string scenePath = "";
+        if (data.TryGetValue("level_scene_path", out var pathVar))
+            scenePath = pathVar.AsString();
+
+        float posX = 0f, posY = 0f;
+        if (data.TryGetValue("position_x", out var xVar))
+            posX = (float)xVar.AsDouble();
+        if (data.TryGetValue("position_y", out var yVar))
+            posY = (float)yVar.AsDouble();
+        Vector2 position = new(posX, posY);
+        GameLogger.Debug("Player", $"Deserialize: scenePath='{scenePath}', position={position}");
+
+        // Safety: guard against empty/invalid paths
+        if (string.IsNullOrEmpty(scenePath))
+        {
+            GameLogger.Warn("Player", "Deserialize: no valid scene path in save, using default.");
+            scenePath = "res://levels/overworld/maps/Overworld.tscn";
+        }
+
+        GameLogger.Info("Player", $"Deserialize: calling LoadLevel(scenePath='{scenePath}', pos={position})");
+        GameController.Instance.LoadLevel(scenePath, position);
+        GameLogger.Info("Player", $"Deserialize: LoadLevel returned (async, level may not be loaded yet).");
+    }
+
+    public int GetLoadPriority() => 10;
 
     private bool _deathInProgress = false;
 
@@ -291,7 +301,7 @@ public partial class Player : CharacterBody2D, ISavable
     {
         if (_deathInProgress) return;
         _deathInProgress = true;
-        GameLogger.Info("Player", "Player died — reloading from checkpoint.");
+        GameLogger.Info("Player", "Player died — reloading from last save.");
 
         if (GameController.Instance?.CurrentLevel is CombatArena)
         {
@@ -305,25 +315,12 @@ public partial class Player : CharacterBody2D, ISavable
         DialogManager.Instance.StartDialog(lines);
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
 
-        await FadeTransition.Instance.PlayFadeOut();
+        // Full reload from last save point (SaveManager.LoadGame triggers level load + restore)
+        SaveManager.Instance.LoadGame();
 
-        GameController.Instance.LoadLevel(
-            GameController.Instance.CheckpointLevelPath,
-            GameController.Instance.CheckpointPosition,
-            true
-        );
-        await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
-
-        HealthComponent.Revive(50);
         HealthComponent.Died += OnPlayerDied;
-
         _deathInProgress = false;
     }
 
-    public int GetLoadPriority()
-    {
-        // Player should load first
-        return 10;
-    }
 
 }

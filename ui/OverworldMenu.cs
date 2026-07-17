@@ -13,7 +13,6 @@ public partial class OverworldMenu : CanvasLayer
     private Button _resumeButton;
     private Button _mapButton;
     private Button _inventoryButton;
-    private Button _saveButton;
     private Button _settingsButton;
     private Button _quitButton;
 
@@ -70,16 +69,12 @@ public partial class OverworldMenu : CanvasLayer
         _mainPanel = GetNode<PanelContainer>("MainPanel");
         _resumeButton = GetNode<Button>("MainPanel/VBoxContainer/ResumeButton");
         _mapButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow1/MapButton");
-        _inventoryButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow1/InventoryButton");
-        _saveButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow2/SaveButton");
         _settingsButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow3/SettingsButton");
         _quitButton = GetNode<Button>("MainPanel/VBoxContainer/QuitButton");
         _mainMenuButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow3/MainMenuButton");
 
         _resumeButton.Connect("pressed", new Callable(this, nameof(OnResumePressed)));
         _mapButton.Connect("pressed", new Callable(this, nameof(OnMapPressed)));
-        _inventoryButton.Connect("pressed", new Callable(this, nameof(OnInventoryPressed)));
-        _saveButton.Connect("pressed", new Callable(this, nameof(OnSavePressed)));
         _settingsButton.Connect("pressed", new Callable(this, nameof(OnSettingsPressed)));
         _quitButton.Connect("pressed", new Callable(this, nameof(OnQuitPressed)));
         _mainMenuButton.Connect("pressed", new Callable(this, nameof(OnMainMenuPressed)));
@@ -486,12 +481,6 @@ public partial class OverworldMenu : CanvasLayer
     {
         ShowPanel(Panel.Main);
         _helpButton.GrabFocus();
-    }
-
-    private void OnSavePressed()
-    {
-        AudioManager.Instance.PlaySfx(_confirmSfx);
-        SaveLoadManager.Instance.SaveGame();
     }
 
     private void OnSettingsPressed()

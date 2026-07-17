@@ -68,21 +68,21 @@ public partial class WorldFlags : Node, ISavable
         GameLogger.Info("WorldFlags", "All flags cleared.");
     }
 
-    // ponytail: Dictionary serializes via Godot's native Variant serialization in .tres
-    public SaveResource Save(SaveResource newSave)
+    public string SaveKey => "world_flags";
+
+    public Godot.Collections.Dictionary<string, Variant> Serialize()
     {
-        newSave.WorldFlagsData = new SaveDataWorldFlags
+        return new Godot.Collections.Dictionary<string, Variant>
         {
-            Flags = new Dictionary<string, Variant>(_flags)
+            ["flags"] = new Godot.Collections.Dictionary<string, Variant>(_flags)
         };
-        return newSave;
     }
 
-    public void Load(SaveResource data)
+    public void Deserialize(Godot.Collections.Dictionary<string, Variant> data)
     {
-        if (data.WorldFlagsData?.Flags != null)
+        if (data.TryGetValue("flags", out var flagsVar))
         {
-            _flags = new Dictionary<string, Variant>(data.WorldFlagsData.Flags);
+            _flags = new Godot.Collections.Dictionary<string, Variant>(flagsVar.AsGodotDictionary());
         }
     }
 }

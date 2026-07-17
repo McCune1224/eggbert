@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Player inventory autoload. Holds item counts by Id, split by category for UI.
-/// ISavable — persisted via SaveResource. Overworld-only usage per DESIGN.md.
+/// ISavable — persisted via SaveManager. Overworld-only usage per DESIGN.md.
 /// </summary>
 public partial class Inventory : Node, ISavable
 {
@@ -77,24 +77,29 @@ public partial class Inventory : Node, ISavable
         Add("scrambled_egg", 1);
         Add("eggshell_helm");
     }
-
     // --- ISavable ---
 
-    public SaveResource Save(SaveResource newSave)
+    public string SaveKey => "inventory";
+
+    public Godot.Collections.Dictionary<string, Variant> Serialize()
     {
         var dict = new Godot.Collections.Dictionary<string, Variant>();
         foreach (var kvp in _stacks)
             dict[kvp.Key] = kvp.Value;
-        newSave.InventoryData = new SaveDataInventory { Stacks = dict };
-        return newSave;
+
+        return new Godot.Collections.Dictionary<string, Variant>
+        {
+            ["stacks"] = dict
+        };
     }
 
-    public void Load(SaveResource data)
+    public void Deserialize(Godot.Collections.Dictionary<string, Variant> data)
     {
         _stacks.Clear();
-        if (data.InventoryData?.Stacks == null) return;
-        foreach (var kvp in data.InventoryData.Stacks)
-            _stacks[kvp.Key] = (int)kvp.Value;
+        if (!data.TryGetValue("stacks", out var stacksVar)) return;
+        var stacks = stacksVar.AsGodotDictionary();
+        foreach (var kvp in stacks)
+            _stacks[kvp.Key.AsString()] = kvp.Value.AsInt32();
     }
 
     public int GetLoadPriority() => 0;

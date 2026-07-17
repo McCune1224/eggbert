@@ -13,38 +13,32 @@ public partial class GameInit : Node
     {
         GameLogger.InitializeFromEnv();
         Settings.Load();
+        GameLogger.Info("GameInit", "BootDeferred: logger initialized, settings loaded.");
+
         // Debug auto-start: skip the main menu and load the last save directly.
-        // Set the EGGBERT_SKIP_MENU environment variable to "1" to activate.
-        //   - In the MCP godot_run_project environment (.opencode/opencode.json).
-        //   - Via CLI: EGGBERT_SKIP_MENU=1 godot --path .
-        // Exported/normal builds won't have the var set, so the flow is export-safe.
         bool skipMenu = System.Environment.GetEnvironmentVariable("EGGBERT_SKIP_MENU") == "1";
+        GameLogger.Info("GameInit", $"BootDeferred: EGGBERT_SKIP_MENU={skipMenu}, HasSave={SaveManager.Instance.HasSave()}, SaveManager.Instance is null? {SaveManager.Instance == null}");
 
-        if (skipMenu
-            && SaveLoadManager.Instance != null
-            && SaveLoadManager.Instance.HasSave())
+        if (skipMenu && SaveManager.Instance.HasSave())
         {
-            SaveLoadManager.Instance.LoadGame();
-            await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
-            return;
+            GameLogger.Info("GameInit", "SKIP_MENU set + save exists — loading last save.");
+            bool loaded = SaveManager.Instance.LoadGame();
+            GameLogger.Info("GameInit", $"LoadGame returned {loaded}. Waiting for level load...");
+            if (loaded)
+            {
+                // Wait for the level to finish loading (Player.Deserialize calls LoadLevel which emits LevelLoaded)
+                await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
+                GameLogger.Info("GameInit", "Skip-menu: level loaded, returning (no MainMenu).");
+                return;
+            }
+            GameLogger.Warn("GameInit", "LoadGame returned false — old/corrupt save was deleted. Falling through to main menu.");
         }
 
-
-        // Show first-boot text speed picker
-        if (!WorldFlags.Instance.HasFlag("first_boot_speed_chosen"))
-        {
-            var speedDialog = new FirstBootDialog();
-            GetTree().Root.AddChild(speedDialog);
-            await ToSignal(speedDialog, FirstBootDialog.SignalName.Completed);
-        }
-
-        // Add persistent save icon
-        var saveIcon = new SaveIcon();
-        GetTree().Root.AddChild(saveIcon);
-
+        GameLogger.Info("GameInit", "Proceeding to load main menu.");
         // Add persistent dialog log
         var dialogLog = new DialogLog();
         GetTree().Root.AddChild(dialogLog);
+        GameLogger.Info("GameInit", "DialogLog added to root.");
         var menuPacked = ResourceLoader.Load<PackedScene>("res://ui/MainMenu.tscn");
         if (menuPacked == null)
         {
@@ -52,5 +46,6 @@ public partial class GameInit : Node
             return;
         }
         GetTree().Root.AddChild(menuPacked.Instantiate());
+        GameLogger.Info("GameInit", "MainMenu instantiated and added to root.");
     }
 }

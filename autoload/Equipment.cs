@@ -193,31 +193,32 @@ public partial class Equipment : Node, ISavable
         return string.Join(", ", deltas);
     }
 
-    public SaveResource Save(SaveResource newSave)
+    public string SaveKey => "equipment";
+
+    public Godot.Collections.Dictionary<string, Variant> Serialize()
     {
-        SaveDataEquipment data = new()
+        return new Godot.Collections.Dictionary<string, Variant>
         {
-            WeaponId = GetEquippedId(EquipSlot.Weapon),
-            ArmorId = GetEquippedId(EquipSlot.Armor),
-            AccessoryId = GetEquippedId(EquipSlot.Accessory)
+            ["weapon_id"] = GetEquippedId(EquipSlot.Weapon),
+            ["armor_id"] = GetEquippedId(EquipSlot.Armor),
+            ["accessory_id"] = GetEquippedId(EquipSlot.Accessory)
         };
-        newSave.EquipmentData = data;
-        return newSave;
     }
 
-    public void Load(SaveResource saveData)
+    public void Deserialize(Godot.Collections.Dictionary<string, Variant> data)
     {
-        if (saveData.EquipmentData == null) return;
-
-        // Clear all slots first
-        foreach (var slot in _slots.Keys)
+        // Clear all slots
+        foreach (EquipSlot slot in System.Enum.GetValues<EquipSlot>())
             _slots[slot] = "";
 
-        // Re-equip from save data
-        EquipById(EquipSlot.Weapon, saveData.EquipmentData.WeaponId);
-        EquipById(EquipSlot.Armor, saveData.EquipmentData.ArmorId);
-        EquipById(EquipSlot.Accessory, saveData.EquipmentData.AccessoryId);
+        if (data.TryGetValue("weapon_id", out var w) && !string.IsNullOrEmpty(w.AsString()))
+            EquipById(EquipSlot.Weapon, w.AsString());
+        if (data.TryGetValue("armor_id", out var a) && !string.IsNullOrEmpty(a.AsString()))
+            EquipById(EquipSlot.Armor, a.AsString());
+        if (data.TryGetValue("accessory_id", out var acc) && !string.IsNullOrEmpty(acc.AsString()))
+            EquipById(EquipSlot.Accessory, acc.AsString());
     }
+
 
     private void EquipById(EquipSlot slot, string id)
     {

@@ -12,9 +12,6 @@ public partial class GameController : Node
 	public Array<Vector2> CurrentTileMapBounds;
 	public Node CurrentLevel;
 
-	public string CheckpointLevelPath { get; set; } = "res://levels/overworld/maps/Overworld.tscn";
-	public Vector2 CheckpointPosition { get; set; } = Vector2.Zero;
-
 	[Signal]
 	public delegate void TileMapBoundsChangedEventHandler(Array<Vector2> bounds);
 
@@ -54,7 +51,7 @@ public partial class GameController : Node
 	/// <summary>
 	/// Loads a level and places the player at a specific position.
 	/// </summary>
-	public async void LoadLevel(string scenePath, Vector2 playerPosition, bool skipAutoSave = false)
+	public async void LoadLevel(string scenePath, Vector2 playerPosition)
 	{
 		GameLogger.Info("GameController", $"Loading level (pos): {scenePath}");
 		CutsceneController.Instance.Stop();
@@ -88,9 +85,6 @@ public partial class GameController : Node
 		var player = Player.Instance;
 		player.Position = playerPosition;
 
-		if (!skipAutoSave)
-			SaveLoadManager.Instance?.SaveGame();
-
 		await FadeTransition.Instance.PlayFadeIn();
 		if (CurrentLevel is BaseLevel baseLevel && !string.IsNullOrEmpty(baseLevel.LevelName))
 			FadeTransition.Instance.ShowLocation(baseLevel.LevelName);
@@ -101,7 +95,7 @@ public partial class GameController : Node
 	/// <summary>
 	/// Loads a level and places the player at a transition area.
 	/// </summary>
-	public async void LoadLevel(string scenePath, string targetTransitionName, bool skipAutoSave = false)
+	public async void LoadLevel(string scenePath, string targetTransitionName)
 	{
 		CutsceneController.Instance.Stop();
 		GameLogger.Info("GameController", $"Loading level (transition): {scenePath}");
@@ -154,8 +148,6 @@ public partial class GameController : Node
 				break;
 		}
 
-		if (!skipAutoSave)
-			SaveLoadManager.Instance?.SaveGame();
 
 		await FadeTransition.Instance.PlayFadeIn();
 		if (CurrentLevel is BaseLevel baseLevel && !string.IsNullOrEmpty(baseLevel.LevelName))

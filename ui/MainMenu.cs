@@ -105,21 +105,16 @@ public partial class MainMenu : CanvasLayer
 
     private void UpdateContinueButton()
     {
-        bool hasSave = SaveLoadManager.Instance.HasSave();
+        bool hasSave = SaveManager.Instance.HasSave();
         _continueButton.Disabled = !hasSave;
     }
 
     private async void OnNewGamePressed()
     {
         // Clean up old save data
-        var dir = DirAccess.Open("user://");
-        if (dir != null && dir.FileExists("savegame.tres"))
-            dir.Remove("savegame.tres");
+        SaveManager.Instance.DeleteSave();
 
         WorldFlags.Instance.ClearAll();
-        // Inventory.Load() won't run for new game, so clear manually
-        // (Inventory._Ready seeds test items, but we want fresh ones)
-        // Just let LoadGame not be called, and the seed will be fresh
 
         var overworldPath = "res://levels/overworld/maps/Overworld.tscn";
         GameController.Instance.LoadLevel(overworldPath, Vector2.Zero);
@@ -129,9 +124,9 @@ public partial class MainMenu : CanvasLayer
 
     private async void OnContinuePressed()
     {
-        if (!SaveLoadManager.Instance.HasSave()) return;
+        if (!SaveManager.Instance.HasSave()) return;
 
-        SaveLoadManager.Instance.LoadGame();
+        SaveManager.Instance.LoadGame();
         await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
         QueueFree();
     }
