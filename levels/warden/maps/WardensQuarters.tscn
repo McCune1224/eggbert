@@ -1,0 +1,83 @@
+[gd_scene load_steps=11 format=4 uid="uid://wardensquarters01"]
+
+[ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_core"]
+[ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2_base"]
+[ext_resource type="PackedScene" uid="uid://dpfm2hyuyl70t" path="res://components/puzzles/KeyDoor.tscn" id="3_keydoor"]
+[ext_resource type="PackedScene" uid="uid://bqwe0fl4n2y1p" path="res://components/npcs/ReadableObject.tscn" id="4_readable"]
+[ext_resource type="Script" path="res://components/npcs/MercyEncounterTrigger.cs" id="5_mercy"]
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="6_warp"]
+[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="7_lt"]
+[ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="8_ct"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
+size = Vector2(80, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_entries"]
+size = Vector2(40, 200)
+
+[node name="WardensQuarters" type="Node2D"]
+script = ExtResource("2_base")
+LevelName = "Warden's Quarters"
+
+[node name="CoreTilemapLayer" parent="." instance=ExtResource("1_core")]
+
+[node name="EntranceTrigger" parent="." instance=ExtResource("8_ct")]
+position = Vector2(-260, 100)
+Mode = 1
+Once = true
+CutsceneId = "warden_quarters_entered"
+DialogLines = Array[String](["Warden's Quarters — the air's stale, like the warden left mid-sentence.", "A chair's pushed back. A drawer left open. Whatever happened here, it wasn't a tidy exit."])
+SetFlagsOnFire = Array[String](["entered_warden_quarters"])
+
+[node name="WardenKeyDoor" parent="." instance=ExtResource("3_keydoor")]
+position = Vector2(-200, 100)
+RequiredFlag = "got_warden_key"
+LockedMessage = "The warden's keyhole stares back. You need the warden_key."
+
+[node name="GuardScheduleBook" parent="." instance=ExtResource("4_readable")]
+position = Vector2(0, -80)
+DialogLines = Array[String](["GUARD ROTATION SCHEDULE:", "06:00 — Sargeant Bun takes the north post.", "14:00 — Officer Bacon walks the east hall (perimeter).", "22:00 — Night watch: empty. Everyone sleeps. (This line is highlighted in pencil.)", "Note in the margin: 'Bacon's been skipping his 14:00 again. — Sarge'"])
+GateFlag = "guard_schedule"
+Once = true
+
+[node name="PrisonMap" parent="." instance=ExtResource("4_readable")]
+position = Vector2(80, -60)
+DialogLines = Array[String](["PRISON MAP — EGGS ISLE", "Block A: collapsed (red 'X').", "Block B: noisy wing, east.", "Block C: cells + Guard Room, north.", "Kitchen: west hall. Courtyard: outside, central.", "Warden's Quarters: here. A dotted line leads from the kitchen to a hidden tunnel in Block C."])
+GateFlag = "prison_map"
+Once = true
+
+[node name="BaconPersonnelFile" parent="." instance=ExtResource("4_readable")]
+position = Vector2(160, -40)
+DialogLines = Array[String](["PERSONNEL FILE — OFFICER BACON", "Badge #412. Joined the Eggs Isle watch three years ago. Transferred from the Factory after 'an incident' — sealed.", "Citations: insubordination (2), unsanctioned kindness to inmates (1, dismissed), smell violations (4).", "Psych note: 'Subject exhibits conscience. Recommend transfer or early retirement.' — Dr. Crunch", "A photo is paperclipped inside: Bacon shaking hands with someone whose face has been scratched out. The handwriting on the back reads: 'We were friends once.'"])
+GateFlag = "bacon_file"
+Once = true
+
+[node name="YogurtEncounter" type="Area2D" parent="."]
+position = Vector2(120, 80)
+script = ExtResource("5_mercy")
+ArenaPath = "res://combat/arena/YogurtArena.tscn"
+PlayerSpawn = Vector2(0, 0)
+SpareFlag = "spared_yogurt"
+FightFlag = "fought_yogurt"
+BeatFlag = "beat_yogurt"
+OnceFlag = "resolved_yogurt"
+IntroLines = Array[String](["The Yogurt stirs in the warden's chair, lid quivering with old grievances.", "'Another one,' it burbles. 'The warden's gone. But I'm still here. I'm always here.'", "'Pull up a chair, little egg. Let me SPILL.'"])
+SpareLines = Array[String](["You set down your spoon. The Yogurt sags, cloud settling.", "'You're going to let me rot here?' it whispers. '...okay. Okay. Go. The tunnels are behind the bookcase.'", "It goes still and quiet, a forgotten snack."])
+FightLines = Array[String](["You raise your spoon. The Yogurt rears back, lid snapping!", "Spoiled and spiteful — it's coming."])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YogurtEncounter"]
+shape = SubResource("RectangleShape2D_trigger")
+
+[node name="WarpPoint" parent="." instance=ExtResource("6_warp")]
+WarpId = "wardens_quarters"
+position = Vector2(-300, 100)
+
+[node name="Checkpoint" type="Marker2D" parent="."]
+position = Vector2(-300, 160)
+
+[node name="ExitTransition" parent="." instance=ExtResource("7_lt")]
+position = Vector2(-300, -200)
+Level = "uid://d203hfawkft4p"
+TargetTransitionName = "WardensQuartersExit"
+Size = 5
+Side = 0
