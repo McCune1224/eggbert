@@ -10,6 +10,8 @@ public partial class FinalBossTrigger : Area2D
 {
     [Export] public string ArenaPath = "res://combat/arena/GenericArena.tscn";
     [Export] public Vector2 PlayerSpawn = Vector2.Zero;
+    /// <summary>World flag set to true before entering combat (so a win persists; a loss reverts via save reload). e.g. "beat_leader".</summary>
+    [Export] public string BeatFlag = "";
 
     public override void _Ready()
     {
@@ -23,6 +25,8 @@ public partial class FinalBossTrigger : Area2D
         if (body == Player.Instance)
         {
             GameLogger.Info("Combat", $"FinalBossTrigger '{Name}': triggered — starting combat at '{ArenaPath}'");
+            if (!string.IsNullOrEmpty(BeatFlag))
+                WorldFlags.Instance.SetFlag(BeatFlag, true);
             CombatController.Instance.EnterCombat(ArenaPath, PlayerSpawn);
         }
     }
