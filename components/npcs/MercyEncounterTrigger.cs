@@ -25,6 +25,8 @@ public partial class MercyEncounterTrigger : Area2D
     [Export] public string BeatFlag = "";
     /// <summary>If set, the trigger self-frees once this flag is true (one-shot encounters).</summary>
     [Export] public string OnceFlag = "";
+    /// <summary>If set, the trigger only fires when this flag is already true. Lets a separate intro interaction run first.</summary>
+    [Export] public string PrerequisiteFlag = "";
 
     [ExportGroup("Dialog")]
     [Export] public string[] IntroLines = System.Array.Empty<string>();
@@ -52,7 +54,11 @@ public partial class MercyEncounterTrigger : Area2D
     {
         if (body != Player.Instance || _fired) return;
         if (CombatController.Instance == null) return;
-
+        if (!string.IsNullOrEmpty(PrerequisiteFlag) && !WorldFlags.Instance.HasFlag(PrerequisiteFlag))
+        {
+            _fired = false; // re-arm once prereq is met on next enter
+            return;
+        }
         _fired = true;
         Player.Instance.InInteraction = true;
 

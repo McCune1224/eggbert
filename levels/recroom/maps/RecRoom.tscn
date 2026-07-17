@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=4 uid="uid://recroomzone01"]
+
+[ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_core"]
+[ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2_base"]
+[ext_resource type="PackedScene" uid="uid://waffles_npc" path="res://levels/prison/npcs/Waffles.tscn" id="3_waffles"]
+[ext_resource type="Script" path="res://components/npcs/MercyEncounterTrigger.cs" id="4_mercy"]
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="5_warp"]
+[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="6_lt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 50.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
+size = Vector2(80, 80)
+
+[node name="RecRoom" type="Node2D"]
+script = ExtResource("2_base")
+LevelName = "Rec Room"
+
+[node name="CoreTilemapLayer" parent="." instance=ExtResource("1_core")]
+
+[node name="Waffles" parent="." instance=ExtResource("3_waffles")]
+position = Vector2(0, -60)
+
+[node name="WafflesEncounter" type="Area2D" parent="."]
+position = Vector2(0, 0)
+script = ExtResource("4_mercy")
+ArenaPath = "res://combat/arena/GenericArena.tscn"
+PlayerSpawn = Vector2(0, 0)
+SpareFlag = "waffles_spared"
+FightFlag = "waffles_defeated"
+BeatFlag = "waffles_defeated"
+OnceFlag = "tunnels_unlocked"
+PrerequisiteFlag = "has_met_waffles"
+IntroLines = Array[String](["Waffles eyes the poster on the wall. The peeling corner.", "Waffles: ...okay. Card on the table, egg. You been decent.", "Waffles: Behind this poster's a hole. Leads somewhere I shouldn't talk about. I got two options for you."])
+SpareChoiceOptions = Array[String](["Befriend him (talk)", "Fight him (combat)"])
+SpareLines = Array[String](["You sit with Waffles. He talks about getting pigeonholed as the tough guy.", "'Everyone expects you to punch first. Gets to a egg after a while.'", "'...Alright. The hole's yours. The tunnels lead to Block C's secret wing.'", "'Go on. Before I change my mind.'", "The poster falls away, revealing a dark passage."])
+FightLines = Array[String](["Waffles cracks his knuckles. 'So be it, egg.'"])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WafflesEncounter"]
+shape = SubResource("RectangleShape2D_trigger")
+
+[node name="WarpPoint" parent="." instance=ExtResource("5_warp")]
+WarpId = "rec_room"
+position = Vector2(-300, 0)
+
+[node name="Checkpoint" type="Marker2D" parent="."]
+position = Vector2(-300, 60)
+
+[node name="TunnelEntry" parent="." instance=ExtResource("6_lt")]
+position = Vector2(0, 100)
+Level = "uid://d203hfawkft4p"
+TargetTransitionName = "RecRoomExit"
+Size = 3
+Side = 1
