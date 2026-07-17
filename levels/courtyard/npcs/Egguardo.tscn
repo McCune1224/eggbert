@@ -1,13 +1,41 @@
-[gd_scene load_steps=4 format=4 uid="uid://egguardo_npc"]
+[gd_scene load_steps=8 format=4 uid="uid://egguardo_npc"]
 
 [ext_resource type="Texture2D" path="res://assets/characters/GrandpaSmith.png" id="1_spr"]
-[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_ct"]
+[ext_resource type="Script" path="res://components/npcs/QuizNpc.cs" id="2_quiz"]
+[ext_resource type="Script" path="res://components/npcs/QuizQuestion.cs" id="3_q"]
 
 [sub_resource type="RectangleShape2D" id="RectShape_phys"]
 size = Vector2(44, 40)
 
 [sub_resource type="CircleShape2D" id="CircleShape_interact"]
 radius = 55.0
+
+[sub_resource type="Resource" id="Quiz_q1"]
+script = ExtResource("3_q")
+PromptLines = Array[String](["Egguardo: Question the first. Who founded Eggs Isle as a refuge for cracked eggs?"])
+Options = Array[String](["The Sunnyside Order", "The Warden's Council", "The Factory Overseers"])
+CorrectIndex = 0
+CorrectResponseLines = Array[String](["Egguardo: Hmph. Correct. The Sunnyside Order built this place. Go on."])
+WrongResponseLines = Array[String](["Egguardo: Wrong. The Sunnyside Order founded it. Read the history book, egg."])
+CorrectFlag = "quiz_q1_correct"
+
+[sub_resource type="Resource" id="Quiz_q2"]
+script = ExtResource("3_q")
+PromptLines = Array[String](["Egguardo: Question the second. What caused the Great Yolking schism?"])
+Options = Array[String](["The yolk", "The shell", "The whites"])
+CorrectIndex = 0
+CorrectResponseLines = Array[String](["Egguardo: Correct. The yolk divided them. One more."])
+WrongResponseLines = Array[String](["Egguardo: No. The yolk was the schism. Back to the book."])
+CorrectFlag = "quiz_q2_correct"
+
+[sub_resource type="Resource" id="Quiz_q3"]
+script = ExtResource("3_q")
+PromptLines = Array[String](["Egguardo: Final question. What is the third Law of the Isle?"])
+Options = Array[String](["No egg shall leave unbroken", "All eggs must be boiled", "The yolk is sacred"])
+CorrectIndex = 0
+CorrectResponseLines = Array[String](["Egguardo: ...Correct. Three for three. Color me surprised."])
+WrongResponseLines = Array[String](["Egguardo: Wrong. No egg leaves unbroken — that's the third law, crossed out in red. Go read it."])
+CorrectFlag = "quiz_q3_correct"
 
 [node name="Egguardo" type="StaticBody2D"]
 
@@ -16,13 +44,22 @@ texture_filter = 1
 texture = ExtResource("1_spr")
 modulate = Color(0.7, 0.85, 1.0, 1)
 
-[node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
-DialogLines = Array[String](["Hey, new egg. You want the warden's key, I got it.", "But nothing's free around here. Answer me this:", "What is the official breakfast of Eggs Isle?", "...", "Wrong! It's 'Abandoned Hope on Toast.' But nice try. One more chance:", "How many cells in Block C?", "...", "Fine, you'll get it eventually. Come back when you've done some reading."])
-Mode = 0
-
-[node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
-shape = SubResource("CircleShape_interact")
-
 [node name="PhysicsCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 8)
 shape = SubResource("RectShape_phys")
+
+[node name="QuizTrigger" type="Area2D" parent="."]
+script = ExtResource("2_quiz")
+Questions = [SubResource("Quiz_q1"), SubResource("Quiz_q2"), SubResource("Quiz_q3")]
+PassFlag = "egguardo_quiz_passed"
+OnceFlag = "egguardo_quiz_passed"
+GrantItemId = "warden_key"
+GrantCount = 1
+GrantFlags = Array[String](["got_warden_key"])
+IntroLines = Array[String](["Egguardo: So. You want the warden's key. Nothing's free on this island, new egg.", "Egguardo: Three questions. Get them all right and it's yours. Fail and come back when you've done your homework."])
+PassLines = Array[String](["Egguardo: The warden's key is yours. Don't make me regret it.", "You received the Warden's Key!"])
+FailLines = Array[String](["Egguardo: That's enough. Come back when you've read the history book."])
+Mode = 0
+
+[node name="InteractionCollision" type="CollisionShape2D" parent="QuizTrigger"]
+shape = SubResource("CircleShape_interact")

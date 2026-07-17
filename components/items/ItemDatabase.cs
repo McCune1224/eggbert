@@ -131,6 +131,13 @@ public static class ItemDatabase
                 Description = "A radiant yolk that pulses with warmth. The heart of the Sunnyside shrine.",
             }
         },
+        {
+            "warden_key", new Item
+            {
+                Id = "warden_key", DisplayName = "Warden's Key", Category = ItemCategory.Key,
+                Description = "A heavy brass key stamped with the warden's seal. Opens the way to the Warden's Quarters.",
+            }
+        },
     };
 
     public static Item Get(string id)

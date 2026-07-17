@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://d203hfawkft4p"]
+[gd_scene load_steps=19 format=4 uid="uid://d203hfawkft4p"]
 
 [ext_resource type="Texture2D" uid="uid://c0m8ma1xjpjho" path="res://assets/tilemaps/grass tileset.png" id="1_aerj4"]
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2"]
@@ -13,6 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="10_lt"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0010.png" id="11_key"]
 [ext_resource type="PackedScene" uid="uid://egguardo_npc" path="res://levels/courtyard/npcs/Egguardo.tscn" id="12_npc"]
+[ext_resource type="Script" uid="uid://cfv78kxjgl0ie" path="res://components/npcs/PatrolComponent.cs" id="13_patrol"]
+[ext_resource type="PackedScene" uid="uid://b1f4v3qhqxah6" path="res://components/puzzles/FakeWall.tscn" id="14_fakewall"]
+[ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0011.png" id="15_bat"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aywx3"]
 texture = ExtResource("1_aerj4")
@@ -183,3 +186,82 @@ Level = "res://levels/courtyard/maps/CourtyardDepths.tscn"
 TargetTransitionName = "CourtyardSurfaceEntrance"
 Size = 5
 Side = 3
+
+
+[node name="Waypoint_PatrolGuard1_A" type="Marker2D" parent="."]
+position = Vector2(-200, 80)
+
+[node name="Waypoint_PatrolGuard1_B" type="Marker2D" parent="."]
+position = Vector2(80, 80)
+
+[node name="PatrolGuard1" type="StaticBody2D" parent="."]
+position = Vector2(-200, 80)
+
+[node name="Sprite2D" type="Sprite2D" parent="PatrolGuard1"]
+texture_filter = 1
+texture = ExtResource("9")
+
+[node name="CutsceneTrigger" parent="PatrolGuard1" instance=ExtResource("8")]
+DialogLines = Array[String](["Guard: Walkin' the yard. Keep movin', egg.", "Guard: No trouble today. I got a bet on the kitchen match."])
+Mode = 0
+
+[node name="InteractionCollision" type="CollisionShape2D" parent="PatrolGuard1/CutsceneTrigger"]
+shape = SubResource("CircleShape2D_interact")
+
+[node name="PhysicsCollision" type="CollisionShape2D" parent="PatrolGuard1"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_phys")
+
+[node name="PatrolComponent" parent="PatrolGuard1" type="Node" instance=ExtResource("13_patrol")]
+Waypoints = Array[NodePath]([NodePath("../../Waypoint_PatrolGuard1_A"), NodePath("../../Waypoint_PatrolGuard1_B")])
+Speed = 30.0
+PauseSeconds = 1.5
+
+[node name="Waypoint_PatrolGuard2_A" type="Marker2D" parent="."]
+position = Vector2(-300, -100)
+
+[node name="Waypoint_PatrolGuard2_B" type="Marker2D" parent="."]
+position = Vector2(-300, 200)
+
+[node name="PatrolGuard2" type="StaticBody2D" parent="."]
+position = Vector2(-300, -100)
+
+[node name="Sprite2D" type="Sprite2D" parent="PatrolGuard2"]
+texture_filter = 1
+texture = ExtResource("9")
+modulate = Color(0.8, 1.0, 0.8, 1)
+
+[node name="CutsceneTrigger" parent="PatrolGuard2" instance=ExtResource("8")]
+DialogLines = Array[String](["Guard: I do my rounds, same time every day. You'll figure it out.", "Guard: Why do they even have a courtyard? Sunlight's overrated."])
+Mode = 0
+
+[node name="InteractionCollision" type="CollisionShape2D" parent="PatrolGuard2/CutsceneTrigger"]
+shape = SubResource("CircleShape2D_interact")
+
+[node name="PhysicsCollision" type="CollisionShape2D" parent="PatrolGuard2"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_phys")
+
+[node name="PatrolComponent" parent="PatrolGuard2" type="Node" instance=ExtResource("13_patrol")]
+Waypoints = Array[NodePath]([NodePath("../../Waypoint_PatrolGuard2_A"), NodePath("../../Waypoint_PatrolGuard2_B")])
+Speed = 25.0
+PauseSeconds = 2.0
+
+[node name="HiddenFakeWall" parent="." instance=ExtResource("14_fakewall")]
+position = Vector2(-440, -180)
+RequireInteract = false
+RevealDialogLines = Array[String](["The wall shimmers and fades — a hidden alcove!", "Inside: a baseball bat, propped against the stones."])
+
+[node name="BaseballBatPickup" type="Area2D" parent="."]
+position = Vector2(-440, -160)
+script = ExtResource("7")
+ItemId = "baseball_bat"
+Count = 1
+SetFlag = Array[String](["got_baseball_bat"])
+DialogLines = Array[String](["Found a Baseball Bat! +5 ATK. Crack!"])
+
+[node name="BatSprite" type="Sprite2D" parent="BaseballBatPickup"]
+texture = ExtResource("15_bat")
+
+[node name="BatCollision" type="CollisionShape2D" parent="BaseballBatPickup"]
+shape = SubResource("CircleShape2D_interact")
