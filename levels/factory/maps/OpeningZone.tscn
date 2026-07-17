@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://ceft5j32lmxa0"]
+[gd_scene load_steps=13 format=4 uid="uid://ceft5j32lmxa0"]
 
 [ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_2xwn4"]
 [ext_resource type="Texture2D" uid="uid://d3g4p3asro7bd" path="res://assets/tilemaps/Texture/TX Tileset Stone Ground.png" id="1_3osvs"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="5_lt"]
 [ext_resource type="Script" uid="uid://c5nkwg6g27ibr" path="res://components/items/PickupItem.cs" id="6_pi"]
 [ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="7_ct"]
+[ext_resource type="PackedScene" uid="uid://b60fv3x3u4y5c" path="res://components/puzzles/PushBlock.tscn" id="8_pb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8lqvu"]
 texture = ExtResource("1_3osvs")
@@ -272,11 +273,16 @@ DialogLines = Array[String](["Got the Eggshell Helm! Your head feels slightly mo
 shape = SubResource("CircleShape2D_d7t2w")
 
 
+[node name="TutorialPushBlock" parent="." instance=ExtResource("8_pb")]
+position = Vector2(520, 160)
+
 [node name="ArrestCutscene" parent="." instance=ExtResource("7_ct")]
 position = Vector2(580, 160)
 Mode = 1
 Once = true
+CutsceneId = "arrest"
 DialogLines = Array[String](["Officer Bacon: YOU! You're the egg who was in the wrong place at the wrong time!", "Officer Bacon: You're getting shipped off to Eggs Isle. Don't bother writing."])
+SetFlagsOnFire = Array[String](["arrested"])
 
 [node name="ArrestCollision" type="CollisionShape2D" parent="ArrestCutscene"]
 shape = SubResource("RectangleShape2D_h9k3v")

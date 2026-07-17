@@ -33,7 +33,8 @@ metadata/_aseprite_wizard_config_ = {
 metadata/_aseprite_wizard_source_file_hash_ = "bdbd245aa30096173c674f8717af6008"
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
-DialogLines = Array[String](["I'm on lunch. This factory runs 24/7, but there's a guy on third shift I've never actually seen.", "He leaves notes on the breakroom fridge. They're all just lists of numbers. Nobody knows what they mean.", "Weird question: have you noticed the conveyor belts running backwards on Tuesdays? Nobody else seems to."])
+DialogLines = Array[String](["Jamitor: OHP! You there — new hire? No? Well, you're here now. Let me show you the ropes.", "Use W A S D to move around. Hold SHIFT to sprint, tap SPACE to dash if something's chasing you.", "See something interesting? Press E to interact. Most folks and signs will talk back.", "Now if you'll excuse me, this conveyor belt isn't going to watch itself run backwards."])
+SetFlagsOnFire = Array[String](["met_jamitor"])
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
 shape = SubResource("CircleShape2D_interact")
