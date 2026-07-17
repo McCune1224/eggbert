@@ -1,0 +1,59 @@
+[gd_resource type="Resource" format=3 uid="uid://sunnysiderevelation01"]
+
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneResource.cs" id="1_cs"]
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneCondition.cs" id="2_cond"]
+
+[sub_resource type="Resource" id="SubResource_cond_not_seen"]
+script = ExtResource("2_cond")
+Type = 0
+
+[resource]
+script = ExtResource("1_cs")
+Steps = [{
+"Type": 10,
+"Condition": SubResource("SubResource_cond_not_seen")
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_not_seen"),
+"DialogLines": ["The Sunnyside Shrine is dim — candles of yellow wax, a round altar at its heart.", "Cloaked figures stand in a ring, murmuring. Their hoods bear the spiral of a cracked yolk.", "Sunnyside Follower: '...the yolk returns. The yolk returns. The yolk returns.'"]
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_not_seen"),
+"DialogLines": ["A Leader steps forward, voice soft and sure.", "Sunnyside Leader: 'Brothers. Sisters. The goop has failed us. Oatmeal would not rise. Yogurt would not rise. Cereal would not rise.'", "Sunnyside Leader: 'They were drafts. Sketches. Moisture before the loaf.'"]
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_not_seen"),
+"DialogLines": ["Sunnyside Leader: 'The Great Toast God is patient. He waits beyond the golden yolk. He waits at the beach, where breakfast meets the sea.'", "Sunnyside Leader: 'When He rises, every meal that is not breakfast will be SCRAPED FROM THE PLATE. Only the morning remains. Only the morning is real.'"]
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_not_seen"),
+"DialogLines": ["The chanting stops. Every hood turns. Toward you.", "Sunnyside Leader: '...an egg. In OUR shrine. Watching.'", "Sunnyside Leader: 'Oh, little one. You were not meant to hear this.'"]
+}, {
+"Type": 7,
+"Condition": SubResource("SubResource_cond_not_seen"),
+"SetFlagKey": "sunnyside_revelation",
+"SetFlagValue": true
+}, {
+"Type": 0,
+"Condition": SubResource("SubResource_cond_not_seen"),
+"DialogLines": ["Sunnyside Leader, sadly: 'We can't let you leave with that in your shell. Not now.'", "'Forgive me. Before the Toast, solitude is the only kindness I know.'", "Two followers take your arms. The shrine swims, then goes black."]
+}, {
+"Type": 8,
+"Condition": SubResource("SubResource_cond_not_seen"),
+"FadeDirection": "out"
+}, {
+"Type": 7,
+"Condition": SubResource("SubResource_cond_not_seen"),
+"SetFlagKey": "in_solitary",
+"SetFlagValue": true
+}, {
+"Type": 8,
+"Condition": SubResource("SubResource_cond_not_seen"),
+"FadeDirection": "in"
+}, {
+"Type": 11,
+"Condition": SubResource("SubResource_cond_not_seen")
+}, {
+"Type": 12,
+"Condition": SubResource("SubResource_cond_not_seen")
+}]

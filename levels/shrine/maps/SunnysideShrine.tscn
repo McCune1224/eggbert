@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=4 uid="uid://sunnysideshrine01"]
+
+[ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_core"]
+[ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2_base"]
+[ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="3_ct"]
+[ext_resource type="Resource" uid="uid://sunnysiderevelation01" path="res://levels/shrine/npcs/SunnysideRevelationCutscene.tres" id="4_cutscene"]
+[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="5_warp"]
+[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="6_lt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_entry"]
+size = Vector2(120, 80)
+
+[node name="SunnysideShrine" type="Node2D"]
+script = ExtResource("2_base")
+LevelName = "Sunnyside Shrine"
+
+[node name="CoreTilemapLayer" parent="." instance=ExtResource("1_core")]
+
+[node name="RevelationTrigger" parent="." instance=ExtResource("3_ct")]
+position = Vector2(0, 0)
+Mode = 1
+Once = true
+CutsceneId = "sunnyside_revelation"
+Cutscene = ExtResource("4_cutscene")
+
+[node name="EntryCollision" type="CollisionShape2D" parent="RevelationTrigger"]
+shape = SubResource("RectangleShape2D_entry")
+
+[node name="WarpPoint" parent="." instance=ExtResource("5_warp")]
+WarpId = "sunnyside_shrine"
+position = Vector2(-300, 0)
+
+[node name="Checkpoint" type="Marker2D" parent="."]
+position = Vector2(-300, 60)
+
+[node name="SolitaryTransition" parent="." instance=ExtResource("6_lt")]
+position = Vector2(0, 200)
+Level = "uid://solitaryzone01"
+TargetTransitionName = "ShrineExit"
+Size = 5
+Side = 1
