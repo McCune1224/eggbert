@@ -187,21 +187,27 @@ public partial class CombatOatmeal : Area2D
     {
         _animationPlayer?.Play("default");
 
+        string attackType;
         switch (Flavor)
         {
             case OatmealFlavor.Strawberry:
+                attackType = "Homing (2x 180px/s)";
                 AttackHoming();
                 break;
             case OatmealFlavor.Chocolate:
+                attackType = "Aimed (2x 350px/s)";
                 AttackAimed();
                 break;
             case OatmealFlavor.Mint:
+                attackType = "Burst (5x 400px/s)";
                 AttackBurst();
                 break;
             default:
+                attackType = "Spread (3x 250px/s, 30°)";
                 AttackSpread();
                 break;
         }
+        GameLogger.Debug("CombatOatmeal", $"Attack: flavor={Flavor} — {attackType}");
     }
 
     private void AttackSpread()

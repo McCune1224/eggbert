@@ -24,6 +24,7 @@ public partial class TimedDoor : Door
     public override void Open()
     {
         base.Open();
+        GameLogger.Info("TimedDoor", $"{Name}: opened — duration={OpenDuration}s, blinkBeforeClose={BlinkBeforeClose}");
 
         float timerSeconds = OpenDuration;
         float blinkOffset = OpenDuration - BlinkDuration;
@@ -38,6 +39,7 @@ public partial class TimedDoor : Door
 
     private void StartBlinkDeferred()
     {
+        GameLogger.Info("TimedDoor", $"{Name}: blink started");
         _blinkTween?.Kill();
         _blinkTween = CreateTween();
         _blinkTween.SetLoops(6);
@@ -47,9 +49,11 @@ public partial class TimedDoor : Door
 
     private void OnTimerTimeout()
     {
+        GameLogger.Info("TimedDoor", $"{Name}: auto-closing after {OpenDuration}s");
         _blinkTween?.Kill();
         base.Close();
     }
+
 
     public override void Close()
     {

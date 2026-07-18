@@ -43,11 +43,13 @@ public partial class MovingPlatform : AnimatableBody2D
         {
             _movingForward = false;
             _animationPlayer.SpeedScale = Speed * -1f;
+            GameLogger.Info("MovingPlatform", $"{Name}: direction reversed — now moving backward");
         }
         else if (!_movingForward && _animationPlayer.CurrentAnimationPosition <= 0.01f)
         {
             _movingForward = true;
             _animationPlayer.SpeedScale = Speed;
+            GameLogger.Info("MovingPlatform", $"{Name}: direction reversed — now moving forward");
         }
     }
 }

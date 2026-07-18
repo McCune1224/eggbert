@@ -34,12 +34,17 @@ public partial class SpikeTile : Area2D
 
     private void OnBodyEntered(Node2D body)
     {
-        if (_hasTriggered && OneShot) return;
+        if (_hasTriggered && OneShot)
+        {
+            GameLogger.Debug("SpikeTile", $"{Name}: already triggered, one-shot active — skipping");
+            return;
+        }
 
         if (body is Player player)
         {
             player.HealthComponent?.TakeDamage(Damage, this);
             _hasTriggered = true;
+            GameLogger.Info("SpikeTile", $"{Name}: dealt {Damage} damage to player '{player.Name}' — oneShot={OneShot}, hasTriggered={_hasTriggered}");
         }
     }
 }

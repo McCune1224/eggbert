@@ -46,6 +46,7 @@ public partial class TimedSpikes : Area2D
         // Start inactive
         SetSpikeState(false);
         _timer.Start(InactiveDuration);
+        GameLogger.Debug("TimedSpikes", $"'{Name}': delay={TelegraphDuration}s, activeTime={ActiveDuration}s, cooldown={InactiveDuration}s");
     }
 
     public override string[] _GetConfigurationWarnings()
@@ -63,6 +64,7 @@ public partial class TimedSpikes : Area2D
             case SpikeState.Inactive:
                 // Telegraph before extending
                 _state = SpikeState.Telegraphing;
+                GameLogger.Debug("TimedSpikes", $"'{Name}': state -> Telegraphing");
                 if (_sprite != null)
                     _sprite.Modulate = new Color(1, 0.3f, 0.3f, 1); // Flash red
                 _timer.Start(TelegraphDuration);
@@ -71,6 +73,7 @@ public partial class TimedSpikes : Area2D
             case SpikeState.Telegraphing:
                 // Extend spikes
                 _state = SpikeState.Active;
+                GameLogger.Debug("TimedSpikes", $"'{Name}': state -> Active");
                 SetSpikeState(true);
                 _timer.Start(ActiveDuration);
                 break;
@@ -78,6 +81,7 @@ public partial class TimedSpikes : Area2D
             case SpikeState.Active:
                 // Retract spikes
                 _state = SpikeState.Inactive;
+                GameLogger.Debug("TimedSpikes", $"'{Name}': state -> Inactive");
                 SetSpikeState(false);
                 _timer.Start(InactiveDuration);
                 break;
@@ -105,6 +109,7 @@ public partial class TimedSpikes : Area2D
         if (body is Player player)
         {
             player.HealthComponent?.TakeDamage(Damage, this);
+            GameLogger.Debug("TimedSpikes", $"'{Name}': damaged player");
         }
     }
 }

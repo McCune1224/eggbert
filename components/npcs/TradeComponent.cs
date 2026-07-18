@@ -14,10 +14,16 @@ public partial class TradeComponent : Node
     public bool TryTrade()
     {
         if (!string.IsNullOrEmpty(TradeCompleteFlag) && WorldFlags.Instance.HasFlag(TradeCompleteFlag))
+        {
+            GameLogger.Debug("TradeComponent", $"'{Name}': trade already completed (flag='{TradeCompleteFlag}')");
             return false;
+        }
 
         if (string.IsNullOrEmpty(RequiredItemId))
+        {
+            GameLogger.Warn("TradeComponent", $"'{Name}': RequiredItemId is empty");
             return false;
+        }
 
         if (Inventory.Instance.Has(RequiredItemId))
         {
@@ -28,9 +34,11 @@ public partial class TradeComponent : Node
             if (!string.IsNullOrEmpty(TradeCompleteFlag))
                 WorldFlags.Instance.SetFlag(TradeCompleteFlag, true);
 
+            GameLogger.Info("TradeComponent", $"'{Name}': traded '{RequiredItemId}' → '{RewardItemId}', flag='{TradeCompleteFlag}'");
             return true;
         }
 
+        GameLogger.Debug("TradeComponent", $"'{Name}': missing required item '{RequiredItemId}'");
         return false;
     }
 }

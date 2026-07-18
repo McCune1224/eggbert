@@ -41,6 +41,7 @@ public abstract partial class InteractableArea : Area2D
         if (!PlayerInRange) return;
         if (!@event.IsActionPressed("interact")) return;
 
+        GameLogger.Debug("InteractableArea", $"'{Name}': interact triggered (type={GetType().Name})");
         OnInteract();
         GetViewport().SetInputAsHandled();
     }
@@ -52,6 +53,8 @@ public abstract partial class InteractableArea : Area2D
 
         if (PromptSprite != null && GodotObject.IsInstanceValid(PromptSprite))
             PromptSprite.Visible = true;
+
+        GameLogger.Debug("InteractableArea", $"'{Name}': player entered range");
     }
 
     protected virtual void OnBodyExited(Node2D body)
@@ -64,6 +67,8 @@ public abstract partial class InteractableArea : Area2D
 
         if (!CutsceneController.Instance.IsPlaying)
             DialogManager.Instance.Reset();
+
+        GameLogger.Debug("InteractableArea", $"'{Name}': player exited range");
     }
 
     /// <summary>

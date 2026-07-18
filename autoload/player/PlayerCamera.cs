@@ -15,10 +15,10 @@ public partial class PlayerCamera : Camera2D
 
     public void UpdateLimits(Array<Vector2> limits)
     {
-        if (limits == null) { GD.PrintErr("Limits are null."); return; }
+        if (limits == null) { GameLogger.Error("Camera", "Limits are null."); return; }
         if (limits.Count == 0)
         {
-            GD.PrintErr("No limits provided to update.");
+            GameLogger.Error("Camera", "No limits provided to update.");
             return;
         }
         LimitLeft = (int)limits[0].X;

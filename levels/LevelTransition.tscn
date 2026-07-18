@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqwe32dmkljra"]
+[gd_scene load_steps=4 format=3 uid="uid://bqwe32dmkljra"]
 
 [ext_resource type="Script" uid="uid://cikp84axjq2ur" path="res://levels/LevelTransition.cs" id="1_pl0kr"]
+[ext_resource type="Texture2D" path="res://assets/placeholders/interaction_marker.png" id="2_marker"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8krqk"]
 size = Vector2(0, 16)
@@ -13,3 +14,10 @@ TargetTransitionArea = ""
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_8krqk")
+
+[node name="TransitionMarker" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_marker")
+scale = Vector2(0.5, 0.5)
+modulate = Color(0.35, 0.85, 1, 0.78)
+z_index = 2

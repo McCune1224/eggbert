@@ -44,8 +44,11 @@ public static class WarpDatabase
     public static bool IsUnlocked(string id) =>
         WorldFlags.Instance.HasFlag($"warp_{id}");
 
-    public static void Unlock(string id) =>
+    public static void Unlock(string id)
+    {
         WorldFlags.Instance.SetFlag($"warp_{id}", true);
+        GameLogger.Info("WarpDatabase", $"Unlocked: '{id}'");
+    }
 
     public static List<WarpDestination> GetUnlocked()
     {
@@ -53,6 +56,7 @@ public static class WarpDatabase
         foreach (var kvp in All)
             if (IsUnlocked(kvp.Key))
                 result.Add(kvp.Value);
+        GameLogger.Debug("WarpDatabase", $"GetUnlocked: {result.Count}/{All.Count} warps available");
         return result;
     }
 }

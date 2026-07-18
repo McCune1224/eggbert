@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqpnrhgn1dngw"]
+[gd_scene load_steps=4 format=3 uid="uid://bqpnrhgn1dngw"]
 
 [ext_resource type="Script" path="res://components/puzzles/Door.cs" id="1_l4e1m"]
+[ext_resource type="Texture2D" path="res://assets/placeholders/door.png" id="2_door"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x1gd3"]
 size = Vector2(32, 64)
@@ -13,3 +14,4 @@ shape = SubResource("RectangleShape2D_x1gd3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
+texture = ExtResource("2_door")

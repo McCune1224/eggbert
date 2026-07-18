@@ -29,7 +29,7 @@ public partial class SleepingNPC : InteractableArea
         if (_zzzSprite != null)
             _zzzSprite.Visible = !_isAwake;
 
-        // Wake lines without call
+        GameLogger.Debug("SleepingNPC", $"'{Name}': _Ready — awake={_isAwake}, id='{NpcId}'");
     }
 
     protected override void OnInteract()
@@ -41,6 +41,8 @@ public partial class SleepingNPC : InteractableArea
 
             if (_zzzSprite != null)
                 _zzzSprite.Visible = false;
+
+            GameLogger.Info("SleepingNPC", $"'{Name}': woken up! (flag='woke_{NpcId}')");
 
             if (WakeLines != null && WakeLines.Length > 0)
             {

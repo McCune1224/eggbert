@@ -59,6 +59,8 @@ public partial class CombatHUD : CanvasLayer
             Color = PlayerBarColor
         };
         AddChild(_playerBarFill);
+
+        GameLogger.Debug("Combat", "CombatHUD: _Ready");
     }
 
     public void SetPlayerHealthComponent(HealthComponent hc)
@@ -109,6 +111,8 @@ public partial class CombatHUD : CanvasLayer
 
         hc.Damaged += (amount, source) => UpdateEnemyBarSafe(entry);
         hc.Healed += (amount) => UpdateEnemyBarSafe(entry);
+
+        GameLogger.Debug("Combat", $"CombatHUD: added enemy bar '{name}' — {_enemyBars.Count} total");
     }
 
     private void UpdatePlayerBar()
@@ -117,9 +121,12 @@ public partial class CombatHUD : CanvasLayer
         float pct = (float)_playerHC.CurrentHP / _playerHC.MaxHP;
         _playerBarFill.Size = new Vector2(BarWidth * pct, BarHeight);
 
-        _playerBarFill.Color = pct <= 0.25f ? CriticalHpColor :
-                               pct <= 0.5f ? LowHpColor :
-                               PlayerBarColor;
+        Color newColor = pct <= 0.25f ? CriticalHpColor :
+                         pct <= 0.5f ? LowHpColor :
+                         PlayerBarColor;
+        if (newColor != _playerBarFill.Color)
+            GameLogger.Debug("Combat", $"CombatHUD: player HP threshold — {_playerHC.CurrentHP}/{_playerHC.MaxHP} ({pct*100:F0}%)");
+        _playerBarFill.Color = newColor;
     }
 
     private void UpdateEnemyBar(EnemyBar bar)
@@ -142,8 +149,8 @@ public partial class CombatHUD : CanvasLayer
             UpdateEnemyBar(bar);
     }
 
-    private void OnPlayerDamaged(int amount, Node source) { if (IsInsideTree()) UpdatePlayerBar(); }
-    private void OnPlayerHealed(int amount) { if (IsInsideTree()) UpdatePlayerBar(); }
+    private void OnPlayerDamaged(int amount, Node source) { if (IsInsideTree()) { UpdatePlayerBar(); GameLogger.Debug("Combat", $"CombatHUD: player took {amount} DMG — HP={_playerHC?.CurrentHP ?? -1}"); } }
+    private void OnPlayerHealed(int amount) { if (IsInsideTree()) { UpdatePlayerBar(); GameLogger.Debug("Combat", $"CombatHUD: player healed {amount} — HP={_playerHC?.CurrentHP ?? -1}"); } }
 
     public override void _ExitTree()
     {
@@ -152,5 +159,6 @@ public partial class CombatHUD : CanvasLayer
             _playerHC.Damaged -= OnPlayerDamaged;
             _playerHC.Healed -= OnPlayerHealed;
         }
+        GameLogger.Debug("Combat", "CombatHUD: _ExitTree");
     }
 }

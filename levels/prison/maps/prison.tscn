@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://bms1ioay0fp20"]
+[gd_scene load_steps=39 format=4 uid="uid://bms1ioay0fp20"]
 
 [ext_resource type="Texture2D" uid="uid://cag8djeu52niq" path="res://assets/tilemaps/prison tileset.png" id="1_3ox1m"]
 [ext_resource type="Texture2D" uid="uid://bv1b24fd22scx" path="res://levels/prison/maps/Officer Bacon.png" id="2_w7byb"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://dwe4dxpb1qtrj" path="res://components/interactables/PhoneBooth.tscn" id="17_phone"]
 [ext_resource type="Script" path="res://components/npcs/SleepingNPC.cs" id="18_sleep"]
 [ext_resource type="PackedScene" uid="uid://frankcellmate01" path="res://levels/prison/npcs/Frank.tscn" id="22_frank"]
+[ext_resource type="PackedScene" uid="uid://c3k6bqd5y7ya6" path="res://saves/SavePoint.tscn" id="30_sp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w7byb"]
 texture = ExtResource("1_3ox1m")
@@ -438,8 +439,19 @@ MidgameFlag = "beat_oatmeal"
 MidgameLines = Array[String](["You pick up the receiver...", "Eggatha: 'Eggbert! I heard you fought someone! Are you okay?'", "Eggbert: 'Yeah, Mom. I'm fine. It was just a fight.'", "Eggatha: 'Just a fight! My baby boy, fighting! I'm so proud.'", "Eggbert: '...Thanks, Mom.'", "*click*"])
 CallCompleteFlag = "called_home"
 
-[node name="SleepingInmate" parent="." instance=ExtResource("18_sleep")]
+[node name="SleepingInmate" type="Area2D" parent="."]
+script = ExtResource("18_sleep")
 position = Vector2(400, 180)
 NpcId = "sleeping_inmate"
 WakeLines = Array[String](["*Zzz... snort... HUH?!*", "'Wha— who's there?!'", "'Oh, it's just you, new egg. Don't sneak up on a guy like that!'", "'...What? No, I wasn't dreaming about escape. Why would you think that?'"])
 AwakeLines = Array[String](["'What now? Can't an egg get some sleep around here?'", "'If you're looking for a way out, I've got nothing. Tried everything.'"])
+
+[node name="Sprite2D" type="Sprite2D" parent="SleepingInmate"]
+texture_filter = 1
+texture = SubResource("AtlasTexture_k4cuh")
+scale = Vector2(1.5, 1.5)
+modulate = Color(0.65, 0.75, 0.9, 1)
+
+[node name="SavePoint" parent="." instance=ExtResource("30_sp")]
+position = Vector2(0, 260)
+LocationName = "Prison Cells"

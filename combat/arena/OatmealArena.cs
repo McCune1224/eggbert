@@ -38,8 +38,10 @@ public partial class OatmealArena : CombatArena
             enemy.ApplyFlavor();
 
             HUD.AddEnemy($"{def.DisplayName} Oatmeal", enemy.Health);
+            GameLogger.Debug("Combat", $"OatmealArena '{Name}': spawned {def.DisplayName} at {def.Position}");
         }
 
         HUD.SetPlayerHealthComponent(Player.Instance.HealthComponent);
+        GameLogger.Info("Combat", $"OatmealArena '{Name}': ready — {Spawns.Length} oatmeal enemies spawned");
     }
 }

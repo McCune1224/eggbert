@@ -20,7 +20,7 @@ public partial class WorldFlags : Node, ISavable
         }
         else
         {
-            GD.PrintErr("Multiple instances of WorldFlags detected!");
+            GameLogger.Error("WorldFlags", "Multiple instances of WorldFlags detected!");
             QueueFree();
             return;
         }
@@ -72,6 +72,7 @@ public partial class WorldFlags : Node, ISavable
 
     public Godot.Collections.Dictionary<string, Variant> Serialize()
     {
+        GameLogger.Debug("WorldFlags", $"Serialize: {_flags.Count} flags");
         return new Godot.Collections.Dictionary<string, Variant>
         {
             ["flags"] = new Godot.Collections.Dictionary<string, Variant>(_flags)
@@ -83,6 +84,11 @@ public partial class WorldFlags : Node, ISavable
         if (data.TryGetValue("flags", out var flagsVar))
         {
             _flags = new Godot.Collections.Dictionary<string, Variant>(flagsVar.AsGodotDictionary());
+            GameLogger.Debug("WorldFlags", $"Deserialize: loaded {_flags.Count} flags");
+        }
+        else
+        {
+            GameLogger.Warn("WorldFlags", "Deserialize: no 'flags' key found — starting fresh");
         }
     }
 }

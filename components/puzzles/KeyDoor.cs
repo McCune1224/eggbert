@@ -31,13 +31,13 @@ public partial class KeyDoor : Door
             if (UnlockJingle != null)
                 AudioManager.Instance.PlaySfx(UnlockJingle);
             base.Open();
-            GD.Print($"KeyDoor: unlocked by flag '{RequiredFlag}'");
+            GameLogger.Info("Puzzle", $"KeyDoor '{Name}': unlocked by flag '{RequiredFlag}'");
         }
         else
         {
             DialogManager.Instance.StartDialog(
                 new System.Collections.Generic.List<string> { LockedMessage });
-            GD.Print($"KeyDoor: locked — missing flag '{RequiredFlag}'");
+            GameLogger.Debug("Puzzle", $"KeyDoor '{Name}': locked — missing flag '{RequiredFlag}'");
         }
     }
 

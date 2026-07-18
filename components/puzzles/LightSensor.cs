@@ -47,6 +47,7 @@ public partial class LightSensor : Area2D
     {
         if (_active) return;
         _active = true;
+        GameLogger.Info("LightSensor", $"{Name}: beam entered — activating");
 
         if (_sprite != null)
             _sprite.Modulate = ActiveColor;
@@ -59,10 +60,12 @@ public partial class LightSensor : Area2D
     {
         if (!_active) return;
         _active = false;
+        GameLogger.Info("LightSensor", $"{Name}: beam exited — deactivating");
 
         if (_sprite != null)
             _sprite.Modulate = InactiveColor;
 
         _targetDoor?.Close();
     }
+
 }

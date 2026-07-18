@@ -17,12 +17,15 @@ public partial class AmbientParticles : GpuParticles2D
         if (Preset == ParticlePreset.None)
         {
             Emitting = false;
+            GameLogger.Debug("AmbientParticles", $"'{Name}': preset=None — disabled");
             return;
         }
 
         ApplyPreset(Preset);
         Amount = (int)EmissionRate;
         Emitting = true;
+
+        GameLogger.Debug("AmbientParticles", $"'{Name}': preset={Preset}, rate={EmissionRate}");
     }
 
     private void ApplyPreset(ParticlePreset preset)
@@ -86,5 +89,6 @@ public partial class AmbientParticles : GpuParticles2D
         Amount = count;
         OneShot = true;
         Restart();
+        GameLogger.Debug("AmbientParticles", $"'{Name}': burst of {count}");
     }
 }

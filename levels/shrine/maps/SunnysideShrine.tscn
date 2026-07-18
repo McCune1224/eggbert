@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://sunnysideshrine01"]
+[gd_scene load_steps=9 format=4 uid="uid://sunnysideshrine01"]
 
 [ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_core"]
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2_base"]
@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://sunnysiderevelation01" path="res://levels/shrine/npcs/SunnysideRevelationCutscene.tres" id="4_cutscene"]
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="5_warp"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="6_lt"]
+[ext_resource type="PackedScene" path="res://components/visuals/PlaceholderBackdrop.tscn" id="7_backdrop"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_entry"]
 size = Vector2(120, 80)
@@ -15,6 +16,8 @@ script = ExtResource("2_base")
 LevelName = "Sunnyside Shrine"
 
 [node name="CoreTilemapLayer" parent="." instance=ExtResource("1_core")]
+
+[node name="PlaceholderBackdrop" parent="." instance=ExtResource("7_backdrop")]
 
 [node name="RevelationTrigger" parent="." instance=ExtResource("3_ct")]
 position = Vector2(0, 0)

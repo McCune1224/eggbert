@@ -34,6 +34,8 @@ public partial class GenericArena : CombatArena
         EnemiesRemaining = 1;
         HUD.AddEnemy(enemy.Name, enemy.Health);
         HUD.SetPlayerHealthComponent(Player.Instance.HealthComponent);
+
+        GameLogger.Info("Combat", $"GenericArena '{Name}': size={ArenaSize}, enemy={enemy.Name} at {EnemySpawnPosition}, flavor={enemy.Flavor}");
     }
 
     /// <summary>Builds four static walls on the Walls layer so the player cannot leave the arena.</summary>
@@ -51,6 +53,8 @@ public partial class GenericArena : CombatArena
         AddWall(bounds, new Vector2(0, halfH),  new Vector2(size.X, WallThickness));    // bottom
         AddWall(bounds, new Vector2(-halfW, 0), new Vector2(WallThickness, size.Y));     // left
         AddWall(bounds, new Vector2(halfW, 0),  new Vector2(WallThickness, size.Y));     // right
+
+        GameLogger.Debug("Combat", $"GenericArena '{Name}': built bounds ({size.X}x{size.Y})");
     }
 
     private void AddWall(StaticBody2D parent, Vector2 position, Vector2 rectSize)

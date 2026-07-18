@@ -25,8 +25,8 @@ public partial class ChoiceMenu : CanvasLayer
 
         var bgPanel = new Panel
         {
-            MouseFilter = Control.MouseFilterEnum.Pass,
-            SelfModulate = new Color(0, 0, 0, 0.7f)
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Modulate = new Color(0, 0, 0, 0.5f)
         };
         bgPanel.SetAnchorsPreset(Control.LayoutPreset.FullRect);
         _root.AddChild(bgPanel);
@@ -48,77 +48,72 @@ public partial class ChoiceMenu : CanvasLayer
 
     public void SetChoices(List<string> choices)
     {
-        _originalTexts = new List<string>(choices);
+        _selectedIndex = 0;
+        _buttons.Clear();
+        _originalTexts.Clear();
 
-        for (int i = 0; i < choices.Count; i++)
+        foreach (string choice in choices)
         {
+            _originalTexts.Add(choice);
             var btn = new Button
             {
-                Text = "  " + choices[i],
-                Flat = true,
-                MouseFilter = Control.MouseFilterEnum.Pass,
-                CustomMinimumSize = new Vector2(240, 24),
-                SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter
+                Text = choice,
+                Flat = false
             };
-            btn.AddThemeFontSizeOverride("font_size", 16);
             if (_yosterFont != null)
+            {
                 btn.AddThemeFontOverride("font", _yosterFont);
-            btn.AddThemeColorOverride("font_color", new Color(0.8f, 0.8f, 0.8f));
-            btn.AddThemeColorOverride("font_hover_color", new Color(1, 1, 0.5f));
-            btn.AddThemeColorOverride("font_focus_color", new Color(1, 1, 0.5f));
-            btn.AddThemeColorOverride("font_pressed_color", new Color(1, 1, 0.5f));
-
-            int capture = i;
-            btn.MouseEntered += () => SelectIndex(capture);
-            btn.Pressed += () => EmitSignal(SignalName.ChoiceSelected, capture);
-            _choiceContainer.AddChild(btn);
+                btn.AddThemeFontSizeOverride("font_size", 14);
+            }
+            btn.MouseEntered += () => SelectIndex(_buttons.IndexOf(btn));
+            btn.Pressed += OnChoicePressed;
             _buttons.Add(btn);
+            _choiceContainer.AddChild(btn);
         }
 
-        if (_buttons.Count > 0)
-        {
-            _selectedIndex = 0;
-            UpdateSelectionDisplay();
-            _buttons[0].GrabFocus();
-        }
+        UpdateSelectionDisplay();
+        GameLogger.Debug("Dialog", $"ChoiceMenu: {choices.Count} choices presented");
     }
 
     void SelectIndex(int index)
     {
         _selectedIndex = index;
         UpdateSelectionDisplay();
-        _buttons[index].GrabFocus();
     }
 
     void UpdateSelectionDisplay()
     {
         for (int i = 0; i < _buttons.Count; i++)
         {
-            string marker = i == _selectedIndex ? "> " : "  ";
-            _buttons[i].Text = marker + _originalTexts[i];
+            string prefix = i == _selectedIndex ? "> " : "  ";
+            _buttons[i].Text = prefix + _originalTexts[i];
         }
     }
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("player_up") || @event.IsActionPressed("ui_up"))
+        if (@event.IsActionPressed("ui_up"))
         {
-            _selectedIndex = (_selectedIndex - 1 + _buttons.Count) % _buttons.Count;
-            UpdateSelectionDisplay();
-            _buttons[_selectedIndex].GrabFocus();
+            SelectIndex(Mathf.Max(0, _selectedIndex - 1));
             GetViewport().SetInputAsHandled();
         }
-        else if (@event.IsActionPressed("player_down") || @event.IsActionPressed("ui_down"))
+        else if (@event.IsActionPressed("ui_down"))
         {
-            _selectedIndex = (_selectedIndex + 1) % _buttons.Count;
-            UpdateSelectionDisplay();
-            _buttons[_selectedIndex].GrabFocus();
+            SelectIndex(Mathf.Min(_buttons.Count - 1, _selectedIndex + 1));
             GetViewport().SetInputAsHandled();
         }
         else if (@event.IsActionPressed("interact") || @event.IsActionPressed("ui_accept"))
         {
-            _buttons[_selectedIndex].EmitSignal(Button.SignalName.Pressed);
+            if (_buttons.Count > 0)
+                OnChoicePressed();
             GetViewport().SetInputAsHandled();
         }
+    }
+
+    void OnChoicePressed()
+    {
+        string chosen = _originalTexts[_selectedIndex];
+        GameLogger.Info("Dialog", $"ChoiceMenu: choice {_selectedIndex} selected — '{chosen}'");
+        EmitSignal(SignalName.ChoiceSelected, _selectedIndex);
     }
 }

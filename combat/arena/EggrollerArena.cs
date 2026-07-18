@@ -15,6 +15,8 @@ public partial class EggrollerArena : CombatArena
         SpawnEnemy(new Vector2(100, -80));
 
         HUD.SetPlayerHealthComponent(Player.Instance.HealthComponent);
+
+        GameLogger.Info("Combat", $"EggrollerArena '{Name}': ready — 2 enemies spawned");
     }
 
     private void SpawnEnemy(Vector2 position)
@@ -23,5 +25,6 @@ public partial class EggrollerArena : CombatArena
         enemy.Position = position;
         AddChild(enemy);
         HUD.AddEnemy("Eggroller", enemy.Health);
+        GameLogger.Debug("Combat", $"EggrollerArena '{Name}': spawned RollingEgg at {position}");
     }
 }

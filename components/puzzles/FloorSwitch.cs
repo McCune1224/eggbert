@@ -26,6 +26,8 @@ public partial class FloorSwitch : Area2D
 
         if (!string.IsNullOrEmpty(TargetDoorPath))
             _targetDoor = GetNodeOrNull<Door>(TargetDoorPath);
+
+        GameLogger.Debug("FloorSwitch", $"'{Name}': latching={Latching}");
     }
 
     public override string[] _GetConfigurationWarnings()
@@ -43,6 +45,7 @@ public partial class FloorSwitch : Area2D
         {
             EmitSignal(SignalName.Pressed);
             _targetDoor?.Open();
+            GameLogger.Info("FloorSwitch", $"'{Name}': pressed");
         }
         _bodyCount++;
         _hasTriggered = true;
@@ -55,6 +58,7 @@ public partial class FloorSwitch : Area2D
         {
             _bodyCount = 0;
             EmitSignal(SignalName.Released);
+            GameLogger.Info("FloorSwitch", $"'{Name}': released");
             if (!Latching || !_hasTriggered)
                 _targetDoor?.Close();
         }

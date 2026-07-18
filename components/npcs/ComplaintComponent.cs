@@ -15,12 +15,17 @@ public partial class ComplaintComponent : Node
         WorldFlags.Instance.SetFlag($"complaint_count_{NpcId}", count + 1);
 
         if (ComplaintTemplate == null || ComplaintTemplate.Length == 0)
+        {
+            GameLogger.Debug("ComplaintComponent", $"'{NpcId}': no templates — returning '...'");
             return "...";
+        }
 
         string baseComplaint = ComplaintTemplate[count % ComplaintTemplate.Length];
 
         // Exaggerate: multiply by count
         string exaggeration = new string('!', System.Math.Min(count + 1, 10));
+
+        GameLogger.Debug("ComplaintComponent", $"'{NpcId}': complaint #{count} — '{baseComplaint}'");
         return $"{baseComplaint}{exaggeration}";
     }
 }

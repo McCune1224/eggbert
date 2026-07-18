@@ -2,46 +2,65 @@
 
 [ext_resource type="Script" path="res://resources/cutscene/CutsceneResource.cs" id="1_cs"]
 [ext_resource type="Script" path="res://resources/cutscene/CutsceneCondition.cs" id="2_cond"]
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneStep.cs" id="3_step"]
 
 [sub_resource type="Resource" id="SubResource_cond_leader_beaten"]
 script = ExtResource("2_cond")
 Type = 1
 FlagKey = "beat_leader"
 
+[sub_resource type="Resource" id="SubResource_step_1"]
+script = ExtResource("3_step")
+Type = 10
+Condition = SubResource("SubResource_cond_leader_beaten")
+
+[sub_resource type="Resource" id="SubResource_step_2"]
+script = ExtResource("3_step")
+Type = 0
+Condition = SubResource("SubResource_cond_leader_beaten")
+DialogLines = ["The Leader falls. The shrine sand churns. The sky over the beach splits.", "A CRACK. Then a hum. Then a smell — butter, and burning."]
+
+[sub_resource type="Resource" id="SubResource_step_3"]
+script = ExtResource("3_step")
+Type = 0
+Condition = SubResource("SubResource_cond_leader_beaten")
+DialogLines = ["The Great Toast God rises from the sea, golden and vast and absolutely indifferent.", "GTG: '...hm. Someone summoned me. For breakfast?'", "GTG: 'Cultists. Always with the cultists. They never read the fine print.'"]
+
+[sub_resource type="Resource" id="SubResource_step_4"]
+script = ExtResource("3_step")
+Type = 0
+Condition = SubResource("SubResource_cond_leader_beaten")
+DialogLines = ["GTG: 'You. Little egg. You have a pure soul. I can see it from here.'", "GTG: 'The cult wanted me to scrape the world clean. I don't want to. I never wanted to.'", "GTG: 'I just want to be left alone with my butter, frankly.'"]
+
+[sub_resource type="Resource" id="SubResource_step_5"]
+script = ExtResource("3_step")
+Type = 7
+Condition = SubResource("SubResource_cond_leader_beaten")
+SetFlagKey = "gtg_summoned"
+SetFlagValue = true
+
+[sub_resource type="Resource" id="SubResource_step_6"]
+script = ExtResource("3_step")
+Type = 0
+Condition = SubResource("SubResource_cond_leader_beaten")
+DialogLines = ["GTG: 'Go home, Eggbert. You've earned it. I'll put things right here.'", "GTG: 'Tell the cult I said hi. Tell them I said: go eat a normal lunch.'"]
+
+[sub_resource type="Resource" id="SubResource_step_7"]
+script = ExtResource("3_step")
+Type = 8
+Condition = SubResource("SubResource_cond_leader_beaten")
+FadeDirection = "out"
+
+[sub_resource type="Resource" id="SubResource_step_8"]
+script = ExtResource("3_step")
+Type = 11
+Condition = SubResource("SubResource_cond_leader_beaten")
+
+[sub_resource type="Resource" id="SubResource_step_9"]
+script = ExtResource("3_step")
+Type = 12
+Condition = SubResource("SubResource_cond_leader_beaten")
+
 [resource]
 script = ExtResource("1_cs")
-Steps = [{
-"Type": 10,
-"Condition": SubResource("SubResource_cond_leader_beaten")
-}, {
-"Type": 0,
-"Condition": SubResource("SubResource_cond_leader_beaten"),
-"DialogLines": ["The Leader falls. The shrine sand churns. The sky over the beach splits.", "A CRACK. Then a hum. Then a smell — butter, and burning."]
-}, {
-"Type": 0,
-"Condition": SubResource("SubResource_cond_leader_beaten"),
-"DialogLines": ["The Great Toast God rises from the sea, golden and vast and absolutely indifferent.", "GTG: '...hm. Someone summoned me. For breakfast?'", "GTG: 'Cultists. Always with the cultists. They never read the fine print.'"]
-}, {
-"Type": 0,
-"Condition": SubResource("SubResource_cond_leader_beaten"),
-"DialogLines": ["GTG: 'You. Little egg. You have a pure soul. I can see it from here.'", "GTG: 'The cult wanted me to scrape the world clean. I don't want to. I never wanted to.'", "GTG: 'I just want to be left alone with my butter, frankly.'"]
-}, {
-"Type": 7,
-"Condition": SubResource("SubResource_cond_leader_beaten"),
-"SetFlagKey": "gtg_summoned",
-"SetFlagValue": true
-}, {
-"Type": 0,
-"Condition": SubResource("SubResource_cond_leader_beaten"),
-"DialogLines": ["GTG: 'Go home, Eggbert. You've earned it. I'll put things right here.'", "GTG: 'Tell the cult I said hi. Tell them I said: go eat a normal lunch.'"]
-}, {
-"Type": 8,
-"Condition": SubResource("SubResource_cond_leader_beaten"),
-"FadeDirection": "out"
-}, {
-"Type": 11,
-"Condition": SubResource("SubResource_cond_leader_beaten")
-}, {
-"Type": 12,
-"Condition": SubResource("SubResource_cond_leader_beaten")
-}]
+Steps = Array[Resource]([SubResource("SubResource_step_1"), SubResource("SubResource_step_2"), SubResource("SubResource_step_3"), SubResource("SubResource_step_4"), SubResource("SubResource_step_5"), SubResource("SubResource_step_6"), SubResource("SubResource_step_7"), SubResource("SubResource_step_8"), SubResource("SubResource_step_9")])

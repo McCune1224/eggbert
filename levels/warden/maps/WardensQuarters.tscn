@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://wardensquarters01"]
+[gd_scene load_steps=13 format=4 uid="uid://wardensquarters01"]
 
 [ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_core"]
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2_base"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="6_warp"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="7_lt"]
 [ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="8_ct"]
+[ext_resource type="PackedScene" uid="uid://c3k6bqd5y7ya6" path="res://saves/SavePoint.tscn" id="10_sp"]
+[ext_resource type="PackedScene" path="res://components/visuals/PlaceholderBackdrop.tscn" id="11_backdrop"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
 size = Vector2(80, 64)
@@ -20,6 +22,8 @@ script = ExtResource("2_base")
 LevelName = "Warden's Quarters"
 
 [node name="CoreTilemapLayer" parent="." instance=ExtResource("1_core")]
+
+[node name="PlaceholderBackdrop" parent="." instance=ExtResource("11_backdrop")]
 
 [node name="EntranceTrigger" parent="." instance=ExtResource("8_ct")]
 position = Vector2(-260, 100)
@@ -81,3 +85,7 @@ Level = "uid://d203hfawkft4p"
 TargetTransitionName = "WardensQuartersExit"
 Size = 5
 Side = 0
+
+[node name="SavePoint" parent="." instance=ExtResource("10_sp")]
+position = Vector2(-260, 160)
+LocationName = "Warden's Quarters"

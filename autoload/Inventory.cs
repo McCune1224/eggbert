@@ -43,11 +43,19 @@ public partial class Inventory : Node, ISavable
 
     public bool Remove(string id, int count = 1)
     {
-        if (!_stacks.TryGetValue(id, out int c) || c < count)
+        if (!_stacks.TryGetValue(id, out int c))
+        {
+            GameLogger.Warn("Inventory", $"Remove: unknown item id '{id}' — nothing to remove");
             return false;
+        }
+        if (c < count)
+        {
+            GameLogger.Warn("Inventory", $"Remove: insufficient '{id}' (have {c}, need {count})");
+            return false;
+        }
         if (c == count) _stacks.Remove(id);
         else _stacks[id] = c - count;
-        GameLogger.Debug("Inventory", $"Remove: {id} x{count}");
+        GameLogger.Debug("Inventory", $"Remove: {id} x{count} (remaining: {(_stacks.TryGetValue(id, out int r) ? r : 0)})");
         return true;
     }
     public bool Has(string id) => _stacks.TryGetValue(id, out int c) && c > 0;
@@ -87,6 +95,10 @@ public partial class Inventory : Node, ISavable
         foreach (var kvp in _stacks)
             dict[kvp.Key] = kvp.Value;
 
+        int count = dict.Count;
+        string itemList = string.Join(", ", dict.Keys);
+        GameLogger.Debug("Inventory", $"Serialize: {count} item types — [{itemList}]");
+
         return new Godot.Collections.Dictionary<string, Variant>
         {
             ["stacks"] = dict
@@ -96,10 +108,19 @@ public partial class Inventory : Node, ISavable
     public void Deserialize(Godot.Collections.Dictionary<string, Variant> data)
     {
         _stacks.Clear();
-        if (!data.TryGetValue("stacks", out var stacksVar)) return;
+        if (!data.TryGetValue("stacks", out var stacksVar))
+        {
+            GameLogger.Warn("Inventory", "Deserialize: no 'stacks' key found — starting with empty inventory");
+            return;
+        }
         var stacks = stacksVar.AsGodotDictionary();
+        int loaded = 0;
         foreach (var kvp in stacks)
+        {
             _stacks[kvp.Key.AsString()] = kvp.Value.AsInt32();
+            loaded++;
+        }
+        GameLogger.Debug("Inventory", $"Deserialize: loaded {loaded} item types — MATCH={loaded == stacks.Count}");
     }
 
     public int GetLoadPriority() => 0;

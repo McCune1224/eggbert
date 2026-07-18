@@ -24,6 +24,7 @@ public partial class AudioManager : Node
         }
         else
         {
+            GameLogger.Warn("Audio", "Multiple instances detected — freeing duplicate");
             QueueFree();
             return;
         }
@@ -46,9 +47,13 @@ public partial class AudioManager : Node
 
     public void PlayMusic(AudioStream audio, bool loop = false)
     {
-        GameLogger.Debug("Audio", $"PlayMusic: streaming={audio != null} loop={loop}");
+        string name = audio?.ResourcePath.GetFile() ?? "null";
         if (audio == _musicAudioPlayers[_currentMusicPlayerIndex].Stream)
+        {
+            GameLogger.Debug("Audio", $"PlayMusic: '{name}' already playing — skipped");
             return;
+        }
+        GameLogger.Info("Audio", $"PlayMusic: '{name}' loop={loop}");
 
         _currentMusicPlayerIndex = (_currentMusicPlayerIndex + 1) % 2;
         AudioStreamPlayer current = _musicAudioPlayers[_currentMusicPlayerIndex];
@@ -62,7 +67,8 @@ public partial class AudioManager : Node
 
     public void PlayAmbience(AudioStream ambience)
     {
-        GameLogger.Debug("Audio", $"PlayAmbience: {ambience?.ResourcePath ?? "none"}");
+        string name = ambience?.ResourcePath.GetFile() ?? "null";
+        GameLogger.Debug("Audio", $"PlayAmbience: '{name}'");
         _ambientPlayer.Stream = ambience;
         _ambientPlayer.Play();
     }
@@ -76,6 +82,7 @@ public partial class AudioManager : Node
 
     public void PlaySfx(AudioStream sfx, float volumeDb = 0f)
     {
+        GameLogger.Debug("Audio", $"PlaySfx: '{sfx?.ResourcePath.GetFile() ?? "null"}' vol={volumeDb}");
         // ponytail: one-shot player, pool if hundreds fire per frame
         var player = new AudioStreamPlayer();
         player.Bus = SFX_BUS;
@@ -101,5 +108,3 @@ public partial class AudioManager : Node
         player.Stop();
     }
 }
-
-

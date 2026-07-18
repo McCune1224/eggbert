@@ -58,6 +58,7 @@ public partial class PhoneBooth : InteractableArea
             _hasDialled = true;
         }
 
+        GameLogger.Info("PhoneBooth", $"'{Name}': called — flag='{CallCompleteFlag}', lines={(lines == IntroLines ? "intro" : lines == MidgameLines ? "midgame" : "endgame")}");
         ShowDialog(lines);
     }
 }

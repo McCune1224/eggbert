@@ -73,6 +73,7 @@ public partial class PushBlock : CharacterBody2D
         MoveAndSlide();
         bool moved = GlobalPosition.DistanceSquaredTo(from) > 0.01f;
         Velocity = Vector2.Zero;
+        GameLogger.Info("PushBlock", $"{Name}: TryPush direction={pushDir}, moved={moved}");
         return moved;
     }
 }

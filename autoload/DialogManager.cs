@@ -31,7 +31,7 @@ public partial class DialogManager : Node2D
         }
         else
         {
-            GD.PrintErr("Multiple instances of DialogManager detected!");
+            GameLogger.Error("Dialog", "Multiple instances of DialogManager detected!");
         }
 
         DefaultVoice = new DialogVoiceResource();
@@ -92,7 +92,8 @@ public partial class DialogManager : Node2D
         _activeChoiceMenu.QueueFree();
         _activeChoiceMenu = null;
         int choice = (int)result[0];
-        GameLogger.Debug("Dialog", $"Choice selected: {choice}");
+        string selectedText = choice >= 0 && choice < choices.Count ? choices[choice] : "?";
+        GameLogger.Info("Dialog", $"Choice selected: {choice} — '{selectedText}'");
         return choice;
     }
 

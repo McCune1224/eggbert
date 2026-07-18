@@ -36,6 +36,8 @@ public partial class Scuttler : Sprite2D
         _triggerArea.BodyEntered += OnTriggerEntered;
 
         _pauseTimer = (float)GD.RandRange(PauseMin, PauseMax);
+
+        GameLogger.Debug("Scuttler", $"'{Name}': _Ready — distance={ScuttleDistance}, speed={ScuttleSpeed}, trigger={TriggerRadius}");
     }
 
     public override void _Process(double delta)
@@ -48,6 +50,7 @@ public partial class Scuttler : Sprite2D
                 _moving = true;
                 _returning = false;
                 FlipH = true;
+                GameLogger.Debug("Scuttler", $"'{Name}': movement start (target={_targetPosition})");
             }
             return;
         }
@@ -64,6 +67,7 @@ public partial class Scuttler : Sprite2D
             _pauseTimer = (float)GD.RandRange(PauseMin, PauseMax);
             FlipH = !_returning; // Face opposite direction
             _returning = !_returning;
+            GameLogger.Debug("Scuttler", $"'{Name}': arrived at {(target == _startPosition ? "start" : "target")}, pause={_pauseTimer:F1}s");
             return;
         }
 
@@ -75,6 +79,9 @@ public partial class Scuttler : Sprite2D
         if (!body.IsInGroup("player")) return;
         // Wake up and start moving
         if (!_moving && _pauseTimer > 0f)
+        {
             _pauseTimer = 0.1f; // Quick start
+            GameLogger.Debug("Scuttler", $"'{Name}': player entered trigger — waking up");
+        }
     }
 }

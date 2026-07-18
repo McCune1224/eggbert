@@ -185,7 +185,8 @@ public partial class DialogBubble : CanvasLayer
 
     public void DisplayText(string text, DialogVoiceResource voice)
     {
-        _voice = voice;
+        GameLogger.Debug("Dialog", $"DisplayText: speaker='{voice?.SpeakerName}', len={text.Length}, pages pending");
+         _voice = voice;
 
         string speaker = voice?.SpeakerName ?? "";
         _nameLabel.Text = speaker;
@@ -335,6 +336,7 @@ public partial class DialogBubble : CanvasLayer
         _textLabel.VisibleCharacters = 0;
         _currentCps = GetGlobalSpeedCps();
         _state = State.Typing;
+        GameLogger.Debug("Dialog", $"StartPage: page {index}/{_pages.Count} — chars [{_pages[index].Start}..{_pages[index].End})");
     }
 
     bool ShowNextChar()
@@ -346,6 +348,7 @@ public partial class DialogBubble : CanvasLayer
         {
             _state = State.PageComplete;
             _pageArrow.Visible = true;
+            GameLogger.Debug("Dialog", $"Page {_pageIndex} complete — waiting for advance");
             return false;
         }
 

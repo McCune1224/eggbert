@@ -64,14 +64,18 @@ public partial class MultiSwitchGate : Node
             ? AreAllPressed()
             : IsAnyPressed();
 
+        GameLogger.Debug("MultiSwitchGate", $"{Name}: Evaluate triggered — mode={Mode}, shouldOpen={shouldOpen}, hasOpened={_hasOpened}");
+
         if (shouldOpen)
         {
             _hasOpened = true;
             _targetDoor.Open();
+            GameLogger.Info("MultiSwitchGate", $"{Name}: opening door '{_targetDoor.Name}' (mode={Mode})");
         }
         else if (!LatchOpen)
         {
             _targetDoor.Close();
+            GameLogger.Info("MultiSwitchGate", $"{Name}: closing door '{_targetDoor.Name}' (mode={Mode})");
         }
     }
 

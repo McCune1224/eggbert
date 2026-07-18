@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="2_core"]
 [ext_resource type="Texture2D" uid="uid://bisfndqlehc6l" path="res://assets/characters/Eggbert.png" id="3_egg"]
 [ext_resource type="Script" path="res://levels/home/HomeEndingTrigger.cs" id="4_trigger"]
+[ext_resource type="PackedScene" path="res://components/visuals/PlaceholderBackdrop.tscn" id="5_backdrop"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_npc"]
 size = Vector2(20, 28)
@@ -16,6 +17,9 @@ script = ExtResource("1_base")
 LevelName = "Home"
 
 [node name="CoreTilemapLayer" parent="." instance=ExtResource("2_core")]
+
+[node name="PlaceholderBackdrop" parent="." instance=ExtResource("5_backdrop")]
+modulate = Color(1.0, 0.78, 0.62, 1)
 
 [node name="Eggatha" type="StaticBody2D" parent="."]
 position = Vector2(64, 0)

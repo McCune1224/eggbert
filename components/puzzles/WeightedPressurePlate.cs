@@ -75,6 +75,7 @@ public partial class WeightedPressurePlate : Area2D
 
         _targetDoor?.Open();
         EmitSignal(SignalName.PlatePressed);
+        GameLogger.Info("WeightedPressurePlate", $"{Name}: pressed — bodyCount={_bodyCount}, target='{_targetDoor?.Name ?? "none"}'");
     }
 
     private void Release()
@@ -84,5 +85,7 @@ public partial class WeightedPressurePlate : Area2D
 
         _targetDoor?.Close();
         EmitSignal(SignalName.PlateReleased);
+        GameLogger.Info("WeightedPressurePlate", $"{Name}: released — bodyCount={_bodyCount}, target='{_targetDoor?.Name ?? "none"}'");
     }
+
 }

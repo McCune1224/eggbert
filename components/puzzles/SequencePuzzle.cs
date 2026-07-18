@@ -50,18 +50,18 @@ public partial class SequencePuzzle : Node
         if (pressedIndex == _currentIndex)
         {
             _currentIndex++;
-            GD.Print($"SequencePuzzle: correct step {_currentIndex}/{_switches.Length}");
+            GameLogger.Debug("Puzzle", $"SequencePuzzle '{Name}': correct step {_currentIndex}/{_switches.Length}");
 
             if (_currentIndex >= _switches.Length)
             {
                 _completed = true;
                 _targetDoor?.Open();
-                GD.Print("SequencePuzzle: complete!");
+                GameLogger.Info("Puzzle", $"SequencePuzzle '{Name}': complete!");
             }
         }
         else
         {
-            GD.Print($"SequencePuzzle: wrong order (expected step {_currentIndex}, got {pressedIndex}). Resetting.");
+            GameLogger.Debug("Puzzle", $"SequencePuzzle '{Name}': wrong order (expected step {_currentIndex}, got {pressedIndex}). Resetting.");
             ResetAll();
         }
     }

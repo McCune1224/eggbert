@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://d203hfawkft4p"]
+[gd_scene load_steps=20 format=4 uid="uid://d203hfawkft4p"]
 
 [ext_resource type="Texture2D" uid="uid://c0m8ma1xjpjho" path="res://assets/tilemaps/grass tileset.png" id="1_aerj4"]
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://cfv78kxjgl0ie" path="res://components/npcs/PatrolComponent.cs" id="13_patrol"]
 [ext_resource type="PackedScene" uid="uid://b1f4v3qhqxah6" path="res://components/puzzles/FakeWall.tscn" id="14_fakewall"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0011.png" id="15_bat"]
+[ext_resource type="PackedScene" uid="uid://c3k6bqd5y7ya6" path="res://saves/SavePoint.tscn" id="20_sp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aywx3"]
 texture = ExtResource("1_aerj4")
@@ -212,8 +213,9 @@ shape = SubResource("CircleShape2D_interact")
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_phys")
 
-[node name="PatrolComponent" parent="PatrolGuard1" type="Node" instance=ExtResource("13_patrol")]
-Waypoints = Array[NodePath]([NodePath("../../Waypoint_PatrolGuard1_A"), NodePath("../../Waypoint_PatrolGuard1_B")])
+[node name="PatrolComponent" parent="PatrolGuard1" type="Node"]
+script = ExtResource("13_patrol")
+Waypoints = Array[NodePath]([NodePath("../Waypoint_PatrolGuard1_A"), NodePath("../Waypoint_PatrolGuard1_B")])
 Speed = 30.0
 PauseSeconds = 1.5
 
@@ -242,8 +244,9 @@ shape = SubResource("CircleShape2D_interact")
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_phys")
 
-[node name="PatrolComponent" parent="PatrolGuard2" type="Node" instance=ExtResource("13_patrol")]
-Waypoints = Array[NodePath]([NodePath("../../Waypoint_PatrolGuard2_A"), NodePath("../../Waypoint_PatrolGuard2_B")])
+[node name="PatrolComponent" parent="PatrolGuard2" type="Node"]
+script = ExtResource("13_patrol")
+Waypoints = Array[NodePath]([NodePath("../Waypoint_PatrolGuard2_A"), NodePath("../Waypoint_PatrolGuard2_B")])
 Speed = 25.0
 PauseSeconds = 2.0
 
@@ -265,3 +268,7 @@ texture = ExtResource("15_bat")
 
 [node name="BatCollision" type="CollisionShape2D" parent="BaseballBatPickup"]
 shape = SubResource("CircleShape2D_interact")
+
+[node name="SavePoint" parent="." instance=ExtResource("20_sp")]
+position = Vector2(-80, 120)
+LocationName = "Courtyard"

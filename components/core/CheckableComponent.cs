@@ -20,6 +20,7 @@ public partial class CheckableComponent : Area2D
                 Shape = new CircleShape2D { Radius = 48f }
             };
             AddChild(shape);
+            GameLogger.Debug("CheckableComponent", $"'{Name}': auto-created collision shape");
         }
     }
 }

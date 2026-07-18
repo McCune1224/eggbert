@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using Godot;
 
 /// <summary>
@@ -19,7 +20,6 @@ public static class GameLogger
     private static string _logDir;
     private static string _logPath;
     private static bool _echoToConsole = true;
-    private static bool _initialized;
 
     private const int MaxLogFiles = 5;
     private const string LogPrefix = "eggbert_";
@@ -27,63 +27,90 @@ public static class GameLogger
     /// <summary>Call once at startup — from boot/GameInit.cs or an autoload _Ready.</summary>
     public static void Initialize(Level minLevel = Level.Info, bool echoToConsole = true)
     {
-        if (_initialized) return;
-        _initialized = true;
-
-        _echoToConsole = echoToConsole;
         _minLevel = minLevel;
-        _logDir = ProjectSettings.GlobalizePath("user://logs");
-        Directory.CreateDirectory(_logDir);
+        _echoToConsole = echoToConsole;
 
-        string today = DateTime.Now.ToString("yyyy-MM-dd");
-        _logPath = Path.Combine(_logDir, $"{LogPrefix}{today}.log");
+        _logDir = ProjectSettings.GlobalizePath("user://logs");
+        DirAccess.MakeDirRecursiveAbsolute(_logDir);
         RotateOldLogs();
 
-        Info("GameLogger", $"Logging to {_logPath} (level: {_minLevel})");
-        OS.AddLogger(new GameLogBridge());
+        string date = DateTime.Now.ToString("yyyy-MM-dd");
+        _logPath = Path.Combine(_logDir, $"{LogPrefix}{date}.log");
     }
 
     /// <summary>Read EGGBERT_LOG_LEVEL and EGGBERT_LOG_ECHO env vars, then initialize.</summary>
     public static void InitializeFromEnv()
     {
-        var level = Level.Info;
-        var levelStr = System.Environment.GetEnvironmentVariable("EGGBERT_LOG_LEVEL");
-        if (!string.IsNullOrEmpty(levelStr))
-            Enum.TryParse(levelStr, ignoreCase: true, out level);
+        string envLevel = System.Environment.GetEnvironmentVariable("EGGBERT_LOG_LEVEL")?.ToLower();
+        Level level = envLevel switch
+        {
+            "debug" => Level.Debug,
+            "warn" => Level.Warn,
+            "error" => Level.Error,
+            "off" => Level.Off,
+            _ => Level.Info,
+        };
 
-        var echo = true;
-        var echoStr = System.Environment.GetEnvironmentVariable("EGGBERT_LOG_ECHO");
-        if (echoStr == "0") echo = false;
+        string envEcho = System.Environment.GetEnvironmentVariable("EGGBERT_LOG_ECHO");
+        bool echo = envEcho != "0";
 
         Initialize(level, echo);
     }
 
-    public static void Debug(string tag, string message)
+    public static void Debug(
+        string tag,
+        string message,
+        [CallerFilePath] string callerFile = "",
+        [CallerLineNumber] int callerLine = 0)
     {
         if (_minLevel > Level.Debug) return;
-        Write("DEBUG", tag, message);
+        string src = FormatCaller(callerFile, callerLine);
+        Write("DEBUG", tag, $"{message} ({src})");
         if (_echoToConsole) GD.Print($"[{tag}] {message}");
     }
 
-    public static void Info(string tag, string message)
+    public static void Info(
+        string tag,
+        string message,
+        [CallerFilePath] string callerFile = "",
+        [CallerLineNumber] int callerLine = 0)
     {
         if (_minLevel > Level.Info) return;
-        Write("INFO", tag, message);
+        string src = FormatCaller(callerFile, callerLine);
+        Write("INFO", tag, $"{message} ({src})");
         if (_echoToConsole) GD.Print($"[{tag}] {message}");
     }
 
-    public static void Warn(string tag, string message)
+    public static void Warn(
+        string tag,
+        string message,
+        [CallerFilePath] string callerFile = "",
+        [CallerLineNumber] int callerLine = 0)
     {
         if (_minLevel > Level.Warn) return;
-        Write("WARN", tag, message);
-        if (_echoToConsole) GD.PushWarning($"[{tag}] {message}");
+        string src = FormatCaller(callerFile, callerLine);
+        Write("WARN", tag, $"{message} ({src})");
+        if (_echoToConsole) GD.Print($"[{tag}] {message}");
     }
 
-    public static void Error(string tag, string message)
+    public static void Error(
+        string tag,
+        string message,
+        [CallerFilePath] string callerFile = "",
+        [CallerLineNumber] int callerLine = 0)
     {
         if (_minLevel > Level.Error) return;
-        Write("ERROR", tag, message);
+        string src = FormatCaller(callerFile, callerLine);
+        Write("ERROR", tag, $"{message} ({src})");
         if (_echoToConsole) GD.PrintErr($"[{tag}] {message}");
+    }
+
+    private static string FormatCaller(string file, int line)
+    {
+        if (string.IsNullOrEmpty(file)) return "";
+        string shortPath = file.Replace("\\", "/");
+        int idx = shortPath.LastIndexOf("/");
+        return idx >= 0 ? $"{shortPath.Substring(idx + 1)}:{line}" : $"{file}:{line}";
     }
 
     private static void Write(string level, string tag, string message)
@@ -99,9 +126,11 @@ public static class GameLogger
             {
                 File.AppendAllText(_logPath, line + System.Environment.NewLine);
             }
-            catch
+            catch (System.Exception ex)
             {
-                // Never let logging crash the game.
+                // Fall back to GD.PrintErr so logging failures are never invisible.
+                // File I/O failure (permissions, disk full) shouldn't crash the game.
+                GD.PrintErr($"[GameLogger] Write failed: {ex.GetType().Name} — {ex.Message}");
             }
         }
     }
@@ -111,20 +140,27 @@ public static class GameLogger
 
     private static void RotateOldLogs()
     {
-        try
+        if (!DirAccess.DirExistsAbsolute(_logDir)) return;
+
+        var files = new System.Collections.Generic.List<string>();
+        using var dir = DirAccess.Open(_logDir);
+        if (dir == null) return;
+
+        dir.ListDirBegin();
+        string fileName;
+        while ((fileName = dir.GetNext()) != "")
         {
-            var files = Directory.GetFiles(_logDir, $"{LogPrefix}*.log");
-            Array.Sort(files); // oldest first by name
-            while (files.Length > MaxLogFiles)
-            {
-                File.Delete(files[0]);
-                files = Directory.GetFiles(_logDir, $"{LogPrefix}*.log");
-                Array.Sort(files);
-            }
+            if (fileName.StartsWith(LogPrefix) && fileName.EndsWith(".log"))
+                files.Add(Path.Combine(_logDir, fileName));
         }
-        catch
+        dir.ListDirEnd();
+
+        files.Sort();
+        while (files.Count >= MaxLogFiles)
         {
-            // Best-effort rotation.
+            try { DirAccess.RemoveAbsolute(files[0]); }
+            catch { /* best-effort cleanup */ }
+            files.RemoveAt(0);
         }
     }
 

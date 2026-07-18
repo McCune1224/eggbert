@@ -19,6 +19,9 @@ public partial class WindZone : Area2D
         CollisionLayer = 0;
         CollisionMask = CollisionConfig.PlayerLayer;
 
+        if (WindLoop == null)
+            GameLogger.Warn("WindZone", $"'{Name}': WindLoop is null — no ambience will play");
+
         _player = new AudioStreamPlayer2D
         {
             Stream = WindLoop,
@@ -39,6 +42,7 @@ public partial class WindZone : Area2D
         if (WindLoop == null) return;
         if (!_player.Playing) _player.Play();
 
+        GameLogger.Debug("WindZone", $"'{Name}': player entered — fading in (maxVol={MaxVolume}dB, fade={FadeSeconds}s)");
         FadeTo(MaxVolume);
     }
 
@@ -47,6 +51,7 @@ public partial class WindZone : Area2D
         if (!body.IsInGroup("player")) return;
         _playerInside = false;
 
+        GameLogger.Debug("WindZone", $"'{Name}': player exited — fading out");
         FadeTo(-80f);
     }
 

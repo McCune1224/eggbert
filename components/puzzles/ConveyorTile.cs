@@ -22,6 +22,7 @@ public partial class ConveyorTile : Area2D
         CollisionLayer = 0;
         CollisionMask = CollisionConfig.PlayerLayer | CollisionConfig.InteractableLayer;
         BodyEntered += OnBodyEntered;
+        BodyExited += OnBodyExited;
     }
 
     public override string[] _GetConfigurationWarnings()
@@ -36,8 +37,18 @@ public partial class ConveyorTile : Area2D
 
     private void OnBodyEntered(Node2D body)
     {
+        string bodyName = body.Name;
+        string bodyType = body is PushBlock ? "PushBlock" : body.IsInGroup("player") ? "Player" : "Unknown";
+        GameLogger.Info("ConveyorTile", $"{Name}: {bodyType} '{bodyName}' entered — direction={ConveyorDirection}, speed={ConveyorSpeed}");
         if (body is PushBlock block)
             block.TryPush(ConveyorDirection);
+    }
+
+    private void OnBodyExited(Node2D body)
+    {
+        string bodyName = body.Name;
+        string bodyType = body is PushBlock ? "PushBlock" : body.IsInGroup("player") ? "Player" : "Unknown";
+        GameLogger.Info("ConveyorTile", $"{Name}: {bodyType} '{bodyName}' exited");
     }
 
     public Vector2 GetConveyorVelocity(Node2D body)

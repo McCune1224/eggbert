@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://ceft5j32lmxa0"]
+[gd_scene load_steps=14 format=4 uid="uid://ceft5j32lmxa0"]
 
 [ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_2xwn4"]
 [ext_resource type="Texture2D" uid="uid://d3g4p3asro7bd" path="res://assets/tilemaps/Texture/TX Tileset Stone Ground.png" id="1_3osvs"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://c5nkwg6g27ibr" path="res://components/items/PickupItem.cs" id="6_pi"]
 [ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="7_ct"]
 [ext_resource type="PackedScene" uid="uid://b60fv3x3u4y5c" path="res://components/puzzles/PushBlock.tscn" id="8_pb"]
+[ext_resource type="PackedScene" uid="uid://c3k6bqd5y7ya6" path="res://saves/SavePoint.tscn" id="10_sp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8lqvu"]
 texture = ExtResource("1_3osvs")
@@ -293,3 +294,7 @@ Level = "res://levels/eggsile/maps/area1.tscn"
 TargetTransitionName = "FactoryGateExit"
 Size = 5
 Side = 1
+
+[node name="SavePoint" parent="." instance=ExtResource("10_sp")]
+position = Vector2(100, 320)
+LocationName = "Factory Floor"

@@ -45,6 +45,8 @@ public partial class DialogLog : CanvasLayer
         _container.AddChild(_logLabel);
 
         _container.Visible = false;
+
+        GameLogger.Debug("Dialog", "DialogLog: _Ready");
     }
 
     public override void _Input(InputEvent @event)
@@ -80,5 +82,7 @@ public partial class DialogLog : CanvasLayer
             _logLabel.Text = string.Join("\n", _buffer);
             _logLabel.ScrollToLine(_logLabel.GetLineCount() - 1);
         }
+
+        GameLogger.Debug("Dialog", $"DialogLog: toggled {(_visible ? "shown" : "hidden")}");
     }
 }

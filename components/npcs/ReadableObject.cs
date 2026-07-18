@@ -32,6 +32,7 @@ public partial class ReadableObject : InteractableArea
         {
             _hasBeenRead = true;
             QueueFree();
+            GameLogger.Debug("ReadableObject", $"'{Name}': already read (flag='read_{GateFlag}') — removed");
         }
     }
 
@@ -49,9 +50,15 @@ public partial class ReadableObject : InteractableArea
         string[] lines;
         if (!string.IsNullOrEmpty(GateFlag) && WorldFlags.Instance.HasFlag(GateFlag)
             && AlternateLines != null && AlternateLines.Length > 0)
+        {
             lines = AlternateLines;
+            GameLogger.Debug("ReadableObject", $"'{Name}': showing alternate lines (gate='{GateFlag}'=true)");
+        }
         else
+        {
             lines = DialogLines;
+            GameLogger.Debug("ReadableObject", $"'{Name}': showing default lines ({DialogLines?.Length ?? 0})");
+        }
 
         ShowDialog(lines);
     }

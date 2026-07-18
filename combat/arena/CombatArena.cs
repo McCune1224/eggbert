@@ -28,17 +28,21 @@ public partial class CombatArena : Node2D
         Player.Instance.Position = PlayerSpawnPosition;
         Player.Instance.HealthComponent.Died += OnPlayerDied;
 
+        GameLogger.Info("Combat", $"Arena '{Name}': _Ready — player spawned at {PlayerSpawnPosition}, initial enemies={EnemiesRemaining}");
     }
 
     public override void _ExitTree()
     {
         if (Player.Instance != null && GodotObject.IsInstanceValid(Player.Instance))
             Player.Instance.HealthComponent.Died -= OnPlayerDied;
+
+        GameLogger.Debug("Combat", $"Arena '{Name}': _ExitTree — cleanup done");
     }
 
     private void OnPlayerDied()
     {
         Player.Instance.HealthComponent.Died -= OnPlayerDied;
+        GameLogger.Info("Combat", $"Arena '{Name}': player died — battle lost");
         EmitSignal(SignalName.BattleLost);
     }
 
@@ -46,12 +50,12 @@ public partial class CombatArena : Node2D
     public void OnEnemyDefeated()
     {
         EnemiesRemaining--;
-        GameLogger.Info("Combat", $"Enemy defeated — {EnemiesRemaining} remaining.");
+        GameLogger.Info("Combat", $"Arena '{Name}': enemy defeated — {EnemiesRemaining} remaining.");
         if (EnemiesRemaining <= 0)
         {
             HUD.QueueFree();
             EmitSignal(SignalName.BattleWon);
-            GameLogger.Info("Combat", "All enemies defeated — battle won!");
+            GameLogger.Info("Combat", $"Arena '{Name}': all enemies defeated — battle won!");
         }
     }
 }

@@ -19,6 +19,9 @@ public partial class RedBullet : Area2D
         AddToGroup("bullet");
         AreaEntered += OnAreaEntered;
         BodyEntered += OnBodyEntered;
+
+        string firedByInfo = FiredBy != null ? $" firedBy='{FiredBy.Name}'" : "";
+        GameLogger.Debug("Combat", $"RedBullet '{Name}': spawned{firedByInfo} — pos={Position}, dir={direction}, homing={IsHoming}, speed={speed}, lifetime={lifetime}");
     }
 
     public override void _Process(double delta)
@@ -36,7 +39,10 @@ public partial class RedBullet : Area2D
 
         aliveTime += dt;
         if (aliveTime >= lifetime)
+        {
+            GameLogger.Debug("Combat", $"RedBullet '{Name}': despawned by timeout");
             QueueFree();
+        }
     }
 
     public void SetDirection(Vector2 newDirection, float? newSpeed = null)
@@ -58,11 +64,13 @@ public partial class RedBullet : Area2D
             if (area is CombatOatmeal enemy && enemy.Health != null)
             {
                 enemy.Health.TakeDamage(10 + Equipment.Instance.TotalAttackBoost, this);
+                GameLogger.Debug("Combat", $"RedBullet '{Name}': reflected — hit enemy for {10 + Equipment.Instance.TotalAttackBoost} DMG");
             }
             QueueFree();
             return;
         }
 
+        GameLogger.Debug("Combat", $"RedBullet '{Name}': area hit — destroyed");
         QueueFree();
     }
 
@@ -71,7 +79,9 @@ public partial class RedBullet : Area2D
         if (!Reflected && body.IsInGroup("player"))
         {
             Player.Instance.HealthComponent?.TakeDamage(10, this);
+            GameLogger.Debug("Combat", $"RedBullet '{Name}': hit player for 10 DMG");
         }
+        GameLogger.Debug("Combat", $"RedBullet '{Name}': body hit — destroyed");
         QueueFree();
     }
 }

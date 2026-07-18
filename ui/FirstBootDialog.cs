@@ -18,6 +18,7 @@ public partial class FirstBootDialog : CanvasLayer
         if (_wasShownThisSession ||
             WorldFlags.Instance.HasFlag("first_boot_speed_chosen"))
         {
+            GameLogger.Debug("FirstBoot", "Skipped — already completed this session or flag set");
             EmitSignal(SignalName.Completed);
             QueueFree();
             return;
@@ -35,7 +36,7 @@ public partial class FirstBootDialog : CanvasLayer
         var backdrop = new ColorRect
         {
             Color = new Color(0, 0, 0, 0.7f),
-        MouseFilter = Control.MouseFilterEnum.Ignore
+           MouseFilter = Control.MouseFilterEnum.Ignore
         };
         backdrop.SetAnchorsPreset(Control.LayoutPreset.FullRect);
         AddChild(backdrop);

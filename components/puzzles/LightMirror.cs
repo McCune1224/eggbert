@@ -31,6 +31,7 @@ public partial class LightMirror : StaticBody2D
     public void Rotate()
     {
         Rotation += Mathf.DegToRad(45);
+        GameLogger.Info("LightMirror", $"{Name}: rotated to {Mathf.RadToDeg(Rotation):F1}°");
     }
 
     /// <summary>

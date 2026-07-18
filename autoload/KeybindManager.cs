@@ -66,7 +66,7 @@ public partial class KeybindManager : Node
     public static string GetCurrentKeyLabel(string action)
     {
         Key key = GetCurrentKey(action);
-        return key == Key.None ? "—" : OS.GetKeycodeString(key);
+        return key == Key.None ? "\u2014" : OS.GetKeycodeString(key);
     }
 
     /// Removes all keyboard events for an action and adds a single new one.
@@ -82,6 +82,8 @@ public partial class KeybindManager : Node
         var newEvent = new InputEventKey();
         newEvent.PhysicalKeycode = newKey;
         InputMap.ActionAddEvent(action, newEvent);
+
+        GameLogger.Info("KeybindManager", $"Rebound '{action}' \u2192 {OS.GetKeycodeString(newKey)}");
     }
 
     /// Restores the default binding(s) for a single action.
@@ -104,6 +106,8 @@ public partial class KeybindManager : Node
             ev.PhysicalKeycode = key;
             InputMap.ActionAddEvent(action, ev);
         }
+
+        GameLogger.Debug("KeybindManager", $"Reset '{action}' to default");
     }
 
     /// Restores every rebindable action to its default(s).
@@ -111,6 +115,7 @@ public partial class KeybindManager : Node
     {
         foreach (string action in RebindableActions)
             ResetAction(action);
+        GameLogger.Debug("KeybindManager", "All bindings reset to defaults");
     }
 
     public static void SaveBindings()
@@ -122,21 +127,30 @@ public partial class KeybindManager : Node
             config.SetValue("bindings", action, (int)key);
         }
         config.Save("user://keybinds.cfg");
+        GameLogger.Debug("KeybindManager", "Bindings saved to user://keybinds.cfg");
     }
 
     public static void LoadBindings()
     {
         var config = new ConfigFile();
         if (config.Load("user://keybinds.cfg") != Error.Ok)
+        {
+            GameLogger.Debug("KeybindManager", "No saved bindings — using defaults");
             return;
+        }
 
+        int loaded = 0;
         foreach (string action in RebindableActions)
         {
             if (!config.HasSectionKey("bindings", action)) continue;
             int raw = (int)config.GetValue("bindings", action, 0);
             if (raw > 0)
+            {
                 RebindAction(action, (Key)raw);
+                loaded++;
+            }
         }
+        GameLogger.Debug("KeybindManager", $"Loaded {loaded} saved bindings");
     }
 
     // --- Lifecycle ------------------------------------------------

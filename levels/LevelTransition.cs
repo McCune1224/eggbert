@@ -25,10 +25,14 @@ public partial class LevelTransition : Area2D
     [Export(PropertyHint.Range, "1,12,1,or_greater")]
     public int Size;
 
-    [Export]
+[Export]
     public TransitionSide Side;
     [Export]
     bool SnapToGrid = false;
+
+    [Export]
+    /// <summary>Optional WorldFlag required to fire this transition. Empty = always fires. Used to gate post-ending exits (e.g. "go_home").</summary>
+    public string RequiredFlag = "";
 
     public override bool _Set(StringName property, Variant value)
     {
@@ -89,7 +93,14 @@ public partial class LevelTransition : Area2D
     public void SceneTransition(Node2D body)
     {
         if (body.IsInGroup("player"))
+        {
+            if (!string.IsNullOrEmpty(RequiredFlag) && !WorldFlags.Instance.HasFlag(RequiredFlag))
+            {
+                GameLogger.Debug("LevelTransition", $"'{Name}': gated — requires flag '{RequiredFlag}' (not set).");
+                return;
+            }
             GameLogger.Info("LevelTransition", $"Transition triggered → {Level} (target: {TargetTransitionName})");
+        }
         try
         {
             if (TargetTransitionName != "")

@@ -15,6 +15,11 @@ public partial class ZoneStinger : AudioStreamPlayer2D
         {
             Stream = StingerSfx;
             Play();
+            GameLogger.Debug("ZoneStinger", $"'{Name}': playing stinger");
+        }
+        else
+        {
+            GameLogger.Warn("ZoneStinger", $"'{Name}': StingerSfx is null — nothing to play");
         }
     }
 }

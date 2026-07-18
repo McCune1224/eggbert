@@ -19,6 +19,7 @@ public partial class FadeTransition : CanvasLayer
         }
         else
         {
+            GameLogger.Warn("FadeTransition", "Duplicate instance detected — freeing");
             QueueFree();
             return;
         }
@@ -39,6 +40,7 @@ public partial class FadeTransition : CanvasLayer
     {
         _bannerLabel.Text = locationName;
         _animationPlayer.Play("banner_in");
+        GameLogger.Info("FadeTransition", $"Showing location banner: '{locationName}'");
         await ToSignal(_animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
         await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout);
         _animationPlayer.Play("banner_out");

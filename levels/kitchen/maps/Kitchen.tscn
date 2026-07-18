@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://kitchenzone01"]
+[gd_scene load_steps=12 format=4 uid="uid://kitchenzone01"]
 
 [ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="1_core"]
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2_base"]
@@ -9,6 +9,8 @@
 [ext_resource type="Script" path="res://components/npcs/MercyEncounterTrigger.cs" id="7_mercy"]
 [ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="8_warp"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="9_lt"]
+[ext_resource type="PackedScene" uid="uid://c3k6bqd5y7ya6" path="res://saves/SavePoint.tscn" id="10_sp"]
+[ext_resource type="PackedScene" path="res://components/visuals/PlaceholderBackdrop.tscn" id="11_backdrop"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
 radius = 16.0
@@ -21,6 +23,9 @@ script = ExtResource("2_base")
 LevelName = "Kitchen"
 
 [node name="CoreTilemapLayer" parent="." instance=ExtResource("1_core")]
+
+[node name="PlaceholderBackdrop" parent="." instance=ExtResource("11_backdrop")]
+modulate = Color(0.86, 0.92, 0.66, 1)
 
 [node name="GrandpaSmith" parent="." instance=ExtResource("3_grandpa")]
 position = Vector2(-180, 80)
@@ -85,3 +90,7 @@ Level = "uid://d203hfawkft4p"
 TargetTransitionName = "KitchenExit"
 Size = 5
 Side = 3
+
+[node name="SavePoint" parent="." instance=ExtResource("10_sp")]
+position = Vector2(80, 120)
+LocationName = "Kitchen"

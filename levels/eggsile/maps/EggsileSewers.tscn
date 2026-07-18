@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://components/items/PickupItem.cs" id="7_pi"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="8_lt"]
 [ext_resource type="Texture2D" uid="uid://d3g4p3asro7bd" path="res://assets/tilemaps/Texture/TX Tileset Stone Ground.png" id="9_stone"]
+[ext_resource type="Texture2D" path="res://assets/characters/Joe.png" id="10_plumber"]
 
 [sub_resource type="RectangleShape2D" id="RectShape_topwall"]
 size = Vector2(640, 16)
@@ -87,6 +88,12 @@ shape = SubResource("RectShape_sidewall")
 
 [node name="NPC_Plumber" type="Node2D" parent="."]
 position = Vector2(160, 280)
+
+[node name="Sprite2D" type="Sprite2D" parent="NPC_Plumber"]
+texture_filter = 1
+texture = ExtResource("10_plumber")
+scale = Vector2(1.25, 1.25)
+modulate = Color(0.75, 0.85, 1, 1)
 
 [node name="Trigger" parent="NPC_Plumber" instance=ExtResource("5_ct")]
 DialogLines = Array[String](["The drains down here hum in B-flat. Been trying to compose a symphony.", "Three valves. You gotta turn 'em in the right order. I keep a cheat sheet but the rats ate it.", "123? Too obvious. 321? Cliché. Maybe it's... three, one, two?"])

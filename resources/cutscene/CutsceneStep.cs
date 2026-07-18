@@ -112,11 +112,14 @@ public partial class CutsceneStep : Resource
         var lines = DialogLines != null ? new List<string>(DialogLines) : new List<string>();
         if (lines.Count == 0) return;
 
+        GameLogger.Debug("Cutscene", $"SayDialog: {lines.Count} lines, speaker='{voice?.SpeakerName ?? "narrator"}'");
         DialogManager.Instance.StartDialog(lines, voice);
         await controller.ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
 
         if (controller.Cancelled)
             DialogManager.Instance.Reset();
+        else
+            GameLogger.Debug("Cutscene", "SayDialog: completed");
     }
 
     private async Task ExecuteMoveNpc(CutsceneController controller)
@@ -135,12 +138,16 @@ public partial class CutsceneStep : Resource
             return;
         }
 
+        Vector2 from = npc is Node2D n2d ? n2d.Position : Vector2.Zero;
+        GameLogger.Debug("Cutscene", $"MoveNpc: '{TargetNode}' from {from} → {MoveTarget} over {MoveDuration}s");
         var tween = controller.CreateTween();
         tween.TweenProperty(npc, "position", MoveTarget, MoveDuration);
         await controller.ToSignal(tween, Tween.SignalName.Finished);
 
         if (controller.Cancelled)
             tween.Kill();
+        else
+            GameLogger.Debug("Cutscene", $"MoveNpc: '{TargetNode}' arrived at {MoveTarget}");
     }
 
     private async Task ExecuteMovePlayer(CutsceneController controller)
@@ -152,12 +159,16 @@ public partial class CutsceneStep : Resource
             return;
         }
 
+        Vector2 from = player.Position;
+        GameLogger.Debug("Cutscene", $"MovePlayer: {from} → {MoveTarget} over {MoveDuration}s");
         var tween = controller.CreateTween();
         tween.TweenProperty(player, "position", MoveTarget, MoveDuration);
         await controller.ToSignal(tween, Tween.SignalName.Finished);
 
         if (controller.Cancelled)
             tween.Kill();
+        else
+            GameLogger.Debug("Cutscene", $"MovePlayer: arrived at {MoveTarget}");
     }
 
     private void ExecuteFaceDirection(CutsceneController controller)
@@ -171,7 +182,10 @@ public partial class CutsceneStep : Resource
             var anim = n2d.GetNode<AnimationPlayer>("AnimationPlayer");
             var animName = $"idle_{AnimationName}";
             if (anim.HasAnimation(animName))
+            {
                 anim.Play(animName);
+                GameLogger.Debug("Cutscene", $"FaceDirection: '{AnimationNode}' → '{animName}'");
+            }
         }
     }
 
@@ -186,11 +200,13 @@ public partial class CutsceneStep : Resource
             var anim = n2d.GetNode<AnimationPlayer>("AnimationPlayer");
             if (!anim.HasAnimation(AnimationName))
             {
-            GameLogger.Error("Cutscene", $"PlayAnimation: no animation '{AnimationName}' on '{AnimationNode}'.");
+                GameLogger.Error("Cutscene", $"PlayAnimation: no animation '{AnimationName}' on '{AnimationNode}'.");
                 return;
             }
+            GameLogger.Debug("Cutscene", $"PlayAnimation: '{AnimationNode}' → '{AnimationName}'");
             anim.Play(AnimationName);
             await controller.ToSignal(anim, AnimationPlayer.SignalName.AnimationFinished);
+            GameLogger.Debug("Cutscene", $"PlayAnimation: '{AnimationName}' finished");
         }
     }
 
@@ -203,16 +219,20 @@ public partial class CutsceneStep : Resource
             return;
         }
 
+        GameLogger.Debug("Cutscene", $"CameraMove: offset {camera.Offset} → {MoveTarget} over {MoveDuration}s");
         var tween = controller.CreateTween();
         tween.TweenProperty(camera, "offset", MoveTarget, MoveDuration);
         await controller.ToSignal(tween, Tween.SignalName.Finished);
 
         if (controller.Cancelled)
             tween.Kill();
+        else
+            GameLogger.Debug("Cutscene", $"CameraMove: arrived at {MoveTarget}");
     }
 
     private async Task ExecuteWait(CutsceneController controller)
     {
+        GameLogger.Debug("Cutscene", $"Wait: {WaitSeconds}s");
         var timer = controller.GetTree().CreateTimer(WaitSeconds);
         await controller.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
     }
@@ -220,11 +240,15 @@ public partial class CutsceneStep : Resource
     private void ExecuteSetFlag()
     {
         if (!string.IsNullOrEmpty(SetFlagKey))
+        {
             WorldFlags.Instance.SetFlag(SetFlagKey, SetFlagValue);
+            GameLogger.Debug("Cutscene", $"SetFlag: '{SetFlagKey}' = {SetFlagValue}");
+        }
     }
 
     private async Task ExecuteFade(CutsceneController controller)
     {
+        GameLogger.Debug("Cutscene", $"Fade: {FadeDirection}");
         if (FadeDirection == "out")
             await FadeTransition.Instance.PlayFadeOut();
         else
@@ -236,6 +260,7 @@ public partial class CutsceneStep : Resource
         if (ChoicePromptLines != null && ChoicePromptLines.Length > 0)
         {
             var promptVoice = ChoicePromptVoice ?? DialogManager.Instance.DefaultVoice;
+            GameLogger.Debug("Cutscene", $"PromptChoice: showing prompt ({ChoicePromptLines.Length} lines)");
             DialogManager.Instance.StartDialog(new List<string>(ChoicePromptLines), promptVoice);
             await controller.ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
             if (controller.Cancelled) { DialogManager.Instance.Reset(); return; }
@@ -244,10 +269,15 @@ public partial class CutsceneStep : Resource
         var choices = ChoiceOptions != null ? new List<string>(ChoiceOptions) : new List<string>();
         if (choices.Count == 0) return;
 
+        GameLogger.Debug("Cutscene", $"PromptChoice: {choices.Count} options — '{string.Join("', '", choices)}'");
         int index = await DialogManager.Instance.PromptChoices(choices);
         controller.LastChoiceIndex = index;
+        GameLogger.Info("Cutscene", $"PromptChoice: selected #{index} — '{choices[index]}'");
 
         if (ChoiceFlags != null && index >= 0 && index < ChoiceFlags.Length && !string.IsNullOrEmpty(ChoiceFlags[index]))
+        {
             WorldFlags.Instance.SetFlag(ChoiceFlags[index], true);
+            GameLogger.Debug("Cutscene", $"PromptChoice: set flag '{ChoiceFlags[index]}'=true");
+        }
     }
 }

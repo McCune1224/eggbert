@@ -18,18 +18,21 @@ public partial class PatrolComponent : Node
     private bool _isPaused = false;
     private float _pauseTimer = 0f;
     private bool _waitingAfterDialog = false;
+    private int _lastMissingWaypoint = -1;
 
     public override void _Ready()
     {
         _parent = GetParent<Node2D>();
         if (_parent == null)
         {
+            GameLogger.Error("PatrolComponent", $"'{Name}': parent is null!");
             SetProcess(false);
             return;
         }
 
         if (Waypoints == null || Waypoints.Length == 0)
         {
+            GameLogger.Warn("PatrolComponent", $"'{Name}': no waypoints assigned — disabled");
             SetProcess(false);
             return;
         }
@@ -42,6 +45,7 @@ public partial class PatrolComponent : Node
         }
 
         SetProcess(true);
+        GameLogger.Debug("PatrolComponent", $"'{Name}': _Ready — {Waypoints.Length} waypoints, speed={Speed}, pause={PauseSeconds}s");
     }
 
     public override void _Process(double delta)
@@ -63,12 +67,19 @@ public partial class PatrolComponent : Node
         if (Waypoints == null || Waypoints.Length == 0 || _currentWaypoint >= Waypoints.Length)
             return;
 
-        var targetNode = _parent.GetNodeOrNull<Node2D>(Waypoints[_currentWaypoint]);
+        var missingWaypoint = _currentWaypoint;
+        var targetNode = _parent.GetNodeOrNull<Node2D>(Waypoints[missingWaypoint]);
         if (targetNode == null)
         {
             _currentWaypoint = (_currentWaypoint + 1) % Waypoints.Length;
+            if (_lastMissingWaypoint != missingWaypoint)
+            {
+                _lastMissingWaypoint = missingWaypoint;
+                GameLogger.Warn("PatrolComponent", $"'{Name}': waypoint {missingWaypoint} node not found — skipping");
+            }
             return;
         }
+        _lastMissingWaypoint = -1;
 
         Vector2 targetPos = targetNode.GlobalPosition;
         Vector2 dir = targetPos - _parent.GlobalPosition;
@@ -81,6 +92,7 @@ public partial class PatrolComponent : Node
             {
                 _pauseTimer = 0f;
                 _currentWaypoint = (_currentWaypoint + 1) % Waypoints.Length;
+                GameLogger.Debug("PatrolComponent", $"'{Name}': reached waypoint {_currentWaypoint} (of {Waypoints.Length})");
             }
             return;
         }
@@ -92,6 +104,7 @@ public partial class PatrolComponent : Node
     private void OnInteractionStarted()
     {
         _isPaused = true;
+        GameLogger.Debug("PatrolComponent", $"'{Name}': paused for interaction");
     }
 
     /// <summary>
@@ -102,5 +115,6 @@ public partial class PatrolComponent : Node
         _isPaused = false;
         _waitingAfterDialog = true;
         _pauseTimer = 0f;
+        GameLogger.Debug("PatrolComponent", $"'{Name}': resuming patrol");
     }
 }

@@ -35,6 +35,10 @@ public partial class ConditionalItem : Area2D
         if (_collision != null)
             _collision.Disabled = !conditionMet;
 
+        GameLogger.Debug("ConditionalItem", $"'{Name}': condition (flag='{RequiredFlag}', notSet={RequiresNotSet}) = {conditionMet}");
+        if (!conditionMet)
+            GameLogger.Debug("ConditionalItem", $"'{Name}': hidden — condition not met");
+
         BodyEntered += OnBodyEntered;
     }
 
@@ -42,14 +46,23 @@ public partial class ConditionalItem : Area2D
     {
         if (!body.IsInGroup("player")) return;
 
-        if (!string.IsNullOrEmpty(ItemId))
-            Inventory.Instance.Add(ItemId, Count);
+        if (string.IsNullOrEmpty(ItemId))
+        {
+            GameLogger.Warn("ConditionalItem", $"'{Name}': ItemId is empty — nothing picked up");
+            QueueFree();
+            return;
+        }
+
+        Inventory.Instance.Add(ItemId, Count);
+        GameLogger.Info("ConditionalItem", $"'{Name}': picked up (id={ItemId}, count={Count})");
 
         if (PickupDialogLines != null && PickupDialogLines.Length > 0)
         {
+            GameLogger.Debug("ConditionalItem", $"'{Name}': showing pickup dialog ({PickupDialogLines.Length} lines)");
             CutsceneController.Instance.StartDialog(PickupDialogLines);
         }
 
+        GameLogger.Info("ConditionalItem", $"'{Name}': destroyed after pickup");
         QueueFree();
     }
 }

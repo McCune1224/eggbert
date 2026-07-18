@@ -57,19 +57,23 @@ public partial class SaveManager : Node
         };
 
         // Collect data from all ISavable nodes in the "persist" group
+        int savedCount = 0;
         foreach (Node node in GetTree().GetNodesInGroup("persist"))
         {
             if (node is ISavable savable)
             {
                 saveFile.ComponentData[savable.SaveKey] = savable.Serialize();
+                savedCount++;
             }
             else
             {
                 GameLogger.Warn("SaveManager", $"Node '{node.Name}' in 'persist' group does not implement ISavable — skipping.");
             }
         }
+        GameLogger.Info("SaveManager", $"Saved {savedCount} ISavable components to '{SaveFileName}'");
 
         ResourceSaver.Save(saveFile, SaveFileName);
+        GameLogger.Info("SaveManager", $"Save file written to '{SaveFileName}'");
         EmitSignal(SignalName.SaveCompleted);
     }
 
@@ -119,19 +123,22 @@ public partial class SaveManager : Node
         GameLogger.Info("SaveManager", $"Found {persistNodes.Count} ISavable nodes to deserialize.");
         persistNodes.Sort((a, b) => b.GetLoadPriority().CompareTo(a.GetLoadPriority()));
 
+        int deserialized = 0;
+        int expected = persistNodes.Count;
         foreach (var savable in persistNodes)
         {
             if (saveFile.ComponentData.TryGetValue(savable.SaveKey, out var data))
             {
                 GameLogger.Info("SaveManager", $"Deserializing key='{savable.SaveKey}' (priority={savable.GetLoadPriority()})");
                 savable.Deserialize(data);
+                deserialized++;
             }
             else
             {
                 GameLogger.Debug("SaveManager", $"No saved data for key '{savable.SaveKey}' — skipping.");
             }
         }
-        GameLogger.Info("SaveManager", "LoadGame complete.");
+        GameLogger.Info("SaveManager", $"LoadGame complete: deserialized {deserialized}/{expected} components — VALID={deserialized == expected}");
         return true;
     }
 }

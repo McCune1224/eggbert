@@ -24,10 +24,18 @@ public partial class FootstepManager : Node
     public override void _Ready()
     {
         _player = Player.Instance;
+        if (_player == null)
+        {
+            GameLogger.Error("FootstepManager", $"'{Name}': Player.Instance is null!");
+            SetProcess(false);
+            return;
+        }
+
         _audioPlayer = new AudioStreamPlayer { Bus = "SFX" };
         AddChild(_audioPlayer);
 
         SetProcess(true);
+        GameLogger.Debug("FootstepManager", $"'{Name}': _Ready — stepInterval={StepInterval}");
     }
 
     public override void _Process(double delta)
@@ -66,7 +74,11 @@ public partial class FootstepManager : Node
         var result = space.IntersectRay(query);
         if (result.Count == 0)
         {
-            _currentFloor = FloorType.Default;
+            if (_currentFloor != FloorType.Default)
+            {
+                _currentFloor = FloorType.Default;
+                GameLogger.Debug("FootstepManager", $"'{Name}': floor → Default (no tile)");
+            }
             return;
         }
 
@@ -75,22 +87,37 @@ public partial class FootstepManager : Node
         {
             // Determine floor type from tile metadata or layer name
             string layerName = tileLayer.Name.ToString().ToLower();
-            if (layerName.Contains("grass")) _currentFloor = FloorType.Grass;
-            else if (layerName.Contains("metal") || layerName.Contains("factory")) _currentFloor = FloorType.Metal;
-            else if (layerName.Contains("water")) _currentFloor = FloorType.Water;
-            else if (layerName.Contains("wood")) _currentFloor = FloorType.Wood;
-            else _currentFloor = FloorType.Stone;
+            FloorType newFloor = _currentFloor;
+            if (layerName.Contains("grass")) newFloor = FloorType.Grass;
+            else if (layerName.Contains("metal") || layerName.Contains("factory")) newFloor = FloorType.Metal;
+            else if (layerName.Contains("water")) newFloor = FloorType.Water;
+            else if (layerName.Contains("wood")) newFloor = FloorType.Wood;
+            else newFloor = FloorType.Stone;
+
+            if (newFloor != _currentFloor)
+            {
+                _currentFloor = newFloor;
+                GameLogger.Debug("FootstepManager", $"'{Name}': floor → {newFloor} (layer='{layerName}')");
+            }
         }
         else
         {
-            _currentFloor = FloorType.Stone;
+            if (_currentFloor != FloorType.Stone)
+            {
+                _currentFloor = FloorType.Stone;
+                GameLogger.Debug("FootstepManager", $"'{Name}': floor → Stone (non-TileMap collider)");
+            }
         }
     }
 
     private void PlayFootstep()
     {
         AudioStream sfx = GetFloorSfx();
-        if (sfx == null) return;
+        if (sfx == null)
+        {
+            GameLogger.Warn("FootstepManager", $"'{Name}': no SFX for floor '{_currentFloor}'");
+            return;
+        }
 
         _audioPlayer.Stream = sfx;
         _audioPlayer.PitchScale = 0.9f + (float)GD.RandRange(0, 0.2f);

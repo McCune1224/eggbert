@@ -31,11 +31,15 @@ public partial class BaseLevel : Node2D
         }
 
         EmitSignal(SignalName.LevelStarted);
+
+        GameLogger.Info("BaseLevel", $"'{LevelName}': _Ready — music={LevelMusic?.ResourcePath ?? "none"}, ambience={LevelAmbience?.ResourcePath ?? "none"}");
     }
 
     public override void _ExitTree()
     {
         if (LevelAmbience != null)
             AudioManager.Instance.StopAmbience();
+
+        GameLogger.Debug("BaseLevel", $"'{LevelName}': _ExitTree — ambience stopped");
     }
 }

@@ -16,6 +16,7 @@ public partial class CerealEncounterTrigger : Area2D
     {
         if (body == Player.Instance)
         {
+            GameLogger.Info("Combat", $"CerealEncounterTrigger '{Name}': triggered — starting combat at '{ArenaPath}'");
             CombatController.Instance.EnterCombat(ArenaPath, PlayerSpawn);
         }
     }

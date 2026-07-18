@@ -13,6 +13,7 @@ public static class Settings
         set
         {
             _showInteractionPrompt = value;
+            GameLogger.Debug("Settings", $"ShowInteractionPrompt set to {value}");
             Save();
         }
     }
@@ -29,6 +30,7 @@ public static class Settings
         if (config.Load(ConfigPath) != Error.Ok) return;
 
         _showInteractionPrompt = config.GetValue("general", "show_interaction_prompt", true).AsBool();
+        GameLogger.Debug("Settings", $"Loaded: showInteractionPrompt={_showInteractionPrompt}");
     }
 
     private static void Save()
@@ -36,5 +38,6 @@ public static class Settings
         var config = new ConfigFile();
         config.SetValue("general", "show_interaction_prompt", _showInteractionPrompt);
         config.Save(ConfigPath);
+        GameLogger.Debug("Settings", $"Saved: showInteractionPrompt={_showInteractionPrompt}");
     }
 }

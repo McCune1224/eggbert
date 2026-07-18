@@ -30,7 +30,10 @@ public partial class Door : StaticBody2D
         _sprite = GetNode<Sprite2D>("Sprite2D");
         if (_texture != null) _sprite.Texture = _texture;
         if (StartOpen)
+        {
             Open();
+            GameLogger.Debug("Door", $"'{Name}': StartOpen is true; door opened on ready");
+        }
     }
 
 
@@ -40,6 +43,7 @@ public partial class Door : StaticBody2D
             AudioManager.Instance.PlaySfx(OpenSfx);
         CallDeferred(nameof(SetCollisionEnabled), false);
         Modulate = new Color(1, 1, 1, 0.3f);
+        GameLogger.Info("Door", $"'{Name}': opened");
     }
 
     public virtual void Close()
@@ -48,6 +52,7 @@ public partial class Door : StaticBody2D
             AudioManager.Instance.PlaySfx(CloseSfx);
         CallDeferred(nameof(SetCollisionEnabled), true);
         Modulate = Colors.White;
+        GameLogger.Info("Door", $"'{Name}': closed");
     }
 
     private void SetCollisionEnabled(bool enabled)
@@ -61,5 +66,6 @@ public partial class Door : StaticBody2D
             Close();
         else
             Open();
+        GameLogger.Debug("Door", $"'{Name}': toggled (now {(IsOpen ? "open" : "closed")})");
     }
 }

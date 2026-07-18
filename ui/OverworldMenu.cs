@@ -146,6 +146,7 @@ public partial class OverworldMenu : CanvasLayer
 
         LoadSettings();
         HideMenu();
+        GameLogger.Debug("OverworldMenu", "_Ready — setup complete");
     }
 
     // --- Panel navigation ---
@@ -166,6 +167,7 @@ public partial class OverworldMenu : CanvasLayer
     {
         GetTree().Paused = false;
         HideMenu();
+        GameLogger.Debug("OverworldMenu", "Resumed — unpaused and hidden");
     }
 
     private void Pause()
@@ -174,6 +176,7 @@ public partial class OverworldMenu : CanvasLayer
         DialogManager.Instance.Reset();
         GetTree().Paused = true;
         ShowMenu();
+        GameLogger.Debug("OverworldMenu", "Paused — menu shown");
     }
 
     private void ShowMenu()
@@ -287,8 +290,8 @@ public partial class OverworldMenu : CanvasLayer
     {
         Resume();
         GameController.Instance.LoadLevel(levelPath, position);
+        GameLogger.Info("OverworldMenu", $"Warp to: '{levelPath}' at {position}");
     }
-
     private void OnInventoryPressed()
     {
         AudioManager.Instance.PlaySfx(_confirmSfx);
@@ -391,9 +394,10 @@ public partial class OverworldMenu : CanvasLayer
             }
             else
             {
-                _useButton.Disabled = false;
                 _useButton.Text = "Equip";
             }
+
+            GameLogger.Debug("OverworldMenu", $"Item selected: '{_selectedItemId}' ({_currentTab})");
         }
     }
 

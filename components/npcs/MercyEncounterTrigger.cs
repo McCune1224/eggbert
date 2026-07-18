@@ -43,6 +43,19 @@ public partial class MercyEncounterTrigger : Area2D
         CollisionMask = CollisionConfig.PlayerLayer;
         BodyEntered += OnBodyEntered;
 
+        var markerTexture = ResourceLoader.Load<Texture2D>("res://assets/placeholders/encounter_marker.png");
+        if (markerTexture != null)
+        {
+            var marker = new Sprite2D
+            {
+                Texture = markerTexture,
+                Scale = new Vector2(0.45f, 0.45f),
+                Modulate = new Color(1.0f, 0.35f, 0.28f, 0.9f),
+                ZIndex = 2
+            };
+            AddChild(marker);
+        }
+
         if (!string.IsNullOrEmpty(OnceFlag) && WorldFlags.Instance.HasFlag(OnceFlag))
         {
             QueueFree();

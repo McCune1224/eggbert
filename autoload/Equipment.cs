@@ -102,6 +102,7 @@ public partial class Equipment : Node, ISavable
         var parry = player.Parry;
         if (parry != null)
             parry.UpdateStats(GetTotalParryRadius(), GetTotalParryDamage());
+        GameLogger.Debug("Equipment", $"ApplyItemStats: '{item.Id}' sign={sign} — ATK={item.AttackBoost}, DEF={item.DefenseBoost}, SPD={item.SpeedBoost}, HP={item.MaxHPBoost}");
     }
 
     private float GetTotalParryRadius()
@@ -197,11 +198,16 @@ public partial class Equipment : Node, ISavable
 
     public Godot.Collections.Dictionary<string, Variant> Serialize()
     {
+        string weapon = GetEquippedId(EquipSlot.Weapon);
+        string armor = GetEquippedId(EquipSlot.Armor);
+        string accessory = GetEquippedId(EquipSlot.Accessory);
+        GameLogger.Debug("Equipment", $"Serialize: weapon='{weapon}', armor='{armor}', accessory='{accessory}'");
+
         return new Godot.Collections.Dictionary<string, Variant>
         {
-            ["weapon_id"] = GetEquippedId(EquipSlot.Weapon),
-            ["armor_id"] = GetEquippedId(EquipSlot.Armor),
-            ["accessory_id"] = GetEquippedId(EquipSlot.Accessory)
+            ["weapon_id"] = weapon,
+            ["armor_id"] = armor,
+            ["accessory_id"] = accessory
         };
     }
 
@@ -211,12 +217,17 @@ public partial class Equipment : Node, ISavable
         foreach (EquipSlot slot in System.Enum.GetValues<EquipSlot>())
             _slots[slot] = "";
 
-        if (data.TryGetValue("weapon_id", out var w) && !string.IsNullOrEmpty(w.AsString()))
-            EquipById(EquipSlot.Weapon, w.AsString());
-        if (data.TryGetValue("armor_id", out var a) && !string.IsNullOrEmpty(a.AsString()))
-            EquipById(EquipSlot.Armor, a.AsString());
-        if (data.TryGetValue("accessory_id", out var acc) && !string.IsNullOrEmpty(acc.AsString()))
-            EquipById(EquipSlot.Accessory, acc.AsString());
+        string w = data.TryGetValue("weapon_id", out var wv) ? wv.AsString() : "";
+        string a = data.TryGetValue("armor_id", out var av) ? av.AsString() : "";
+        string acc = data.TryGetValue("accessory_id", out var accv) ? accv.AsString() : "";
+        GameLogger.Debug("Equipment", $"Deserialize: weapon='{w}', armor='{a}', accessory='{acc}'");
+
+        int expected = (string.IsNullOrEmpty(w) ? 0 : 1) + (string.IsNullOrEmpty(a) ? 0 : 1) + (string.IsNullOrEmpty(acc) ? 0 : 1);
+        int loaded = 0;
+        if (!string.IsNullOrEmpty(w)) { EquipById(EquipSlot.Weapon, w); loaded++; }
+        if (!string.IsNullOrEmpty(a)) { EquipById(EquipSlot.Armor, a); loaded++; }
+        if (!string.IsNullOrEmpty(acc)) { EquipById(EquipSlot.Accessory, acc); loaded++; }
+        GameLogger.Debug("Equipment", $"Deserialize: loaded {loaded}/{expected} slots — MATCH={loaded == expected}");
     }
 
 

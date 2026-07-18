@@ -21,6 +21,8 @@ public partial class WeatherSystem : Node
         _rainParticles = GetNodeOrNull<GpuParticles2D>("RainParticles");
         if (_rainParticles != null)
             _rainParticles.Emitting = false;
+        else
+            GameLogger.Debug("WeatherSystem", $"'{Name}': RainParticles node not found");
 
         _darkOverlay = new ColorRect
         {
@@ -33,13 +35,18 @@ public partial class WeatherSystem : Node
         _timer = new Timer { OneShot = true };
         AddChild(_timer);
         _timer.Timeout += StartRain;
-        _timer.Start((float)GD.RandRange(MinInterval, MaxInterval));
+        float delay = (float)GD.RandRange(MinInterval, MaxInterval);
+        _timer.Start(delay);
+
+        GameLogger.Debug("WeatherSystem", $"'{Name}': _Ready — interval=[{MinInterval},{MaxInterval}]s, first rain in {delay:F1}s");
     }
 
     private void StartRain()
     {
         if (_isRaining) return;
         _isRaining = true;
+
+        GameLogger.Info("WeatherSystem", $"'{Name}': rain started (duration={RainDuration}s)");
 
         if (_rainParticles != null)
         {
@@ -64,6 +71,8 @@ public partial class WeatherSystem : Node
     {
         _isRaining = false;
 
+        GameLogger.Info("WeatherSystem", $"'{Name}': rain stopped");
+
         if (_rainParticles != null)
             _rainParticles.Emitting = false;
 
@@ -78,6 +87,9 @@ public partial class WeatherSystem : Node
         // Schedule next rain
         _timer.Timeout -= StopRain;
         _timer.Timeout += StartRain;
-        _timer.Start((float)GD.RandRange(MinInterval, MaxInterval));
+        float nextDelay = (float)GD.RandRange(MinInterval, MaxInterval);
+        _timer.Start(nextDelay);
+
+        GameLogger.Debug("WeatherSystem", $"'{Name}': next rain scheduled in {nextDelay:F1}s");
     }
 }

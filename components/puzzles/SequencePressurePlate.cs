@@ -26,6 +26,7 @@ public partial class SequencePressurePlate : Area2D
         if (_controller == null)
             _controller = GetParent()?.GetNodeOrNull<SequencePuzzleController>("SequenceController");
 
+        GameLogger.Info("SequencePressurePlate", $"{Name}: pressed by '{body.Name}', sequenceIndex={SequenceIndex}");
         _controller?.StepPressed(SequenceIndex);
     }
 

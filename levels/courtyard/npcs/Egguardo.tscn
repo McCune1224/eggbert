@@ -42,6 +42,9 @@ CorrectFlag = "quiz_q3_correct"
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("1_spr")
+hframes = 4
+vframes = 4
+frame = 0
 modulate = Color(0.7, 0.85, 1.0, 1)
 
 [node name="PhysicsCollision" type="CollisionShape2D" parent="."]

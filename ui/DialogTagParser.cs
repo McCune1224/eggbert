@@ -32,6 +32,7 @@ public static class DialogTagParser
                 int close = input.IndexOf(']', i);
                 if (close == -1)
                 {
+                    GameLogger.Warn("DialogTagParser", $"Unclosed '[' at position {i} — treating as literal");
                     text.Append(input[i]);
                     i++;
                     continue;
@@ -57,6 +58,8 @@ public static class DialogTagParser
 
                         if (float.TryParse(tagValue, out float pauseSec))
                             pendingPause = pauseSec;
+                        else
+                            GameLogger.Warn("DialogTagParser", $"Invalid [pause=...] value '{tagValue}' — ignoring");
                     }
                     else if (tagName == "speed")
                     {
@@ -75,14 +78,19 @@ public static class DialogTagParser
                             "instant" => -1f,
                             _ => 0f
                         };
+
+                        if (pendingCps == 0f && tagValue != "0")
+                            GameLogger.Warn("DialogTagParser", $"Unknown [speed=...] value '{tagValue}' — using default");
                     }
                     else
                     {
+                        GameLogger.Warn("DialogTagParser", $"Unrecognized tag '[{tagName}=...]' at position {i} — treating as literal");
                         text.Append(input.Substring(i, close - i + 1));
                     }
                 }
                 else
                 {
+                    // Bare tag like [b] — pass through as literal
                     text.Append(input.Substring(i, close - i + 1));
                 }
 

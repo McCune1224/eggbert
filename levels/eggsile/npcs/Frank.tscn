@@ -14,6 +14,9 @@ radius = 55.0
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("1_spr")
+hframes = 1
+vframes = 1
+frame = 0
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
 DialogLines = Array[String](["Hey, bunkmate! Name's Frank. Welcome to Eggs Isle.", "Listen up — the warden's got the guard rotations in his quarters. We get those, we're halfway out.", "But first, we gotta blend in. Cafeteria's through the hall. Kitchen's downstairs. Find out what you can."])

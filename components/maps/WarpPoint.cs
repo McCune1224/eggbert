@@ -30,6 +30,8 @@ public partial class WarpPoint : Area2D
 			.AsRelative().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Sine);
 		floatTween.TweenProperty(crystal, "position:y", 4.0f, 0.75f)
 			.AsRelative().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Sine);
+
+		GameLogger.Debug("WarpPoint", $"'{Name}': _Ready — id='{WarpId}', unlocked={_unlocked}");
 	}
 
 	private void OnBodyEntered(Node2D body)
@@ -54,6 +56,7 @@ public partial class WarpPoint : Area2D
 			_unlocked = true;
 			WarpDatabase.Unlock(WarpId);
 			HidePrompt();
+			GameLogger.Info("WarpPoint", $"'{Name}': unlocked (id='{WarpId}')");
 			if (WarpDatabase.All.TryGetValue(WarpId, out var dest))
 				DialogManager.Instance.StartDialog(
 					new System.Collections.Generic.List<string> { $"Warp unlocked: {dest.Name}" });

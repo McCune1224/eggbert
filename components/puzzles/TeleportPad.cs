@@ -70,6 +70,8 @@ public partial class TeleportPad : Area2D
             _targetPad._cooldownTimer = CooldownSeconds;
         }
 
+        GameLogger.Info("TeleportPad", $"{Name}: teleporting '{body.Name}' to '{_targetPad.Name}' at {_targetPad.GlobalPosition}");
+
         await FadeTransition.Instance.PlayFadeOut();
         body.GlobalPosition = _targetPad.GlobalPosition;
         await FadeTransition.Instance.PlayFadeIn();

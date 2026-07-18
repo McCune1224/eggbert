@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://components/items/PickupItem.cs" id="7_pi"]
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="8_lt"]
 [ext_resource type="Texture2D" uid="uid://d3g4p3asro7bd" path="res://assets/tilemaps/Texture/TX Tileset Stone Ground.png" id="9_stone"]
+[ext_resource type="Texture2D" path="res://assets/characters/GrandpaSmith.png" id="10_gardener"]
 
 [sub_resource type="RectangleShape2D" id="RectShape_topwall"]
 size = Vector2(640, 16)
@@ -98,6 +99,15 @@ LatchOpen = true
 
 [node name="NPC_Gardener" type="Node2D" parent="."]
 position = Vector2(120, 280)
+
+[node name="Sprite2D" type="Sprite2D" parent="NPC_Gardener"]
+texture_filter = 1
+texture = ExtResource("10_gardener")
+hframes = 4
+vframes = 4
+frame = 0
+scale = Vector2(1.25, 1.25)
+modulate = Color(0.75, 0.95, 0.75, 1)
 
 [node name="Trigger" parent="NPC_Gardener" instance=ExtResource("3_ct")]
 DialogLines = Array[String](["I've been tending these rocks for seven years.", "They don't grow, but they appreciate the attention.", "The mushrooms under the third switch are the chatty ones."])

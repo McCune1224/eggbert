@@ -21,6 +21,7 @@ public partial class FlickeringLight : PointLight2D
             };
             AddChild(_buzzPlayer);
             _buzzPlayer.Play();
+            GameLogger.Debug("FlickeringLight", $"'{Name}': buzz SFX started");
         }
     }
 

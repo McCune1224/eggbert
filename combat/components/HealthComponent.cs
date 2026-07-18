@@ -27,13 +27,15 @@ public partial class HealthComponent : Node
     {
         if (IsDead) return;
         int dmg = Mathf.Max(1, rawDamage - Defense);
-        GameLogger.Debug("Health", $"TakeDamage: {dmg} (raw={rawDamage}, def={Defense}) → HP={CurrentHP}");
+        string ownerName = GetParent()?.Name ?? "?";
+        string srcName = source?.Name ?? "?";
+        GameLogger.Debug("Health", $"TakeDamage: {ownerName} took {dmg} (raw={rawDamage}, def={Defense}) from '{srcName}' → HP={CurrentHP}");
         CurrentHP = Mathf.Max(0, CurrentHP - dmg);
         EmitSignal(SignalName.Damaged, dmg, source);
         if (CurrentHP <= 0)
         {
             EmitSignal(SignalName.Died);
-            GameLogger.Info("Health", "Entity died.");
+            GameLogger.Info("Health", $"'{ownerName}' died — {CurrentHP}/{MaxHP}");
         }
     }
 

@@ -77,6 +77,7 @@ public partial class Player : CharacterBody2D, ISavable
         Parry.Parried += () => Camera?.Shake(4f, 0.15f);
 
         AnimationPlayer.Play("idle forward");
+        GameLogger.Debug("Player", $"_Ready: HealthComponent HP={HealthComponent.MaxHP}, Parry={(Parry != null ? "present" : "null")}");
     }
 
     public override void _Process(double delta)
@@ -102,6 +103,7 @@ public partial class Player : CharacterBody2D, ISavable
         Velocity = direction * Mathf.Max(PlayerSpeed * 0.5f, speed);
         if (Input.IsActionJustPressed("dash"))
         {
+            GameLogger.Debug("Player", $"Dash pressed — direction={direction}, dashing={_dash.IsDashing()}");
             _dash.StartDash(direction);
         }
         else if (Input.IsActionPressed("player_sprint"))
@@ -162,6 +164,7 @@ public partial class Player : CharacterBody2D, ISavable
     {
         if (@event.IsActionPressed("debug_start_combat"))
         {
+            GameLogger.Debug("Player", "Debug combat triggered — OatmealArena");
             CombatController.Instance?.EnterCombat(
                 "res://combat/arena/OatmealArena.tscn",
                 Vector2.Zero
@@ -170,6 +173,7 @@ public partial class Player : CharacterBody2D, ISavable
 
         if (@event.IsActionPressed("debug_start_combat_eggroller"))
         {
+            GameLogger.Debug("Player", "Debug combat triggered — EggrollerArena");
             CombatController.Instance?.EnterCombat(
                 "res://combat/arena/EggrollerArena.tscn",
                 Vector2.Zero
@@ -178,14 +182,23 @@ public partial class Player : CharacterBody2D, ISavable
 
         if (@event.IsActionPressed("check"))
         {
+            GameLogger.Debug("Player", "Check action pressed");
             PerformCheck();
         }
     }
 
     private void PerformCheck()
     {
-        if (DialogManager.Instance.IsDialogActive) return;
-        if (CutsceneController.Instance.IsPlaying) return;
+        if (DialogManager.Instance.IsDialogActive)
+        {
+            GameLogger.Debug("Player", "Check skipped — dialog active");
+            return;
+        }
+        if (CutsceneController.Instance.IsPlaying)
+        {
+            GameLogger.Debug("Player", "Check skipped — cutscene playing");
+            return;
+        }
 
         // Scan for the nearest CheckableComponent in the facing direction
         var space = GetWorld2D().DirectSpaceState;
@@ -203,7 +216,11 @@ public partial class Player : CharacterBody2D, ISavable
         query.CollideWithBodies = false;
 
         var results = space.IntersectShape(query);
-        if (results.Count == 0) return;
+        if (results.Count == 0)
+        {
+            GameLogger.Debug("Player", $"Check: no interactables found at {Position + FacingDirection * 40}");
+            return;
+        }
 
         CheckableComponent closest = null;
         float closestDist = float.MaxValue;
@@ -224,8 +241,13 @@ public partial class Player : CharacterBody2D, ISavable
 
         if (closest != null)
         {
+            GameLogger.Debug("Player", $"Check: found '{closest.Name}' — '{closest.CheckLine}'");
             var lines = new System.Collections.Generic.List<string> { closest.CheckLine };
             DialogManager.Instance.StartDialog(lines, closest.GetNodeOrNull<DialogVoiceResource>("Voice"));
+        }
+        else
+        {
+            GameLogger.Debug("Player", $"Check: {results.Count} area(s) found but none with CheckLine");
         }
     }
 
@@ -303,8 +325,9 @@ public partial class Player : CharacterBody2D, ISavable
         _deathInProgress = true;
         GameLogger.Info("Player", "Player died — reloading from last save.");
 
-        if (GameController.Instance?.CurrentLevel is CombatArena)
+        if (GameController.Instance?.CurrentLevel is CombatArena arena)
         {
+            GameLogger.Debug("Player", "In combat arena — deferring death handling to CombatArena.OnPlayerDied");
             _deathInProgress = false;
             return;
         }
@@ -316,7 +339,8 @@ public partial class Player : CharacterBody2D, ISavable
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
 
         // Full reload from last save point (SaveManager.LoadGame triggers level load + restore)
-        SaveManager.Instance.LoadGame();
+        bool loaded = SaveManager.Instance.LoadGame();
+        GameLogger.Info("Player", $"Save reload {(loaded ? "succeeded" : "FAILED — no save restored")}");
 
         HealthComponent.Died += OnPlayerDied;
         _deathInProgress = false;

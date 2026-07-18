@@ -26,6 +26,7 @@ public partial class FleeComponent : Node
         _parent = GetParent<Node2D>();
         if (_parent == null)
         {
+            GameLogger.Error("FleeComponent", $"'{Name}': parent is null!");
             SetProcess(false);
             return;
         }
@@ -36,6 +37,7 @@ public partial class FleeComponent : Node
         {
             _hasBeenCaught = true;
             SetProcess(false);
+            GameLogger.Debug("FleeComponent", $"'{Name}': already caught (flag '{CaughtFlag}') — disabled");
             return;
         }
 
@@ -59,6 +61,7 @@ public partial class FleeComponent : Node
         }
 
         SetProcess(true);
+        GameLogger.Debug("FleeComponent", $"'{Name}': _Ready — radius={FleeRadius}, speed={FleeSpeed}, target={_fleeTarget}");
     }
 
     public override void _Process(double delta)
@@ -104,6 +107,7 @@ public partial class FleeComponent : Node
             if (dist < FleeRadius)
             {
                 _isFleeing = true;
+                GameLogger.Debug("FleeComponent", $"'{Name}': started fleeing (player dist={dist:F1})");
             }
         }
     }
@@ -122,6 +126,7 @@ public partial class FleeComponent : Node
         }
 
         SetProcess(false);
+        GameLogger.Info("FleeComponent", $"'{Name}': caught! flag='{CaughtFlag}', dialog={CatchDialogLines?.Length ?? 0} lines");
     }
 
     private void ResetFlee()
@@ -130,5 +135,6 @@ public partial class FleeComponent : Node
         _hasBeenCaught = false;
         // Return to original position
         _parent.GlobalPosition = _originalPosition;
+        GameLogger.Debug("FleeComponent", $"'{Name}': reset — returned to {_originalPosition}");
     }
 }

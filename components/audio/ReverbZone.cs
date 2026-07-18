@@ -25,6 +25,7 @@ public partial class ReverbZone : Area2D
     {
         if (!body.IsInGroup("player")) return;
 
+        GameLogger.Debug("ReverbZone", $"'{Name}': player entered");
         AddReverb();
     }
 
@@ -32,12 +33,20 @@ public partial class ReverbZone : Area2D
     {
         if (!body.IsInGroup("player")) return;
 
+        GameLogger.Debug("ReverbZone", $"'{Name}': player exited");
         RemoveReverb();
     }
 
     private void AddReverb()
     {
         if (_reverbIndex >= 0) return;
+
+        _reverbIndex = AudioServer.GetBusIndex("SFX");
+        if (_reverbIndex < 0)
+        {
+            GameLogger.Error("ReverbZone", $"'{Name}': SFX bus not found!");
+            return;
+        }
 
         _reverb = new AudioEffectReverb
         {
@@ -46,8 +55,8 @@ public partial class ReverbZone : Area2D
             RoomSize = ReverbRoomSize
         };
 
-        _reverbIndex = AudioServer.GetBusIndex("SFX");
         AudioServer.AddBusEffect(_reverbIndex, _reverb, 0);
+        GameLogger.Info("ReverbZone", $"'{Name}': reverb added (wet={ReverbWet}, dry={ReverbDry}, room={ReverbRoomSize})");
     }
 
     private void RemoveReverb()
@@ -55,6 +64,8 @@ public partial class ReverbZone : Area2D
         if (_reverbIndex < 0 || _reverb == null) return;
 
         AudioServer.RemoveBusEffect(_reverbIndex, 0);
+        GameLogger.Info("ReverbZone", $"'{Name}': reverb removed");
+
         _reverbIndex = -1;
         _reverb = null;
     }

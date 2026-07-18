@@ -15,10 +15,15 @@ public partial class RumorComponent : Node
         int index = WorldFlags.Instance.GetFlag($"rumor_index_{NpcId}", 0).AsInt32();
 
         if (Rumors == null || Rumors.Count == 0)
+        {
+            GameLogger.Debug("RumorComponent", $"'{NpcId}': no rumors — returning '...'");
             return "...";
+        }
 
         string rumor = Rumors[index % Rumors.Count];
         WorldFlags.Instance.SetFlag($"rumor_index_{NpcId}", index + 1);
+
+        GameLogger.Debug("RumorComponent", $"'{NpcId}': rumor #{index} — '{rumor}'");
         return rumor;
     }
 }

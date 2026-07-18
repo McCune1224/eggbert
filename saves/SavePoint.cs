@@ -35,6 +35,8 @@ public partial class SavePoint : InteractableArea
         // Default SFX fallback
         if (SaveSfx == null)
             SaveSfx = ResourceLoader.Load<AudioStream>("res://assets/audio/sfx/meep.ogg");
+
+        GameLogger.Debug("SavePoint", $"'{Name}': _Ready — location='{LocationName}'");
     }
 
     protected override void OnInteract()
@@ -49,6 +51,8 @@ public partial class SavePoint : InteractableArea
         // 2. Play SFX
         if (SaveSfx != null)
             AudioManager.Instance.PlaySfx(SaveSfx);
+        else
+            GameLogger.Warn("SavePoint", $"'{Name}': SaveSfx is null");
 
         // 3. Fully heal player
         Player.Instance.HealthComponent.CurrentHP = Player.Instance.HealthComponent.MaxHP;
@@ -56,6 +60,8 @@ public partial class SavePoint : InteractableArea
         // 4. Save the game with save point metadata
         string scenePath = GameController.Instance.CurrentLevel?.SceneFilePath ?? "";
         SaveManager.Instance.SaveGame(scenePath, GlobalPosition, LocationName);
+
+        GameLogger.Info("SavePoint", $"'{Name}': saved at '{LocationName}' — scene='{scenePath}', pos={GlobalPosition}, player healed");
 
         // 5. Show "Game saved." popup
         if (_saveLabel != null)

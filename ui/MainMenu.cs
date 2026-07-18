@@ -66,6 +66,7 @@ public partial class MainMenu : CanvasLayer
         _scaleOption.Selected = 1;
         LoadSettings();
         UpdateContinueButton();
+        GameLogger.Debug("MainMenu", "_Ready complete — Continue button state: " + SaveManager.Instance.HasSave());
     }
 
     public override void _Input(InputEvent @event)
@@ -116,20 +117,36 @@ public partial class MainMenu : CanvasLayer
 
         WorldFlags.Instance.ClearAll();
 
+        Visible = false;
+        _newGameButton.Disabled = true;
+        _continueButton.Disabled = true;
+        _settingsButton.Disabled = true;
+        _quitButton.Disabled = true;
+
         var overworldPath = "res://levels/overworld/maps/Overworld.tscn";
         GameController.Instance.LoadLevel(overworldPath, Vector2.Zero);
         await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
+        GameLogger.Info("MainMenu", "New game level loaded — hiding and freeing MainMenu overlay");
         QueueFree();
+        GameLogger.Info("MainMenu", "New game started — save deleted, flags cleared, loading Overworld");
     }
 
     private async void OnContinuePressed()
     {
         if (!SaveManager.Instance.HasSave()) return;
 
+        Visible = false;
+        _newGameButton.Disabled = true;
+        _continueButton.Disabled = true;
+        _settingsButton.Disabled = true;
+        _quitButton.Disabled = true;
+
         SaveManager.Instance.LoadGame();
         await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
         QueueFree();
+        GameLogger.Info("MainMenu", "Continue pressed — loading save game");
     }
+
 
     private void OnSettingsPressed()
     {
@@ -146,6 +163,7 @@ public partial class MainMenu : CanvasLayer
 
     private void OnQuitPressed()
     {
+        GameLogger.Info("MainMenu", "Quit pressed");
         GetTree().Quit();
     }
 
@@ -155,16 +173,19 @@ public partial class MainMenu : CanvasLayer
     {
         float db = (float)(value / 100.0 * 40.0 - 40.0);
         AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("MUSIC"), db);
+        GameLogger.Debug("MainMenu", $"Music volume: {value:F0}% ({db:F1} dB)");
     }
 
     private void OnSfxVolumeChanged(double value)
     {
         float db = (float)(value / 100.0 * 40.0 - 40.0);
         AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("SFX"), db);
+        GameLogger.Debug("MainMenu", $"SFX volume: {value:F0}% ({db:F1} dB)");
     }
 
     private void OnFullscreenToggled(bool pressed)
     {
+        GameLogger.Debug("MainMenu", $"Fullscreen: {pressed}");
         GetWindow().Mode = pressed ? Window.ModeEnum.Fullscreen : Window.ModeEnum.Windowed;
     }
 
@@ -178,6 +199,7 @@ public partial class MainMenu : CanvasLayer
             (screenSize.X - size.X) / 2,
             (screenSize.Y - size.Y) / 2
         ));
+        GameLogger.Debug("MainMenu", $"Scale changed: {scale}x ({size})");
     }
 
     private void OnTextSpeedChanged(long index)
