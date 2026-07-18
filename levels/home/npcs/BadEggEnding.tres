@@ -1,0 +1,32 @@
+[gd_resource type="Resource" format=3 uid="uid://badeggending01"]
+
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneResource.cs" id="1_cs"]
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneStep.cs" id="2_step"]
+
+[sub_resource type="Resource" id="SubResource_step_0"]
+script = ExtResource("2_step")
+Type = 10
+
+[sub_resource type="Resource" id="SubResource_step_1"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = ["Eggatha: ...Eggbert? Is that you?", "EJ: You look so hard boiled now. I don't recognize you."]
+
+[sub_resource type="Resource" id="SubResource_step_2"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = ["Eggatha: What happened out there? You're not the same egg that left.", "EJ: Did you... fight everyone?"]
+
+[sub_resource type="Resource" id="SubResource_step_3"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = ["Eggatha: Prison changed you. I hope you find your way back."]
+
+[sub_resource type="Resource" id="SubResource_step_4"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = ["THE END"]
+
+[resource]
+script = ExtResource("1_cs")
+Steps = [SubResource("SubResource_step_0"), SubResource("SubResource_step_1"), SubResource("SubResource_step_2"), SubResource("SubResource_step_3"), SubResource("SubResource_step_4")]

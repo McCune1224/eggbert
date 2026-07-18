@@ -1,0 +1,54 @@
+[gd_scene format=4 uid="uid://cl0nr45hcty4s"]
+
+[ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="1_base"]
+[ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="2_core"]
+[ext_resource type="Texture2D" uid="uid://bisfndqlehc6l" path="res://assets/characters/Eggbert.png" id="3_egg"]
+[ext_resource type="Script" path="res://levels/home/HomeEndingTrigger.cs" id="4_trigger"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_npc"]
+size = Vector2(20, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
+size = Vector2(48, 16)
+
+[node name="Home" type="Node2D"]
+script = ExtResource("1_base")
+LevelName = "Home"
+
+[node name="CoreTilemapLayer" parent="." instance=ExtResource("2_core")]
+
+[node name="Eggatha" type="StaticBody2D" parent="."]
+position = Vector2(64, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Eggatha"]
+texture = ExtResource("3_egg")
+hframes = 4
+vframes = 3
+frame = 1
+modulate = Color(1, 0.85, 0.85, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Eggatha"]
+shape = SubResource("RectangleShape2D_npc")
+
+[node name="EJ" type="StaticBody2D" parent="."]
+position = Vector2(-64, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="EJ"]
+texture = ExtResource("3_egg")
+hframes = 4
+vframes = 3
+frame = 2
+modulate = Color(0.85, 0.85, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EJ"]
+shape = SubResource("RectangleShape2D_npc")
+
+[node name="HomeEndingTrigger" type="Area2D" parent="."]
+position = Vector2(0, 0)
+script = ExtResource("4_trigger")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HomeEndingTrigger"]
+shape = SubResource("RectangleShape2D_trigger")
+
+[node name="Checkpoint" type="Marker2D" parent="."]
+position = Vector2(0, 80)

@@ -1,0 +1,37 @@
+[gd_resource type="Resource" format=3 uid="uid://goodeggending01"]
+
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneResource.cs" id="1_cs"]
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneStep.cs" id="2_step"]
+
+[sub_resource type="Resource" id="SubResource_step_0"]
+script = ExtResource("2_step")
+Type = 10
+
+[sub_resource type="Resource" id="SubResource_step_1"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = ["Eggatha: Eggbert! You came back! We thought...", "EJ: The whole island was shaking. We hid in the pantry."]
+
+[sub_resource type="Resource" id="SubResource_step_2"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = ["Eggatha: But you're here. You're safe. That's all that matters.", "EJ: I knew you'd make it, big sibling."]
+
+[sub_resource type="Resource" id="SubResource_step_3"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = ["Eggatha: We've got oatmeal soap, warm towels, and a bed that hasn't been slept in since you left.", "EJ: Welcome home."]
+
+[sub_resource type="Resource" id="SubResource_step_4"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = ["Eggatha: You're still the same egg I love."]
+
+[sub_resource type="Resource" id="SubResource_step_5"]
+script = ExtResource("2_step")
+Type = 0
+DialogLines = ["THE END"]
+
+[resource]
+script = ExtResource("1_cs")
+Steps = [SubResource("SubResource_step_0"), SubResource("SubResource_step_1"), SubResource("SubResource_step_2"), SubResource("SubResource_step_3"), SubResource("SubResource_step_4"), SubResource("SubResource_step_5")]

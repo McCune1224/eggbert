@@ -13,6 +13,9 @@ public partial class CutsceneController : Node
 
     private CancellationTokenSource _cts;
 
+    [Signal]
+    public delegate void CutsceneFinishedEventHandler();
+
     public override void _Ready()
     {
         if (_instance == null)
@@ -24,25 +27,39 @@ public partial class CutsceneController : Node
     public async void StartCutscene(CutsceneResource resource)
     {
         if (_isPlaying || resource == null || resource.Steps == null) return;
-        GameLogger.Info("Cutscene", $"Starting cutscene: {resource.ResourcePath}");
+        GameLogger.Info("Cutscene", $"Starting cutscene: {resource.ResourcePath} ({resource.Steps.Count} steps)");
         _isPlaying = true;
         _cts = new CancellationTokenSource();
 
+        int stepIndex = 0;
         foreach (var step in resource.Steps)
         {
             if (Cancelled) break;
-            if (!step.ShouldExecute(WorldFlags.Instance, LastChoiceIndex))
-                continue;
 
+            if (!step.ShouldExecute(WorldFlags.Instance, LastChoiceIndex))
+            {
+                GameLogger.Debug("Cutscene", $"Step {stepIndex}/{resource.Steps.Count} [{step.Type}]: skipped (condition not met)");
+                stepIndex++;
+                continue;
+            }
+
+            GameLogger.Debug("Cutscene", $"Step {stepIndex}/{resource.Steps.Count} [{step.Type}]: executing");
             await step.Execute(this);
+            GameLogger.Debug("Cutscene", $"Step {stepIndex}/{resource.Steps.Count} [{step.Type}]: completed");
 
             if (step.Type == StepType.Stop || Cancelled)
                 break;
+
+            stepIndex++;
         }
 
+        bool wasCancelled = Cancelled;
         _isPlaying = false;
         _cts = null;
         Player.Instance.InInteraction = false;
+        if (!wasCancelled)
+            EmitSignal(SignalName.CutsceneFinished);
+        GameLogger.Info("Cutscene", $"Cutscene finished ({stepIndex}/{resource.Steps.Count} steps executed)");
     }
 
     public void StartDialog(string[] lines, DialogVoiceResource voice = null)
@@ -61,15 +78,19 @@ public partial class CutsceneController : Node
         DialogManager.Instance.StartDialog(new System.Collections.Generic.List<string>(lines),
             voice ?? DialogManager.Instance.DefaultVoice);
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
+        GameLogger.Debug("Cutscene", "DoDialog finished");
 
         if (Cancelled)
         {
             DialogManager.Instance.Reset();
         }
 
+        bool wasCancelled = Cancelled;
         _isPlaying = false;
         _cts = null;
         Player.Instance.InInteraction = false;
+        if (!wasCancelled)
+            EmitSignal(SignalName.CutsceneFinished);
     }
 
     public void Stop()
