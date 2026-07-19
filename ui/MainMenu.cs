@@ -123,8 +123,8 @@ public partial class MainMenu : CanvasLayer
         _settingsButton.Disabled = true;
         _quitButton.Disabled = true;
 
-        var overworldPath = "res://levels/overworld/maps/Overworld.tscn";
-        GameController.Instance.LoadLevel(overworldPath, Vector2.Zero);
+        const string factoryOpeningPath = "res://levels/factory/maps/OpeningZone.tscn";
+        GameController.Instance.LoadLevel(factoryOpeningPath, Vector2.Zero);
         await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
         GameLogger.Info("MainMenu", "New game level loaded — hiding and freeing MainMenu overlay");
         QueueFree();

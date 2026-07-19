@@ -34,6 +34,7 @@ Inventory="*res://autoload/Inventory.cs"
 Equipment="*res://autoload/Equipment.cs"
 CombatController="*res://autoload/CombatController.cs"
 KeybindManager="*res://autoload/KeybindManager.cs"
+FactoryOpeningFlow="*res://levels/factory/FactoryOpeningFlow.cs"
 
 [display]
 

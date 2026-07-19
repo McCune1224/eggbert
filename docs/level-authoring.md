@@ -2,6 +2,8 @@
 
 Use the **Level Assembly** dock in Godot to compose gameplay locations. It appears on the right after opening the project; the plugin is enabled in `project.godot`.
 
+For the shipped opening’s beat-by-beat layout, dialog, puzzle, arrest, and handoff contract, see [Factory Opening Authoring Guide](factory-opening.md).
+
 ## 1. Start with a production map
 
 1. Duplicate or create a map scene under `levels/<area>/maps/`.
