@@ -28,6 +28,9 @@ public partial class ReadableObject : InteractableArea
     {
         base._Ready();
 
+        if (Engine.IsEditorHint())
+            return;
+
         if (Once && !string.IsNullOrEmpty(GateFlag) && WorldFlags.Instance.HasFlag("read_" + GateFlag))
         {
             _hasBeenRead = true;

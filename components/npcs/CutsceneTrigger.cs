@@ -21,7 +21,7 @@ public partial class CutsceneTrigger : InteractableArea
     [Export] public TriggerMode Mode = TriggerMode.OnInteract;
     [Export] public bool Once = false;
     [Export] public string CutsceneId = "";
-    [Export] public CutsceneResource Cutscene { get; set; }
+    [Export] public Resource Cutscene { get; set; }
     [Export] public string[] DialogLines { get; set; }
     /// <summary>World flags set to true when this trigger fires (e.g. "met_jamitor").</summary>
     [Export] public string[] SetFlagsOnFire { get; set; }
@@ -50,6 +50,9 @@ public partial class CutsceneTrigger : InteractableArea
 
         // Call base AFTER finding npcSprite so PositionPromptAboveNpc can use it
         base._Ready();
+
+        if (Engine.IsEditorHint())
+            return;
 
         if (Once && !string.IsNullOrEmpty(CutsceneId) && WorldFlags.Instance.HasFlag("cutscene_" + CutsceneId))
         {
@@ -135,10 +138,14 @@ public partial class CutsceneTrigger : InteractableArea
             }
         }
 
-        if (Cutscene != null)
+        if (Cutscene is CutsceneResource cutscene)
         {
-            GameLogger.Info("CutsceneTrigger", $"'{Name}': firing cutscene '{Cutscene.ResourcePath}', Once={Once}");
-            CutsceneController.Instance.StartCutscene(Cutscene);
+            GameLogger.Info("CutsceneTrigger", $"'{Name}': firing cutscene '{cutscene.ResourcePath}', Once={Once}");
+            CutsceneController.Instance.StartCutscene(cutscene);
+        }
+        else if (Cutscene != null)
+        {
+            GameLogger.Error("CutsceneTrigger", $"'{Name}': expected CutsceneResource but received '{Cutscene.GetType().Name}'");
         }
         else if (DialogLines != null && DialogLines.Length > 0)
         {

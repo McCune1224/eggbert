@@ -20,6 +20,9 @@ public partial class SleepingNPC : InteractableArea
     {
         base._Ready();
 
+        if (Engine.IsEditorHint())
+            return;
+
         if (string.IsNullOrEmpty(NpcId))
             NpcId = Name;
 
