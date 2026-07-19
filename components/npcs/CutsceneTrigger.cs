@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 
 public enum TriggerMode
 {
@@ -24,6 +25,9 @@ public partial class CutsceneTrigger : InteractableArea
     [Export] public string[] DialogLines { get; set; }
     /// <summary>World flags set to true when this trigger fires (e.g. "met_jamitor").</summary>
     [Export] public string[] SetFlagsOnFire { get; set; }
+    [ExportGroup("Flavor Choice")]
+    [Export] public string[] ChoiceOptions { get; set; }
+    [Export] public string[] ChoiceResponses { get; set; }
 
     [Signal]
     public delegate void TriggeredEventHandler();
@@ -138,6 +142,12 @@ public partial class CutsceneTrigger : InteractableArea
         }
         else if (DialogLines != null && DialogLines.Length > 0)
         {
+            if (ChoiceOptions != null && ChoiceOptions.Length >= 2)
+            {
+                StartFlavorChoice();
+                return;
+            }
+
             GameLogger.Info("CutsceneTrigger", $"'{Name}': firing dialog ({DialogLines.Length} lines), Once={Once}");
             CutsceneController.Instance.StartDialog(DialogLines, Voice);
         }
@@ -146,6 +156,21 @@ public partial class CutsceneTrigger : InteractableArea
             GameLogger.Debug("CutsceneTrigger", $"'{Name}': firing raw signal, Once={Once}");
             EmitSignal(SignalName.Triggered);
         }
+    }
+
+    private async void StartFlavorChoice()
+    {
+        DialogManager.Instance.StartDialog(new List<string>(DialogLines), Voice);
+        await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
+
+        int choice = await DialogManager.Instance.PromptChoices(new List<string>(ChoiceOptions));
+        GameLogger.Info("CutsceneTrigger", $"'{Name}': flavor choice={choice}");
+
+        if (ChoiceResponses == null || choice < 0 || choice >= ChoiceResponses.Length ||
+            string.IsNullOrWhiteSpace(ChoiceResponses[choice]))
+            return;
+
+        DialogManager.Instance.StartDialog(new List<string> { ChoiceResponses[choice] }, Voice);
     }
 
     private void PositionPromptAboveNpc()
