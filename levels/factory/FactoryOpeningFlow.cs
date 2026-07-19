@@ -10,6 +10,13 @@ public partial class FactoryOpeningFlow : Node
     private const string OpeningScenePath = "res://levels/factory/maps/OpeningZone.tscn";
     private const string EggsileScenePath = "res://levels/eggsile/maps/area1.tscn";
     private const string ArrestedFlag = "arrested";
+    private static readonly string[] ArrestDialogLines =
+    {
+        "Officer Bacon: Stop right there! A witness says the murderer wore an egg costume.",
+        "Officer Bacon: Wrong place. Wrong shell. You're coming with me.",
+        "Officer Bacon: Eggs Isle has plenty of time for you to explain yourself."
+    };
+
 
     private bool _awaitingArrestTransfer;
 
@@ -41,16 +48,17 @@ public partial class FactoryOpeningFlow : Node
         var arrest = GameController.Instance.CurrentLevel.GetNodeOrNull<CutsceneTrigger>("ArrestCutscene");
         if (arrest == null)
         {
+            if (WorldFlags.Instance.HasFlag(ArrestedFlag))
+            {
+                GameLogger.Debug("FactoryOpening", "Factory arrest already completed — no trigger setup needed.");
+                return;
+            }
+
             GameLogger.Error("FactoryOpening", "OpeningZone is missing its ArrestCutscene trigger.");
             return;
         }
 
-        arrest.DialogLines = new[]
-        {
-            "Officer Bacon: Stop right there! A witness says the murderer wore an egg costume.",
-            "Officer Bacon: Wrong place. Wrong shell. You're coming with me.",
-            "Officer Bacon: Eggs Isle has plenty of time for you to explain yourself."
-        };
+        arrest.DialogLines = ArrestDialogLines;
 
         _awaitingArrestTransfer = !WorldFlags.Instance.HasFlag(ArrestedFlag);
         GameLogger.Info("FactoryOpening", "Factory tutorial configured — Eggs Isle exit gated until the arrest.");

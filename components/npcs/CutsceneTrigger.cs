@@ -124,7 +124,11 @@ public partial class CutsceneTrigger : InteractableArea
             return;
         }
         if (Once)
+        {
             _hasFired = true;
+            if (!string.IsNullOrEmpty(CutsceneId))
+                WorldFlags.Instance.SetFlag("cutscene_" + CutsceneId, true);
+        }
 
         if (SetFlagsOnFire != null)
         {
