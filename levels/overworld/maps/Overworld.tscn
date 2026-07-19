@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" path="res://components/puzzles/FloorSwitch.tscn" id="10_u1a1b"]
 [ext_resource type="PackedScene" path="res://components/puzzles/PushBlock.tscn" id="11_2vu1d"]
 [ext_resource type="Texture2D" path="res://assets/tilemaps/Texture/TX Tileset Wall.png" id="13_8f3k1"]
+[ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="13_u1a1b"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="14_2vu1d"]
 [ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l2fk0"]
@@ -777,3 +779,8 @@ Level = "res://levels/recroom/maps/RecRoom.tscn"
 TargetTransitionName = "HubArrival"
 Size = 4
 Side = 3
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=1595740797 instance=ExtResource("13_u1a1b")]
+position = Vector2(-560, 200)
+script = ExtResource("14_2vu1d")
+LocationName = "Overworld Hub"
