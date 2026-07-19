@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="CutsceneResource" format=3]
+
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneStep.cs" id="1_vtria"]
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneCondition.cs" id="2_ea00d"]
+[ext_resource type="Script" path="res://resources/cutscene/CutsceneResource.cs" id="3_dhr5s"]
+
+[sub_resource type="Resource" id="Resource_8u1bx"]
+script = ExtResource("1_vtria")
+DialogLines = PackedStringArray("Joe: Factory transfer? Rough first night. Intake has towels that are somehow both damp and dusty.")
+TargetNode = null
+AnimationNode = null
+SetFlagValue = null
+
+[sub_resource type="Resource" id="Resource_403hd"]
+script = ExtResource("2_ea00d")
+Type = 1
+FlagKey = "tutorial_prefers_order"
+
+[sub_resource type="Resource" id="Resource_gdurh"]
+script = ExtResource("1_vtria")
+Condition = SubResource("Resource_403hd")
+DialogLines = PackedStringArray("Joe: You like things orderly? Don\'t look at the paperwork.")
+TargetNode = null
+AnimationNode = null
+SetFlagValue = null
+
+[sub_resource type="Resource" id="Resource_5ospw"]
+script = ExtResource("2_ea00d")
+Type = 1
+FlagKey = "tutorial_prefers_improv"
+
+[sub_resource type="Resource" id="Resource_jui38"]
+script = ExtResource("1_vtria")
+Condition = SubResource("Resource_5ospw")
+DialogLines = PackedStringArray("Joe: You go with the flow? Around here, the flow leads straight to the drains.")
+TargetNode = null
+AnimationNode = null
+SetFlagValue = null
+
+[sub_resource type="Resource" id="Resource_isw6c"]
+script = ExtResource("2_ea00d")
+Type = 1
+FlagKey = "tutorial_wants_home"
+
+[sub_resource type="Resource" id="Resource_5weui"]
+script = ExtResource("1_vtria")
+Condition = SubResource("Resource_isw6c")
+DialogLines = PackedStringArray("Joe: Want to get home? Keep that thought. It\'s a useful one.")
+TargetNode = null
+AnimationNode = null
+SetFlagValue = null
+
+[resource]
+script = ExtResource("3_dhr5s")
+Steps = [SubResource("Resource_8u1bx"), SubResource("Resource_gdurh"), SubResource("Resource_jui38"), SubResource("Resource_5weui")]

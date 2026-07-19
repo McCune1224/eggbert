@@ -16,6 +16,13 @@ public partial class FactoryOpeningFlow : Node
         "Officer Bacon: Wrong place. Wrong shell. You're coming with me.",
         "Officer Bacon: Eggs Isle has plenty of time for you to explain yourself."
     };
+    private static readonly string[] OpeningExitNames =
+    {
+        "OverworldFactoryGate",
+        "Zone1Entrance",
+        "EggsileTransition"
+    };
+
 
 
     private bool _awaitingArrestTransfer;
@@ -41,9 +48,17 @@ public partial class FactoryOpeningFlow : Node
         if (GameController.Instance.CurrentLevel?.SceneFilePath != OpeningScenePath)
             return;
 
-        var eggsileExit = GameController.Instance.CurrentLevel.GetNodeOrNull<LevelTransition>("EggsileTransition");
-        if (eggsileExit != null)
-            eggsileExit.RequiredFlag = ArrestedFlag;
+        foreach (var exitName in OpeningExitNames)
+        {
+            var exit = GameController.Instance.CurrentLevel.GetNodeOrNull<LevelTransition>(exitName);
+            if (exit == null)
+            {
+                GameLogger.Error("FactoryOpening", $"OpeningZone is missing its {exitName} LevelTransition.");
+                continue;
+            }
+
+            exit.RequiredFlag = ArrestedFlag;
+        }
 
         var arrest = GameController.Instance.CurrentLevel.GetNodeOrNull<CutsceneTrigger>("ArrestCutscene");
         if (arrest == null)
@@ -58,7 +73,8 @@ public partial class FactoryOpeningFlow : Node
             return;
         }
 
-        arrest.DialogLines = ArrestDialogLines;
+        if (arrest.Cutscene == null)
+            arrest.DialogLines = ArrestDialogLines;
 
         _awaitingArrestTransfer = !WorldFlags.Instance.HasFlag(ArrestedFlag);
         GameLogger.Info("FactoryOpening", "Factory tutorial configured — Eggs Isle exit gated until the arrest.");

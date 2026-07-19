@@ -30,6 +30,7 @@ public partial class CutsceneController : Node
         GameLogger.Info("Cutscene", $"Starting cutscene: {resource.ResourcePath} ({resource.Steps.Count} steps)");
         _isPlaying = true;
         _cts = new CancellationTokenSource();
+        LastChoiceIndex = -1;
 
         int stepIndex = 0;
         foreach (var step in resource.Steps)

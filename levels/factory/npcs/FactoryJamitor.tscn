@@ -1,17 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://5e4uopgmy56a"]
+[gd_scene format=3]
 
-[ext_resource type="Texture2D" uid="uid://b5huf2rg5ie8y" path="res://assets/characters/Jamitor.png" id="1_spr"]
+[ext_resource type="Texture2D" path="res://assets/characters/Jamitor.png" id="1_spr"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_ct"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_phys"]
-size = Vector2(44, 40)
+[ext_resource type="Script" path="res://components/npcs/CutsceneTrigger.cs" id="3_sh0db"]
+[ext_resource type="Resource" path="res://levels/factory/npcs/FactoryJamitorTutorial.tres" id="4_hsvgg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
 radius = 55.0
 
-[node name="FactoryJamitor" type="StaticBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_phys"]
+size = Vector2(44, 40)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="FactoryJamitor" type="StaticBody2D" unique_id=409555163]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1293982675]
 texture_filter = 1
 texture = ExtResource("1_spr")
 metadata/_aseprite_wizard_interface_config_ = {
@@ -32,13 +34,13 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "bdbd245aa30096173c674f8717af6008"
 
-[node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
-DialogLines = Array[String](["Jamitor: OHP! You there — new hire? No? Well, you're here now. Let me show you the ropes.", "Use W A S D to move around. Hold SHIFT to sprint, tap SPACE to dash if something's chasing you.", "See something interesting? Press E to interact. Most folks and signs will talk back.", "Now if you'll excuse me, this conveyor belt isn't going to watch itself run backwards."])
-SetFlagsOnFire = Array[String](["met_jamitor"])
+[node name="CutsceneTrigger" type="Area2D" parent="." unique_id=1156089521 instance=ExtResource("2_ct")]
+script = ExtResource("3_sh0db")
+Cutscene = ExtResource("4_hsvgg")
 
-[node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
+[node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger" unique_id=397618045]
 shape = SubResource("CircleShape2D_interact")
 
-[node name="PhysicsCollision" type="CollisionShape2D" parent="."]
+[node name="PhysicsCollision" type="CollisionShape2D" parent="." unique_id=896021458]
 position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_phys")
