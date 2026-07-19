@@ -13,7 +13,7 @@
 ## Story Beats (rough sequence, not final)
 
 ### 1. Factory (tutorial-lite)
-EB finishes work at the factory. The Jamitor (janitor + jam) teaches basic skills. Officer Bacon arrests EB for being in the wrong place at the wrong time. Gets shipped to Eggs Isle prison island.
+EB finishes work at the factory. The Jamitor (janitor + jam) teaches basic skills. A murder is attributed to an egg-costumed culprit, so Officer Bacon arrests EB on a false witness identification and ships him to Eggs Isle prison island.
 
 ### 2. Eggs Isle Intake
 Shared cell with Frank, a cellmate who becomes a friend. Frank explains the prison layout. Meet other inmates — some helpful, some hostile, some just weird. Learn about the prison routine.
