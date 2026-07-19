@@ -1,22 +1,32 @@
-[gd_scene load_steps=20 format=4 uid="uid://d203hfawkft4p"]
+[gd_scene format=4]
 
-[ext_resource type="Texture2D" uid="uid://c0m8ma1xjpjho" path="res://assets/tilemaps/grass tileset.png" id="1_aerj4"]
-[ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="2"]
-[ext_resource type="PackedScene" uid="uid://bqpnrhgn1dngw" path="res://components/puzzles/Door.tscn" id="3"]
-[ext_resource type="PackedScene" uid="uid://dc1kn3llv4x71" path="res://components/puzzles/FloorSwitch.tscn" id="4"]
-[ext_resource type="PackedScene" uid="uid://b60fv3x3u4y5c" path="res://components/puzzles/PushBlock.tscn" id="5"]
-[ext_resource type="PackedScene" uid="uid://dpfm2hyuyl70t" path="res://components/puzzles/KeyDoor.tscn" id="6"]
-[ext_resource type="Script" uid="uid://c5nkwg6g27ibr" path="res://components/items/PickupItem.cs" id="7"]
-[ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="8"]
+[ext_resource type="Texture2D" path="res://assets/tilemaps/grass tileset.png" id="1_aerj4"]
+[ext_resource type="Script" path="res://levels/BaseLevel.cs" id="2"]
+[ext_resource type="PackedScene" path="res://components/puzzles/Door.tscn" id="3"]
+[ext_resource type="Script" path="res://components/core/LevelTileMapLayer.cs" id="3_f6egi"]
+[ext_resource type="PackedScene" path="res://components/puzzles/FloorSwitch.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://components/puzzles/PushBlock.tscn" id="5"]
+[ext_resource type="Script" path="res://components/maps/WarpPoint.cs" id="5_pnae1"]
+[ext_resource type="PackedScene" path="res://components/puzzles/KeyDoor.tscn" id="6"]
+[ext_resource type="Script" path="res://components/items/PickupItem.cs" id="7"]
+[ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="8"]
+[ext_resource type="Script" path="res://components/npcs/CutsceneTrigger.cs" id="8_t3ubg"]
 [ext_resource type="Texture2D" path="res://levels/courtyard/Wiener Cop.png" id="9"]
-[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
-[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="10_lt"]
+[ext_resource type="PackedScene" path="res://levels/LevelTransition.tscn" id="10_lt"]
+[ext_resource type="Script" path="res://components/puzzles/Door.cs" id="10_q5e3w"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0010.png" id="11_key"]
-[ext_resource type="PackedScene" uid="uid://egguardo_npc" path="res://levels/courtyard/npcs/Egguardo.tscn" id="12_npc"]
-[ext_resource type="Script" uid="uid://cfv78kxjgl0ie" path="res://components/npcs/PatrolComponent.cs" id="13_patrol"]
-[ext_resource type="PackedScene" uid="uid://b1f4v3qhqxah6" path="res://components/puzzles/FakeWall.tscn" id="14_fakewall"]
+[ext_resource type="Script" path="res://components/puzzles/FloorSwitch.cs" id="12_2pp4q"]
+[ext_resource type="PackedScene" path="res://levels/courtyard/npcs/Egguardo.tscn" id="12_npc"]
+[ext_resource type="Script" path="res://components/npcs/PatrolComponent.cs" id="13_patrol"]
+[ext_resource type="Script" path="res://components/puzzles/PushBlock.cs" id="14_51dg1"]
+[ext_resource type="PackedScene" path="res://components/puzzles/FakeWall.tscn" id="14_fakewall"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0011.png" id="15_bat"]
-[ext_resource type="PackedScene" uid="uid://c3k6bqd5y7ya6" path="res://saves/SavePoint.tscn" id="20_sp"]
+[ext_resource type="Script" path="res://components/puzzles/KeyDoor.cs" id="18_b6uh4"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="20_prbhs"]
+[ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="20_sp"]
+[ext_resource type="Script" path="res://components/puzzles/FakeWall.cs" id="24_bromw"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="27_van0i"]
+[ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aywx3"]
 texture = ExtResource("1_aerj4")
@@ -87,188 +97,197 @@ radius = 40.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phys"]
 size = Vector2(32, 64)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_switch"]
-size = Vector2(32, 8)
-
-[node name="Courtyard" type="Node2D"]
+[node name="Courtyard" type="Node2D" unique_id=2130382693]
 script = ExtResource("2")
 LevelName = "Courtyard"
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=446779020]
 position = Vector2(421, 204)
 tile_map_data = PackedByteArray("AADl//P/AAAFAAYAAADm//P/AAAGAAYAAADl//T/AAAFAAYAAADm//T/AAAGAAYAAADl//X/AAAFAAYAAADm//X/AAAGAAYAAADl//b/AAAFAAYAAADm//b/AAAGAAYAAADl//f/AAAFAAYAAADm//f/AAAGAAYAAADl//j/AAAFAAYAAADm//j/AAAGAAYAAADl//n/AAAFAAYAAADm//n/AAAGAAYAAADl//r/AAAFAAYAAADm//r/AAAGAAYAAADl//v/AAAFAAYAAADm//v/AAAGAAYAAADl//z/AAAFAAYAAADm//z/AAAGAAYAAADl//3/AAAFAAYAAADm//3/AAAGAAYAAADl//7/AAAFAAYAAADm//7/AAAGAAYAAADl////AAAFAAYAAADm////AAAGAAYAAADl/wAAAAAFAAYAAADm/wAAAAAGAAYAAADl/wEAAAAFAAYAAADm/wEAAAAGAAYAAADl/wIAAAAFAAYAAADm/wIAAAAGAAYAAADl/wMAAAAFAAYAAADm/wMAAAAGAAYAAADl/wQAAAAFAAYAAADm/wQAAAAGAAYAAADl/wUAAAAFAAYAAADm/wUAAAAGAAYAAADl/wYAAAAFAAYAAADm/wYAAAAGAAYAAADl/wcAAAAFAAYAAADm/wcAAAAGAAYAAADl/wgAAAAFAAYAAADm/wgAAAAGAAYAAADl/wkAAAAFAAYAAADm/wkAAAAGAAYAAADn//P/AAAFAAYAAADo//P/AAAGAAYAAADn//T/AAAFAAYAAADo//T/AAAGAAYAAADn//X/AAAHAAEAAADo//X/AAAIAAEAAADn//b/AAAHAAIAAADo//b/AAAFAAIAAADn//f/AAAHAAIAAADo//f/AAAFAAIAAADn//j/AAAHAAIAAADo//j/AAAFAAIAAADn//n/AAAHAAIAAADo//n/AAAFAAIAAADn//r/AAAHAAIAAADo//r/AAAFAAIAAADn//v/AAAHAAIAAADo//v/AAAFAAIAAADn//z/AAAHAAIAAADo//z/AAAFAAIAAADn//3/AAAHAAIAAADo//3/AAAFAAIAAADn//7/AAAHAAIAAADo//7/AAAFAAIAAADn////AAAHAAIAAADo////AAAFAAIAAADn/wAAAAAHAAIAAADo/wAAAAAFAAIAAADn/wEAAAAHAAIAAADo/wEAAAAFAAIAAADn/wIAAAAHAAMAAADo/wIAAAAIAAMAAADn/wMAAAAFAAYAAADo/wMAAAAGAAYAAADn/wQAAAAFAAYAAADo/wQAAAAGAAYAAADn/wUAAAAFAAYAAADo/wUAAAAGAAYAAADn/wYAAAAFAAYAAADo/wYAAAAGAAYAAADn/wcAAAAFAAYAAADo/wcAAAAGAAYAAADn/wgAAAAFAAYAAADo/wgAAAAGAAYAAADn/wkAAAAFAAYAAADo/wkAAAAGAAYAAADp//P/AAAFAAYAAADq//P/AAAGAAYAAADp//T/AAAFAAYAAADq//T/AAAGAAYAAADp//X/AAAIAAEAAADq//X/AAAIAAEAAADp//b/AAAFAAIAAADq//b/AAAFAAIAAADp//f/AAAFAAIAAADq//f/AAAFAAIAAADp//j/AAAFAAIAAADq//j/AAAFAAIAAADp//n/AAAFAAIAAADq//n/AAAFAAIAAADp//r/AAAFAAIAAADq//r/AAAFAAIAAADp//v/AAAFAAIAAADq//v/AAAFAAIAAADp//z/AAAFAAIAAADq//z/AAAFAAIAAADp//3/AAAFAAIAAADq//3/AAAFAAIAAADp//7/AAAFAAIAAADq//7/AAAFAAIAAADp////AAAFAAIAAADq////AAAFAAIAAADp/wAAAAAFAAIAAADq/wAAAAAFAAIAAADp/wEAAAAFAAIAAADq/wEAAAAFAAIAAADp/wIAAAAIAAMAAADq/wIAAAAIAAMAAADp/wMAAAAFAAYAAADq/wMAAAAGAAYAAADp/wQAAAAFAAYAAADq/wQAAAAGAAYAAADp/wUAAAAFAAYAAADq/wUAAAAGAAYAAADp/wYAAAAFAAYAAADq/wYAAAAGAAYAAADp/wcAAAAFAAYAAADq/wcAAAAGAAYAAADp/wgAAAAFAAYAAADq/wgAAAAGAAYAAADp/wkAAAAFAAYAAADq/wkAAAAGAAYAAADr//P/AAAFAAYAAADs//P/AAAGAAYAAADr//T/AAAFAAYAAADs//T/AAAGAAYAAADr//X/AAAIAAEAAADs//X/AAAIAAEAAADr//b/AAAFAAIAAADs//b/AAAFAAIAAADr//f/AAAFAAIAAADs//f/AAAFAAIAAADr//j/AAAFAAIAAADs//j/AAAFAAIAAADr//n/AAAFAAIAAADs//n/AAAFAAIAAADr//r/AAAFAAIAAADs//r/AAAFAAIAAADr//v/AAAFAAIAAADs//v/AAAFAAIAAADr//z/AAAFAAIAAADs//z/AAAFAAIAAADr//3/AAAFAAIAAADs//3/AAAFAAIAAADr//7/AAAFAAIAAADs//7/AAAFAAIAAADr////AAAFAAIAAADs////AAAFAAIAAADr/wAAAAAFAAIAAADs/wAAAAAFAAIAAADr/wEAAAAFAAIAAADs/wEAAAAFAAIAAADr/wIAAAAIAAMAAADs/wIAAAAIAAMAAADr/wMAAAAFAAYAAADs/wMAAAAGAAYAAADr/wQAAAAFAAYAAADs/wQAAAAGAAYAAADr/wUAAAAFAAYAAADs/wUAAAAGAAYAAADr/wYAAAAFAAYAAADs/wYAAAAGAAYAAADr/wcAAAAFAAYAAADs/wcAAAAGAAYAAADr/wgAAAAFAAYAAADs/wgAAAAGAAYAAADr/wkAAAAFAAYAAADs/wkAAAAGAAYAAADt//P/AAAFAAYAAADu//P/AAAGAAYAAADt//T/AAAFAAYAAADu//T/AAAGAAYAAADt//X/AAAIAAEAAADu//X/AAAIAAEAAADt//b/AAAFAAIAAADu//b/AAAFAAIAAADt//f/AAAFAAIAAADu//f/AAAFAAIAAADt//j/AAAFAAIAAADu//j/AAAFAAIAAADt//n/AAAFAAIAAADu//n/AAAFAAIAAADt//r/AAAFAAIAAADu//r/AAAFAAIAAADt//v/AAAFAAIAAADu//v/AAAFAAIAAADt//z/AAAFAAIAAADu//z/AAAFAAIAAADt//3/AAAFAAIAAADu//3/AAAFAAIAAADt//7/AAAFAAIAAADu//7/AAAFAAIAAADt////AAAFAAIAAADu////AAAFAAIAAADt/wAAAAAFAAIAAADu/wAAAAAFAAIAAADt/wEAAAAFAAIAAADu/wEAAAAFAAIAAADt/wIAAAAIAAMAAADu/wIAAAAIAAMAAADt/wMAAAAFAAYAAADu/wMAAAAGAAYAAADt/wQAAAAFAAYAAADu/wQAAAAGAAYAAADt/wUAAAAFAAYAAADu/wUAAAAGAAYAAADt/wYAAAAFAAYAAADu/wYAAAAGAAYAAADt/wcAAAAFAAYAAADu/wcAAAAGAAYAAADt/wgAAAAFAAYAAADu/wgAAAAGAAYAAADt/wkAAAAFAAYAAADu/wkAAAAGAAYAAADv//P/AAAFAAYAAADw//P/AAAGAAYAAADv//T/AAAFAAYAAADw//T/AAAGAAYAAADv//X/AAAIAAEAAADw//X/AAAIAAEAAADv//b/AAAFAAIAAADw//b/AAAFAAIAAADv//f/AAAFAAIAAADw//f/AAAFAAIAAADv//j/AAAFAAIAAADw//j/AAAFAAIAAADv//n/AAAFAAIAAADw//n/AAAFAAIAAADv//r/AAAFAAIAAADw//r/AAAFAAIAAADv//v/AAAFAAIAAADw//v/AAAFAAIAAADv//z/AAAFAAIAAADw//z/AAAFAAIAAADv//3/AAAFAAIAAADw//3/AAAFAAIAAADv//7/AAAFAAIAAADw//7/AAAFAAIAAADv////AAAFAAIAAADw////AAAFAAIAAADv/wAAAAAFAAIAAADw/wAAAAAFAAIAAADv/wEAAAAFAAIAAADw/wEAAAAFAAIAAADv/wIAAAAIAAMAAADw/wIAAAAIAAMAAADv/wMAAAAFAAYAAADw/wMAAAAGAAYAAADv/wQAAAAFAAYAAADw/wQAAAAGAAYAAADv/wUAAAAFAAYAAADw/wUAAAAGAAYAAADv/wYAAAAFAAYAAADw/wYAAAAGAAYAAADv/wcAAAAFAAYAAADw/wcAAAAGAAYAAADv/wgAAAAFAAYAAADw/wgAAAAGAAYAAADv/wkAAAAFAAYAAADw/wkAAAAGAAYAAADx//P/AAAFAAYAAADy//P/AAAGAAYAAADx//T/AAAFAAYAAADy//T/AAAGAAYAAADx//X/AAAIAAEAAADy//X/AAAIAAEAAADx//b/AAAFAAIAAADy//b/AAAFAAIAAADx//f/AAAFAAIAAADy//f/AAAFAAIAAADx//j/AAAFAAIAAADy//j/AAAFAAIAAADx//n/AAAFAAIAAADy//n/AAAFAAIAAADx//r/AAAFAAIAAADy//r/AAAFAAIAAADx//v/AAAFAAIAAADy//v/AAAFAAIAAADx//z/AAAFAAIAAADy//z/AAAFAAIAAADx//3/AAAFAAIAAADy//3/AAAFAAIAAADx//7/AAAFAAIAAADy//7/AAAFAAIAAADx////AAAFAAIAAADy////AAAFAAIAAADx/wAAAAAFAAIAAADy/wAAAAAFAAIAAADx/wEAAAAFAAIAAADy/wEAAAAFAAIAAADx/wIAAAAIAAMAAADy/wIAAAAIAAMAAADx/wMAAAAFAAYAAADy/wMAAAAGAAYAAADx/wQAAAAFAAYAAADy/wQAAAAGAAYAAADx/wUAAAAFAAYAAADy/wUAAAAGAAYAAADx/wYAAAAFAAYAAADy/wYAAAAGAAYAAADx/wcAAAAFAAYAAADy/wcAAAAGAAYAAADx/wgAAAAFAAYAAADy/wgAAAAGAAYAAADx/wkAAAAFAAYAAADy/wkAAAAGAAYAAADz//P/AAAFAAYAAAD0//P/AAAGAAYAAADz//T/AAAFAAYAAAD0//T/AAAGAAYAAADz//X/AAAIAAEAAAD0//X/AAAIAAEAAADz//b/AAAFAAIAAAD0//b/AAAFAAIAAADz//f/AAAFAAIAAAD0//f/AAAFAAIAAADz//j/AAAFAAIAAAD0//j/AAAFAAIAAADz//n/AAAFAAIAAAD0//n/AAAFAAIAAADz//r/AAAFAAIAAAD0//r/AAAFAAIAAADz//v/AAAFAAIAAAD0//v/AAAFAAIAAADz//z/AAAFAAIAAAD0//z/AAAFAAIAAADz//3/AAAFAAIAAAD0//3/AAAFAAIAAADz//7/AAAFAAIAAAD0//7/AAAFAAIAAADz////AAAFAAIAAAD0////AAAFAAIAAADz/wAAAAAFAAIAAAD0/wAAAAAFAAIAAADz/wEAAAAFAAIAAAD0/wEAAAAFAAIAAADz/wIAAAAIAAMAAAD0/wIAAAAIAAMAAADz/wMAAAAFAAYAAAD0/wMAAAAGAAYAAADz/wQAAAAFAAYAAAD0/wQAAAAGAAYAAADz/wUAAAAFAAYAAAD0/wUAAAAGAAYAAADz/wYAAAAFAAYAAAD0/wYAAAAGAAYAAADz/wcAAAAFAAYAAAD0/wcAAAAGAAYAAADz/wgAAAAFAAYAAAD0/wgAAAAGAAYAAADz/wkAAAAFAAYAAAD0/wkAAAAGAAYAAAD1//P/AAAFAAYAAAD2//P/AAAGAAYAAAD1//T/AAAFAAYAAAD2//T/AAAGAAYAAAD1//X/AAAIAAEAAAD2//X/AAAJAAEAAAD1//b/AAAFAAIAAAD2//b/AAAJAAIAAAD1//f/AAAFAAIAAAD2//f/AAAJAAIAAAD1//j/AAAFAAIAAAD2//j/AAAJAAIAAAD1//n/AAAFAAIAAAD2//n/AAAJAAIAAAD1//r/AAAFAAIAAAD2//r/AAAJAAIAAAD1//v/AAAFAAIAAAD2//v/AAAJAAIAAAD1//z/AAAFAAIAAAD2//z/AAAJAAIAAAD1//3/AAAFAAIAAAD2//3/AAABAAMAAAD1//7/AAAFAAIAAAD2//7/AAAFAAIAAAD1////AAAFAAIAAAD2////AAAFAAIAAAD1/wAAAAAFAAIAAAD2/wAAAAAFAAIAAAD1/wEAAAAFAAIAAAD2/wEAAAAFAAIAAAD1/wIAAAAIAAMAAAD2/wIAAAAIAAMAAAD1/wMAAAAFAAYAAAD2/wMAAAAGAAYAAAD1/wQAAAAFAAYAAAD2/wQAAAAGAAYAAAD1/wUAAAAFAAYAAAD2/wUAAAAGAAYAAAD1/wYAAAAFAAYAAAD2/wYAAAAGAAYAAAD1/wcAAAAFAAYAAAD2/wcAAAAGAAYAAAD1/wgAAAAFAAYAAAD2/wgAAAAGAAYAAAD1/wkAAAAFAAYAAAD2/wkAAAAGAAYAAAD3//P/AAAFAAYAAAD4//P/AAAGAAYAAAD3//T/AAAFAAYAAAD4//T/AAAGAAYAAAD3//X/AAAFAAYAAAD4//X/AAAGAAYAAAD3//b/AAAFAAYAAAD4//b/AAAGAAYAAAD3//f/AAAFAAYAAAD4//f/AAAGAAYAAAD3//j/AAAFAAYAAAD4//j/AAAGAAYAAAD3//n/AAAFAAYAAAD4//n/AAAGAAYAAAD3//r/AAAFAAYAAAD4//r/AAAGAAYAAAD3//v/AAAFAAYAAAD4//v/AAAGAAYAAAD3//z/AAAFAAYAAAD4//z/AAAGAAYAAAD3//3/AAAIAAEAAAD4//3/AAAIAAEAAAD3//7/AAAFAAIAAAD4//7/AAAFAAIAAAD3////AAAFAAIAAAD4////AAAFAAIAAAD3/wAAAAAFAAIAAAD4/wAAAAAFAAIAAAD3/wEAAAAFAAIAAAD4/wEAAAAFAAIAAAD3/wIAAAAIAAMAAAD4/wIAAAAIAAMAAAD3/wMAAAAFAAYAAAD4/wMAAAAGAAYAAAD3/wQAAAAFAAYAAAD4/wQAAAAGAAYAAAD3/wUAAAAFAAYAAAD4/wUAAAAGAAYAAAD3/wYAAAAFAAYAAAD4/wYAAAAGAAYAAAD3/wcAAAAFAAYAAAD4/wcAAAAGAAYAAAD3/wgAAAAFAAYAAAD4/wgAAAAGAAYAAAD3/wkAAAAFAAYAAAD4/wkAAAAGAAYAAAD5//P/AAAFAAYAAAD6//P/AAAGAAYAAAD5//T/AAAFAAYAAAD6//T/AAAGAAYAAAD5//X/AAAFAAYAAAD6//X/AAAGAAYAAAD5//b/AAAFAAYAAAD6//b/AAAGAAYAAAD5//f/AAAFAAYAAAD6//f/AAAGAAYAAAD5//j/AAAFAAYAAAD6//j/AAAGAAYAAAD5//n/AAAFAAYAAAD6//n/AAAGAAYAAAD5//r/AAAFAAYAAAD6//r/AAAGAAYAAAD5//v/AAAFAAYAAAD6//v/AAAGAAYAAAD5//z/AAAFAAYAAAD6//z/AAAGAAYAAAD5//3/AAAIAAEAAAD6//3/AAAIAAEAAAD5//7/AAAFAAIAAAD6//7/AAAFAAIAAAD5////AAAFAAIAAAD6////AAAFAAIAAAD5/wAAAAAFAAIAAAD6/wAAAAAFAAIAAAD5/wEAAAAFAAIAAAD6/wEAAAAFAAIAAAD5/wIAAAADAAEAAAD6/wIAAAAFAAIAAAD5/wMAAAAHAAIAAAD6/wMAAAAFAAIAAAD5/wQAAAAHAAIAAAD6/wQAAAAFAAIAAAD5/wUAAAAHAAIAAAD6/wUAAAAFAAIAAAD5/wYAAAAHAAIAAAD6/wYAAAAFAAIAAAD5/wcAAAAHAAIAAAD6/wcAAAAFAAIAAAD5/wgAAAAHAAMAAAD6/wgAAAAIAAMAAAD5/wkAAAAFAAYAAAD6/wkAAAAGAAYAAAD7//P/AAAFAAYAAAD8//P/AAAGAAYAAAD7//T/AAAFAAYAAAD8//T/AAAGAAYAAAD7//X/AAAFAAYAAAD8//X/AAAGAAYAAAD7//b/AAAFAAYAAAD8//b/AAAGAAYAAAD7//f/AAAFAAYAAAD8//f/AAAGAAYAAAD7//j/AAAFAAYAAAD8//j/AAAGAAYAAAD7//n/AAAFAAYAAAD8//n/AAAGAAYAAAD7//r/AAAFAAYAAAD8//r/AAAGAAYAAAD7//v/AAAFAAYAAAD8//v/AAAGAAYAAAD7//z/AAAFAAYAAAD8//z/AAAGAAYAAAD7//3/AAAIAAEAAAD8//3/AAAIAAEAAAD7//7/AAAFAAIAAAD8//7/AAAFAAIAAAD7////AAAFAAIAAAD8////AAAFAAIAAAD7/wAAAAAFAAIAAAD8/wAAAAAFAAIAAAD7/wEAAAAFAAIAAAD8/wEAAAAFAAIAAAD7/wIAAAAFAAIAAAD8/wIAAAAFAAIAAAD7/wMAAAAFAAIAAAD8/wMAAAAFAAIAAAD7/wQAAAAFAAIAAAD8/wQAAAAFAAIAAAD7/wUAAAAFAAIAAAD8/wUAAAAFAAIAAAD7/wYAAAAFAAIAAAD8/wYAAAAFAAIAAAD7/wcAAAAFAAIAAAD8/wcAAAAFAAIAAAD7/wgAAAAIAAMAAAD8/wgAAAAIAAMAAAD7/wkAAAAFAAYAAAD8/wkAAAAGAAYAAAD9//P/AAAHAAIAAAD+//P/AAAFAAIAAAD9//T/AAAHAAIAAAD+//T/AAAFAAIAAAD9//X/AAAHAAIAAAD+//X/AAAFAAIAAAD9//b/AAAHAAIAAAD+//b/AAAFAAIAAAD9//f/AAAHAAIAAAD+//f/AAAFAAIAAAD9//j/AAAHAAIAAAD+//j/AAAFAAIAAAD9//n/AAAHAAIAAAD+//n/AAAFAAIAAAD9//r/AAAHAAIAAAD+//r/AAAFAAIAAAD9//v/AAAHAAIAAAD+//v/AAAFAAIAAAD9//z/AAAHAAIAAAD+//z/AAAFAAIAAAD9//3/AAADAAMAAAD+//3/AAAFAAIAAAD9//7/AAAFAAIAAAD+//7/AAAFAAIAAAD9////AAAFAAIAAAD+////AAAFAAIAAAD9/wAAAAAFAAIAAAD+/wAAAAAFAAIAAAD9/wEAAAAFAAIAAAD+/wEAAAAFAAIAAAD9/wIAAAAFAAIAAAD+/wIAAAAFAAIAAAD9/wMAAAAFAAIAAAD+/wMAAAAFAAIAAAD9/wQAAAAFAAIAAAD+/wQAAAAFAAIAAAD9/wUAAAAFAAIAAAD+/wUAAAAFAAIAAAD9/wYAAAAFAAIAAAD+/wYAAAAFAAIAAAD9/wcAAAAFAAIAAAD+/wcAAAAFAAIAAAD9/wgAAAAIAAMAAAD+/wgAAAAIAAMAAAD9/wkAAAAFAAYAAAD+/wkAAAAGAAYAAAD///P/AAAFAAIAAAAAAPP/AAAJAAIAAAD///T/AAAFAAIAAAAAAPT/AAAJAAIAAAD///X/AAAFAAIAAAAAAPX/AAAJAAIAAAD///b/AAAFAAIAAAAAAPb/AAAJAAIAAAD///f/AAAFAAIAAAAAAPf/AAAJAAIAAAD///j/AAAFAAIAAAAAAPj/AAAJAAIAAAD///n/AAAFAAIAAAAAAPn/AAAJAAIAAAD///r/AAAFAAIAAAAAAPr/AAAJAAIAAAD///v/AAAFAAIAAAAAAPv/AAAJAAIAAAD///z/AAAFAAIAAAAAAPz/AAAJAAIAAAD///3/AAAFAAIAAAAAAP3/AAABAAMAAAD///7/AAAFAAIAAAAAAP7/AAAFAAIAAAD/////AAAFAAIAAAAAAP//AAAFAAIAAAD//wAAAAAFAAIAAAAAAAAAAAAFAAIAAAD//wEAAAAFAAIAAAAAAAEAAAAFAAIAAAD//wIAAAAFAAIAAAAAAAIAAAAFAAIAAAD//wMAAAAFAAIAAAAAAAMAAAAFAAIAAAD//wQAAAAFAAIAAAAAAAQAAAAFAAIAAAD//wUAAAAFAAIAAAAAAAUAAAAFAAIAAAD//wYAAAAFAAIAAAAAAAYAAAAFAAIAAAD//wcAAAAFAAIAAAAAAAcAAAAFAAIAAAD//wgAAAAIAAMAAAAAAAgAAAAIAAMAAAD//wkAAAAFAAYAAAAAAAkAAAAGAAYAAAABAPP/AAAFAAYAAAACAPP/AAAGAAYAAAABAPT/AAAFAAYAAAACAPT/AAAGAAYAAAABAPX/AAAFAAYAAAACAPX/AAAGAAYAAAABAPb/AAAFAAYAAAACAPb/AAAGAAYAAAABAPf/AAAFAAYAAAACAPf/AAAGAAYAAAABAPj/AAAFAAYAAAACAPj/AAAGAAYAAAABAPn/AAAFAAYAAAACAPn/AAAGAAYAAAABAPr/AAAFAAYAAAACAPr/AAAGAAYAAAABAPv/AAAFAAYAAAACAPv/AAAGAAYAAAABAPz/AAAFAAYAAAACAPz/AAAGAAYAAAABAP3/AAAIAAEAAAACAP3/AAAIAAEAAAABAP7/AAAFAAIAAAACAP7/AAAFAAIAAAABAP//AAAFAAIAAAACAP//AAAFAAIAAAABAAAAAAAFAAIAAAACAAAAAAAFAAIAAAABAAEAAAAFAAIAAAACAAEAAAAFAAIAAAABAAIAAAAFAAIAAAACAAIAAAAFAAIAAAABAAMAAAAFAAIAAAACAAMAAAAFAAIAAAABAAQAAAAFAAIAAAACAAQAAAAFAAIAAAABAAUAAAAFAAIAAAACAAUAAAAFAAIAAAABAAYAAAAFAAIAAAACAAYAAAAFAAIAAAABAAcAAAAFAAIAAAACAAcAAAAFAAIAAAABAAgAAAAIAAMAAAACAAgAAAAIAAMAAAABAAkAAAAFAAYAAAACAAkAAAAGAAYAAAADAPP/AAAFAAYAAAAEAPP/AAAGAAYAAAADAPT/AAAFAAYAAAAEAPT/AAAGAAYAAAADAPX/AAAFAAYAAAAEAPX/AAAGAAYAAAADAPb/AAAFAAYAAAAEAPb/AAAGAAYAAAADAPf/AAAFAAYAAAAEAPf/AAAGAAYAAAADAPj/AAAFAAYAAAAEAPj/AAAGAAYAAAADAPn/AAAFAAYAAAAEAPn/AAAGAAYAAAADAPr/AAAFAAYAAAAEAPr/AAAGAAYAAAADAPv/AAAFAAYAAAAEAPv/AAAGAAYAAAADAPz/AAAFAAYAAAAEAPz/AAAGAAYAAAADAP3/AAAIAAEAAAAEAP3/AAAIAAEAAAADAP7/AAAFAAIAAAAEAP7/AAAFAAIAAAADAP//AAAFAAIAAAAEAP//AAAFAAIAAAADAAAAAAAFAAIAAAAEAAAAAAAFAAIAAAADAAEAAAAFAAIAAAAEAAEAAAAFAAIAAAADAAIAAAAFAAIAAAAEAAIAAAAFAAIAAAADAAMAAAAFAAIAAAAEAAMAAAAFAAIAAAADAAQAAAAFAAIAAAAEAAQAAAAFAAIAAAADAAUAAAAFAAIAAAAEAAUAAAAFAAIAAAADAAYAAAAFAAIAAAAEAAYAAAAFAAIAAAADAAcAAAAFAAIAAAAEAAcAAAAFAAIAAAADAAgAAAAIAAMAAAAEAAgAAAAIAAMAAAADAAkAAAAFAAYAAAAEAAkAAAAGAAYAAAAFAPP/AAAHAAIAAAAGAPP/AAAIAAIAAAAFAPT/AAAHAAIAAAAGAPT/AAAIAAIAAAAFAPX/AAAHAAIAAAAGAPX/AAAIAAIAAAAFAPb/AAAHAAIAAAAGAPb/AAAIAAIAAAAFAPf/AAAHAAIAAAAGAPf/AAAIAAIAAAAFAPj/AAAHAAIAAAAGAPj/AAAIAAIAAAAFAPn/AAAHAAIAAAAGAPn/AAAIAAIAAAAFAPr/AAAHAAIAAAAGAPr/AAAIAAIAAAAFAPv/AAAHAAIAAAAGAPv/AAAIAAIAAAAFAPz/AAAHAAIAAAAGAPz/AAAIAAIAAAAFAP3/AAADAAMAAAAGAP3/AAAIAAIAAAAFAP7/AAAFAAIAAAAGAP7/AAAFAAIAAAAFAP//AAAFAAIAAAAGAP//AAAFAAIAAAAFAAAAAAAFAAIAAAAGAAAAAAAFAAIAAAAFAAEAAAAFAAIAAAAGAAEAAAAFAAIAAAAFAAIAAAAFAAIAAAAGAAIAAAAFAAIAAAAFAAMAAAAFAAIAAAAGAAMAAAAFAAIAAAAFAAQAAAAFAAIAAAAGAAQAAAAFAAIAAAAFAAUAAAAFAAIAAAAGAAUAAAAFAAIAAAAFAAYAAAAFAAIAAAAGAAYAAAAFAAIAAAAFAAcAAAAFAAIAAAAGAAcAAAAFAAIAAAAFAAgAAAAIAAMAAAAGAAgAAAAIAAMAAAAFAAkAAAAFAAYAAAAGAAkAAAAGAAYAAAAHAPP/AAAIAAIAAAAIAPP/AAAJAAIAAAAHAPT/AAAIAAIAAAAIAPT/AAAJAAIAAAAHAPX/AAAIAAIAAAAIAPX/AAAJAAIAAAAHAPb/AAAIAAIAAAAIAPb/AAAJAAIAAAAHAPf/AAAIAAIAAAAIAPf/AAAJAAIAAAAHAPj/AAAIAAIAAAAIAPj/AAAJAAIAAAAHAPn/AAAIAAIAAAAIAPn/AAAJAAIAAAAHAPr/AAAIAAIAAAAIAPr/AAAJAAIAAAAHAPv/AAAIAAIAAAAIAPv/AAAJAAIAAAAHAPz/AAAIAAIAAAAIAPz/AAAJAAIAAAAHAP3/AAAIAAIAAAAIAP3/AAABAAMAAAAHAP7/AAAFAAIAAAAIAP7/AAAFAAIAAAAHAP//AAAFAAIAAAAIAP//AAAFAAIAAAAHAAAAAAAFAAIAAAAIAAAAAAAFAAIAAAAHAAEAAAAFAAIAAAAIAAEAAAAFAAIAAAAHAAIAAAAFAAIAAAAIAAIAAAAFAAIAAAAHAAMAAAAFAAIAAAAIAAMAAAAFAAIAAAAHAAQAAAAFAAIAAAAIAAQAAAAFAAIAAAAHAAUAAAAFAAIAAAAIAAUAAAAFAAIAAAAHAAYAAAAFAAIAAAAIAAYAAAAFAAIAAAAHAAcAAAAFAAIAAAAIAAcAAAAFAAIAAAAHAAgAAAAIAAMAAAAIAAgAAAAIAAMAAAAHAAkAAAAFAAYAAAAIAAkAAAAGAAYAAAAJAPP/AAAFAAYAAAAKAPP/AAAGAAYAAAAJAPT/AAAFAAYAAAAKAPT/AAAGAAYAAAAJAPX/AAAFAAYAAAAKAPX/AAAGAAYAAAAJAPb/AAAFAAYAAAAKAPb/AAAGAAYAAAAJAPf/AAAFAAYAAAAKAPf/AAAGAAYAAAAJAPj/AAAFAAYAAAAKAPj/AAAGAAYAAAAJAPn/AAAFAAYAAAAKAPn/AAAGAAYAAAAJAPr/AAAFAAYAAAAKAPr/AAAGAAYAAAAJAPv/AAAFAAYAAAAKAPv/AAAGAAYAAAAJAPz/AAAFAAYAAAAKAPz/AAAGAAYAAAAJAP3/AAAIAAEAAAAKAP3/AAAJAAEAAAAJAP7/AAAFAAIAAAAKAP7/AAAJAAIAAAAJAP//AAAFAAIAAAAKAP//AAAJAAIAAAAJAAAAAAAFAAIAAAAKAAAAAAAJAAIAAAAJAAEAAAAFAAIAAAAKAAEAAAAJAAIAAAAJAAIAAAAFAAIAAAAKAAIAAAAJAAIAAAAJAAMAAAAFAAIAAAAKAAMAAAAJAAIAAAAJAAQAAAAFAAIAAAAKAAQAAAAJAAIAAAAJAAUAAAAFAAIAAAAKAAUAAAAJAAIAAAAJAAYAAAAFAAIAAAAKAAYAAAAJAAIAAAAJAAcAAAAFAAIAAAAKAAcAAAAJAAIAAAAJAAgAAAAIAAMAAAAKAAgAAAAJAAMAAAAJAAkAAAAFAAYAAAAKAAkAAAAGAAYAAAALAPP/AAAFAAYAAAAMAPP/AAAGAAYAAAALAPT/AAAFAAYAAAAMAPT/AAAGAAYAAAALAPX/AAAFAAYAAAAMAPX/AAAGAAYAAAALAPb/AAAFAAYAAAAMAPb/AAAGAAYAAAALAPf/AAAFAAYAAAAMAPf/AAAGAAYAAAALAPj/AAAFAAYAAAAMAPj/AAAGAAYAAAALAPn/AAAFAAYAAAAMAPn/AAAGAAYAAAALAPr/AAAFAAYAAAAMAPr/AAAGAAYAAAALAPv/AAAFAAYAAAAMAPv/AAAGAAYAAAALAPz/AAAFAAYAAAAMAPz/AAAGAAYAAAALAP3/AAAFAAYAAAAMAP3/AAAGAAYAAAALAP7/AAAFAAYAAAAMAP7/AAAGAAYAAAALAP//AAAFAAYAAAAMAP//AAAGAAYAAAALAAAAAAAFAAYAAAAMAAAAAAAGAAYAAAALAAEAAAAFAAYAAAAMAAEAAAAGAAYAAAALAAIAAAAFAAYAAAAMAAIAAAAGAAYAAAALAAMAAAAFAAYAAAAMAAMAAAAGAAYAAAALAAQAAAAFAAYAAAAMAAQAAAAGAAYAAAALAAUAAAAFAAYAAAAMAAUAAAAGAAYAAAALAAYAAAAFAAYAAAAMAAYAAAAGAAYAAAALAAcAAAAFAAYAAAAMAAcAAAAGAAYAAAALAAgAAAAFAAYAAAAMAAgAAAAGAAYAAAALAAkAAAAFAAYAAAAMAAkAAAAGAAYAAAANAPP/AAAFAAYAAAANAPT/AAAFAAYAAAANAPX/AAAFAAYAAAANAPb/AAAFAAYAAAANAPf/AAAFAAYAAAANAPj/AAAFAAYAAAANAPn/AAAFAAYAAAANAPr/AAAFAAYAAAANAPv/AAAFAAYAAAANAPz/AAAFAAYAAAANAP3/AAAFAAYAAAANAP7/AAAFAAYAAAANAP//AAAFAAYAAAANAAAAAAAFAAYAAAANAAEAAAAFAAYAAAANAAIAAAAFAAYAAAANAAMAAAAFAAYAAAANAAQAAAAFAAYAAAANAAUAAAAFAAYAAAANAAYAAAAFAAYAAAANAAcAAAAFAAYAAAANAAgAAAAFAAYAAAANAAkAAAAFAAYAAAA=")
 tile_set = SubResource("TileSet_f5hh7")
+script = ExtResource("3_f6egi")
 
-
-[node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
+[node name="WarpPoint" type="Area2D" parent="." unique_id=1516192822 instance=ExtResource("99_warp")]
+script = ExtResource("5_pnae1")
 WarpId = "courtyard"
 
-
-[node name="WienerCop" type="StaticBody2D" parent="."]
+[node name="WienerCop" type="StaticBody2D" parent="." unique_id=248580389]
 position = Vector2(200, -100)
 
-[node name="Sprite2D" type="Sprite2D" parent="WienerCop"]
+[node name="Sprite2D" type="Sprite2D" parent="WienerCop" unique_id=57036366]
 texture = ExtResource("9")
 
-[node name="CutsceneTrigger" parent="WienerCop" instance=ExtResource("8")]
-DialogLines = Array[String](["Hey, you're that egg! I'm Wiener Cop, and I'm on the case.", "There's been a suspicious amount of butter-related activity in this courtyard.", "Keep your eyes peeled. And your shell intact."])
+[node name="CutsceneTrigger" type="Area2D" parent="WienerCop" unique_id=992945074 instance=ExtResource("8")]
+script = ExtResource("8_t3ubg")
+DialogLines = PackedStringArray("Hey, you\'re that egg! I\'m Wiener Cop, and I\'m on the case.", "There\'s been a suspicious amount of butter-related activity in this courtyard.", "Keep your eyes peeled. And your shell intact.")
 
-[node name="InteractionCollision" type="CollisionShape2D" parent="WienerCop/CutsceneTrigger"]
+[node name="InteractionCollision" type="CollisionShape2D" parent="WienerCop/CutsceneTrigger" unique_id=1809488002]
 shape = SubResource("CircleShape2D_interact")
 
-[node name="PhysicsCollision" type="CollisionShape2D" parent="WienerCop"]
+[node name="PhysicsCollision" type="CollisionShape2D" parent="WienerCop" unique_id=207466189]
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_phys")
 
-[node name="BlockedDoor" parent="." instance=ExtResource("3")]
+[node name="BlockedDoor" type="StaticBody2D" parent="." unique_id=62484857 instance=ExtResource("3")]
 position = Vector2(300, -50)
+script = ExtResource("10_q5e3w")
 _texture = ExtResource("1_aerj4")
 
-[node name="FloorSwitch" parent="." instance=ExtResource("4")]
+[node name="FloorSwitch" type="Area2D" parent="." unique_id=91312371 instance=ExtResource("4")]
 position = Vector2(200, -50)
+script = ExtResource("12_2pp4q")
 TargetDoorPath = NodePath("../BlockedDoor")
 
-[node name="PushBlock" parent="." instance=ExtResource("5")]
+[node name="PushBlock" type="CharacterBody2D" parent="." unique_id=763129139 instance=ExtResource("5")]
 position = Vector2(160, -50)
+script = ExtResource("14_51dg1")
 
-[node name="RustyKeyPickup" type="Area2D" parent="."]
+[node name="RustyKeyPickup" type="Area2D" parent="." unique_id=712663676]
 position = Vector2(500, -100)
 script = ExtResource("7")
 ItemId = "rusty_key"
-Count = 1
-SetFlag = Array[String](["has_rusty_key"])
-DialogLines = Array[String](["Got the Rusty Key! Now find a matching lock..."])
+DialogLines = PackedStringArray("Got the Rusty Key! Now find a matching lock...")
+SetFlag = PackedStringArray("has_rusty_key")
 
-[node name="RustyKeySprite" type="Sprite2D" parent="RustyKeyPickup"]
+[node name="RustyKeySprite" type="Sprite2D" parent="RustyKeyPickup" unique_id=956859147]
 texture = ExtResource("11_key")
-[node name="Placeholder" type="ColorRect" parent="RustyKeyPickup"]
-offset_left = -8
-offset_top = -8
-offset_right = 8
-offset_bottom = 8
-color = Color(0.8, 0.6, 0.2, 0.8)
-mouse_filter = 2
 
-[node name="RustyKeyCollision" type="CollisionShape2D" parent="RustyKeyPickup"]
+[node name="Placeholder" type="ColorRect" parent="RustyKeyPickup" unique_id=1311492854]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+mouse_filter = 2
+color = Color(0.8, 0.6, 0.2, 0.8)
+
+[node name="RustyKeyCollision" type="CollisionShape2D" parent="RustyKeyPickup" unique_id=1681134759]
 shape = SubResource("CircleShape2D_interact")
 
-[node name="LockedDoor" parent="." instance=ExtResource("6")]
+[node name="LockedDoor" type="StaticBody2D" parent="." unique_id=1708047526 instance=ExtResource("6")]
 position = Vector2(350, -150)
+script = ExtResource("18_b6uh4")
 RequiredFlag = "has_rusty_key"
 LockedMessage = "The rusty key doesn't fit... wait, it probably needs the specific key from over there."
 
-[node name="OverworldEntrance" parent="." instance=ExtResource("10_lt")]
+[node name="OverworldEntrance" type="Area2D" parent="." unique_id=213025598 instance=ExtResource("10_lt")]
 position = Vector2(-500, 0)
+monitorable = false
+script = ExtResource("20_prbhs")
 Level = "uid://e1xv0dbe5grr"
 TargetTransitionName = "CourtyardEntrance"
 Size = 7
 Side = 2
 
-[node name="DepthsEntrance" parent="." instance=ExtResource("10_lt")]
+[node name="DepthsEntrance" type="Area2D" parent="." unique_id=2106572189 instance=ExtResource("10_lt")]
 position = Vector2(400, 300)
+monitorable = false
+script = ExtResource("20_prbhs")
 Level = "res://levels/courtyard/maps/CourtyardDepths.tscn"
 TargetTransitionName = "CourtyardSurfaceEntrance"
 Size = 5
 Side = 1
-[node name="Egguardo" parent="." instance=ExtResource("12_npc")]
+
+[node name="Egguardo" type="StaticBody2D" parent="." unique_id=1675903539 instance=ExtResource("12_npc")]
 position = Vector2(200, -100)
 
-[node name="CourtyardWelcome" parent="." instance=ExtResource("8")]
+[node name="CourtyardWelcome" type="Area2D" parent="." unique_id=907655563 instance=ExtResource("8")]
 position = Vector2(-460, 0)
-DialogLines = Array[String](["Eggs Isle Courtyard — fresh air and fresh hostility.", "Inmates eye you warily. Keep your shell up."])
+script = ExtResource("8_t3ubg")
 Mode = 1
+DialogLines = PackedStringArray("Eggs Isle Courtyard — fresh air and fresh hostility.", "Inmates eye you warily. Keep your shell up.")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CourtyardWelcome"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CourtyardWelcome" unique_id=2137986527]
 shape = SubResource("CircleShape2D_interact")
 
-[node name="DepthsRightEntrance" parent="." instance=ExtResource("10_lt")]
+[node name="DepthsRightEntrance" type="Area2D" parent="." unique_id=961748300 instance=ExtResource("10_lt")]
 position = Vector2(640, 180)
+monitorable = false
+script = ExtResource("20_prbhs")
 Level = "res://levels/courtyard/maps/CourtyardDepths.tscn"
 TargetTransitionName = "CourtyardSurfaceEntrance"
 Size = 5
 Side = 3
 
-
-[node name="Waypoint_PatrolGuard1_A" type="Marker2D" parent="."]
+[node name="Waypoint_PatrolGuard1_A" type="Marker2D" parent="." unique_id=1858554275]
 position = Vector2(-200, 80)
 
-[node name="Waypoint_PatrolGuard1_B" type="Marker2D" parent="."]
+[node name="Waypoint_PatrolGuard1_B" type="Marker2D" parent="." unique_id=1012066408]
 position = Vector2(80, 80)
 
-[node name="PatrolGuard1" type="StaticBody2D" parent="."]
+[node name="PatrolGuard1" type="StaticBody2D" parent="." unique_id=1413463426]
 position = Vector2(-200, 80)
 
-[node name="Sprite2D" type="Sprite2D" parent="PatrolGuard1"]
+[node name="Sprite2D" type="Sprite2D" parent="PatrolGuard1" unique_id=1360926751]
 texture_filter = 1
 texture = ExtResource("9")
 
-[node name="CutsceneTrigger" parent="PatrolGuard1" instance=ExtResource("8")]
-DialogLines = Array[String](["Guard: Walkin' the yard. Keep movin', egg.", "Guard: No trouble today. I got a bet on the kitchen match."])
-Mode = 0
+[node name="CutsceneTrigger" type="Area2D" parent="PatrolGuard1" unique_id=203997953 instance=ExtResource("8")]
+script = ExtResource("8_t3ubg")
+DialogLines = PackedStringArray("Guard: Walkin\' the yard. Keep movin\', egg.", "Guard: No trouble today. I got a bet on the kitchen match.")
 
-[node name="InteractionCollision" type="CollisionShape2D" parent="PatrolGuard1/CutsceneTrigger"]
+[node name="InteractionCollision" type="CollisionShape2D" parent="PatrolGuard1/CutsceneTrigger" unique_id=933441033]
 shape = SubResource("CircleShape2D_interact")
 
-[node name="PhysicsCollision" type="CollisionShape2D" parent="PatrolGuard1"]
+[node name="PhysicsCollision" type="CollisionShape2D" parent="PatrolGuard1" unique_id=906166027]
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_phys")
 
-[node name="PatrolComponent" parent="PatrolGuard1" type="Node"]
+[node name="PatrolComponent" type="Node" parent="PatrolGuard1" unique_id=1779345467]
 script = ExtResource("13_patrol")
-Waypoints = Array[NodePath]([NodePath("../Waypoint_PatrolGuard1_A"), NodePath("../Waypoint_PatrolGuard1_B")])
+Waypoints = [NodePath("../Waypoint_PatrolGuard1_A"), NodePath("../Waypoint_PatrolGuard1_B")]
 Speed = 30.0
 PauseSeconds = 1.5
 
-[node name="Waypoint_PatrolGuard2_A" type="Marker2D" parent="."]
+[node name="Waypoint_PatrolGuard2_A" type="Marker2D" parent="." unique_id=357612715]
 position = Vector2(-300, -100)
 
-[node name="Waypoint_PatrolGuard2_B" type="Marker2D" parent="."]
+[node name="Waypoint_PatrolGuard2_B" type="Marker2D" parent="." unique_id=946517652]
 position = Vector2(-300, 200)
 
-[node name="PatrolGuard2" type="StaticBody2D" parent="."]
+[node name="PatrolGuard2" type="StaticBody2D" parent="." unique_id=1534297145]
 position = Vector2(-300, -100)
 
-[node name="Sprite2D" type="Sprite2D" parent="PatrolGuard2"]
+[node name="Sprite2D" type="Sprite2D" parent="PatrolGuard2" unique_id=1488917712]
+modulate = Color(0.8, 1, 0.8, 1)
 texture_filter = 1
 texture = ExtResource("9")
-modulate = Color(0.8, 1.0, 0.8, 1)
 
-[node name="CutsceneTrigger" parent="PatrolGuard2" instance=ExtResource("8")]
-DialogLines = Array[String](["Guard: I do my rounds, same time every day. You'll figure it out.", "Guard: Why do they even have a courtyard? Sunlight's overrated."])
-Mode = 0
+[node name="CutsceneTrigger" type="Area2D" parent="PatrolGuard2" unique_id=2098859098 instance=ExtResource("8")]
+script = ExtResource("8_t3ubg")
+DialogLines = PackedStringArray("Guard: I do my rounds, same time every day. You\'ll figure it out.", "Guard: Why do they even have a courtyard? Sunlight\'s overrated.")
 
-[node name="InteractionCollision" type="CollisionShape2D" parent="PatrolGuard2/CutsceneTrigger"]
+[node name="InteractionCollision" type="CollisionShape2D" parent="PatrolGuard2/CutsceneTrigger" unique_id=1514811004]
 shape = SubResource("CircleShape2D_interact")
 
-[node name="PhysicsCollision" type="CollisionShape2D" parent="PatrolGuard2"]
+[node name="PhysicsCollision" type="CollisionShape2D" parent="PatrolGuard2" unique_id=1472143782]
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_phys")
 
-[node name="PatrolComponent" parent="PatrolGuard2" type="Node"]
+[node name="PatrolComponent" type="Node" parent="PatrolGuard2" unique_id=1684845549]
 script = ExtResource("13_patrol")
-Waypoints = Array[NodePath]([NodePath("../Waypoint_PatrolGuard2_A"), NodePath("../Waypoint_PatrolGuard2_B")])
+Waypoints = [NodePath("../Waypoint_PatrolGuard2_A"), NodePath("../Waypoint_PatrolGuard2_B")]
 Speed = 25.0
 PauseSeconds = 2.0
 
-[node name="HiddenFakeWall" parent="." instance=ExtResource("14_fakewall")]
+[node name="HiddenFakeWall" type="StaticBody2D" parent="." unique_id=465219037 instance=ExtResource("14_fakewall")]
 position = Vector2(-440, -180)
-RequireInteract = false
-RevealDialogLines = Array[String](["The wall shimmers and fades — a hidden alcove!", "Inside: a baseball bat, propped against the stones."])
+script = ExtResource("24_bromw")
+RevealDialogLines = PackedStringArray("The wall shimmers and fades — a hidden alcove!", "Inside: a baseball bat, propped against the stones.")
 
-[node name="BaseballBatPickup" type="Area2D" parent="."]
+[node name="BaseballBatPickup" type="Area2D" parent="." unique_id=910494727]
 position = Vector2(-440, -160)
 script = ExtResource("7")
 ItemId = "baseball_bat"
-Count = 1
-SetFlag = Array[String](["got_baseball_bat"])
-DialogLines = Array[String](["Found a Baseball Bat! +5 ATK. Crack!"])
+DialogLines = PackedStringArray("Found a Baseball Bat! +5 ATK. Crack!")
+SetFlag = PackedStringArray("got_baseball_bat")
 
-[node name="BatSprite" type="Sprite2D" parent="BaseballBatPickup"]
+[node name="BatSprite" type="Sprite2D" parent="BaseballBatPickup" unique_id=1655810740]
 texture = ExtResource("15_bat")
 
-[node name="BatCollision" type="CollisionShape2D" parent="BaseballBatPickup"]
+[node name="BatCollision" type="CollisionShape2D" parent="BaseballBatPickup" unique_id=200503826]
 shape = SubResource("CircleShape2D_interact")
 
-[node name="SavePoint" parent="." instance=ExtResource("20_sp")]
+[node name="SavePoint" type="Area2D" parent="." unique_id=1106726435 instance=ExtResource("20_sp")]
 position = Vector2(-80, 120)
+script = ExtResource("27_van0i")
 LocationName = "Courtyard"

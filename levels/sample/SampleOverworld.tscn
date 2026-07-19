@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=4 uid="uid://bgc8q153cys63"]
+[gd_scene format=4]
 
-[ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="1_6jprg"]
+[ext_resource type="Script" path="res://levels/BaseLevel.cs" id="1_6jprg"]
 [ext_resource type="TileSet" path="res://assets/tilemaps/mixel_ground_tileset.tres" id="2_mixel"]
+[ext_resource type="Script" path="res://components/core/LevelTileMapLayer.cs" id="3_aj67v"]
 
-[node name="SampleOverworld" type="Node2D"]
+[node name="SampleOverworld" type="Node2D" unique_id=164060986]
 script = ExtResource("1_6jprg")
 LevelName = "Sample Overworld"
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
-tile_set = ExtResource("2_mixel")
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=645686989]
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAACAAAAAAAAAAEAAAABAAAAAAABAAEAAAACAAAAAAACAAEAAAAAAAAAAAAAAAIAAAACAAAAAAABAAIAAAAAAAAAAAACAAIAAAABAAAAAAADAAEAAAAAAAEAAAAEAAEAAAAAAAEAAAAFAAEAAAAAAAEAAAA=")
+tile_set = ExtResource("2_mixel")
+script = ExtResource("3_aj67v")
