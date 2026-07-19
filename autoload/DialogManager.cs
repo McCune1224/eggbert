@@ -85,9 +85,9 @@ public partial class DialogManager : Node2D
     public async Task<int> PromptChoices(List<string> choices)
     {
         _activeChoiceMenu = new ChoiceMenu();
-        _activeChoiceMenu.SetChoices(choices);
         GameLogger.Debug("Dialog", $"Prompting choices ({choices.Count} options)");
         GetTree().Root.AddChild(_activeChoiceMenu);
+        _activeChoiceMenu.SetChoices(choices);
         Variant[] result = await ToSignal(_activeChoiceMenu, ChoiceMenu.SignalName.ChoiceSelected);
         _activeChoiceMenu.QueueFree();
         _activeChoiceMenu = null;
