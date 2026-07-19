@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="7_ct"]
 [ext_resource type="PackedScene" path="res://components/puzzles/PushBlock.tscn" id="8_pb"]
 [ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="10_sp"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="11_jw8ee"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="12_t6h68"]
 [ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d7t2w"]
@@ -33,14 +35,14 @@ WarpId = "factory_gate"
 
 [node name="OverworldFactoryGate" parent="." unique_id=937719921 instance=ExtResource("5_lt")]
 position = Vector2(300, 320)
-Level = "uid://e1xv0dbe5grr"
+Level = "res://levels/overworld/maps/Overworld.tscn"
 TargetTransitionName = "FactoryGateEntrance"
 Size = 7
 Side = 1
 
 [node name="Zone1Entrance" parent="." unique_id=1327181452 instance=ExtResource("5_lt")]
 position = Vector2(640, 160)
-Level = "uid://bmym6w5bpq0uv"
+Level = "res://levels/factory/maps/Zone1.tscn"
 TargetTransitionName = "OpeningZoneExit"
 Size = 5
 Side = 3
@@ -83,10 +85,24 @@ shape = SubResource("RectangleShape2D_h9k3v")
 [node name="EggsileTransition" parent="." unique_id=1840904144 instance=ExtResource("5_lt")]
 position = Vector2(480, 320)
 Level = "res://levels/eggsile/maps/area1.tscn"
-TargetTransitionName = "FactoryGateExit"
+TargetTransitionName = "HubArrival"
 Size = 5
 Side = 1
 
 [node name="SavePoint" parent="." unique_id=1035592671 instance=ExtResource("10_sp")]
 position = Vector2(100, 320)
 LocationName = "Factory Floor"
+
+[node name="HubArrival" type="Area2D" parent="." unique_id=303233777 instance=ExtResource("5_lt")]
+position = Vector2(-640, 320)
+monitorable = false
+script = ExtResource("11_jw8ee")
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubFactoryGateGate"
+Size = 4
+Side = 2
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=394704760 instance=ExtResource("10_sp")]
+position = Vector2(-576, 320)
+script = ExtResource("12_t6h68")
+LocationName = "FactoryGate Hub"

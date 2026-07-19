@@ -7,6 +7,9 @@
 [ext_resource type="Resource" path="res://levels/shrine/npcs/SunnysideRevelationCutscene.tres" id="4_cutscene"]
 [ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="5_warp"]
 [ext_resource type="PackedScene" path="res://levels/LevelTransition.tscn" id="6_lt"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="8_jpj7t"]
+[ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="9_pr8dw"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="10_wtvu3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_entry"]
 size = Vector2(120, 80)
@@ -37,7 +40,21 @@ position = Vector2(-300, 60)
 
 [node name="SolitaryTransition" parent="." unique_id=2763999 instance=ExtResource("6_lt")]
 position = Vector2(0, 200)
-Level = "uid://solitaryzone01"
-TargetTransitionName = "ShrineExit"
+Level = "res://levels/solitary/maps/Solitary.tscn"
+TargetTransitionName = "HubArrival"
 Size = 5
 Side = 1
+
+[node name="HubArrival" type="Area2D" parent="." unique_id=139525262 instance=ExtResource("6_lt")]
+position = Vector2(-640, 320)
+monitorable = false
+script = ExtResource("8_jpj7t")
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubSunnysideShrineGate"
+Size = 4
+Side = 2
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=1399481049 instance=ExtResource("9_pr8dw")]
+position = Vector2(-576, 320)
+script = ExtResource("10_wtvu3")
+LocationName = "SunnysideShrine Hub"

@@ -9,7 +9,10 @@
 [ext_resource type="Script" path="res://components/items/PickupItem.cs" id="7_pickup"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="8_cutscene"]
 [ext_resource type="Script" path="res://levels/overworld/maps/FinalBossTrigger.cs" id="9_combat"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="12_2e8vr"]
 [ext_resource type="Resource" path="res://levels/beach/npcs/GreatBeyondFinaleCutscene.tres" id="13_finale"]
+[ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="13_y1hjy"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="14_qifo4"]
 [ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pavv6"]
@@ -753,7 +756,7 @@ metadata/_edit_lock_ = true
 
 [node name="LevelTransition" parent="." unique_id=2116476958 instance=ExtResource("5_bvnao")]
 position = Vector2(243, 54)
-Level = "uid://e1xv0dbe5grr"
+Level = "res://levels/overworld/maps/Overworld.tscn"
 TargetTransitionName = "GreatBeyondExit"
 Size = 3
 
@@ -806,6 +809,20 @@ WarpId = "great_beyond"
 [node name="LevelTransition2" parent="." unique_id=1025294318 instance=ExtResource("5_bvnao")]
 position = Vector2(320, 360)
 Level = "res://levels/overworld/maps/Overworld.tscn"
-TargetTransitionName = "GreatBeyondEntrance"
+TargetTransitionName = "HubGreatBeyondGate"
 Size = 5
 Side = 1
+
+[node name="HubArrival" type="Area2D" parent="." unique_id=290403142 instance=ExtResource("5_bvnao")]
+position = Vector2(-640, 320)
+monitorable = false
+script = ExtResource("12_2e8vr")
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubGreatBeyondGate"
+Size = 4
+Side = 2
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=254593175 instance=ExtResource("13_y1hjy")]
+position = Vector2(-576, 320)
+script = ExtResource("14_qifo4")
+LocationName = "GreatBeyond Hub"

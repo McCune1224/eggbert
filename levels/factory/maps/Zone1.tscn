@@ -4,6 +4,9 @@
 [ext_resource type="Script" path="res://levels/BaseLevel.cs" id="2"]
 [ext_resource type="TileSet" path="res://assets/tilemaps/factory_tileset.tres" id="3_eewsk"]
 [ext_resource type="PackedScene" path="res://levels/LevelTransition.tscn" id="3_lt"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="5_40xls"]
+[ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="6_wov4q"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="7_jl4x1"]
 
 [node name="Zone1" type="Node2D" unique_id=858823196]
 script = ExtResource("2")
@@ -15,7 +18,21 @@ tile_set = ExtResource("3_eewsk")
 
 [node name="OpeningZoneExit" parent="." unique_id=1970588825 instance=ExtResource("3_lt")]
 position = Vector2(0, 160)
-Level = "uid://ceft5j32lmxa0"
+Level = "res://levels/factory/maps/OpeningZone.tscn"
 TargetTransitionName = "Zone1Entrance"
 Size = 5
 Side = 2
+
+[node name="HubArrival" type="Area2D" parent="." unique_id=1077733618 instance=ExtResource("3_lt")]
+position = Vector2(-640, 320)
+monitorable = false
+script = ExtResource("5_40xls")
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubFactoryZone1Gate"
+Size = 4
+Side = 2
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=1332394712 instance=ExtResource("6_wov4q")]
+position = Vector2(-576, 320)
+script = ExtResource("7_jl4x1")
+LocationName = "FactoryZone1 Hub"

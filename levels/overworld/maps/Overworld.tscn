@@ -1,20 +1,18 @@
-[gd_scene load_steps=22 format=4 uid="uid://e1xv0dbe5grr"]
+[gd_scene format=4]
 
-[ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="1_1r5ua"]
-[ext_resource type="AudioStream" uid="uid://imq0o15ypg7n" path="res://assets/audio/music/indie_meditations/lvl_2_the_village.ogg" id="2_1r5ua"]
-[ext_resource type="Texture2D" uid="uid://brc6yg81qjmkg" path="res://assets/tilemaps/Texture/TX Tileset Grass.png" id="2_7v7eg"]
-[ext_resource type="Texture2D" uid="uid://dbjgyn7hr4wha" path="res://assets/tilemaps/Map01.png" id="3_ldk86"]
-[ext_resource type="PackedScene" uid="uid://dmg8py6ignrbd" path="res://levels/overworld/npcs/GrandpaSmith.tscn" id="3_mglvr"]
-[ext_resource type="Script" uid="uid://bbkcsovvq8cd2" path="res://components/core/LevelTileMapLayer.cs" id="4_mael7"]
-[ext_resource type="Script" uid="uid://cswrwcu6al2mu" path="res://resources/dialog/DialogVoiceResource.cs" id="8_2vu1d"]
-[ext_resource type="PackedScene" uid="uid://bqpnrhgn1dngw" path="res://components/puzzles/Door.tscn" id="8_xd65o"]
-[ext_resource type="Texture2D" path="res://levels/courtyard/Wiener Cop.png" id="9_onfhm"]
-[ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="10_45llo"]
-[ext_resource type="PackedScene" uid="uid://dc1kn3llv4x71" path="res://components/puzzles/FloorSwitch.tscn" id="10_u1a1b"]
-[ext_resource type="PackedScene" uid="uid://b60fv3x3u4y5c" path="res://components/puzzles/PushBlock.tscn" id="11_2vu1d"]
-[ext_resource type="Texture2D" uid="uid://bxk81c4fj77tt" path="res://levels/prison/npcs/Monsieur Croissant.png" id="12_r2jid"]
-[ext_resource type="PackedScene" uid="uid://cyrqwcqnrxf2n" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
-[ext_resource type="Texture2D" uid="uid://bfuoybtdj8wis" path="res://assets/tilemaps/Texture/TX Tileset Wall.png" id="13_8f3k1"]
+[ext_resource type="Script" path="res://levels/BaseLevel.cs" id="1_1r5ua"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/indie_meditations/lvl_2_the_village.ogg" id="2_1r5ua"]
+[ext_resource type="Texture2D" path="res://assets/tilemaps/Texture/TX Tileset Grass.png" id="2_7v7eg"]
+[ext_resource type="Texture2D" path="res://assets/tilemaps/Map01.png" id="3_ldk86"]
+[ext_resource type="PackedScene" path="res://levels/overworld/npcs/GrandpaSmith.tscn" id="3_mglvr"]
+[ext_resource type="Script" path="res://components/core/LevelTileMapLayer.cs" id="4_mael7"]
+[ext_resource type="PackedScene" path="res://components/puzzles/Door.tscn" id="8_xd65o"]
+[ext_resource type="PackedScene" path="res://levels/LevelTransition.tscn" id="10_45llo"]
+[ext_resource type="PackedScene" path="res://components/puzzles/FloorSwitch.tscn" id="10_u1a1b"]
+[ext_resource type="PackedScene" path="res://components/puzzles/PushBlock.tscn" id="11_2vu1d"]
+[ext_resource type="Texture2D" path="res://assets/tilemaps/Texture/TX Tileset Wall.png" id="13_8f3k1"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="13_onfhm"]
+[ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l2fk0"]
 texture = ExtResource("2_7v7eg")
@@ -596,21 +594,6 @@ texture = ExtResource("3_ldk86")
 sources/0 = SubResource("TileSetAtlasSource_l2fk0")
 sources/1 = SubResource("TileSetAtlasSource_ehtq2")
 
-[sub_resource type="OggPacketSequence" id="OggPacketSequence_qh5cs"]
-packet_data = Array[Array]([[PackedByteArray("AXZvcmJpcwAAAAABgLsAAAAAAAAAdwEAAAAAALgB")], [PackedByteArray("A3ZvcmJpczQAAABYaXBoLk9yZyBsaWJWb3JiaXMgSSAyMDIwMDcwNCAoUmVkdWNpbmcgRW52aXJvbm1lbnQpAAAAAAE="), PackedByteArray("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")], [PackedByteArray("lIbTEjTT0W9uMQK/EVASDKeXrNMD7tm8dUeH06nzuzS6CtbQk7p9+/7fWToA"), PackedByteArray("rIbHEtT7xY5si0D2rQsdDLR3/w2XyeqeIZ8sMLlJek/Uc+LYIhks+aN62dMwAg=="), PackedByteArray("GoglMuPvSsMjv91zh+3xXF6sZ5MfAAA6mKYxTFgwQMfKUoAexzG7x9OpC5Ppgw/Ovni2aq211rJ7ANVWFpG02aRMl+20p5Bff/nCZQcbPJVI2NnWMQi155i/DgDAOazRT2BGvkQeOQK+lF7KOLUa8iwTfr6qdYbyM4LR67qJjDr4rbsFA7gCj4rw4hfl2uTcu6d4Ly7KABprsG6GNB8426KnvGaBDmHEKoBMTEE3jn596qv4FM0AcOz83gABz6NVM97oqjUD/sECAGCoCQA="), PackedByteArray("1uZU812iXWUxrOUZanWo1g4fdfeorruuPnkTrgqTyk99os+KAbiLX/ZikZje7VfP2ANhWKoXLGmXZKxqJqLOvVbARkQ037T2gPzzz4vefSVnEUIqwsQxt96Gt9twmlny80pBPf8ElSvBZfNKeM9UVFUFEoE5s12/DsY9//7yuWuTAFAlpcjbVfJh7QN9ONQFz24N5CWNfZQqJARbjSeH8ZoLT9UfV5iQD5NKM9sDUwDcq1cv4O7wrod7HZY6Bs/ukgc="), PackedByteArray("fHrxysj98z5bKWGtbyUQgzgA2QcNyZEuUhLfZXG84/IbjlOvHawFKy79SNWaXZUA"), PackedByteArray("zJrVxortXN/2jvmuSFCBYGYSIychCkqlPWc16Xis1/5yhNgvgVkmyv62JAA="), PackedByteArray("mkkWVpfYckfy6/kOtchdM/4AACjAkQCoafsGgIkKsSMcAOM4jqnH/PBOXPK/+2r0mD8xpb7qwlIc++Du5VAyPwwCpaW+S36ZV6SL/cxIlRkKIm4ObVHW337vbYs1UHtdyNXsk4Ak/n7+x6mwBF7+rRFo756MKlfRMCSZJqpJ62jgu4aI22bULvpOLyC/34PB1JDGOPwpQ+r7X8SfrRtggPrfBzyJJXLRl5aK7rcR+K2Do7/kCwjXyH0rLU7SqG2/3q1PjYEP4jDXghGfyb9aAw=="), PackedByteArray("9hgGmS6rZBCaz+9XsyoopFrxBwAAtsNGBwtQIzvjgdRmFTLhAJBrCdnjjxthaZY0Ptn/8YXTM3GzXOv3Wsqj6TGiEegJqzyzfTMIrs8ufLqWkofQXAHsWYvd5eyful2LF17i/wEjXGeoHwaGz9jf3aHVXvhpCnbPZYSYdcPjuHqHkKAYj6u6r8NqNc8aFAtLOJZ2dJ0Rp2saRAfWjcvbuygu6JdfYG0BTlAiao9uM64OoLwATmPBSl2WwsaVNAyBwyL//RQxpizb2X1vEQA="), PackedByteArray("BE65/TlwX7f4tIde+w1ABIWrnZquIIr1jyHSVpWbomUJ0mi8p689AA=="), PackedByteArray("FE7pSIrH7/Uh1GnulwEdCuYVUeqiiLpHaVWENW0In0P1LfBaaAA="), PackedByteArray("JEqR9t7Rv3ooPUP1PRKF6c3zlhOu0wdXOifT03NEgeARHf5MAg=="), PackedByteArray("DEKRZudP31E5Uc/aNwISBfOBzmEouLYCHtp4pib1dWdInDvidigA"), PackedByteArray("7EE9syE//Yvh1XFXCUSVIH9zIGzDeXoMVqb21rKxq0wgPiBRPAkJ"), PackedByteArray("/DmR4cmfvfLZSsOYZQpMVHABbD4rpJzJiGOiZ0NMV/Cfk0VTNALrLdhIf2rGPw=="), PackedByteArray("JHLpmLA++1qz0c+/H1zjL2tG/qX2HufXice/PG5zP7v6neP7ExB95ze0GdQA"), PackedByteArray("ZJbFERS7+zqXKnez/ACgIuCDab2oyjqDYh3cMeSmOoW+uruthStQSBozKY40BQ=="), PackedByteArray("mvjl8kXa4EU3Iu6npkqipvjwjuhhnmf/+xiDlWRFgfkC2LCDtAksoCdaJhwAgvWY6d/413RvvCdTMHpKPzj7iTnf6sLTQTYtyJaEAU0enyegYXr97VIAtFayup8sr1b+5OsD5qp8kZhVx73L7cPPJLbFYYE+P3dx8O/8oILZ4W5qKyfRZg2S5KD8rMOM95y1tzdg80t1rAEA0L7wgCl+lIj+tOj8RcDUcSPBrnnrXxxMIgCAANiCoyuNFsH8tJ9omTxM6+Tqy+WNENRi8KIjKTYD"), PackedByteArray("Pge1g0nisBclWsuIMOMqmIL9LPmARed/PAXA3QQzY/BrALywRGAOa2AiU0CO4tWMGzLZ3R+0XMh11WuZXerk0XJsEsBJXdqPDyYIyR4i9e51Q1tDAGWXXBkRPQXTbtPmYLpGqJjSpndyoQhVJSbU7i10MbtJvGyCyjH/404owPfoLtFECjXrtxLtjNzrY4oAsIXEASOyrpFw/8pifB/ngExXCnAydvmr7QvXuc48K4Bni9nJAAuFBXXqRxiMttjounOgBgA="), PackedByteArray("toUMc7vUTQWtyWlTqNIePXyEPV6P45AfdR0wwiCBzs8wAdmzHGIKxNd2Z4xPH/YVDY/dR/PNAylU77n153V2cHBWnsiYKEAZYXjgsUZJ1O//npu5zdpxodGXf/wLYE3iBwClKBM4oZz6dnRnA6B9cQK0QSIeDBjCfx2hPPrHfrSF0zoOAxuamBlP3h+OgN4B2NZb48bcsmiaAuqvSJrnCZnCOf1ICqDc1T0AAJByo3uxURnAg6VzwDsCAA=="), PackedByteArray("zFE9a6KWZPtZFoNp2voBOgg4fjs2KolabfrecRX1dy170jE91ADQ7grfAQ=="), PackedByteArray("FGKFi+fFvoReWos92HEOxDyBaKQ0JqLHdMg2NoDdqoNEhB9ElAUJJ4YtAQ=="), PackedByteArray("VHKp02P6ITQnbjGa5l4FhAREhGoAJB5I/OngKdPxjU5GbGkSEZqdBg=="), PackedByteArray("bIKpfYDykuIWg3k3C4dEIe1DN/kassfPxEbWRz9DWG79UyrD+j8A"), PackedByteArray("rJLJ3UNbtP1OKF7T3gmIgQbNLV2mJ14eLxvjtuQSMcUPTdMixs92840TH7ii37IA"), PackedByteArray("xKb53pMZ3fw/piLD3h0gZqIDk5OroCjKgY1WGXvDaiNaCKTu9upJLRo0Z9oOywA="), PackedByteArray("ukjODt9/rZydXOe92aVxPRWfHu6Oexgyb/dOnsElemmlfjgRJR2ApHF50hhrrnUfPvMub2aO5i+tFonvz3NXVlTLOvn87xMnVeQTU7M0wbqZNvricZvHjUNI99aqZT9XFqkO1oEoSuKIymxgNCT8Gb3wCBL1pwRIq8uVct1qhtdOCIEybVDwaXBPC/zJHqljmpBGKg10EKpBEwlArvFvrrsLJUGo+q9p8TPTiU5UqDF0YmJtoIUlRg/a7RnDY+FYLaj53G+M4Evohbr7XBVSAA=="), PackedByteArray("Hje1Nhg/Ict6F/lu3qPjtUeePIYE80v0kLCGSmJYNpHAUxRwcmHNmkE/+Dt/I3Wbq0E9xrvXjmu11rLN70wjPtqboqa/Li5GPducRhT0ZytQ8igU163hnOEd6v/7i3mJ7y4+P2tXm9vAk77k2eoc5ygyx7zCua/XMWGY8jPw/CzNMTn7ltUWRSnZ8sRgM+PllrYd/sZqKESSPpYqG8Qnp+xEZ/+vJrgGgoA+zXSe2ElWUCP4ACY="), PackedByteArray("vuYkhsy5HSflIf9ETy0GZI88eeA1tfpTRYALzEAjA9icPSVKAvT5LwAEUwBA9PdyqvaqvYnEh1mX9/I6DB/Yll6993UOxAkC9fzhw94UYbcSoFwNn7rwVi5r6zJgRTs1PPj1Ax++TSlR0SVZb/9nAX2XrbXTiQHC1+JNq04DnUtMwNBpbFPw9UZsZhWJjRBZemoENGuVjd63MoZX7/jS+UGMxiiaO2sCBjgwuSSO5MgSwsxA9TGAuw1H9Yi9kD3Ekg18HbAB"), PackedByteArray("viYNB/s2yqJUr2fTY81tSmF3Knmwg8bbaYCt4WEKAKDQLWAQBw40CAoGWAEIWDoKgIyr3Yb0fDstTPoXnXl3cUZ14v9dMZoRB8cIa7hz1konASl7uFABSvj9yuyVUBDEVad/X87mSjAagAAef8yNlLdN3k4fv5jbexYBJ479ClJDk5D650pWKVG6/ZWsaFLVE/n2LRJ1J9kIAHOWsZqf/QCPzzKlbAZmBzBag8kIgGdbrx+LnkMmULWbyIDRmcq3A9gm+bXK15TqATu2h8N1tQ8UAA=="), PackedByteArray("NtYM1Mk/gBap149pVyiDPWLyBwBocJUAOyMAwBNgA1jAEDGgBqZZABBoRQHM93cHzs++wEZYzfjqfNBQUWkYlFRleNVQ96SoMKZbAeoAS13eu9YCBC19f7VgJUpTnCdZIsl8V8eou9O8BXV9epPpkbACnTJVu6/SdsEL78LvqDN73FzxadcxvXemlfIfY3IOAN88yTw5XN6/lD1HACVGQ5sAhXG748nmSWv6A5pUAe0n2NirC5395c04Kd7IzZYS1xPKA2skafFrd1hCK1yax9CgXyCRIAE="), PackedByteArray("xDn9D8+NYevvErlYrN0+J47C1bzB2wLnbk3jW0quOhoRuyvbgBWNDQ=="), PackedByteArray("5E2LT8+NLqpegit+8xdv4QoWhbnfl8yuZLhHcKlQ03rXkrh3T/ICc5Y0AQ=="), PackedByteArray("7ElL9h628fX9KDYr08yCReHB9X4y6jifIFCKy5esCIgF9ZllgdkoAA=="), PackedByteArray("3ElL1+Dqjy9TD8Vo5fWVYloU/jk/3yLldnYpu9AVM4clBHJaXpkNFWYH"), PackedByteArray("tE13bImElL43J2sxWdi1NnegVMz/5d3URU+zo+fXN30VhCsvGI8gbt9/BunCPsUjzyod"), PackedByteArray("xF3LLQkFZXjnU+cia+xby7suixYcULid2yCGSvbFjl/cihV+7gG7evKYPr1MFtp9sdcB"), PackedByteArray("OtglrChigKHBsodPiBDsXUr/AAALujrACTiwD44OFgEP8GkGmECGB14w2JrD0CAAkAwAKw9c2Q6/VsQd39Hm6X7GEp+4RinWLt3E0YUOP06IjALo+mBSWiUt44L6x055KIwuT29ICkoFvMAzxIZlO2f/EoJY66Fe/2ULr3JUQi91Of846bGNgXKAFmHlU1sOH+xePlYInzbytQ7SDOfQ8cn0qnqJgwfBmLj0xvHrDWtqqaFWHi0qIfEwwe4EpHWrO49rn5VmYbQ2ona7/yhwACvg3ZEAYMnWEwA="), PackedByteArray("3uhFXP9djYnoMfuwpWuPHv0DADSoKwB26iABjAIcHRTAA/oFAOAA6GAACAbJcQE7ACUgHAAI6CcwdwQio7lbmuSCWq0UpU/lB+90hXd2TmQiEyvKvncuYKkyBPamBCaVEGeUZIGvC3ynjkouScbB/rg5haKeAn03OwnaJaIxIQSiC9SPXCFASbX0huPZsYl3b/66uKaBAh8BAK/Uf8augCsHNBeSFMFc2A2yTk2pGB5q5zPhjMDEwya/yx27KlXwiO4o5SiWJNTMclZCIn9USdiKgQYo7DgEvfwJpwA="), PackedByteArray("fjmm/PS9MEbrvGYOPyOFiHbHyB8AALhVAdipwCWAtwGOQdDgeIBbAoxBbgAzCth0YMcM2DEAQEBaANAB/VXie46T0kxbyzjiROeItu/DipdDk2cBSNU2K+Amu0gIUAT871MD98oUfLfdRqEnUfyntSC1jkAmUnSWsA3Eo48DXi5LacMHL1Ce0DLaj1FBDarqYtVfO3Fo0HU4SACFAujCdJ+zhFiIN/wqMDA0tZJCUigKFG3k6b2L9ap9E+SSdpSm47OomsrkWOa/URgToGHTBzEAANqvPxayCtgT/OSAjeWhTO0hB8iQAA==")], [PackedByteArray("/kimVpd4IZwZPEpxU+iwh0p/AQAAAE4dDmyAHUPB3wUAHB6MgYED3QGA4IEHgOUAZsIBALD+2gCyDIDJq83xsAnw5AyCW0XRmxtrLBhVYWCLKrrQdLUXo0rQMY/AgrKA8gL09jCAy/3USdcXC41kqwYr0Rh6qL+SK5YmVRWDDwIApDxR9E6gNITNK2CidJiLy5IhEhJwavB/lg0v6C50JWBMss9m68abg5XYQ9XmUFEpKtNqRevW8oU/shsMzxmDf0FZzp7UDAMyyik9+Fftf6YBXAEwBYVdpnZ73fks6TwQ1rQA"), PackedByteArray("3jiWdhURQDf1XayhaHAxg6jnkj8AANj/ZwqwU4ED8ATwYAbgCcBhgjEw0IBEMByOBhqAtaUAEjj8A1BZDvXNR3dmwEck4N9fx+Dsx/IafyZEEgDA6N7MkRLeKYBwAklhLQB/9yIfClmh5FITwBZX4kPWYpw2C43/PpAaVWMEIDq59dt8m4w08Uh5sZLu5vi/onSPq4Ck0QhaiIfb14zp2AAV11EbVNZq2VIxjaW6J74sUgFqUiH6FJN51bUqeVFJjFvkwkoCRjUF02CHgUjCbqoqOdQ1hTLAyFtxlFD7gcX1GYcGaAA="), PackedByteArray("3jh2wSjpKlh+Z4s0fFmMeir5BcAAAPBsAUAAI5wLWBU0coMOBNy8ArAKAUAAZ5UlwCpPAGlgzBbKQQFvjKBSwJFKOc86lICfHzeLKLELP/9ec6qdCeiXeRCn6rb5tZhZn++ilXimcX3p4dlaTcD13UyqCWc88KEvUyQZV1CZbizNk9K4denqhaCX2Alk9LmJKOnkKHuHYbCC8dtHNyBfEjL8W7IO04mJ4qh2gORQG3Ck+dEnrrIWpn4HD6OFRY6hDUa01bdVZMxl8ARrh+e77yt61V0cArQmaQA="), PackedByteArray("3ihm2VFapmp5VjVtWbe3ZvIHAAD9HyXAXk8BwMHSBbR2+K0AJIirBmhPOgoAWL8NEtxElxKvnKK03gFyTUY7msiRh0Si8YADv2ybeil44Mf55wNvuiRLQF2iYv3YTGnRkNz5xH5RRNfFC5wmnRr3/51DMrpzyWcdHf28FcmqW2MQWfL0MwNa100hHvW5grKC3ZuhbW0snAVIfWYH2UUje1ZhUL94QR2WDEbjalYBnT0nTbxMo1Y9nUwXgjLCVbjyoL15Eg6JUPdwJN9LXNG3Rs6R+k9qLnmugwQA"), PackedByteArray("/kgGmYvUEqx7k8u0+Nmjwz8AAsA3gAMW4RPnAdBossBLA0B+A2hEVAAArIeJgUUzK6rPlKd7620J9fD//4CIxFj94IEIEIHbR1TQLnjdvp91hRHx85uZ7oqrsNr4kFVhkd8v0TeakjVSFmICnFrarooLoSmVI4QXHsQFyVEvNkjDGEN/jk1DDZqvQrWbGBQkG41U1PszBwPQYfDHmZfSlc1tjg6zolPjEnjCXlLnvl2Azvx8V0bMS0izjwlKCZRWspW5A7/D6NWkCxMX497v7m82WZ5xFIZe5gM="), PackedByteArray("lgiG4f41TVyH6Izxt0eLPwAI8FXYliU0mwM2gJkAJNJRGOkA6MFgMMDg8H3PWGvr5+amY1MhrAzHf/5j01VLIci1ZKf33F8VcXDqcV6y1NK2ibh4BPT043JmvjqldKVCCeP/Gkrbxn8/v/3zPRPfuqNmVeQcpv/fq6yIrVVaVhT3Qta0qwEM5L/HYiCA7Hy1b57Tl8o8g2gAgC9ebirXSq1LFMhsOAAAzrTECKL4TWTw2RmodWUtnqiiBnkX0O3VNVRvJe4UdK1cNcMygezPbzdexooBawc="), PackedByteArray("tJbtahPzquI2+hpnAJ2AJ84r8W14t0lcV3y3h6nSLdTIwooREw=="), PackedByteArray("vJbtqcj1KoaG0bPnQIBHCeJ9JFRF0KjrB6GwsDvf+bo6Q58L88ID"), PackedByteArray("vJbdRcPPSfxiMcvpFyAFBDNxVszAu1vF+palCk1IZdf+zIDCbZsA"), PackedByteArray("1JrTzUAQ+jcWGzxjDLQAUDht7CUkJLRrRgXKCVMfEJRYd4mTOXkA"), PackedByteArray("zJ7DCfLZS/7cYxKAmiYYo+hIQLRSweSaBfi61iUHQxGGaBH6IQE="), PackedByteArray("3JrzzYhS8UenFRnzfQJiHhQ+v/aKYUUg7R0hoBSQTiLpEE/YZSuu5QY="), PackedByteArray("nKLV4lFi7SPEimeznOcDcCVoh5nUBhKxsesII/x+urXB4yVZqL6xBg=="), PackedByteArray("3KbbbNfikAPFCue9AWKgwfV6IiNZMr0Oy6CQHWUL9gu9lQgWQT9tjRphRUhRAQ=="), PackedByteArray("xKrV6kFfVpGK1TR3F+gKBhqPaZNYidOiLybQ5nFGrnKFJ5mvM8w7o+8OQiqoCQ=="), PackedByteArray("mijms6eEeamlDKWl1G11IQ72wOQPAAD6vyXAXg8AkrMH4LGyAmYAkvAQWAJDYWMBsOY5AjcvP1DVaq621zapchSXjpC9UHoCa0Gs3Wc0LKzneDVCpqsEm10BDWgzM50JvSmYh2NQ2DC0Vrv618asVWzeIDMoGKXMfDZkkZJgPN7vWgHo7fuI/djDDp8+/uefVwYUN7le8sKi3uKaOYOj7NU1NF91oSItIYjckTnp0bSjVCqsgGV6rWK1oODWwobiTmBGe1IPm0SnjCpNwyxRpit69Lr2CFa+Rkg51fMkH2eUrGEq8+Vh4HyaAA=="), PackedByteArray("Hjmm9iI1R9UnFFkV9Tz8BcAANIDdLuEAjAGbDnonCSAYHWp5oGBlAYCA26ebAP7ZAMvm11WoKFCr/xIoxBWUfG0xkdJKywrL+ZVyoqBVE6vzFmDl7oLfb3RFVrr3eiiniEuWNPQOoMagoRfGVr7gIabHxP3WVeI/UFFaMrbn/LIBhREIyLnyc/6R6xoC/hdFYbPYi//QQQCkgJ4OrjQ1B9yLSbIIQEs4PEeP6cYYfjMjZjrN8YZFfjUDCZJkSuhXRaw8H4XDLP/yg7sV+6aU8oTxCigE"), PackedByteArray("/him1iR1cJPfRZ7NFbqRPVLyB0ADMHE1ALuvwh7AjoAHJQDAqhzAAQ4S1g1IAmhXE3QC2QKABR7+0+hcVQprRRAPUhIPTgcFxlUBy4UFICkBQHPJWJDEAnK1gcBSWqSALM6SAIkRxjvRAPXQIftfTr3NA+7Xr49G6KOD+l2JgNPxbUanJpuQGDcdT/a4rFlUPa0S6RO7IQAFcXVzbegdFxFmjlvhZL9Ud8mucpz32/QEGQ7iaGelnjOARLwcGcTfaHvNS6w748FHZSzPIPuQXinAxukzD6QbvrwI9QdrLk9gig0rBgE="), PackedByteArray("/ijmgl1SjqnvhiGOLOzRkT8AANj/DICPCgACgK4AjgBgkEwHNBLTjYBjLX0AADh8+WCrrFXt8ZmT1MVLgDIF0oFSLy0VDxUBxABI3ZmkUZaKTIeQy4GDOO1yGoGgRY0tTbaoOw/nBxFBnFKh9OLlNRTEaqfrrwYU278elA7G3JasnyXlNwRHkguvUjxCya6vhsIdX8xUeiu+wbqsgO/nN5OlQm19FWABAGZ3sXOziQicelUQZL7euyp2dFmY1k2A4kEPNvSYDjn5eoVYmeIlXTqVHMUA"), PackedByteArray("/igmrVGytSmfIJfm+F49l/wCYAAAeLIAIIE6DtBBncwEdIH2rgYPOlhIBwCA+jkB7E4APJcaCkoSCuiVs6F790JuX5KKMhGvchPHGRZ+x42K2b3VSEt+2oIr1q3WCi5RYvUR9fHS3SvzDgEdvjtSmg3a2PBRLk/KVS2GkLn/W1wlyF9KQorY1sjhV2Xd8hRI4RBAweikR47sTPPK4CzS4CH4VUIZkqEwI2j9Pj03GmXhdC+dyfD2V3kAQD1s6vneC1oE7+LMAECXaMVa+Fa86OSMZtE+03M6"), PackedByteArray("nijmg/mfJ1dvxhgpe88eNfkDUAHILwPwPAAAVLAPGkB3kYVzAIAJBsz29qCAGlgrAAD8+R0YURqHguYhECmJBrbKPwgAWAeoqktBtYjzxDVUAsQRwnYlCCWJw/vhcHNvb0OpMVjAjSsGAFxRxBVCf8b0qpoDtHXadFmySZlI33R20KY67j1VKo32jOgsN1ZZ3tKsp7dYaHDJ55+lBEpAyWNEgEqhBeCJb4KBEcO/qIeo5ABvFzO0hgDSB1v5eSHbITPX+YZCi9wfvdIKIt0zufhRHI4ozMUFOu20NFAA"), PackedByteArray("/iiGYZOSJdffUT9Hys1jduv58A+AAPBHJ8DtEsDVcICBIOjHGAAQkATogXUDEJhUAACIPYFp1lKsbZ4pYqVYerJcVVgaIWpvtiZUVIeal0Vdc9Kk/y1QlBbPLw0GSVSFrufHXRFf4FiHipAikRMeRAAYJWuz0Mj87BuNhkYvpML/mxRjRzceH13TS+yYg4NzVLaaIeeEtjQ9wvfXX0DcbSacFylakGG9BW6WCuTd6IAByv0ujmqqxEWHajgvIHJwM3sl3xM6YVBfeRWh7mpmkFLkLvw+8bJFPbEhQAc="), PackedByteArray("3ihmmSJ5HF18B/3cXmMmzx4p/gIAAAA8XQLQwJB4kAC2AI2hAVp/AFh3BRAmBACA5+8NwPMAkCMBhQ0CSIWDVwBPGqgnl7RoRDsAHo86iZS1rmy6C5YgzYyuqwM5ceqBI0FgEZTWukCUiJsZEgTvzU8P26XZCYKEuD/IoWT39RZxEClq/LWEnZL9LEUw79e6QwhMyrbpTeTnqZurMhl1zWnOB+cSu2fu+ErIMVXkA7XWQGOWBbiTX/m/8w0AUFNU0P5mNdLa4iUFpWQAorbaITjhhMl97d+hpyU7opYUdq4sEToA"), PackedByteArray("nhg22SRpszH1maxteo3gzPaoyR8AAPglVQA+SgAWgC2ABwnAAyYDQEksAFYCsKwoAMDV34UVZaQsO6Ah0qqqpNRGGF3aknGAZRKnACICKIu7EY2jRFpQxXBZSKlExA3/7aJNakkoYcMg9FPyW1xLl6w08WE576IrAFCZCTRM7r93urgG2oXBwS86O8FUKgSz0KlrJYVQzZKnI5dAonIBesFqKk9u4LoI8/+UOZM4LuQ+B+i/QpXKTTkrGaLLT/4kx44lEYhqCaDO1dUSu9Mu9yyLxEgv2IVS9+SvbfY6dyHq2L0TAA=="), PackedByteArray("3hjW2UnqsFHdc+hL9IFmBXvHyC8AAADA7hMA+A5gBhqSe5J40O6FAgCspQMAwOCxAaxfCwD/qlxX3gT04xQWGpuU0i7rFpISkl4rYnLpZiet0gutUHupQcVAKAeJrLMkLhkCayinm4nmfW/jqimYUkr7gKIo56YJIp3w9pJShsjhk4bjocNQlaBazQfGF2MZ+SEAxKQkNv1rpyQroB/BaI1zq5AwZ7BpQD/bQRBO/XIDAMAHHvu28rrHW0D/Ami10jNXk6/P6BNQRGMWlk8uwqK24ilavcPYQTvSEAA="), PackedByteArray("nhgmg1PyxqjuHKkFJ5OP7FGTPwAGCb9QCbATAMADOMAljAhnCCANQBLA5mrQCUyIAgAUS2BlSCrv7yzrKaJYb/lxyL2tvUrCkqsC9SKltFzbgKS2Yqkm20AYJtWbP82IUE5rZ7dm1kipS5wbaBEasANK35nliAhIbTD0fuKD4XAwejyXbYepEqVE+d+k4hIm0DZfmRpwbqyUJd1Fhqk/JGpSyiiDBi7O6H7h5F/FkzkkHBcjIXiuKLFReeA/rgIJuLAS7qtu1WoSFfv7o/FRUfFAFfKCHB3kksAAoM0EAA==")], [PackedByteArray("NhkW2V3yGGoNRSup+dASzxP2rpLPHqfjOI7j+PM9dQD9fFkC3IOAD2RAjQoTAxuAkKUPgDc+OeBnMzt5B3TteHcrIwnw9fzdVUAI6uVUch6tKhHMQclSFhEW3pJbDK2hQ+GtlawGfc6ChN/D46lJVVhvjvM7M4qV4IgapjoP+QhroSUbfOVEjE48v3rgJgaEbV9u59RvyWNb8kTyMGAQHCxE+v5qmakGapMHfolxSpmT3OBvomLI8ykbIgADla1TtV3Qqjh0EWLxNxJrwtMNJjdfDIOZGiEA"), PackedByteArray("5Kbb5hmZ0VvuF4PZ3FRCAKBwP1wTsFQGFB9zgpnJap0edlbXdWiyNgY="), PackedByteArray("vKbz6hlOyDvmF5PFxh3AoqC2QdKWB5rGMt7kCblIVLSvBKy9LzNTrycA"), PackedByteArray("7Kbn1RPK6sctFou5EaAmoHDSuMpjrC6W7JL2rcnmpqyykCduVIl5pgA="), PackedByteArray("xKKXKQHipunFYjNG34wAl3Rw5PLTzDaaMj989kQhqDZSuSjN3/Jnmbq6BI/zTxEA"), PackedByteArray("nHqfl4D2H+pHZ4uM3leHEvBy+uJi9N3s1HJ9Ru75EdvsqLL7Fc8YfrxGqgE=")]])
-granule_positions = PackedInt64Array(0, 0, 17856, 36416, 38446)
-sampling_rate = 48000.0
-
-[sub_resource type="AudioStreamOggVorbis" id="AudioStreamOggVorbis_onfhm"]
-packet_sequence = SubResource("OggPacketSequence_qh5cs")
-
-[sub_resource type="Resource" id="Resource_r2lff"]
-script = ExtResource("8_2vu1d")
-VoiceStream = SubResource("AudioStreamOggVorbis_onfhm")
-BasePitch = 0.5
-StartOffset = 4.0
-metadata/_custom_type_script = "uid://cswrwcu6al2mu"
-
 [node name="Node2D" type="Node2D" unique_id=925475164]
 scale = Vector2(0.99266, 1)
 script = ExtResource("1_1r5ua")
@@ -626,7 +609,6 @@ metadata/_edit_lock_ = true
 
 [node name="GrandpaSmith" parent="." unique_id=1161588502 instance=ExtResource("3_mglvr")]
 position = Vector2(179, -222)
-Voice = SubResource("Resource_r2lff")
 
 [node name="RightWalkwayTransition" parent="." unique_id=1763621704 instance=ExtResource("10_45llo")]
 position = Vector2(614.511, -44)
@@ -654,34 +636,177 @@ TargetDoorPath = NodePath("../Door")
 [node name="PushBlock" parent="." unique_id=955289274 instance=ExtResource("11_2vu1d")]
 position = Vector2(-220.61935, -108)
 
-[node name="WarpPoint" parent="." instance=ExtResource("99_warp")]
-WarpId = "overworld_entry"
+[node name="WarpPoint" parent="." unique_id=311184065 instance=ExtResource("99_warp")]
 position = Vector2(0, 20)
+WarpId = "overworld_entry"
 
-[node name="GreatBeyondExit" parent="." instance=ExtResource("10_45llo")]
+[node name="GreatBeyondExit" parent="." unique_id=1388168860 instance=ExtResource("10_45llo")]
 position = Vector2(600, 50)
-Level = "uid://cgey7l0cikahr"
+Level = "res://levels/overworld/maps/TheGreatBeyond.tscn"
 TargetTransitionName = "LevelTransition"
 Size = 7
 Side = 3
 
-[node name="CourtyardEntrance" parent="." instance=ExtResource("10_45llo")]
+[node name="CourtyardEntrance" parent="." unique_id=1310960186 instance=ExtResource("10_45llo")]
 position = Vector2(300, 200)
-Level = "uid://d203hfawkft4p"
+Level = "res://levels/courtyard/maps/courtyard.tscn"
 TargetTransitionName = "OverworldEntrance"
 Size = 7
 Side = 3
 
-[node name="PrisonEntrance" parent="." instance=ExtResource("10_45llo")]
+[node name="PrisonEntrance" parent="." unique_id=2039441409 instance=ExtResource("10_45llo")]
 position = Vector2(100, 300)
-Level = "uid://bms1ioay0fp20"
+Level = "res://levels/prison/maps/prison.tscn"
 TargetTransitionName = "OverworldPrisonGate"
 Size = 7
 Side = 1
 
-[node name="FactoryGateEntrance" parent="." instance=ExtResource("10_45llo")]
+[node name="FactoryGateEntrance" parent="." unique_id=1738319634 instance=ExtResource("10_45llo")]
 position = Vector2(400, -100)
-Level = "uid://ceft5j32lmxa0"
+Level = "res://levels/factory/maps/OpeningZone.tscn"
 TargetTransitionName = "OverworldFactoryGate"
 Size = 7
-Side = 0
+
+[node name="HubCourtyardGate" type="Area2D" parent="." unique_id=1440669540 instance=ExtResource("10_45llo")]
+position = Vector2(-560, -280)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/courtyard/maps/courtyard.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubCourtyardDepthsGate" type="Area2D" parent="." unique_id=531622315 instance=ExtResource("10_45llo")]
+position = Vector2(-240, -280)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/courtyard/maps/CourtyardDepths.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubEggsileArea1Gate" type="Area2D" parent="." unique_id=1511405026 instance=ExtResource("10_45llo")]
+position = Vector2(80, -280)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/eggsile/maps/area1.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubEggsileSewersGate" type="Area2D" parent="." unique_id=385305356 instance=ExtResource("10_45llo")]
+position = Vector2(400, -280)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/eggsile/maps/EggsileSewers.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubFactoryGateGate" type="Area2D" parent="." unique_id=1162497553 instance=ExtResource("10_45llo")]
+position = Vector2(-560, -152)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/factory/maps/OpeningZone.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubFactoryZone1Gate" type="Area2D" parent="." unique_id=2066740142 instance=ExtResource("10_45llo")]
+position = Vector2(-240, -152)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/factory/maps/Zone1.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubGreatBeyondGate" type="Area2D" parent="." unique_id=496801211 instance=ExtResource("10_45llo")]
+position = Vector2(80, -152)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/overworld/maps/TheGreatBeyond.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubPrisonGate" type="Area2D" parent="." unique_id=636110206 instance=ExtResource("10_45llo")]
+position = Vector2(400, -152)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/prison/maps/prison.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubPrisonBlockCGate" type="Area2D" parent="." unique_id=140688972 instance=ExtResource("10_45llo")]
+position = Vector2(-560, -24)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/prison/maps/PrisonBlockC.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubKitchenGate" type="Area2D" parent="." unique_id=430343766 instance=ExtResource("10_45llo")]
+position = Vector2(-240, -24)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/kitchen/maps/Kitchen.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubHomeGate" type="Area2D" parent="." unique_id=293169989 instance=ExtResource("10_45llo")]
+position = Vector2(80, -24)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/home/maps/Home.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubSolitaryGate" type="Area2D" parent="." unique_id=822968329 instance=ExtResource("10_45llo")]
+position = Vector2(400, -24)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/solitary/maps/Solitary.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubSunnysideShrineGate" type="Area2D" parent="." unique_id=223958232 instance=ExtResource("10_45llo")]
+position = Vector2(-560, 104)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/shrine/maps/SunnysideShrine.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubSecretTunnelsGate" type="Area2D" parent="." unique_id=1371283748 instance=ExtResource("10_45llo")]
+position = Vector2(-240, 104)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/tunnels/maps/SecretTunnels.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubWardensQuartersGate" type="Area2D" parent="." unique_id=1655848042 instance=ExtResource("10_45llo")]
+position = Vector2(80, 104)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/warden/maps/WardensQuarters.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3
+
+[node name="HubRecRoomGate" type="Area2D" parent="." unique_id=387829410 instance=ExtResource("10_45llo")]
+position = Vector2(400, 104)
+monitorable = false
+script = ExtResource("13_onfhm")
+Level = "res://levels/recroom/maps/RecRoom.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 3

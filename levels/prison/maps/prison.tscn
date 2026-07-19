@@ -20,6 +20,8 @@
 [ext_resource type="PackedScene" path="res://components/interactables/PhoneBooth.tscn" id="17_phone"]
 [ext_resource type="Script" path="res://components/npcs/SleepingNPC.cs" id="18_sleep"]
 [ext_resource type="PackedScene" path="res://levels/prison/npcs/Frank.tscn" id="22_frank"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="23_fryl7"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="24_n5urr"]
 [ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="30_sp"]
 [ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
@@ -372,14 +374,14 @@ LatchOpen = true
 
 [node name="OverworldPrisonGate" parent="." unique_id=879620536 instance=ExtResource("11_lt")]
 position = Vector2(100, 0)
-Level = "uid://e1xv0dbe5grr"
+Level = "res://levels/overworld/maps/Overworld.tscn"
 TargetTransitionName = "PrisonEntrance"
 Size = 7
 
 [node name="PrisonBlockCEntry" parent="." unique_id=387677512 instance=ExtResource("11_lt")]
 position = Vector2(580, 300)
 Level = "res://levels/prison/maps/PrisonBlockC.tscn"
-TargetTransitionName = "ExitTransition"
+TargetTransitionName = "HubArrival"
 Size = 3
 Side = 3
 
@@ -395,7 +397,7 @@ DialogLines = PackedStringArray("A faded poster of a band called \'The Yolked Fo
 [node name="TunnelEntrance" parent="." unique_id=432847114 instance=ExtResource("11_lt")]
 position = Vector2(300, -200)
 Level = "res://levels/prison/maps/PrisonBlockC.tscn"
-TargetTransitionName = "TunnelEntrance"
+TargetTransitionName = "HubArrival"
 Size = 3
 Side = 2
 
@@ -449,3 +451,17 @@ texture = SubResource("AtlasTexture_k4cuh")
 [node name="SavePoint" parent="." unique_id=309414191 instance=ExtResource("30_sp")]
 position = Vector2(0, 260)
 LocationName = "Prison Cells"
+
+[node name="HubArrival" type="Area2D" parent="." unique_id=1764503870 instance=ExtResource("11_lt")]
+position = Vector2(-640, 320)
+monitorable = false
+script = ExtResource("23_fryl7")
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubPrisonGate"
+Size = 4
+Side = 2
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=642075548 instance=ExtResource("30_sp")]
+position = Vector2(-576, 320)
+script = ExtResource("24_n5urr")
+LocationName = "Prison Hub"

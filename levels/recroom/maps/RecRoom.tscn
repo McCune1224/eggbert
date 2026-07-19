@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://components/npcs/MercyEncounterTrigger.cs" id="4_mercy"]
 [ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="5_warp"]
 [ext_resource type="PackedScene" path="res://levels/LevelTransition.tscn" id="6_lt"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="9_w4nyv"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="10_p84yb"]
 [ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="10_sp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
@@ -48,11 +50,25 @@ position = Vector2(-300, 60)
 
 [node name="TunnelEntry" parent="." unique_id=1425781535 instance=ExtResource("6_lt")]
 position = Vector2(0, 100)
-Level = "uid://d203hfawkft4p"
-TargetTransitionName = "RecRoomExit"
+Level = "res://levels/courtyard/maps/courtyard.tscn"
+TargetTransitionName = "HubArrival"
 Size = 3
 Side = 1
 
 [node name="SavePoint" parent="." unique_id=1768591554 instance=ExtResource("10_sp")]
 position = Vector2(-60, -60)
 LocationName = "Rec Room"
+
+[node name="HubArrival" type="Area2D" parent="." unique_id=1398055160 instance=ExtResource("6_lt")]
+position = Vector2(-640, 320)
+monitorable = false
+script = ExtResource("9_w4nyv")
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubRecRoomGate"
+Size = 4
+Side = 2
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=1951306658 instance=ExtResource("10_sp")]
+position = Vector2(-576, 320)
+script = ExtResource("10_p84yb")
+LocationName = "RecRoom Hub"

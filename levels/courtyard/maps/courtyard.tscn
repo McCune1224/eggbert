@@ -16,6 +16,8 @@
 [ext_resource type="Script" path="res://components/npcs/PatrolComponent.cs" id="13_patrol"]
 [ext_resource type="PackedScene" path="res://components/puzzles/FakeWall.tscn" id="14_fakewall"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0011.png" id="15_bat"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="19_yc7m7"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="20_kdkwv"]
 [ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="20_sp"]
 [ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
@@ -155,7 +157,7 @@ LockedMessage = "The rusty key doesn't fit... wait, it probably needs the specif
 
 [node name="OverworldEntrance" parent="." unique_id=213025598 instance=ExtResource("10_lt")]
 position = Vector2(-500, 0)
-Level = "uid://e1xv0dbe5grr"
+Level = "res://levels/overworld/maps/Overworld.tscn"
 TargetTransitionName = "CourtyardEntrance"
 Size = 7
 Side = 2
@@ -264,3 +266,17 @@ shape = SubResource("CircleShape2D_interact")
 [node name="SavePoint" parent="." unique_id=1106726435 instance=ExtResource("20_sp")]
 position = Vector2(-80, 120)
 LocationName = "Courtyard"
+
+[node name="HubArrival" type="Area2D" parent="." unique_id=1149090421 instance=ExtResource("10_lt")]
+position = Vector2(-640, 320)
+monitorable = false
+script = ExtResource("19_yc7m7")
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubCourtyardGate"
+Size = 4
+Side = 2
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=217438024 instance=ExtResource("20_sp")]
+position = Vector2(-576, 320)
+script = ExtResource("20_kdkwv")
+LocationName = "Courtyard Hub"

@@ -15,6 +15,9 @@
 [ext_resource type="PackedScene" path="res://levels/eggsile/npcs/Chef.tscn" id="15_chef"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0009.png" id="16_key"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0020.png" id="17_egg"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="17_fk1kw"]
+[ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="18_wgfm5"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="19_vyqwg"]
 [ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eirxw"]
@@ -120,7 +123,7 @@ metadata/_edit_lock_ = true
 
 [node name="LeftHallwayTransition" parent="." unique_id=2120104222 instance=ExtResource("2_eirxw")]
 position = Vector2(-493, -7.91632)
-Level = "uid://e1xv0dbe5grr"
+Level = "res://levels/overworld/maps/Overworld.tscn"
 TargetTransitionName = "RightWalkwayTransition"
 Size = 6
 Side = 2
@@ -128,7 +131,7 @@ SnapToGrid = true
 
 [node name="DummyUp" parent="." unique_id=2076238481 instance=ExtResource("2_eirxw")]
 position = Vector2(11, -161.295)
-Level = "uid://e1xv0dbe5grr"
+Level = "res://levels/overworld/maps/Overworld.tscn"
 TargetTransitionName = "DummyDown"
 Size = 5
 
@@ -201,6 +204,20 @@ shape = SubResource("RectShape_pickup")
 [node name="SewersTopEntrance" parent="." unique_id=968539748 instance=ExtResource("2_eirxw")]
 position = Vector2(320, -200)
 Level = "res://levels/eggsile/maps/EggsileSewers.tscn"
-TargetTransitionName = "Area1Entrance"
+TargetTransitionName = "HubArrival"
 Size = 5
 SnapToGrid = true
+
+[node name="HubArrival" type="Area2D" parent="." unique_id=1070456514 instance=ExtResource("2_eirxw")]
+position = Vector2(-640, 320)
+monitorable = false
+script = ExtResource("17_fk1kw")
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubEggsileArea1Gate"
+Size = 4
+Side = 2
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=872314551 instance=ExtResource("18_wgfm5")]
+position = Vector2(-576, 320)
+script = ExtResource("19_vyqwg")
+LocationName = "EggsileArea1 Hub"

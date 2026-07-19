@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="8_warp"]
 [ext_resource type="PackedScene" path="res://levels/LevelTransition.tscn" id="9_lt"]
 [ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="10_sp"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="12_ilcgn"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="13_gtjpm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
 radius = 16.0
@@ -78,11 +80,25 @@ position = Vector2(0, 120)
 
 [node name="KitchenExit" parent="." unique_id=1264428672 instance=ExtResource("9_lt")]
 position = Vector2(400, 0)
-Level = "uid://d203hfawkft4p"
-TargetTransitionName = "KitchenExit"
+Level = "res://levels/courtyard/maps/courtyard.tscn"
+TargetTransitionName = "HubArrival"
 Size = 5
 Side = 3
 
 [node name="SavePoint" parent="." unique_id=1571302655 instance=ExtResource("10_sp")]
 position = Vector2(80, 120)
 LocationName = "Kitchen"
+
+[node name="HubArrival" type="Area2D" parent="." unique_id=1914465870 instance=ExtResource("9_lt")]
+position = Vector2(-640, 320)
+monitorable = false
+script = ExtResource("12_ilcgn")
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubKitchenGate"
+Size = 4
+Side = 2
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=1005046262 instance=ExtResource("10_sp")]
+position = Vector2(-576, 320)
+script = ExtResource("13_gtjpm")
+LocationName = "Kitchen Hub"

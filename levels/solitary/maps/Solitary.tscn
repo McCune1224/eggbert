@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" path="res://components/puzzles/TeleportPad.tscn" id="8_tp"]
 [ext_resource type="PackedScene" path="res://levels/LevelTransition.tscn" id="10_lt"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="11_ct"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="13_gbbbv"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="14_4076p"]
 [ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="20_sp"]
 
 [node name="Solitary" type="Node2D" unique_id=717747014]
@@ -75,10 +77,24 @@ SetFlagsOnFire = PackedStringArray("escaped_solitary")
 [node name="BeachExit" parent="." unique_id=389304321 instance=ExtResource("10_lt")]
 position = Vector2(400, 0)
 Level = "res://levels/overworld/maps/TheGreatBeyond.tscn"
-TargetTransitionName = "GreatBeyondExit"
+TargetTransitionName = "HubArrival"
 Size = 5
 Side = 3
 
 [node name="SavePoint" parent="." unique_id=1262957671 instance=ExtResource("20_sp")]
 position = Vector2(-200, 100)
 LocationName = "Solitary"
+
+[node name="HubArrival" type="Area2D" parent="." unique_id=2046212423 instance=ExtResource("10_lt")]
+position = Vector2(-640, 320)
+monitorable = false
+script = ExtResource("13_gbbbv")
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubSolitaryGate"
+Size = 4
+Side = 2
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=46479266 instance=ExtResource("20_sp")]
+position = Vector2(-576, 320)
+script = ExtResource("14_4076p")
+LocationName = "Solitary Hub"

@@ -5,6 +5,10 @@
 [ext_resource type="Texture2D" path="res://assets/characters/Eggbert.png" id="3_egg"]
 [ext_resource type="TileSet" path="res://assets/tilemaps/stone-interior_tileset.tres" id="3_ucr8f"]
 [ext_resource type="Script" path="res://levels/home/HomeEndingTrigger.cs" id="4_trigger"]
+[ext_resource type="PackedScene" path="res://levels/LevelTransition.tscn" id="6_myri4"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="7_yxf7k"]
+[ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="8_w7xrp"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="9_cqwe4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_npc"]
 size = Vector2(20, 28)
@@ -54,3 +58,17 @@ shape = SubResource("RectangleShape2D_trigger")
 
 [node name="Checkpoint" type="Marker2D" parent="." unique_id=1750532039]
 position = Vector2(0, 80)
+
+[node name="HubArrival" type="Area2D" parent="." unique_id=1475335191 instance=ExtResource("6_myri4")]
+position = Vector2(-640, 320)
+monitorable = false
+script = ExtResource("7_yxf7k")
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubHomeGate"
+Size = 4
+Side = 2
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=91029797 instance=ExtResource("8_w7xrp")]
+position = Vector2(-576, 320)
+script = ExtResource("9_cqwe4")
+LocationName = "Home Hub"

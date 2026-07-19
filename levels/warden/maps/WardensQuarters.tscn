@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" path="res://levels/LevelTransition.tscn" id="7_lt"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="8_ct"]
 [ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="10_sp"]
+[ext_resource type="Script" path="res://levels/LevelTransition.cs" id="11_sbtt3"]
+[ext_resource type="Script" path="res://saves/SavePoint.cs" id="12_sbekt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
 size = Vector2(80, 64)
@@ -77,10 +79,24 @@ position = Vector2(-300, 160)
 
 [node name="ExitTransition" parent="." unique_id=1290610448 instance=ExtResource("7_lt")]
 position = Vector2(-300, -200)
-Level = "uid://d203hfawkft4p"
-TargetTransitionName = "WardensQuartersExit"
+Level = "res://levels/courtyard/maps/courtyard.tscn"
+TargetTransitionName = "HubArrival"
 Size = 5
 
 [node name="SavePoint" parent="." unique_id=554094800 instance=ExtResource("10_sp")]
 position = Vector2(-260, 160)
 LocationName = "Warden's Quarters"
+
+[node name="HubArrival" type="Area2D" parent="." unique_id=1094818652 instance=ExtResource("7_lt")]
+position = Vector2(-640, 320)
+monitorable = false
+script = ExtResource("11_sbtt3")
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubWardensQuartersGate"
+Size = 4
+Side = 2
+
+[node name="HubSavePoint" type="Area2D" parent="." unique_id=566985585 instance=ExtResource("10_sp")]
+position = Vector2(-576, 320)
+script = ExtResource("12_sbekt")
+LocationName = "WardensQuarters Hub"
