@@ -75,7 +75,7 @@ WarpId = "eggsile_sewers"
 
 [node name="Area1Exit" parent="." unique_id=1192077547 instance=ExtResource("8_lt")]
 position = Vector2(320, 360)
-Level = "uid://depdaleq10rfx"
+Level = "res://levels/eggsile/maps/area1.tscn"
 TargetTransitionName = "SewersEntrance"
 Size = 5
 Side = 1

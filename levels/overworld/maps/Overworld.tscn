@@ -630,7 +630,7 @@ Voice = SubResource("Resource_r2lff")
 
 [node name="RightWalkwayTransition" parent="." unique_id=1763621704 instance=ExtResource("10_45llo")]
 position = Vector2(614.511, -44)
-Level = "uid://depdaleq10rfx"
+Level = "res://levels/eggsile/maps/area1.tscn"
 TargetTransitionName = "LeftHallwayTransition"
 Size = 7
 Side = 3
@@ -638,7 +638,7 @@ SnapToGrid = true
 
 [node name="DummyDown" parent="." unique_id=499587909 instance=ExtResource("10_45llo")]
 position = Vector2(254.871, 15)
-Level = "uid://depdaleq10rfx"
+Level = "res://levels/eggsile/maps/area1.tscn"
 TargetTransitionName = "DummyUp"
 Size = 7
 Side = 1
