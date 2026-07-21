@@ -1,20 +1,20 @@
 using Godot;
 
-public partial class TutorialControlsOverlay : CanvasLayer
+public partial class TutorialControlsOverlay : Node2D
 {
     private const float FadeDelaySeconds = 8.0f;
     private PanelContainer _panel;
 
     public override void _Ready()
     {
-        Layer = 100;
+        ZIndex = 100;
 
         _panel = new PanelContainer
         {
             MouseFilter = Control.MouseFilterEnum.Ignore,
             CustomMinimumSize = new Vector2(280f, 104f),
             Size = new Vector2(280f, 104f),
-            Position = new Vector2(180f, 16f)
+            Position = Vector2.Zero
         };
 
         var panelStyle = new StyleBoxFlat

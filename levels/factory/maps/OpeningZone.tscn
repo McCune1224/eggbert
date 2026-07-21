@@ -28,6 +28,8 @@
 [ext_resource type="PackedScene" path="res://components/puzzles/TimedDoor.tscn" id="26_l5j7c"]
 [ext_resource type="Script" path="res://components/puzzles/TimedDoor.cs" id="27_n8p1f"]
 [ext_resource type="Script" path="res://components/puzzles/SequencePuzzle.cs" id="28_q7v5m"]
+[ext_resource type="Script" path="res://ui/TutorialControlsOverlay.cs" id="29_4ctrs"]
+
 
 
 
@@ -283,6 +285,10 @@ SetFlagsOnFire = PackedStringArray("tutorial_clocked_out")
 
 [node name="ClockCollision" type="CollisionShape2D" parent="TimeClock" unique_id=1514152143]
 shape = SubResource("CircleShape2D_gdflg")
+
+[node name="TutorialControlsOverlay" type="Node2D" parent="." unique_id=2000000028]
+position = Vector2(180, 16)
+script = ExtResource("29_4ctrs")
 
 [node name="TimeClockLabel" type="Label" parent="." unique_id=987928046]
 modulate = Color(0.86, 0.78, 0.58, 1)
