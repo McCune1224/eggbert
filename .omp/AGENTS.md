@@ -52,6 +52,12 @@ See LOGGING.md for the full logging reference. Quick facts:
 - **Bridge:** `GameLogBridge` captures engine errors to file
 - **Init:** `GameLogger.InitializeFromEnv()` in `boot/GameInit.cs`
 
+## Verification workflow
+- Prefer test-driven changes for behavior. Write the smallest targeted verification script before or alongside the code change when practical.
+- For scene/layout changes, use a GDScript verifier that instantiates the scene and checks node names, positions, exported properties, and resource references. Keep it headless when `_Ready()` side effects are irrelevant; add the scene to the tree only when `_Ready()` behavior is what you're proving.
+- Run `godot --headless --path . --script <verifier>` and `dotnet build` before commit.
+
+
 ## Conventions
 - C# only for game code. GDScript in addons/ only (AsepriteWizard).
 - No tests, no CI.

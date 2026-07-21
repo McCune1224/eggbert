@@ -2,11 +2,11 @@ using Godot;
 
 public partial class WarpPoint : Area2D
 {
-    [Export] public string WarpId = "";
+	[Export] public string WarpId = "";
 
-    private Area2D _promptArea;
-    private bool _playerNear = false;
-    private bool _unlocked = false;
+	private Area2D _promptArea;
+	private bool _playerNear = false;
+	private bool _unlocked = false;
 
 	public override void _Ready()
 	{

@@ -2,7 +2,6 @@ using Godot;
 
 public partial class TutorialControlsOverlay : Node2D
 {
-    private const float FadeDelaySeconds = 8.0f;
     private PanelContainer _panel;
 
     public override void _Ready()
@@ -54,18 +53,5 @@ public partial class TutorialControlsOverlay : Node2D
         label.AddThemeColorOverride("font_color", new Color(1f, 1f, 1f, 1f));
         label.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
         _panel.AddChild(label);
-
-        var timer = GetTree().CreateTimer(FadeDelaySeconds);
-        timer.Timeout += OnFadeTimerTimeout;
-    }
-
-    private void OnFadeTimerTimeout()
-    {
-        if (!IsInsideTree() || _panel == null || !GodotObject.IsInstanceValid(_panel))
-            return;
-
-        var tween = CreateTween();
-        tween.TweenProperty(_panel, "modulate", new Color(1f, 1f, 1f, 0f), 0.4f);
-        tween.TweenCallback(Callable.From(QueueFree));
     }
 }

@@ -574,7 +574,7 @@ text = "LostShoe"
 position = Vector2(1472, 128)
 script = ExtResource("25_r4h0d")
 TargetDoorPath = NodePath("../LoadingTimedGate")
-Latching = true
+Latching = false
 
 [node name="LoadingTimedGateLabel" type="Label" parent="." unique_id=2000000008]
 modulate = Color(0.86, 0.78, 0.58, 1)

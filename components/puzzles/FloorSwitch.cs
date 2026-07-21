@@ -61,6 +61,8 @@ public partial class FloorSwitch : Area2D
             GameLogger.Info("FloorSwitch", $"'{Name}': released");
             if (!Latching || !_hasTriggered)
                 _targetDoor?.Close();
+            if (!Latching)
+                _hasTriggered = false;
         }
     }
 
