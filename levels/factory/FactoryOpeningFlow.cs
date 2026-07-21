@@ -8,6 +8,7 @@ using Godot;
 public partial class FactoryOpeningFlow : Node
 {
     private const string OpeningScenePath = "res://levels/factory/maps/OpeningZone.tscn";
+    private const string TutorialControlsShownFlag = "tutorial_controls_shown";
     private const string EggsileScenePath = "res://levels/eggsile/maps/area1.tscn";
     private const string ArrestedFlag = "arrested";
     private static readonly string[] ArrestDialogLines =
@@ -25,6 +26,7 @@ public partial class FactoryOpeningFlow : Node
 
 
 
+    private TutorialControlsOverlay _controlsOverlay;
     private bool _awaitingArrestTransfer;
 
     public override void _Ready()
@@ -45,8 +47,30 @@ public partial class FactoryOpeningFlow : Node
     {
         _awaitingArrestTransfer = false;
 
+        if (_controlsOverlay != null && !GodotObject.IsInstanceValid(_controlsOverlay))
+            _controlsOverlay = null;
+
         if (GameController.Instance.CurrentLevel?.SceneFilePath != OpeningScenePath)
+        {
+            ClearTutorialControlsOverlay();
             return;
+        }
+
+        if (!WorldFlags.Instance.HasFlag(TutorialControlsShownFlag) && _controlsOverlay == null)
+        {
+            WorldFlags.Instance.SetFlag(TutorialControlsShownFlag, true);
+
+            _controlsOverlay = new TutorialControlsOverlay();
+            var overlay = _controlsOverlay;
+            overlay.TreeExiting += () =>
+            {
+                if (_controlsOverlay == overlay)
+                    _controlsOverlay = null;
+            };
+
+            GetTree().Root.AddChild(overlay);
+            GameLogger.Info("FactoryOpening", "Tutorial controls overlay shown for OpeningZone.");
+        }
 
         foreach (var exitName in OpeningExitNames)
         {
@@ -79,6 +103,14 @@ public partial class FactoryOpeningFlow : Node
         _awaitingArrestTransfer = !WorldFlags.Instance.HasFlag(ArrestedFlag);
         GameLogger.Info("FactoryOpening", "Factory tutorial configured — Eggs Isle exit gated until the arrest.");
     }
+    private void ClearTutorialControlsOverlay()
+    {
+        if (_controlsOverlay != null && GodotObject.IsInstanceValid(_controlsOverlay))
+            _controlsOverlay.QueueFree();
+
+        _controlsOverlay = null;
+    }
+
 
     private void TransferAfterArrest()
     {

@@ -17,29 +17,6 @@ TargetNode = null
 AnimationNode = null
 SetFlagValue = null
 
-[sub_resource type="Resource" id="Resource_tjkvb"]
-script = ExtResource("2_pyn7a")
-Condition = SubResource("Resource_oc5h1")
-DialogLines = PackedStringArray("Jamitor: Walk with W A S D. Hold SHIFT when a normal walk will not get you out of a jam.")
-TargetNode = null
-AnimationNode = null
-SetFlagValue = null
-
-[sub_resource type="Resource" id="Resource_usx0c"]
-script = ExtResource("2_pyn7a")
-Condition = SubResource("Resource_oc5h1")
-DialogLines = PackedStringArray("Jamitor: Tap SPACE to dash. Great for deadlines, puddles, and conversations about overtime.")
-TargetNode = null
-AnimationNode = null
-SetFlagValue = null
-
-[sub_resource type="Resource" id="Resource_snlxf"]
-script = ExtResource("2_pyn7a")
-Condition = SubResource("Resource_oc5h1")
-DialogLines = PackedStringArray("Jamitor: Press E near folks, signs, or anything with the confidence to have an opinion.")
-TargetNode = null
-AnimationNode = null
-SetFlagValue = null
 
 [sub_resource type="Resource" id="Resource_6pnee"]
 script = ExtResource("2_pyn7a")
@@ -156,4 +133,4 @@ SetFlagValue = null
 
 [resource]
 script = ExtResource("3_6vldm")
-Steps = [SubResource("Resource_s6w3d"), SubResource("Resource_tjkvb"), SubResource("Resource_usx0c"), SubResource("Resource_snlxf"), SubResource("Resource_6pnee"), SubResource("Resource_2l4qx"), SubResource("Resource_j6kwp"), SubResource("Resource_piic8"), SubResource("Resource_eftdu"), SubResource("Resource_cbnv7"), SubResource("Resource_wf5mj"), SubResource("Resource_8yvex"), SubResource("Resource_i0vak"), SubResource("Resource_80br4")]
+Steps = [SubResource("Resource_s6w3d"), SubResource("Resource_6pnee"), SubResource("Resource_2l4qx"), SubResource("Resource_j6kwp"), SubResource("Resource_piic8"), SubResource("Resource_eftdu"), SubResource("Resource_cbnv7"), SubResource("Resource_wf5mj"), SubResource("Resource_8yvex"), SubResource("Resource_i0vak"), SubResource("Resource_80br4")]
