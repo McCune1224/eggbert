@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://kn5v0wdsjg5u"]
+[gd_scene load_steps=16 format=3 uid="uid://kn5v0wdsjg5u"]
 
 [ext_resource type="Script" uid="uid://bwj7bsgjwenk1" path="res://autoload/player/Player.cs" id="1_ctseg"]
 [ext_resource type="Texture2D" uid="uid://dqpt8w883lujc" path="res://assets/characters/Eggbert2.png" id="2_e1ie6"]
 [ext_resource type="Script" uid="uid://bir1phaqnfct3" path="res://autoload/player/PlayerCamera.cs" id="3_5qvdk"]
 [ext_resource type="PackedScene" uid="uid://bgqvlvkq1brrl" path="res://autoload/player/animations/Dash.tscn" id="4_ay7ub"]
+[ext_resource type="Script" path="res://components/core/PlayerInteractionPrompt.cs" id="5_prompt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1ie6"]
 size = Vector2(25.2354, 27.5884)
@@ -152,6 +153,8 @@ _data = {
 script = ExtResource("1_ctseg")
 
 [node name="Dash" parent="." instance=ExtResource("4_ay7ub")]
+[node name="InteractionPrompt" type="Sprite2D" parent="."]
+script = ExtResource("5_prompt")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

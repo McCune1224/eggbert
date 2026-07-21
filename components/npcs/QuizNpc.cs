@@ -49,14 +49,18 @@ public partial class QuizNpc : Area2D
     {
         if (!body.IsInGroup("player")) return;
         _playerInRange = true;
+
         if (Mode == TriggerMode.OnEnter)
             _ = RunQuiz();
+        else
+            UpdateInteractionPrompt();
     }
 
     private void OnBodyExited(Node2D body)
     {
         if (!body.IsInGroup("player")) return;
         _playerInRange = false;
+        UpdateInteractionPrompt();
     }
 
     public override void _Input(InputEvent @event)
@@ -74,6 +78,7 @@ public partial class QuizNpc : Area2D
         if (CutsceneController.Instance.IsPlaying) return;
         _busy = true;
         Player.Instance.InInteraction = true;
+        UpdateInteractionPrompt();
 
         try
         {
@@ -135,7 +140,20 @@ public partial class QuizNpc : Area2D
         {
             _busy = false;
             Player.Instance.InInteraction = false;
+            UpdateInteractionPrompt();
         }
+    }
+    private bool ShouldShowInteractionPrompt()
+    {
+        return Mode == TriggerMode.OnInteract &&
+               _playerInRange &&
+               !_busy &&
+               (string.IsNullOrEmpty(OnceFlag) || !WorldFlags.Instance.HasFlag(OnceFlag));
+    }
+
+    private void UpdateInteractionPrompt()
+    {
+        Player.Instance?.InteractionPrompt?.SetInteractableAvailable(this, ShouldShowInteractionPrompt());
     }
 
     private async System.Threading.Tasks.Task Say(string[] lines)

@@ -31,24 +31,11 @@ public partial class CutsceneTrigger : InteractableArea
 
     [Signal]
     public delegate void TriggeredEventHandler();
-
-    private Sprite2D _npcSprite;
     private bool _hasFired = false;
-    private bool _promptPositioned = false;
+
 
     public override void _Ready()
     {
-        // Find NPC sprite sibling for prompt positioning
-        foreach (Node sibling in GetParent().GetChildren())
-        {
-            if (sibling is Sprite2D s && sibling.Name != "Sprite2D")
-            {
-                _npcSprite = s;
-                break;
-            }
-        }
-
-        // Call base AFTER finding npcSprite so PositionPromptAboveNpc can use it
         base._Ready();
 
         if (Engine.IsEditorHint())
@@ -77,33 +64,33 @@ public partial class CutsceneTrigger : InteractableArea
     protected override void OnBodyEntered(Node2D body)
     {
         if (!body.IsInGroup("player")) return;
-        PlayerInRange = true;
 
         if (Mode == TriggerMode.OnEnter)
         {
+            PlayerInRange = true;
             GameLogger.Debug("CutsceneTrigger", $"'{Name}': player entered — OnEnter trigger mode");
             Fire();
             return;
         }
 
-        if (PromptSprite != null && GodotObject.IsInstanceValid(PromptSprite))
-        {
-            if (!_promptPositioned && _npcSprite != null)
-                PositionPromptAboveNpc();
-            PromptSprite.Visible = true;
-        }
+        base.OnBodyEntered(body);
     }
 
     protected override void OnBodyExited(Node2D body)
     {
         if (!body.IsInGroup("player")) return;
-        PlayerInRange = false;
 
-        if (PromptSprite != null && GodotObject.IsInstanceValid(PromptSprite))
-            PromptSprite.Visible = false;
+        if (Mode == TriggerMode.OnEnter)
+        {
+            PlayerInRange = false;
 
-        if (!CutsceneController.Instance.IsPlaying)
-            DialogManager.Instance.Reset();
+            if (!CutsceneController.Instance.IsPlaying)
+                DialogManager.Instance.Reset();
+
+            return;
+        }
+
+        base.OnBodyExited(body);
     }
 
     protected override void OnInteract()
@@ -184,26 +171,4 @@ public partial class CutsceneTrigger : InteractableArea
         DialogManager.Instance.StartDialog(new List<string> { ChoiceResponses[choice] }, Voice);
     }
 
-    private void PositionPromptAboveNpc()
-    {
-        float frameHeight = _npcSprite.GetRect().Size.Y;
-        float topEdge = _npcSprite.Centered ? -frameHeight / 2f : 0f;
-        float promptY = topEdge - 4f;
-        PromptSprite.Position = new Vector2(0, promptY);
-        _promptPositioned = true;
-    }
-
-    public bool IsPromptVisible() => PromptSprite?.Visible ?? false;
-
-    public void HidePrompt()
-    {
-        if (PromptSprite != null)
-            PromptSprite.Visible = false;
-    }
-
-    public void ShowPrompt()
-    {
-        if (PromptSprite != null)
-            PromptSprite.Visible = true;
-    }
 }

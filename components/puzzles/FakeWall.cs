@@ -47,6 +47,8 @@ public partial class FakeWall : StaticBody2D
             _triggerArea.BodyEntered += OnProximityEntered;
             _triggerArea.BodyExited += OnProximityExited;
         }
+
+        UpdateInteractionPrompt();
     }
 
     public override string[] _GetConfigurationWarnings()
@@ -76,18 +78,21 @@ public partial class FakeWall : StaticBody2D
     {
         if (!body.IsInGroup("player")) return;
         _playerNear = true;
+        UpdateInteractionPrompt();
     }
 
     private void OnProximityExited(Node2D body)
     {
         if (!body.IsInGroup("player")) return;
         _playerNear = false;
+        UpdateInteractionPrompt();
     }
 
     private void Reveal()
     {
         if (_revealed) return;
         _revealed = true;
+        UpdateInteractionPrompt();
 
         if (_collision != null)
             _collision.Disabled = true;
@@ -99,5 +104,9 @@ public partial class FakeWall : StaticBody2D
             CutsceneController.Instance.StartDialog(RevealDialogLines, RevealVoice);
 
         GameLogger.Debug("FakeWall", $"Fake wall '{Name}' revealed.");
+    }
+    private void UpdateInteractionPrompt()
+    {
+        Player.Instance?.InteractionPrompt?.SetInteractableAvailable(this, RequireInteract && _playerNear && !_revealed);
     }
 }

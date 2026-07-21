@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bqwe0fl4n2y1p"]
 
 [ext_resource type="Script" path="res://components/npcs/ReadableObject.cs" id="1_pxk0n"]
-[ext_resource type="Texture2D" uid="uid://l00ofsfnsxb4" path="res://assets/ui/NPCPrompt.png" id="2_6a2y7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1cak7"]
 radius = 48.0
@@ -12,9 +11,3 @@ script = ExtResource("1_pxk0n")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_1cak7")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture_filter = 1
-scale = Vector2(0.993777, 1)
-texture = ExtResource("2_6a2y7")
-centered = false
-offset = Vector2(-8, -16)

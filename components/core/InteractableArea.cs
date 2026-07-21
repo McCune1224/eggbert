@@ -13,24 +13,12 @@ public abstract partial class InteractableArea : Area2D
 {
     [Export] public DialogVoiceResource Voice { get; set; }
 
-    protected Sprite2D PromptSprite { get; private set; }
     protected bool PlayerInRange { get; set; } = false;
 
     public override void _Ready()
     {
         CollisionLayer = 0;
         CollisionMask = CollisionConfig.PlayerLayer;
-
-        PromptSprite = GetNodeOrNull<Sprite2D>("Sprite2D");
-        if (PromptSprite != null)
-        {
-            PromptSprite.Visible = false;
-            if (!Settings.ShowInteractionPrompt)
-            {
-                PromptSprite.QueueFree();
-                PromptSprite = null;
-            }
-        }
 
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
@@ -50,9 +38,7 @@ public abstract partial class InteractableArea : Area2D
     {
         if (!body.IsInGroup("player")) return;
         PlayerInRange = true;
-
-        if (PromptSprite != null && GodotObject.IsInstanceValid(PromptSprite))
-            PromptSprite.Visible = true;
+        Player.Instance?.InteractionPrompt?.SetInteractableAvailable(this, true);
 
         GameLogger.Debug("InteractableArea", $"'{Name}': player entered range");
     }
@@ -61,9 +47,7 @@ public abstract partial class InteractableArea : Area2D
     {
         if (!body.IsInGroup("player")) return;
         PlayerInRange = false;
-
-        if (PromptSprite != null && GodotObject.IsInstanceValid(PromptSprite))
-            PromptSprite.Visible = false;
+        Player.Instance?.InteractionPrompt?.SetInteractableAvailable(this, false);
 
         if (!CutsceneController.Instance.IsPlaying)
             DialogManager.Instance.Reset();

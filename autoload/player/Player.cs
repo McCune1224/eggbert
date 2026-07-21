@@ -27,6 +27,7 @@ public partial class Player : CharacterBody2D, ISavable
     public HealthComponent HealthComponent { get; private set; }
     public ParryComponent Parry { get; private set; }
 
+    public PlayerInteractionPrompt InteractionPrompt { get; private set; }
 
     public Array<Node2D> GetCollidingBodies()
     {
@@ -58,6 +59,7 @@ public partial class Player : CharacterBody2D, ISavable
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
         _dash = GetNode<Dash>("Dash");
         Camera = GetNode<PlayerCamera>("PlayerCamera");
+        InteractionPrompt = GetNode<PlayerInteractionPrompt>("InteractionPrompt");
 
         HealthComponent = GetNodeOrNull<HealthComponent>("HealthComponent");
         if (HealthComponent == null)

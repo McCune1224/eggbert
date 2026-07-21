@@ -2,27 +2,20 @@ using Godot;
 
 public partial class WarpPoint : Area2D
 {
-	[Export] public string WarpId = "";
-	[Export] public string PromptText = "Press E to unlock warp";
+    [Export] public string WarpId = "";
 
-	private Area2D _promptArea;
-	private Label _interactionLabel;
-	private Sprite2D _promptSprite;
-	private bool _unlocked = false;
+    private Area2D _promptArea;
+    private bool _playerNear = false;
+    private bool _unlocked = false;
 
 	public override void _Ready()
 	{
 		_unlocked = WarpDatabase.IsUnlocked(WarpId);
 		_promptArea = GetNode<Area2D>("PromptArea2D");
-		_interactionLabel = _promptArea.GetNode<Label>("Label");
-		_promptSprite = _promptArea.GetNode<Sprite2D>("Sprite2D");
-
-		_promptSprite.Visible = false;
 		_promptArea.BodyEntered += OnBodyEntered;
 		_promptArea.BodyExited += OnBodyExited;
 
-		if (_unlocked)
-			HidePrompt();
+		UpdateInteractionPrompt();
 
 		var crystal = GetNode<ColorRect>("WarpCrystal");
 		var floatTween = CreateTween().SetLoops();
@@ -38,43 +31,37 @@ public partial class WarpPoint : Area2D
 	{
 		if (!body.IsInGroup("player"))
 			return;
-		ShowPrompt();
+
+		_playerNear = true;
+		UpdateInteractionPrompt();
 	}
 
 	private void OnBodyExited(Node2D body)
 	{
 		if (!body.IsInGroup("player"))
 			return;
-		HidePrompt();
+
+		_playerNear = false;
+		UpdateInteractionPrompt();
 	}
 
 	public override void _Process(double delta)
 	{
 		if (_unlocked) return;
-		if (IsPromptVisible() && Input.IsActionJustPressed("interact"))
+		if (_playerNear && Input.IsActionJustPressed("interact"))
 		{
 			_unlocked = true;
 			WarpDatabase.Unlock(WarpId);
-			HidePrompt();
+			UpdateInteractionPrompt();
 			GameLogger.Info("WarpPoint", $"'{Name}': unlocked (id='{WarpId}')");
 			if (WarpDatabase.All.TryGetValue(WarpId, out var dest))
 				DialogManager.Instance.StartDialog(
 					new System.Collections.Generic.List<string> { $"Warp unlocked: {dest.Name}" });
 		}
 	}
-
-	public bool IsPromptVisible() => _interactionLabel?.Visible ?? false;
-
-	public void HidePrompt()
+	private void UpdateInteractionPrompt()
 	{
-		_interactionLabel.Visible = false;
-		_promptSprite.Visible = false;
+		Player.Instance?.InteractionPrompt?.SetInteractableAvailable(this, _playerNear && !_unlocked);
 	}
 
-	public void ShowPrompt()
-	{
-		_interactionLabel.Visible = true;
-		_interactionLabel.Text = PromptText;
-		_promptSprite.Visible = true;
-	}
 }

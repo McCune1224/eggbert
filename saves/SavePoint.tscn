@@ -19,10 +19,6 @@ modulate = Color(1, 0.9, 0.4, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_jax6u")
 
-[node name="Prompt" type="Sprite2D" parent="."]
-texture = ExtResource("2_prompt")
-scale = Vector2(0.5, 0.5)
-
 [node name="SaveLabel" type="Label" parent="."]
 offset_left = -64.0
 offset_top = -16.0
