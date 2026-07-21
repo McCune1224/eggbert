@@ -569,8 +569,12 @@ public partial class OverworldMenu : CanvasLayer
 
     private void OnPinPressed()
     {
-        if (!string.IsNullOrEmpty(_selectedQuestId))
+        QuestDefinition pinned = QuestManager.Instance.GetPinnedQuest();
+        if (pinned != null && pinned.Id == _selectedQuestId)
+            QuestManager.Instance.UnpinQuest();
+        else if (!string.IsNullOrEmpty(_selectedQuestId))
             QuestManager.Instance.PinQuest(_selectedQuestId);
+
         RefreshQuestData();
     }
 
@@ -654,7 +658,9 @@ public partial class OverworldMenu : CanvasLayer
         _objectivesLabel.Text = string.Join("\n", objectiveLines);
 
         QuestDefinition pinned = QuestManager.Instance.GetPinnedQuest();
-        _pinButton.Disabled = status != QuestStatus.Active || pinned == quest;
+        bool isPinned = pinned == quest;
+        _pinButton.Text = isPinned ? "Unpin from HUD" : "Pin to HUD";
+        _pinButton.Disabled = status != QuestStatus.Active;
     }
 
     // --- Settings ---

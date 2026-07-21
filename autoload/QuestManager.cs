@@ -97,11 +97,11 @@ public partial class QuestManager : Node
     {
         EnsureValidation();
         if (WorldFlags.Instance == null)
-            return FirstActiveQuest();
+            return null;
 
         string pinnedId = WorldFlags.Instance.GetFlag(PinnedQuestFlag, "").AsString();
         QuestDefinition pinned = GetQuest(pinnedId);
-        return GetStatus(pinned) == QuestStatus.Active ? pinned : FirstActiveQuest();
+        return GetStatus(pinned) == QuestStatus.Active ? pinned : null;
     }
 
     public void PinQuest(string questId)
@@ -114,6 +114,11 @@ public partial class QuestManager : Node
         }
 
         WorldFlags.Instance.SetFlag(PinnedQuestFlag, quest.Id);
+    }
+
+    public void UnpinQuest()
+    {
+        WorldFlags.Instance.ClearFlag(PinnedQuestFlag);
     }
 
     public override string[] _GetConfigurationWarnings()

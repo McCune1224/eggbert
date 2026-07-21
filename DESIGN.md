@@ -64,7 +64,7 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - **Skip**: Key rebinding
 
 ### Quests
-- **Editor-authored ordered objectives backed by WorldFlags**. Multiple linear quests can be active concurrently; the overworld shows one pinned current objective and the pause menu provides active/completed quest log entries. Guidance remains text-only: no map markers, paths, distance indicators, rewards, timers, or branching graphs.
+- **Editor-authored ordered objectives backed by WorldFlags**. Multiple linear quests can be active concurrently; the player can pin or unpin one current objective from the pause-menu quest log for the overworld HUD, which also provides active/completed quest entries. Guidance remains text-only: no map markers, paths, distance indicators, rewards, timers, or branching graphs.
 
 ### Inventory
 - **Categories**: Key Items (story), Consumables (overworld healing), Equipment (1–2 slots, stat boosts)
