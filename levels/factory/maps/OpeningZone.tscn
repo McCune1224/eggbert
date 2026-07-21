@@ -20,6 +20,14 @@
 [ext_resource type="Script" path="res://components/items/PickupItem.cs" id="18_o6d02"]
 [ext_resource type="PackedScene" path="res://components/npcs/ReadableObject.tscn" id="19_65yjt"]
 [ext_resource type="Script" path="res://components/npcs/ReadableObject.cs" id="20_ek3hw"]
+[ext_resource type="PackedScene" path="res://components/puzzles/WeightedPressurePlate.tscn" id="21_z4n3k"]
+[ext_resource type="Script" path="res://components/puzzles/WeightedPressurePlate.cs" id="22_b7p9m"]
+[ext_resource type="PackedScene" path="res://components/puzzles/Door.tscn" id="23_t1k6q"]
+[ext_resource type="PackedScene" path="res://components/puzzles/FloorSwitch.tscn" id="24_m8v2s"]
+[ext_resource type="Script" path="res://components/puzzles/FloorSwitch.cs" id="25_r4h0d"]
+[ext_resource type="PackedScene" path="res://components/puzzles/TimedDoor.tscn" id="26_l5j7c"]
+[ext_resource type="Script" path="res://components/puzzles/TimedDoor.cs" id="27_n8p1f"]
+
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_00us6"]
 size = Vector2(2048, 32)
@@ -68,6 +76,12 @@ radius = 20.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_la8qr"]
 radius = 20.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m9v2q"]
+size = Vector2(32, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x8c4d"]
+size = Vector2(32, 224)
 
 [node name="OpeningZone" type="Node2D" unique_id=1239968956]
 script = ExtResource("1_ladi7")
@@ -278,18 +292,30 @@ position = Vector2(576, 0)
 position = Vector2(1120, 0)
 script = ExtResource("15_cwj7g")
 DirectionalMode = true
+[node name="CratePressurePlate" type="Area2D" parent="." unique_id=2000000001 instance=ExtResource("21_z4n3k")]
+position = Vector2(1120, -80)
+script = ExtResource("22_b7p9m")
+TargetDoorPath = NodePath("../CrateGate")
 
-[node name="CrateClearTrigger" type="Area2D" parent="." unique_id=1220911956 instance=ExtResource("11_5y405")]
-position = Vector2(1184, 0)
-script = ExtResource("12_xrdls")
-Mode = 1
-Once = true
-CutsceneId = "tutorial_crate_cleared"
-DialogLines = PackedStringArray("The crate slides into a maintenance nook. A supervisor-shaped stain on the floor looks disappointed.")
-SetFlagsOnFire = PackedStringArray("tutorial_crate_cleared")
 
-[node name="CrateClearCollision" type="CollisionShape2D" parent="CrateClearTrigger" unique_id=1072556690]
-shape = SubResource("RectangleShape2D_nd5w8")
+[node name="CrateGate" type="StaticBody2D" parent="." unique_id=2000000002 instance=ExtResource("23_t1k6q")]
+position = Vector2(1392, 0)
+
+[node name="CrateGateNorthWall" type="StaticBody2D" parent="." unique_id=2000000003]
+position = Vector2(1392, -64)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CrateGateNorthWall" unique_id=2000000004]
+shape = SubResource("RectangleShape2D_m9v2q")
+
+[node name="CrateGateSouthWall" type="StaticBody2D" parent="." unique_id=2000000005]
+position = Vector2(1392, 64)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CrateGateSouthWall" unique_id=2000000006]
+shape = SubResource("RectangleShape2D_m9v2q")
 
 [node name="CratePuzzleLabel" type="Label" parent="." unique_id=1667021119]
 modulate = Color(0.86, 0.78, 0.58, 1)
@@ -298,16 +324,18 @@ offset_top = 32.0
 offset_right = 1056.0
 offset_bottom = 32.0
 theme_override_font_sizes/font_size = 10
-text = "CRATE: PUSH NORTH INTO NOOK"
+text = "PUSH CRATE ONTO PRESSURE PLATE"
+
 
 [node name="ArrestCutscene" type="Area2D" parent="." unique_id=1495601670 instance=ExtResource("11_5y405")]
-position = Vector2(1536, 0)
+position = Vector2(1696, 0)
 script = ExtResource("12_xrdls")
 Mode = 1
 Once = true
 CutsceneId = "arrest"
 Cutscene = ExtResource("16_upf65")
 SetFlagsOnFire = PackedStringArray("arrested")
+
 
 [node name="ArrestCollision" type="CollisionShape2D" parent="ArrestCutscene" unique_id=620900074]
 shape = SubResource("RectangleShape2D_585wq")
@@ -409,21 +437,6 @@ offset_bottom = 128.0
 theme_override_font_sizes/font_size = 10
 text = "SuggestionBox"
 
-[node name="ConveyorSafetySign" type="Area2D" parent="." unique_id=986308998 instance=ExtResource("19_65yjt")]
-position = Vector2(928, -160)
-script = ExtResource("20_ek3hw")
-DialogLines = PackedStringArray("SAFETY NOTICE: If the conveyor starts talking, do not negotiate.")
-AlternateLines = PackedStringArray("A fresh addendum says: \'If you did negotiate, ask for dental.\'")
-GateFlag = "tutorial_crate_cleared"
-
-[node name="ConveyorSafetySignLabel" type="Label" parent="." unique_id=1967600775]
-modulate = Color(0.86, 0.78, 0.58, 1)
-offset_left = 888.0
-offset_top = -192.0
-offset_right = 888.0
-offset_bottom = -192.0
-theme_override_font_sizes/font_size = 10
-text = "ConveyorSafetySign"
 
 [node name="MaintenanceDrain" type="Area2D" parent="." unique_id=1406663635 instance=ExtResource("19_65yjt")]
 position = Vector2(1024, 160)
@@ -468,6 +481,43 @@ offset_right = 1432.0
 offset_bottom = 128.0
 theme_override_font_sizes/font_size = 10
 text = "LostShoe"
+[node name="LoadingTimedGateSwitch" type="Area2D" parent="." unique_id=2000000007 instance=ExtResource("24_m8v2s")]
+position = Vector2(1472, 128)
+script = ExtResource("25_r4h0d")
+TargetDoorPath = NodePath("../LoadingTimedGate")
+Latching = true
+
+[node name="LoadingTimedGateLabel" type="Label" parent="." unique_id=2000000008]
+modulate = Color(0.86, 0.78, 0.58, 1)
+offset_left = 1432.0
+offset_top = 96.0
+offset_right = 1432.0
+offset_bottom = 96.0
+theme_override_font_sizes/font_size = 10
+text = "TIMED GATE — SPRINT OR DASH"
+
+[node name="LoadingTimedGate" type="StaticBody2D" parent="." unique_id=2000000009 instance=ExtResource("26_l5j7c")]
+position = Vector2(1600, 0)
+script = ExtResource("27_n8p1f")
+OpenDuration = 1.25
+BlinkBeforeClose = true
+
+[node name="LoadingTimedGateNorthWall" type="StaticBody2D" parent="." unique_id=2000000010]
+position = Vector2(1600, -144)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LoadingTimedGateNorthWall" unique_id=2000000011]
+shape = SubResource("RectangleShape2D_x8c4d")
+
+[node name="LoadingTimedGateSouthWall" type="StaticBody2D" parent="." unique_id=2000000012]
+position = Vector2(1600, 144)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LoadingTimedGateSouthWall" unique_id=2000000013]
+shape = SubResource("RectangleShape2D_x8c4d")
+
 
 [node name="LoadingBayWarning" type="Area2D" parent="." unique_id=1798395619 instance=ExtResource("19_65yjt")]
 position = Vector2(1696, -128)
