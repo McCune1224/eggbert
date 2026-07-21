@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/ObjectiveTracker.cs" id="1_0n6ip"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kj70m"]
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+bg_color = Color(0.08, 0.08, 0.12, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.6, 0.9, 0.65)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="ObjectiveTracker" type="CanvasLayer" unique_id=410642871]
+script = ExtResource("1_0n6ip")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1839393630]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -180.0
+offset_top = 12.0
+offset_right = -12.0
+offset_bottom = 108.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kj70m")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=84345302]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="QuestTitleLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1378155919]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.85, 0.9, 1, 1)
+
+[node name="ObjectiveLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1367337615]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+autowrap_mode = 3

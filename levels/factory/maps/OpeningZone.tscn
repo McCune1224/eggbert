@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" path="res://levels/factory/npcs/FactoryOfficerBacon.tscn" id="17_y4mim"]
 [ext_resource type="Script" path="res://components/items/PickupItem.cs" id="18_o6d02"]
 [ext_resource type="PackedScene" path="res://components/npcs/ReadableObject.tscn" id="19_65yjt"]
+[ext_resource type="Script" path="res://components/puzzles/Door.cs" id="20_5y405"]
 [ext_resource type="Script" path="res://components/npcs/ReadableObject.cs" id="20_ek3hw"]
 [ext_resource type="PackedScene" path="res://components/puzzles/WeightedPressurePlate.tscn" id="21_z4n3k"]
 [ext_resource type="Script" path="res://components/puzzles/WeightedPressurePlate.cs" id="22_b7p9m"]
@@ -29,9 +30,6 @@
 [ext_resource type="Script" path="res://components/puzzles/TimedDoor.cs" id="27_n8p1f"]
 [ext_resource type="Script" path="res://components/puzzles/SequencePuzzle.cs" id="28_q7v5m"]
 [ext_resource type="Script" path="res://ui/TutorialControlsOverlay.cs" id="29_4ctrs"]
-
-
-
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_00us6"]
 size = Vector2(2048, 32)
@@ -69,8 +67,8 @@ size = Vector2(64, 16)
 [sub_resource type="CircleShape2D" id="CircleShape2D_gdflg"]
 radius = 40.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nd5w8"]
-size = Vector2(32, 96)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m9v2q"]
+size = Vector2(32, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_585wq"]
 size = Vector2(64, 352)
@@ -78,20 +76,17 @@ size = Vector2(64, 352)
 [sub_resource type="CircleShape2D" id="CircleShape2D_1lipi"]
 radius = 20.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_la8qr"]
-radius = 20.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_m9v2q"]
-size = Vector2(32, 64)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_x8c4d"]
-size = Vector2(32, 224)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f3k1n"]
 size = Vector2(416, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j4m8t"]
 size = Vector2(32, 32)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_la8qr"]
+radius = 20.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x8c4d"]
+size = Vector2(32, 224)
 
 [node name="OpeningZone" type="Node2D" unique_id=1239968956]
 script = ExtResource("1_ladi7")
@@ -306,14 +301,16 @@ position = Vector2(576, 0)
 position = Vector2(1120, 0)
 script = ExtResource("15_cwj7g")
 DirectionalMode = true
+
 [node name="CratePressurePlate" type="Area2D" parent="." unique_id=2000000001 instance=ExtResource("21_z4n3k")]
 position = Vector2(1120, -80)
 script = ExtResource("22_b7p9m")
 TargetDoorPath = NodePath("../CrateGate")
-
+PushablePressedFlag = "tutorial_crate_gate_open"
 
 [node name="CrateGate" type="StaticBody2D" parent="." unique_id=2000000002 instance=ExtResource("23_t1k6q")]
 position = Vector2(1392, 0)
+script = ExtResource("20_5y405")
 
 [node name="CrateGateNorthWall" type="StaticBody2D" parent="." unique_id=2000000003]
 position = Vector2(1392, -64)
@@ -340,7 +337,6 @@ offset_bottom = 32.0
 theme_override_font_sizes/font_size = 10
 text = "PUSH CRATE ONTO PRESSURE PLATE"
 
-
 [node name="ArrestCutscene" type="Area2D" parent="." unique_id=1495601670 instance=ExtResource("11_5y405")]
 position = Vector2(1696, 0)
 script = ExtResource("12_xrdls")
@@ -349,7 +345,6 @@ Once = true
 CutsceneId = "arrest"
 Cutscene = ExtResource("16_upf65")
 SetFlagsOnFire = PackedStringArray("arrested")
-
 
 [node name="ArrestCollision" type="CollisionShape2D" parent="ArrestCutscene" unique_id=620900074]
 shape = SubResource("RectangleShape2D_585wq")
@@ -377,6 +372,7 @@ text = "HARD-BOILED EGG"
 
 [node name="EggshellRewardDoor" type="StaticBody2D" parent="." unique_id=2000000014 instance=ExtResource("23_t1k6q")]
 position = Vector2(1328, 96)
+script = ExtResource("20_5y405")
 
 [node name="HelmetLockerWestWall" type="StaticBody2D" parent="." unique_id=2000000015]
 position = Vector2(1104, 96)
@@ -478,8 +474,11 @@ offset_right = 408.0
 offset_bottom = 128.0
 theme_override_font_sizes/font_size = 10
 text = "SuggestionBox"
-[node name="SequenceA" parent="." unique_id=2000000020 instance=ExtResource("24_m8v2s")]
+
+[node name="SequenceA" type="Area2D" parent="." unique_id=2000000020 instance=ExtResource("24_m8v2s")]
 position = Vector2(512, -160)
+script = ExtResource("25_r4h0d")
+TargetDoorPath = NodePath("")
 
 [node name="SequenceALabel" type="Label" parent="." unique_id=2000000021]
 modulate = Color(0.86, 0.78, 0.58, 1)
@@ -490,8 +489,10 @@ offset_bottom = -192.0
 theme_override_font_sizes/font_size = 10
 text = "A"
 
-[node name="SequenceB" parent="." unique_id=2000000022 instance=ExtResource("24_m8v2s")]
+[node name="SequenceB" type="Area2D" parent="." unique_id=2000000022 instance=ExtResource("24_m8v2s")]
 position = Vector2(640, -160)
+script = ExtResource("25_r4h0d")
+TargetDoorPath = NodePath("")
 
 [node name="SequenceBLabel" type="Label" parent="." unique_id=2000000023]
 modulate = Color(0.86, 0.78, 0.58, 1)
@@ -502,8 +503,10 @@ offset_bottom = -192.0
 theme_override_font_sizes/font_size = 10
 text = "B"
 
-[node name="SequenceC" parent="." unique_id=2000000024 instance=ExtResource("24_m8v2s")]
+[node name="SequenceC" type="Area2D" parent="." unique_id=2000000024 instance=ExtResource("24_m8v2s")]
 position = Vector2(768, -160)
+script = ExtResource("25_r4h0d")
+TargetDoorPath = NodePath("")
 
 [node name="SequenceCLabel" type="Label" parent="." unique_id=2000000025]
 modulate = Color(0.86, 0.78, 0.58, 1)
@@ -518,14 +521,11 @@ text = "C"
 script = ExtResource("28_q7v5m")
 SwitchSequence = [NodePath("../SequenceC"), NodePath("../SequenceA"), NodePath("../SequenceB")]
 TargetDoorPath = NodePath("../EggshellRewardDoor")
-LatchOnComplete = true
 
 [node name="ShiftOrderClipboard" type="Area2D" parent="." unique_id=2000000027 instance=ExtResource("19_65yjt")]
 position = Vector2(576, -224)
 script = ExtResource("20_ek3hw")
 DialogLines = PackedStringArray("SHIFT ORDER: C, then A, then B. Do not improvise the order.")
-
-
 
 [node name="MaintenanceDrain" type="Area2D" parent="." unique_id=1406663635 instance=ExtResource("19_65yjt")]
 position = Vector2(1024, 160)
@@ -570,11 +570,11 @@ offset_right = 1432.0
 offset_bottom = 128.0
 theme_override_font_sizes/font_size = 10
 text = "LostShoe"
+
 [node name="LoadingTimedGateSwitch" type="Area2D" parent="." unique_id=2000000007 instance=ExtResource("24_m8v2s")]
 position = Vector2(1472, 128)
 script = ExtResource("25_r4h0d")
 TargetDoorPath = NodePath("../LoadingTimedGate")
-Latching = false
 
 [node name="LoadingTimedGateLabel" type="Label" parent="." unique_id=2000000008]
 modulate = Color(0.86, 0.78, 0.58, 1)
@@ -589,7 +589,6 @@ text = "TIMED GATE — SPRINT OR DASH"
 position = Vector2(1600, 0)
 script = ExtResource("27_n8p1f")
 OpenDuration = 1.25
-BlinkBeforeClose = true
 
 [node name="LoadingTimedGateNorthWall" type="StaticBody2D" parent="." unique_id=2000000010]
 position = Vector2(1600, -144)
@@ -606,7 +605,6 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LoadingTimedGateSouthWall" unique_id=2000000013]
 shape = SubResource("RectangleShape2D_x8c4d")
-
 
 [node name="LoadingBayWarning" type="Area2D" parent="." unique_id=1798395619 instance=ExtResource("19_65yjt")]
 position = Vector2(1696, -128)

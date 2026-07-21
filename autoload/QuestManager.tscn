@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://autoload/QuestManager.cs" id="1_qm"]
+[ext_resource type="Resource" path="res://resources/quests/FactoryGateQuest.tres" id="2_yqvp3"]
+
+[node name="QuestManager" type="Node" unique_id=1266630936]
+script = ExtResource("1_qm")
+Quests = [ExtResource("2_yqvp3")]

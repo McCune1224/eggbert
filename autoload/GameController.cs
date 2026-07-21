@@ -32,6 +32,9 @@ public partial class GameController : Node
 			GameLogger.Error("GameController", "Multiple instances of GameController detected!");
 		}
 		_menu = GetNode<Control>("Menu");
+		PackedScene objectiveTracker = ResourceLoader.Load<PackedScene>("res://ui/ObjectiveTracker.tscn");
+		_menu.AddChild(objectiveTracker.Instantiate());
+
 		PackedScene overworldMenu = ResourceLoader.Load<PackedScene>("res://ui/OverworldMenu.tscn");
 		CanvasLayer canvasLayer = new CanvasLayer();
 		canvasLayer.AddChild(overworldMenu.Instantiate());

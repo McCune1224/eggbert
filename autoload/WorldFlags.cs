@@ -12,6 +12,9 @@ public partial class WorldFlags : Node, ISavable
 
     private Dictionary<string, Variant> _flags = new();
 
+    [Signal]
+    public delegate void StateChangedEventHandler();
+
     public override void _Ready()
     {
         if (_instance == null)
@@ -34,6 +37,7 @@ public partial class WorldFlags : Node, ISavable
     {
         _flags[key] = value;
         GameLogger.Debug("WorldFlags", $"Flag set: {key} = {value}");
+        EmitSignal(SignalName.StateChanged);
     }
 
     /// <summary>Get a flag value, or default if not set.</summary>
@@ -51,8 +55,11 @@ public partial class WorldFlags : Node, ISavable
     /// <summary>Remove a flag entirely.</summary>
     public void ClearFlag(string key)
     {
-        _flags.Remove(key);
-        GameLogger.Debug("WorldFlags", $"Flag cleared: {key}");
+        if (_flags.Remove(key))
+        {
+            GameLogger.Debug("WorldFlags", $"Flag cleared: {key}");
+            EmitSignal(SignalName.StateChanged);
+        }
     }
 
     /// <summary>Return all flags (for debug overlay / inspection).</summary>
@@ -66,6 +73,7 @@ public partial class WorldFlags : Node, ISavable
     {
         _flags.Clear();
         GameLogger.Info("WorldFlags", "All flags cleared.");
+        EmitSignal(SignalName.StateChanged);
     }
 
     public string SaveKey => "world_flags";
@@ -85,6 +93,7 @@ public partial class WorldFlags : Node, ISavable
         {
             _flags = new Godot.Collections.Dictionary<string, Variant>(flagsVar.AsGodotDictionary());
             GameLogger.Debug("WorldFlags", $"Deserialize: loaded {_flags.Count} flags");
+            EmitSignal(SignalName.StateChanged);
         }
         else
         {

@@ -57,8 +57,20 @@ public partial class OverworldMenu : CanvasLayer
     private Button _helpBackButton;
     private VBoxContainer _helpVBox;
     private Button _mainMenuButton;
+    // Quest panel
+    private PanelContainer _questPanel;
+    private Button _questsButton;
+    private ItemList _questList;
+    private Label _questTitleLabel;
+    private Label _questDescriptionLabel;
+    private Label _objectivesLabel;
+    private Button _pinButton;
+    private Button _questBackButton;
+    private readonly List<string> _visibleQuestIds = new();
+    private string _selectedQuestId;
 
-    private enum Panel { Main, Settings, Map, Inventory, Help }
+
+    private enum Panel { Main, Settings, Map, Inventory, Help, Quests }
     private Panel _currentPanel = Panel.Main;
 
     public override void _Ready()
@@ -136,6 +148,22 @@ public partial class OverworldMenu : CanvasLayer
         
         _helpButton.Connect("pressed", new Callable(this, nameof(OnHelpPressed)));
         _helpBackButton.Connect("pressed", new Callable(this, nameof(OnHelpBackPressed)));
+
+        // Quest panel
+        _questPanel = GetNode<PanelContainer>("QuestPanel");
+        _questsButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow2/QuestsButton");
+        _questList = GetNode<ItemList>("QuestPanel/VBoxContainer/ContentRow/QuestList");
+        _questTitleLabel = GetNode<Label>("QuestPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox/QuestTitleLabel");
+        _questDescriptionLabel = GetNode<Label>("QuestPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox/QuestDescriptionLabel");
+        _objectivesLabel = GetNode<Label>("QuestPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox/ObjectivesScroll/ObjectivesLabel");
+        _pinButton = GetNode<Button>("QuestPanel/VBoxContainer/ButtonRow/PinButton");
+        _questBackButton = GetNode<Button>("QuestPanel/VBoxContainer/ButtonRow/QuestBackButton");
+        _questsButton.Connect("pressed", new Callable(this, nameof(OnQuestsPressed)));
+        _questList.Connect("item_selected", new Callable(this, nameof(OnQuestSelected)));
+        _pinButton.Connect("pressed", new Callable(this, nameof(OnPinPressed)));
+        _questBackButton.Connect("pressed", new Callable(this, nameof(OnQuestBackPressed)));
+        QuestManager.Instance.QuestStateChanged += OnQuestStateChanged;
+
         
         SetupHelpContent();
         _consumableTab.Connect("pressed", new Callable(this, nameof(OnConsumableTabPressed)));
@@ -149,6 +177,12 @@ public partial class OverworldMenu : CanvasLayer
         GameLogger.Debug("OverworldMenu", "_Ready — setup complete");
     }
 
+    public override void _ExitTree()
+    {
+        if (QuestManager.Instance != null)
+            QuestManager.Instance.QuestStateChanged -= OnQuestStateChanged;
+    }
+
     // --- Panel navigation ---
 
     private void ShowPanel(Panel panel)
@@ -158,6 +192,7 @@ public partial class OverworldMenu : CanvasLayer
         _mapPanel.Visible = panel == Panel.Map;
         _inventoryPanel.Visible = panel == Panel.Inventory;
         _helpPanel.Visible = panel == Panel.Help;
+        _questPanel.Visible = panel == Panel.Quests;
         _currentPanel = panel;
     }
 
@@ -228,6 +263,8 @@ public partial class OverworldMenu : CanvasLayer
                 OnInventoryBackPressed();
             else if (_currentPanel == Panel.Help)
                 OnHelpBackPressed();
+            else if (_currentPanel == Panel.Quests)
+                OnQuestBackPressed();
             else
                 ToggleEscape();
         }
@@ -505,6 +542,119 @@ public partial class OverworldMenu : CanvasLayer
         AudioManager.Instance.PlaySfx(_confirmSfx);
         GetTree().Paused = false;
         GetTree().ChangeSceneToFile("res://ui/MainMenu.tscn");
+    }
+
+    private void OnQuestsPressed()
+    {
+        AudioManager.Instance.PlaySfx(_confirmSfx);
+        RefreshQuestData();
+        ShowPanel(Panel.Quests);
+        _questList.GrabFocus();
+    }
+
+    private void OnQuestBackPressed()
+    {
+        ShowPanel(Panel.Main);
+        _questsButton.GrabFocus();
+    }
+
+    private void OnQuestSelected(long index)
+    {
+        if (index < 0 || index >= _visibleQuestIds.Count)
+            return;
+
+        _selectedQuestId = _visibleQuestIds[(int)index];
+        RenderSelectedQuest();
+    }
+
+    private void OnPinPressed()
+    {
+        if (!string.IsNullOrEmpty(_selectedQuestId))
+            QuestManager.Instance.PinQuest(_selectedQuestId);
+        RefreshQuestData();
+    }
+
+    private void OnQuestStateChanged()
+    {
+        if (_currentPanel == Panel.Quests)
+            RefreshQuestData();
+    }
+
+    private void RefreshQuestData()
+    {
+        string requestedSelection = _selectedQuestId;
+        _visibleQuestIds.Clear();
+        _questList.Clear();
+
+        var active = new List<QuestDefinition>();
+        var completed = new List<QuestDefinition>();
+        foreach (QuestDefinition quest in QuestManager.Instance.Quests)
+        {
+            QuestStatus status = QuestManager.Instance.GetStatus(quest);
+            if (status == QuestStatus.Active)
+                active.Add(quest);
+            else if (status == QuestStatus.Completed)
+                completed.Add(quest);
+        }
+
+        foreach (QuestDefinition quest in active)
+            AddQuestRow(quest, "[Active]");
+        foreach (QuestDefinition quest in completed)
+            AddQuestRow(quest, "[Done]");
+
+        if (_visibleQuestIds.Count == 0)
+        {
+            _questList.AddItem("No quests yet.", null, false);
+            _selectedQuestId = null;
+            _questTitleLabel.Text = "";
+            _questDescriptionLabel.Text = "";
+            _objectivesLabel.Text = "";
+            _pinButton.Disabled = true;
+            return;
+        }
+
+        int selectedIndex = _visibleQuestIds.IndexOf(requestedSelection);
+        if (selectedIndex < 0)
+        {
+            QuestDefinition pinned = QuestManager.Instance.GetPinnedQuest();
+            selectedIndex = pinned == null ? 0 : _visibleQuestIds.IndexOf(pinned.Id);
+            if (selectedIndex < 0)
+                selectedIndex = 0;
+        }
+
+        _questList.Select(selectedIndex);
+        _selectedQuestId = _visibleQuestIds[selectedIndex];
+        RenderSelectedQuest();
+    }
+
+    private void AddQuestRow(QuestDefinition quest, string prefix)
+    {
+        _visibleQuestIds.Add(quest.Id);
+        _questList.AddItem($"{prefix} {quest.Title}");
+    }
+
+    private void RenderSelectedQuest()
+    {
+        QuestDefinition quest = QuestManager.Instance.GetQuest(_selectedQuestId);
+        QuestStatus status = QuestManager.Instance.GetStatus(quest);
+        if (quest == null || status == QuestStatus.Locked)
+            return;
+
+        _questTitleLabel.Text = quest.Title;
+        _questDescriptionLabel.Text = quest.Description;
+        QuestObjective currentObjective = QuestManager.Instance.GetCurrentObjective(quest);
+        var objectiveLines = new List<string>();
+        foreach (QuestObjective objective in quest.Objectives)
+        {
+            string marker = status == QuestStatus.Completed || WorldFlags.Instance.HasFlag(objective.CompletionFlag)
+                ? "✓"
+                : objective == currentObjective ? ">" : "·";
+            objectiveLines.Add($"{marker} {objective.Description}");
+        }
+        _objectivesLabel.Text = string.Join("\n", objectiveLines);
+
+        QuestDefinition pinned = QuestManager.Instance.GetPinnedQuest();
+        _pinButton.Disabled = status != QuestStatus.Active || pinned == quest;
     }
 
     // --- Settings ---

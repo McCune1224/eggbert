@@ -64,7 +64,7 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - **Skip**: Key rebinding
 
 ### Quests
-- **No quest log**. WorldFlags drive everything. NPCs remember what happened, dialog changes accordingly. EarthBound/Undertale style — the world *is* the quest tracker.
+- **Editor-authored ordered objectives backed by WorldFlags**. Multiple linear quests can be active concurrently; the overworld shows one pinned current objective and the pause menu provides active/completed quest log entries. Guidance remains text-only: no map markers, paths, distance indicators, rewards, timers, or branching graphs.
 
 ### Inventory
 - **Categories**: Key Items (story), Consumables (overworld healing), Equipment (1–2 slots, stat boosts)
@@ -122,7 +122,6 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 
 ## Excluded (unless future need)
 
-- Quest log UI
 - Party/companion system
 - Key rebinding
 - Multiple save slots

@@ -21,8 +21,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameController="*res://autoload/GameController.tscn"
 WorldFlags="*res://autoload/WorldFlags.tscn"
+QuestManager="*res://autoload/QuestManager.tscn"
+GameController="*res://autoload/GameController.tscn"
 DialogManager="*res://autoload/DialogManager.tscn"
 AudioManager="*res://autoload/AudioManager.tscn"
 Player="*res://autoload/player/Player.tscn"

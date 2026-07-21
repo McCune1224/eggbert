@@ -22,6 +22,9 @@ public partial class WeightedPressurePlate : Area2D
     /// Path to a Door node that opens while the plate is pressed.
     public NodePath TargetDoorPath { get; set; }
 
+    [ExportGroup("Progression")]
+    [Export] public string PushablePressedFlag { get; set; } = "";
+
     private int _bodyCount = 0;
     private Door _targetDoor;
     private Sprite2D _sprite;
@@ -52,6 +55,9 @@ public partial class WeightedPressurePlate : Area2D
         if (!body.IsInGroup("player") && !body.IsInGroup("pushable")) return;
 
         _bodyCount++;
+        if (body.IsInGroup("pushable") && !string.IsNullOrEmpty(PushablePressedFlag))
+            WorldFlags.Instance.SetFlag(PushablePressedFlag, true);
+
         if (_bodyCount == 1)
             Press();
     }
