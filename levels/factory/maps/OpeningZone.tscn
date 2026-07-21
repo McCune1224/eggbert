@@ -27,6 +27,8 @@
 [ext_resource type="Script" path="res://components/puzzles/FloorSwitch.cs" id="25_r4h0d"]
 [ext_resource type="PackedScene" path="res://components/puzzles/TimedDoor.tscn" id="26_l5j7c"]
 [ext_resource type="Script" path="res://components/puzzles/TimedDoor.cs" id="27_n8p1f"]
+[ext_resource type="Script" path="res://components/puzzles/SequencePuzzle.cs" id="28_q7v5m"]
+
 
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_00us6"]
@@ -82,6 +84,12 @@ size = Vector2(32, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x8c4d"]
 size = Vector2(32, 224)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f3k1n"]
+size = Vector2(416, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j4m8t"]
+size = Vector2(32, 32)
+
 
 [node name="OpeningZone" type="Node2D" unique_id=1239968956]
 script = ExtResource("1_ladi7")
@@ -361,6 +369,34 @@ offset_bottom = -184.0
 theme_override_font_sizes/font_size = 10
 text = "HARD-BOILED EGG"
 
+[node name="EggshellRewardDoor" type="StaticBody2D" parent="." unique_id=2000000014 instance=ExtResource("23_t1k6q")]
+position = Vector2(1328, 96)
+
+[node name="HelmetLockerWestWall" type="StaticBody2D" parent="." unique_id=2000000015]
+position = Vector2(1104, 96)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HelmetLockerWestWall" unique_id=2000000016]
+shape = SubResource("RectangleShape2D_f3k1n")
+
+[node name="HelmetLockerEastWall" type="StaticBody2D" parent="." unique_id=2000000017]
+position = Vector2(1360, 96)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HelmetLockerEastWall" unique_id=2000000018]
+shape = SubResource("RectangleShape2D_j4m8t")
+
+[node name="HelmetLockerLabel" type="Label" parent="." unique_id=2000000019]
+modulate = Color(0.86, 0.78, 0.58, 1)
+offset_left = 1288.0
+offset_top = 64.0
+offset_right = 1288.0
+offset_bottom = 64.0
+theme_override_font_sizes/font_size = 10
+text = "HELM LOCKER"
+
 [node name="EggshellHelmPickup" type="Area2D" parent="." unique_id=975403236]
 position = Vector2(1328, 160)
 script = ExtResource("18_o6d02")
@@ -436,6 +472,53 @@ offset_right = 408.0
 offset_bottom = 128.0
 theme_override_font_sizes/font_size = 10
 text = "SuggestionBox"
+[node name="SequenceA" parent="." unique_id=2000000020 instance=ExtResource("24_m8v2s")]
+position = Vector2(512, -160)
+
+[node name="SequenceALabel" type="Label" parent="." unique_id=2000000021]
+modulate = Color(0.86, 0.78, 0.58, 1)
+offset_left = 496.0
+offset_top = -192.0
+offset_right = 496.0
+offset_bottom = -192.0
+theme_override_font_sizes/font_size = 10
+text = "A"
+
+[node name="SequenceB" parent="." unique_id=2000000022 instance=ExtResource("24_m8v2s")]
+position = Vector2(640, -160)
+
+[node name="SequenceBLabel" type="Label" parent="." unique_id=2000000023]
+modulate = Color(0.86, 0.78, 0.58, 1)
+offset_left = 624.0
+offset_top = -192.0
+offset_right = 624.0
+offset_bottom = -192.0
+theme_override_font_sizes/font_size = 10
+text = "B"
+
+[node name="SequenceC" parent="." unique_id=2000000024 instance=ExtResource("24_m8v2s")]
+position = Vector2(768, -160)
+
+[node name="SequenceCLabel" type="Label" parent="." unique_id=2000000025]
+modulate = Color(0.86, 0.78, 0.58, 1)
+offset_left = 752.0
+offset_top = -192.0
+offset_right = 752.0
+offset_bottom = -192.0
+theme_override_font_sizes/font_size = 10
+text = "C"
+
+[node name="HelmetSequence" type="Node" parent="." unique_id=2000000026]
+script = ExtResource("28_q7v5m")
+SwitchSequence = [NodePath("../SequenceC"), NodePath("../SequenceA"), NodePath("../SequenceB")]
+TargetDoorPath = NodePath("../EggshellRewardDoor")
+LatchOnComplete = true
+
+[node name="ShiftOrderClipboard" type="Area2D" parent="." unique_id=2000000027 instance=ExtResource("19_65yjt")]
+position = Vector2(576, -224)
+script = ExtResource("20_ek3hw")
+DialogLines = PackedStringArray("SHIFT ORDER: C, then A, then B. Do not improvise the order.")
+
 
 
 [node name="MaintenanceDrain" type="Area2D" parent="." unique_id=1406663635 instance=ExtResource("19_65yjt")]
