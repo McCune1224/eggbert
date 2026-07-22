@@ -1,26 +1,21 @@
 using Godot;
 
 /// <summary>
-/// Coordinates the story-specific handoff at the end of the factory tutorial.
-/// Scene authoring remains in OpeningZone; this node only gates its exit and
-/// turns the arrest dialog into the mandatory transfer to Eggs Isle.
+/// Coordinates the factory tutorial's mandatory arrest handoff to Eggs Isle.
+/// Scene-authored transitions own all room-to-room and post-arrest gating.
 /// </summary>
 public partial class FactoryOpeningFlow : Node
 {
     private const string OpeningScenePath = "res://levels/factory/maps/OpeningZone.tscn";
+    private const string ArrestScenePath = "res://levels/factory/maps/LoadingBay.tscn";
     private const string EggsileScenePath = "res://levels/eggsile/maps/area1.tscn";
     private const string ArrestedFlag = "arrested";
+    private static readonly Rect2 OpeningBounds = new(-640, -352, 1280, 704);
     private static readonly string[] ArrestDialogLines =
     {
         "Officer Bacon: Stop right there! A witness says the murderer wore an egg costume.",
         "Officer Bacon: Wrong place. Wrong shell. You're coming with me.",
         "Officer Bacon: Eggs Isle has plenty of time for you to explain yourself."
-    };
-    private static readonly string[] OpeningExitNames =
-    {
-        "OverworldFactoryGate",
-        "Zone1Entrance",
-        "EggsileTransition"
     };
 
     private bool _awaitingArrestTransfer;
@@ -43,31 +38,26 @@ public partial class FactoryOpeningFlow : Node
     {
         _awaitingArrestTransfer = false;
 
-        if (GameController.Instance.CurrentLevel?.SceneFilePath != OpeningScenePath)
-            return;
-
-        foreach (var exitName in OpeningExitNames)
+        var currentLevel = GameController.Instance.CurrentLevel;
+        if (currentLevel?.SceneFilePath == OpeningScenePath)
         {
-            var exit = GameController.Instance.CurrentLevel.GetNodeOrNull<LevelTransition>(exitName);
-            if (exit == null)
+            if (!OpeningBounds.HasPoint(Player.Instance.Position))
             {
-                GameLogger.Error("FactoryOpening", $"OpeningZone is missing its {exitName} LevelTransition.");
-                continue;
+                Player.Instance.Position = Vector2.Zero;
+                GameLogger.Info("FactoryOpening", "Reset legacy OpeningZone player position outside rebuilt-room bounds.");
             }
 
-            exit.RequiredFlag = ArrestedFlag;
+            return;
         }
 
-        var arrest = GameController.Instance.CurrentLevel.GetNodeOrNull<CutsceneTrigger>("ArrestCutscene");
+        if (currentLevel?.SceneFilePath != ArrestScenePath)
+            return;
+
+        var arrest = currentLevel.GetNodeOrNull<CutsceneTrigger>("ArrestCutscene");
         if (arrest == null)
         {
-            if (WorldFlags.Instance.HasFlag(ArrestedFlag))
-            {
-                GameLogger.Debug("FactoryOpening", "Factory arrest already completed — no trigger setup needed.");
-                return;
-            }
-
-            GameLogger.Error("FactoryOpening", "OpeningZone is missing its ArrestCutscene trigger.");
+            if (!WorldFlags.Instance.HasFlag(ArrestedFlag))
+                GameLogger.Error("FactoryOpening", "LoadingBay is missing its ArrestCutscene trigger.");
             return;
         }
 
@@ -75,7 +65,7 @@ public partial class FactoryOpeningFlow : Node
             arrest.DialogLines = ArrestDialogLines;
 
         _awaitingArrestTransfer = !WorldFlags.Instance.HasFlag(ArrestedFlag);
-        GameLogger.Info("FactoryOpening", "Factory tutorial configured — Eggs Isle exit gated until the arrest.");
+        GameLogger.Info("FactoryOpening", "Loading Bay configured — Eggs Isle exit gated until the arrest.");
     }
 
     private void TransferAfterArrest()

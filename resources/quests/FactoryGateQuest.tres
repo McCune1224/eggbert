@@ -12,7 +12,7 @@ CompletionFlag = "tutorial_clocked_out"
 [sub_resource type="Resource" id="Resource_g6dxd"]
 script = ExtResource("1_2t4on")
 Id = "talk_to_jamitor"
-Description = "Talk to Jamitor near the sorting floor."
+Description = "Talk to Jamitor on the sorting floor."
 CompletionFlag = "met_jamitor"
 
 [sub_resource type="Resource" id="Resource_wx0dc"]
@@ -24,7 +24,7 @@ CompletionFlag = "tutorial_crate_gate_open"
 [sub_resource type="Resource" id="Resource_df21e"]
 script = ExtResource("1_2t4on")
 Id = "reach_loading_bay"
-Description = "Head east into the loading bay."
+Description = "Cross the loading bay and head for the exit."
 CompletionFlag = "arrested"
 
 [resource]
@@ -32,4 +32,4 @@ script = ExtResource("2_c8ta1")
 Id = "factory_gate_shift_end"
 Title = "End of Shift"
 Description = "Clock out, speak with Jamitor, and leave the factory floor."
-Objectives = [SubResource("Resource_tujla"), SubResource("Resource_g6dxd"), SubResource("Resource_wx0dc"), SubResource("Resource_df21e")]
+Objectives = Array[ExtResource("1_2t4on")]([SubResource("Resource_tujla"), SubResource("Resource_g6dxd"), SubResource("Resource_wx0dc"), SubResource("Resource_df21e")])

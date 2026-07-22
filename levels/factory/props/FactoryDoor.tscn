@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://components/puzzles/Door.cs" id="1_kjibw"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/retro/SoundMechanism.wav" id="2_j8w8i"]
+[ext_resource type="Texture2D" path="res://assets/tilemaps/factorytileset.png" id="3_mo2ip"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_58vyy"]
+size = Vector2(32, 64)
+
+[node name="FactoryDoor" type="StaticBody2D" unique_id=1752379093]
+script = ExtResource("1_kjibw")
+OpenSfx = ExtResource("2_j8w8i")
+CloseSfx = ExtResource("2_j8w8i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1917965292]
+shape = SubResource("RectangleShape2D_58vyy")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1480305986]
+texture_filter = 1
+texture = ExtResource("3_mo2ip")
+region_enabled = true
+region_rect = Rect2(0, 16, 32, 64)

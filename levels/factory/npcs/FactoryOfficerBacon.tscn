@@ -145,7 +145,34 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6kkq5"]
 size = Vector2(24, 54)
 
+[sub_resource type="Animation" id="Animation_67jqy"]
+length = 1.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_54aio"]
+_data = {
+&"idle": SubResource("Animation_67jqy")
+}
+
 [node name="FactoryOfficerBacon" type="StaticBody2D" unique_id=1867212580]
+
+[node name="@Polygon2D@3" type="Polygon2D" parent="." unique_id=1429194948]
+z_index = -1
+position = Vector2(0, 20)
+color = Color(0, 0, 0, 0.28)
+polygon = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1263680665]
 texture_filter = 1
@@ -172,7 +199,12 @@ metadata/_aseprite_wizard_source_file_hash_ = "aaa8907a55dfecfc43b4070c368d2398"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2037230391]
 libraries/ = SubResource("AnimationLibrary_bibfu")
+autoplay = &"idle left"
 
 [node name="PhysicsCollision" type="CollisionShape2D" parent="." unique_id=1736838530]
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_6kkq5")
+
+[node name="AmbientAnimation" type="AnimationPlayer" parent="." unique_id=368973290]
+libraries/ = SubResource("AnimationLibrary_54aio")
+autoplay = &"idle"
