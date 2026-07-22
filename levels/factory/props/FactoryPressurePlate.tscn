@@ -1,7 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://components/puzzles/WeightedPressurePlate.cs" id="1_1ljon"]
-[ext_resource type="Texture2D" path="res://assets/tilemaps/factorytileset.png" id="2_yvqlj"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/pressure_plate.png" id="2_1ljon"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u71xs"]
 size = Vector2(32, 8)
@@ -14,6 +14,5 @@ shape = SubResource("RectangleShape2D_u71xs")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=164635956]
 texture_filter = 1
-texture = ExtResource("2_yvqlj")
-region_enabled = true
+texture = ExtResource("2_1ljon")
 region_rect = Rect2(64, 16, 32, 16)

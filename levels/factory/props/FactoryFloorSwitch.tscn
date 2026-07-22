@@ -1,7 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://components/puzzles/FloorSwitch.cs" id="1_up2nm"]
-[ext_resource type="Texture2D" path="res://assets/tilemaps/factorytileset.png" id="2_hdui2"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/floor_switch.png" id="2_up2nm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_humx8"]
 size = Vector2(32, 16)
@@ -14,7 +14,5 @@ shape = SubResource("RectangleShape2D_humx8")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1610096099]
 texture_filter = 1
-scale = Vector2(2, 1)
-texture = ExtResource("2_hdui2")
-region_enabled = true
+texture = ExtResource("2_up2nm")
 region_rect = Rect2(272, 64, 16, 16)
