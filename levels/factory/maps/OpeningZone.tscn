@@ -21,18 +21,6 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_66w77"]
 size = Vector2(80, 80)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6wlde"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(0.08, 0.06, 0.07, 0.94)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.72, 0.58, 0.42, 1)
-
 [node name="OpeningZone" type="Node2D" unique_id=1460878725]
 script = ExtResource("1_o5e7c")
 LevelName = "Factory — Clock-Out"
@@ -125,17 +113,15 @@ script = ExtResource("15_5y405")
 DialogLines = PackedStringArray("The vending machine accepts coins, stamps, and vague promises.")
 
 [node name="ControlsPanel" type="PanelContainer" parent="." unique_id=1869518538]
+theme_type_variation = "MenuPanel"
 offset_left = -192.0
 offset_top = -112.0
 offset_right = 48.0
 offset_bottom = -40.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_6wlde")
 
 [node name="@Label@2" type="Label" parent="ControlsPanel" unique_id=1226362211]
+theme_type_variation = "MenuLabelSmall"
 layout_mode = 2
-theme_override_fonts/font = ExtResource("16_xrdls")
-theme_override_font_sizes/font_size = 12
-theme_override_colors/font_color = Color(0.92, 0.86, 0.72, 1)
 text = "WASD  MOVE
 E     INTERACT
 ESC   MENU"

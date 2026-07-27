@@ -50,7 +50,7 @@ project/assembly_name="Eggbert"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/level_assembly/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/level_assembly/plugin.cfg", "res://addons/cutscene_inspector/plugin.cfg")
 
 [file_customization]
 
@@ -62,6 +62,10 @@ folder_colors={
 "res://levels/": "blue",
 "res://ui/": "yellow"
 }
+
+[gui]
+
+theme/custom="res://assets/themes/eggbert_theme.tres"
 
 [input]
 

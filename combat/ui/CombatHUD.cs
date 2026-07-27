@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 public partial class CombatHUD : CanvasLayer
 {
+    private PanelContainer _playerPanel;
     private ColorRect _playerBarBg;
     private ColorRect _playerBarFill;
+    private Label _playerLabel;
     private HealthComponent _playerHC;
 
     private struct EnemyBar
@@ -17,7 +19,7 @@ public partial class CombatHUD : CanvasLayer
 
     private List<EnemyBar> _enemyBars = new();
 
-    private static readonly Color BarBgColor = new Color(0.2f, 0.2f, 0.2f, 0.8f);
+    private static readonly Color BarBgColor = new Color(0.1f, 0.1f, 0.15f, 0.9f);
     private static readonly Color PlayerBarColor = new Color(0.2f, 0.8f, 0.2f);
     private static readonly Color EnemyBarColor = new Color(0.8f, 0.2f, 0.2f);
     private static readonly Color LowHpColor = new Color(0.9f, 0.9f, 0.1f);
@@ -33,32 +35,55 @@ public partial class CombatHUD : CanvasLayer
     {
         Layer = 128;
 
-        int sideMargin = 12;
-        int topMargin = 10;
+        const int sideMargin = 8;
+        const int topMargin = 8;
 
-        var playerLabel = new Label
+        // Player HP panel (HudPanel) wrapping the label + bar.
+        _playerPanel = new PanelContainer
+        {
+            ThemeTypeVariation = "HudPanel",
+            Position = new Vector2(sideMargin, topMargin)
+        };
+        var playerVBox = new VBoxContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
+        var playerRow = new HBoxContainer
+        {
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            CustomMinimumSize = new Vector2(BarWidth + 8, 0)
+        };
+        _playerLabel = new Label
         {
             Text = "HP",
-            Position = new Vector2(sideMargin, topMargin - 14)
+            ThemeTypeVariation = "HudLabel",
+            MouseFilter = Control.MouseFilterEnum.Ignore
         };
-        playerLabel.AddThemeFontSizeOverride("font_size", 11);
-        AddChild(playerLabel);
+        _playerLabel.AddThemeFontSizeOverride("font_size", 11);
+        playerRow.AddChild(_playerLabel);
+        playerVBox.AddChild(playerRow);
 
+        var barContainer = new Control
+        {
+            CustomMinimumSize = new Vector2(BarWidth, BarHeight),
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
         _playerBarBg = new ColorRect
         {
-            Position = new Vector2(sideMargin, topMargin),
+            Position = Vector2.Zero,
             Size = new Vector2(BarWidth, BarHeight),
-            Color = BarBgColor
+            Color = BarBgColor,
+            MouseFilter = Control.MouseFilterEnum.Ignore
         };
-        AddChild(_playerBarBg);
-
         _playerBarFill = new ColorRect
         {
-            Position = new Vector2(sideMargin, topMargin),
+            Position = Vector2.Zero,
             Size = new Vector2(BarWidth, BarHeight),
-            Color = PlayerBarColor
+            Color = PlayerBarColor,
+            MouseFilter = Control.MouseFilterEnum.Ignore
         };
-        AddChild(_playerBarFill);
+        barContainer.AddChild(_playerBarBg);
+        barContainer.AddChild(_playerBarFill);
+        playerVBox.AddChild(barContainer);
+        _playerPanel.AddChild(playerVBox);
+        AddChild(_playerPanel);
 
         GameLogger.Debug("Combat", "CombatHUD: _Ready");
     }
@@ -73,16 +98,17 @@ public partial class CombatHUD : CanvasLayer
 
     public void AddEnemy(string name, HealthComponent hc)
     {
-        int sideMargin = 12;
-        int startY = 50;
+        const int startY = 50;
         int index = _enemyBars.Count;
 
-        int x = 640 - sideMargin - EnemyBarWidth;
+        int x = 640 - 8 - EnemyBarWidth - 8;  // 8px outer margin + panel padding
         int y = startY + index * EnemyRowHeight;
 
         var label = new Label
         {
             Text = name,
+            ThemeTypeVariation = "HudLabel",
+            MouseFilter = Control.MouseFilterEnum.Ignore,
             Position = new Vector2(x, y - 11)
         };
         label.AddThemeFontSizeOverride("font_size", 9);
@@ -92,7 +118,8 @@ public partial class CombatHUD : CanvasLayer
         {
             Position = new Vector2(x, y),
             Size = new Vector2(EnemyBarWidth, EnemyBarHeight),
-            Color = BarBgColor
+            Color = BarBgColor,
+            MouseFilter = Control.MouseFilterEnum.Ignore
         };
         AddChild(bg);
 
@@ -100,7 +127,8 @@ public partial class CombatHUD : CanvasLayer
         {
             Position = new Vector2(x, y),
             Size = new Vector2(EnemyBarWidth, EnemyBarHeight),
-            Color = EnemyBarColor
+            Color = EnemyBarColor,
+            MouseFilter = Control.MouseFilterEnum.Ignore
         };
         AddChild(fill);
 

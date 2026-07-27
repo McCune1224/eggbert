@@ -129,15 +129,17 @@ public partial class ParryComponent : Node2D
         {
             Text = "PARRY!",
             Position = new Vector2(270, 160),
-            Scale = new Vector2(3, 3),
+            ThemeTypeVariation = "HudLabel",
             Modulate = new Color(1, 1, 0)
         };
         vfx.AddThemeFontSizeOverride("font_size", 24);
+        vfx.PivotOffset = vfx.Size / 2f;
         GetTree().Root.AddChild(vfx);
 
-        var tween = CreateTween();
+        var tween = CreateTween().SetParallel(true);
+        tween.TweenProperty(vfx, "scale", new Vector2(1.4f, 1.4f), 0.4f);
         tween.TweenProperty(vfx, "modulate:a", 0f, 0.6f);
-        tween.TweenCallback(Callable.From(vfx.QueueFree));
+        tween.Chain().TweenCallback(Callable.From(vfx.QueueFree));
     }
 
     private void OnParryMiss()

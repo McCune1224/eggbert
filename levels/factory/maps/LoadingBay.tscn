@@ -21,18 +21,6 @@
 [ext_resource type="Resource" path="res://levels/factory/npcs/OfficerBaconArrest.tres" id="18_iqss1"]
 [ext_resource type="PackedScene" path="res://levels/factory/npcs/FactoryOfficerBacon.tscn" id="19_tui5l"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cwn0m"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(0.08, 0.06, 0.07, 0.94)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.72, 0.58, 0.42, 1)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mi2n3"]
 size = Vector2(96, 512)
 
@@ -91,17 +79,15 @@ script = ExtResource("12_gxm0q")
 TargetDoorPath = NodePath("../LoadingTimedGate")
 
 [node name="SprintInstructionPanel" type="PanelContainer" parent="." unique_id=2037786285]
+theme_type_variation = "MenuPanel"
 offset_left = -256.0
 offset_top = 80.0
 offset_right = -16.0
 offset_bottom = 136.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_cwn0m")
 
 [node name="@Label@9" type="Label" parent="SprintInstructionPanel" unique_id=369710336]
+theme_type_variation = "MenuLabelSmall"
 layout_mode = 2
-theme_override_fonts/font = ExtResource("13_pwuoi")
-theme_override_font_sizes/font_size = 12
-theme_override_colors/font_color = Color(0.92, 0.86, 0.72, 1)
 text = "HOLD SHIFT  SPRINT
 SPACE       DASH
 GATE        5 SEC"

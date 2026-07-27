@@ -212,9 +212,14 @@ public partial class MainMenu : CanvasLayer
         var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer/ScrollContainer/SettingsVBox");
         var hbox = new HBoxContainer { Name = "TextSpeedBox" };
         hbox.LayoutMode = 0;
-        var label = new Label { Text = "Text Speed:", CustomMinimumSize = new Vector2(120, 0) };
+        var label = new Label
+        {
+            Text = "Text Speed:",
+            CustomMinimumSize = new Vector2(120, 0),
+            ThemeTypeVariation = "MenuLabel",
+        };
         hbox.AddChild(label);
-        _textSpeedOption = new OptionButton();
+        _textSpeedOption = new OptionButton { ThemeTypeVariation = "MenuOption" };
         _textSpeedOption.AddItem("Normal", (int)DialogManager.TextSpeed.Normal);
         _textSpeedOption.AddItem("Fast", (int)DialogManager.TextSpeed.Fast);
         _textSpeedOption.AddItem("Instant", (int)DialogManager.TextSpeed.Instant);
@@ -240,8 +245,7 @@ public partial class MainMenu : CanvasLayer
         var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer/ScrollContainer/SettingsVBox");
         vbox.LayoutMode = 2;
 
-        var title = new Label { Text = "Controls:" };
-        title.AddThemeFontSizeOverride("font_size", 14);
+        var title = new Label { Text = "Controls:", ThemeTypeVariation = "MenuLabelTitle" };
         vbox.AddChild(title);
 
         var grid = new GridContainer();
@@ -255,15 +259,16 @@ public partial class MainMenu : CanvasLayer
             {
                 Text = KeybindManager.GetActionDisplayName(action),
                 CustomMinimumSize = new Vector2(120, 24),
+                ThemeTypeVariation = "MenuLabel",
             };
             label.LayoutMode = 2;
-            label.AddThemeColorOverride("font_color", new Color(0.7f, 0.8f, 1.0f));
             grid.AddChild(label);
 
             var btn = new Button
             {
                 Text = KeybindManager.GetCurrentKeyLabel(action),
                 CustomMinimumSize = new Vector2(80, 24),
+                ThemeTypeVariation = "MenuButton",
             };
             btn.LayoutMode = 2;
             string captured = action;
@@ -272,8 +277,11 @@ public partial class MainMenu : CanvasLayer
             grid.AddChild(btn);
         }
 
-        var resetBtn = new Button { Text = "Reset Controls" };
-        resetBtn.AddThemeFontSizeOverride("font_size", 14);
+        var resetBtn = new Button
+        {
+            Text = "Reset Controls",
+            ThemeTypeVariation = "MenuButton",
+        };
         resetBtn.Pressed += OnResetKeybindsPressed;
         vbox.AddChild(resetBtn);
     }

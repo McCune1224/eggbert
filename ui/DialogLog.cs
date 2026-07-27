@@ -35,11 +35,9 @@ public partial class DialogLog : CanvasLayer
             Position = new Vector2(20, 20),
             Size = new Vector2(600, 320),
             MouseFilter = Control.MouseFilterEnum.Ignore,
-            BbcodeEnabled = true
+            BbcodeEnabled = true,
+            ThemeTypeVariation = "MenuLabelSmall"
         };
-        var font = FontCache.Yoster;
-        if (font != null)
-            _logLabel.AddThemeFontOverride("normal_font", font);
         _logLabel.AddThemeFontSizeOverride("normal_font_size", 10);
         _logLabel.AddThemeColorOverride("default_color", new Color(0.8f, 0.8f, 0.8f));
         _container.AddChild(_logLabel);

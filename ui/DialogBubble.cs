@@ -116,10 +116,10 @@ public partial class DialogBubble : CanvasLayer
         {
             MouseFilter = Control.MouseFilterEnum.Ignore,
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
-            MaxLinesVisible = MAX_VISIBLE_LINES
+            MaxLinesVisible = MAX_VISIBLE_LINES,
+            ThemeTypeVariation = "MenuLabel"
         };
         _textLabel.AddThemeColorOverride("font_color", new Color(0, 0, 0));
-        _textLabel.AddThemeFontOverride("font", _yosterFont);
         _textLabel.AddThemeFontSizeOverride("font_size", 12);
         container.AddChild(_textLabel);
 
@@ -170,11 +170,11 @@ public partial class DialogBubble : CanvasLayer
         _nameLabel = new Label
         {
             Position = new Vector2(12, 4),
-            VerticalAlignment = VerticalAlignment.Center
+            VerticalAlignment = VerticalAlignment.Center,
+            ThemeTypeVariation = "MenuLabel"
         };
         _nameLabel.SetSize(new Vector2(176, 20));
         _nameLabel.AddThemeColorOverride("font_color", new Color(0, 0, 0));
-        _nameLabel.AddThemeFontOverride("font", _yosterFont);
         _nameLabel.AddThemeFontSizeOverride("font_size", 10);
         _namePlate.AddChild(_nameLabel);
     }

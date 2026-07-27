@@ -80,12 +80,14 @@ public partial class OverworldMenu : CanvasLayer
         // Main menu
         _mainPanel = GetNode<PanelContainer>("MainPanel");
         _resumeButton = GetNode<Button>("MainPanel/VBoxContainer/ResumeButton");
+        _inventoryButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow1/InventoryButton");
         _mapButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow1/MapButton");
         _settingsButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow3/SettingsButton");
         _quitButton = GetNode<Button>("MainPanel/VBoxContainer/QuitButton");
         _mainMenuButton = GetNode<Button>("MainPanel/VBoxContainer/GridRow3/MainMenuButton");
 
         _resumeButton.Connect("pressed", new Callable(this, nameof(OnResumePressed)));
+        _inventoryButton.Connect("pressed", new Callable(this, nameof(OnInventoryPressed)));
         _mapButton.Connect("pressed", new Callable(this, nameof(OnMapPressed)));
         _settingsButton.Connect("pressed", new Callable(this, nameof(OnSettingsPressed)));
         _quitButton.Connect("pressed", new Callable(this, nameof(OnQuitPressed)));
@@ -305,17 +307,24 @@ public partial class OverworldMenu : CanvasLayer
         var unlocked = WarpDatabase.GetUnlocked();
         if (unlocked.Count == 0)
         {
-            var lbl = new Label { Text = "No warps discovered" };
-            lbl.LayoutMode = 0;
-            lbl.AddThemeColorOverride("font_color", new Color(0.6f, 0.6f, 0.6f));
+            var lbl = new Label
+            {
+                Text = "No warps discovered",
+                ThemeTypeVariation = "MenuLabelSmall",
+                LayoutMode = 0,
+            };
             _warpGrid.AddChild(lbl);
             return;
         }
 
         foreach (var warp in unlocked)
         {
-            var btn = new Button { Text = warp.Name };
-            btn.LayoutMode = 0;
+            var btn = new Button
+            {
+                Text = warp.Name,
+                ThemeTypeVariation = "MenuButton",
+                LayoutMode = 0,
+            };
             string levelPath = warp.LevelPath;
             Vector2 pos = warp.Position;
             btn.Pressed += () => WarpTo(levelPath, pos);
@@ -493,18 +502,23 @@ public partial class OverworldMenu : CanvasLayer
             if (section != null && section != currentSection)
             {
                 currentSection = section;
-                var sectionLabel = new Label { Text = section + ":", ThemeTypeVariation = "" };
-                sectionLabel.AddThemeFontSizeOverride("font_size", 14);
-                sectionLabel.AddThemeColorOverride("font_color", new Color(0.4f, 0.75f, 1.0f));
+                var sectionLabel = new Label { Text = section + ":", ThemeTypeVariation = "MenuLabelSmall" };
                 _helpVBox.AddChild(sectionLabel);
             }
 
             var row = new HBoxContainer();
-            var nameLabel = new Label { Text = KeybindManager.GetActionDisplayName(action), CustomMinimumSize = new Vector2(140, 0) };
-            nameLabel.AddThemeColorOverride("font_color", new Color(0.75f, 0.8f, 1.0f));
+            var nameLabel = new Label
+            {
+                Text = KeybindManager.GetActionDisplayName(action),
+                CustomMinimumSize = new Vector2(140, 0),
+                ThemeTypeVariation = "MenuLabel",
+            };
             row.AddChild(nameLabel);
-            var keyLabel = new Label { Text = KeybindManager.GetCurrentKeyLabel(action) };
-            keyLabel.AddThemeColorOverride("font_color", new Color(0.6f, 0.7f, 0.9f));
+            var keyLabel = new Label
+            {
+                Text = KeybindManager.GetCurrentKeyLabel(action),
+                ThemeTypeVariation = "MenuLabelSmall",
+            };
             row.AddChild(keyLabel);
             _helpVBox.AddChild(row);
         }
@@ -711,9 +725,14 @@ public partial class OverworldMenu : CanvasLayer
         var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer/ScrollContainer/SettingsVBox");
         var hbox = new HBoxContainer { Name = "TextSpeedBox" };
         hbox.LayoutMode = 0;
-        var label = new Label { Text = "Text Speed:", CustomMinimumSize = new Vector2(120, 0) };
+        var label = new Label
+        {
+            Text = "Text Speed:",
+            CustomMinimumSize = new Vector2(120, 0),
+            ThemeTypeVariation = "MenuLabel",
+        };
         hbox.AddChild(label);
-        _textSpeedOption = new OptionButton();
+        _textSpeedOption = new OptionButton { ThemeTypeVariation = "MenuOption" };
         _textSpeedOption.AddItem("Normal", (int)DialogManager.TextSpeed.Normal);
         _textSpeedOption.AddItem("Fast", (int)DialogManager.TextSpeed.Fast);
         _textSpeedOption.AddItem("Instant", (int)DialogManager.TextSpeed.Instant);
@@ -737,8 +756,7 @@ public partial class OverworldMenu : CanvasLayer
         var vbox = _settingsPanel.GetNode<VBoxContainer>("VBoxContainer/ScrollContainer/SettingsVBox");
         vbox.LayoutMode = 2;
 
-        var title = new Label { Text = "Controls:" };
-        title.AddThemeFontSizeOverride("font_size", 14);
+        var title = new Label { Text = "Controls:", ThemeTypeVariation = "MenuLabelTitle" };
         vbox.AddChild(title);
 
         var grid = new GridContainer();
@@ -752,15 +770,16 @@ public partial class OverworldMenu : CanvasLayer
             {
                 Text = KeybindManager.GetActionDisplayName(action),
                 CustomMinimumSize = new Vector2(120, 24),
+                ThemeTypeVariation = "MenuLabel",
             };
             label.LayoutMode = 2;
-            label.AddThemeColorOverride("font_color", new Color(0.7f, 0.8f, 1.0f));
             grid.AddChild(label);
 
             var btn = new Button
             {
                 Text = KeybindManager.GetCurrentKeyLabel(action),
                 CustomMinimumSize = new Vector2(80, 24),
+                ThemeTypeVariation = "MenuButton",
             };
             btn.LayoutMode = 2;
             string captured = action;
@@ -769,8 +788,11 @@ public partial class OverworldMenu : CanvasLayer
             grid.AddChild(btn);
         }
 
-        var resetBtn = new Button { Text = "Reset Controls" };
-        resetBtn.AddThemeFontSizeOverride("font_size", 14);
+        var resetBtn = new Button
+        {
+            Text = "Reset Controls",
+            ThemeTypeVariation = "MenuButton",
+        };
         resetBtn.Pressed += OnResetKeybindsPressed;
         vbox.AddChild(resetBtn);
     }
