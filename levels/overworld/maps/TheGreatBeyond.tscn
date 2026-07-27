@@ -790,6 +790,7 @@ script = ExtResource("9_combat")
 ArenaPath = "res://combat/arena/SunnysideLeaderArena.tscn"
 PlayerSpawn = Vector2(0, 120)
 BeatFlag = "beat_leader"
+OnceFlag = "beat_leader"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FinalBossTrigger" unique_id=1009774049]
 shape = SubResource("RectangleShape2D_combat")
@@ -830,6 +831,7 @@ LocationName = "GreatBeyond Hub"
 position = Vector2(-160, 160)
 script = ExtResource("13_j73yu")
 ArenaPath = "res://combat/arena/GenericArena.tscn"
+OnceFlag = "resolved_gtg_hub"
 IntroLines = PackedStringArray("A restless shape blocks the side route.", "It watches, waiting for your decision.")
 SpareLines = PackedStringArray("The shape unknots itself and lets you pass.")
 FightLines = PackedStringArray("The shape hardens. The side route becomes a battle.")

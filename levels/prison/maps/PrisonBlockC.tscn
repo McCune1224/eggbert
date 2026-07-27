@@ -157,6 +157,8 @@ texture = ExtResource("14_deviled")
 [node name="CerealEncounter" type="Area2D" parent="." unique_id=814223643]
 position = Vector2(400, 280)
 script = ExtResource("15_ce")
+BeatFlag = "beat_prison_cereal"
+OnceFlag = "resolved_prison_cereal"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CerealEncounter" unique_id=1980236064]
 shape = SubResource("RectShape_cereal")

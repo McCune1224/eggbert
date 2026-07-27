@@ -49,6 +49,7 @@ position = Vector2(160, 0)
 position = Vector2(320, 160)
 script = ExtResource("7_40xls")
 ArenaPath = "res://combat/arena/GenericArena.tscn"
+OnceFlag = "resolved_factory_hub"
 IntroLines = PackedStringArray("A restless shape blocks the side route.", "It watches, waiting for your decision.")
 SpareLines = PackedStringArray("The shape unknots itself and lets you pass.")
 FightLines = PackedStringArray("The shape hardens. The side route becomes a battle.")
