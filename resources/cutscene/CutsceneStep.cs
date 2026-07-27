@@ -16,6 +16,7 @@ public enum StepType
     PromptChoice,
     LockPlayer,
     UnlockPlayer,
+    DialogBranch,
     Stop
 }
 
@@ -53,6 +54,10 @@ public partial class CutsceneStep : Resource
     [Export] public string[] ChoiceFlags { get; set; }
     [Export] public string[] ChoicePromptLines { get; set; }
     [Export] public DialogVoiceResource ChoicePromptVoice { get; set; }
+
+    [ExportGroup("Dialog Branch")]
+    [Export] public Resource DialogBranchResource { get; set; }
+    [Export] public string StartNodeId { get; set; } = "";
 
     public bool ShouldExecute(WorldFlags flags, int lastChoiceIndex)
     {
@@ -94,6 +99,9 @@ public partial class CutsceneStep : Resource
             case StepType.PromptChoice:
                 await ExecutePromptChoice(controller);
                 break;
+            case StepType.DialogBranch:
+                await ExecuteDialogBranch(controller);
+                break;
             case StepType.LockPlayer:
                 Player.Instance.InInteraction = true;
                 break;
@@ -120,6 +128,18 @@ public partial class CutsceneStep : Resource
             DialogManager.Instance.Reset();
         else
             GameLogger.Debug("Cutscene", "SayDialog: completed");
+    }
+
+    private async Task ExecuteDialogBranch(CutsceneController controller)
+    {
+        if (DialogBranchResource is not DialogBranch branch)
+        {
+            GameLogger.Error("Cutscene", "DialogBranch: no DialogBranch resource assigned.");
+            return;
+        }
+
+        GameLogger.Debug("Cutscene", $"DialogBranch: '{branch.ResourcePath}', start='{StartNodeId}'");
+        await controller.RunDialogBranch(branch, StartNodeId);
     }
 
     private async Task ExecuteMoveNpc(CutsceneController controller)

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdial8b7nch3r"]
+
+[ext_resource type="Script" path="res://components/npcs/DialogBranchTrigger.cs" id="1_branch"]
+
+[node name="DialogBranchTrigger" type="Area2D"]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_branch")
