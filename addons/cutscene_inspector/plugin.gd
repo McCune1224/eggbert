@@ -61,21 +61,19 @@ class CutsceneResourceInspector extends EditorInspectorPlugin:
 		var target := index + direction
 		if target < 0 or target >= steps_array.size():
 			return
-		var temp = steps_array[index]
-		steps_array[index] = steps_array[target]
-		steps_array[target] = temp
-		parent_resource.set("Steps", steps_array)
-		EditorInterface.get_resource_filesystem().scan()
-		EditorInterface.edit_resource(parent_resource)
+		var swapped := steps_array.duplicate()
+		var temp = swapped[index]
+		swapped[index] = swapped[target]
+		swapped[target] = temp
+		_apply_steps_change(parent_resource, steps_array, swapped, "Move Cutscene Step")
 
 	func _remove_step(parent_resource: Resource, steps_array: Array, index: int) -> void:
 		if index < 0 or index >= steps_array.size():
 			return
 		var removed: Resource = steps_array[index]
-		steps_array.remove_at(index)
-		parent_resource.set("Steps", steps_array)
-		EditorInterface.get_resource_filesystem().scan()
-		EditorInterface.edit_resource(parent_resource)
+		var next := steps_array.duplicate()
+		next.remove_at(index)
+		_apply_steps_change(parent_resource, steps_array, next, "Remove Cutscene Step")
 		if removed != null:
 			removed.take_over_path("")
 
@@ -89,10 +87,25 @@ class CutsceneResourceInspector extends EditorInspectorPlugin:
 			return
 		# C# enum binding: must pass the integer ordinal, not the name string.
 		new_step.set("Type", ordinal)
-		steps_array.append(new_step)
-		parent_resource.set("Steps", steps_array)
+		var next := steps_array.duplicate()
+		next.append(new_step)
+		_apply_steps_change(parent_resource, steps_array, next, "Add Cutscene Step")
+
+	# Mutates the parent resource's Steps array through UndoRedo so the
+	# operation is undoable and the .tres marks itself dirty for save.
+	# `old_array` is the pre-mutation array; `new_array` is the result.
+	static func _apply_steps_change(parent_resource: Resource, old_array: Array, new_array: Array, action_label: String) -> void:
+		var undo_redo := EditorInterface.get_editor_undo_redo()
+		undo_redo.create_action(action_label)
+		undo_redo.add_do_method(parent_resource, "set", "Steps", new_array)
+		undo_redo.add_do_method(parent_resource, "emit_changed")
+		undo_redo.add_undo_method(parent_resource, "set", "Steps", old_array)
+		undo_redo.add_undo_method(parent_resource, "emit_changed")
+		# Always re-mark for inspector + filesystem refresh, both directions.
+		undo_redo.add_do_method(EditorInterface, "edit_resource", parent_resource)
+		undo_redo.add_undo_method(EditorInterface, "edit_resource", parent_resource)
+		undo_redo.commit_action()
 		EditorInterface.get_resource_filesystem().scan()
-		EditorInterface.edit_resource(parent_resource)
 
 
 # ----------------------------- DialogBranch -----------------------------------
@@ -122,26 +135,23 @@ class DialogBranchInspector extends EditorInspectorPlugin:
 		if node == null:
 			return
 		EditorInterface.edit_resource(node)
-
 	func _add_node(parent_resource: Resource, nodes_array: Array) -> void:
 		var new_node: Resource = CARDS.instantiate_node()
 		if new_node == null:
 			EditorInterface.get_editor_toaster().push_toast("DialogNode script missing.", EditorToaster.SEVERITY_ERROR)
 			return
 		new_node.set("Id", "node_%d" % nodes_array.size())
-		nodes_array.append(new_node)
-		parent_resource.set("Nodes", nodes_array)
-		EditorInterface.get_resource_filesystem().scan()
-		EditorInterface.edit_resource(parent_resource)
+		var next := nodes_array.duplicate()
+		next.append(new_node)
+		_apply_nodes_change(parent_resource, nodes_array, next, "Add Dialog Node")
 
 	func _remove_node(parent_resource: Resource, nodes_array: Array, index: int) -> void:
 		if index < 0 or index >= nodes_array.size():
 			return
 		var removed: Resource = nodes_array[index]
-		nodes_array.remove_at(index)
-		parent_resource.set("Nodes", nodes_array)
-		EditorInterface.get_resource_filesystem().scan()
-		EditorInterface.edit_resource(parent_resource)
+		var next := nodes_array.duplicate()
+		next.remove_at(index)
+		_apply_nodes_change(parent_resource, nodes_array, next, "Remove Dialog Node")
 		if removed != null:
 			removed.take_over_path("")
 
@@ -149,12 +159,23 @@ class DialogBranchInspector extends EditorInspectorPlugin:
 		var target := index + direction
 		if target < 0 or target >= nodes_array.size():
 			return
-		var temp = nodes_array[index]
-		nodes_array[index] = nodes_array[target]
-		nodes_array[target] = temp
-		parent_resource.set("Nodes", nodes_array)
+		var swapped := nodes_array.duplicate()
+		var temp = swapped[index]
+		swapped[index] = swapped[target]
+		swapped[target] = temp
+		_apply_nodes_change(parent_resource, nodes_array, swapped, "Move Dialog Node")
+
+	static func _apply_nodes_change(parent_resource: Resource, old_array: Array, new_array: Array, action_label: String) -> void:
+		var undo_redo := EditorInterface.get_editor_undo_redo()
+		undo_redo.create_action(action_label)
+		undo_redo.add_do_method(parent_resource, "set", "Nodes", new_array)
+		undo_redo.add_do_method(parent_resource, "emit_changed")
+		undo_redo.add_undo_method(parent_resource, "set", "Nodes", old_array)
+		undo_redo.add_undo_method(parent_resource, "emit_changed")
+		undo_redo.add_do_method(EditorInterface, "edit_resource", parent_resource)
+		undo_redo.add_undo_method(EditorInterface, "edit_resource", parent_resource)
+		undo_redo.commit_action()
 		EditorInterface.get_resource_filesystem().scan()
-		EditorInterface.edit_resource(parent_resource)
 
 
 # ----------------------------- Cross references -------------------------------
