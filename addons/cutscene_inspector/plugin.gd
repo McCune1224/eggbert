@@ -70,12 +70,11 @@ class CutsceneResourceInspector extends EditorInspectorPlugin:
 	func _remove_step(parent_resource: Resource, steps_array: Array, index: int) -> void:
 		if index < 0 or index >= steps_array.size():
 			return
-		var removed: Resource = steps_array[index]
 		var next := steps_array.duplicate()
 		next.remove_at(index)
+		# The array action retains the removed step for undo; clearing its
+		# resource_path here would happen outside UndoRedo and break Ctrl+Z.
 		_apply_steps_change(parent_resource, steps_array, next, "Remove Cutscene Step")
-		if removed != null:
-			removed.take_over_path("")
 
 	func _add_step(parent_resource: Resource, steps_array: Array, type_menu: OptionButton) -> void:
 		var ordinal: int = type_menu.get_selected_id()
@@ -148,13 +147,11 @@ class DialogBranchInspector extends EditorInspectorPlugin:
 	func _remove_node(parent_resource: Resource, nodes_array: Array, index: int) -> void:
 		if index < 0 or index >= nodes_array.size():
 			return
-		var removed: Resource = nodes_array[index]
 		var next := nodes_array.duplicate()
 		next.remove_at(index)
+		# The array action retains the removed node for undo; clearing its
+		# resource_path here would happen outside UndoRedo and break Ctrl+Z.
 		_apply_nodes_change(parent_resource, nodes_array, next, "Remove Dialog Node")
-		if removed != null:
-			removed.take_over_path("")
-
 	func _move_node(parent_resource: Resource, nodes_array: Array, index: int, direction: int) -> void:
 		var target := index + direction
 		if target < 0 or target >= nodes_array.size():
