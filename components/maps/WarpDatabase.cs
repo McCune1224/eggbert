@@ -6,7 +6,12 @@ public struct WarpDestination
     public string Id;
     public string Name;
     public string LevelPath;
-    public Vector2 Position;
+    /// <summary>
+    /// Name of a direct-root LevelTransition in the destination scene.
+    /// LoadLevel uses this to place the player just past the transition per its Side,
+    /// never at the raw transition position (which would re-fire the trigger).
+    /// </summary>
+    public string TargetTransitionName;
 }
 
 public static class WarpDatabase
@@ -15,31 +20,31 @@ public static class WarpDatabase
     {
         { "overworld_entry", new WarpDestination
             { Id = "overworld_entry", Name = "Overworld",
-              LevelPath = "res://levels/overworld/maps/Overworld.tscn", Position = Vector2.Zero } },
+              LevelPath = "res://levels/overworld/maps/Overworld.tscn", TargetTransitionName = "HubArrival" } },
         { "the_great_beyond", new WarpDestination
             { Id = "the_great_beyond", Name = "The Great Beyond",
-              LevelPath = "res://levels/overworld/maps/TheGreatBeyond.tscn", Position = Vector2.Zero } },
+              LevelPath = "res://levels/overworld/maps/TheGreatBeyond.tscn", TargetTransitionName = "HubArrival" } },
         { "courtyard", new WarpDestination
             { Id = "courtyard", Name = "Courtyard",
-              LevelPath = "res://levels/courtyard/maps/courtyard.tscn", Position = Vector2.Zero } },
+              LevelPath = "res://levels/courtyard/maps/courtyard.tscn", TargetTransitionName = "HubArrival" } },
         { "eggsile_area1", new WarpDestination
             { Id = "eggsile_area1", Name = "Eggsile — Area 1",
-              LevelPath = "res://levels/eggsile/maps/area1.tscn", Position = Vector2.Zero } },
+              LevelPath = "res://levels/eggsile/maps/area1.tscn", TargetTransitionName = "HubArrival" } },
         { "prison", new WarpDestination
             { Id = "prison", Name = "Prison",
-              LevelPath = "res://levels/prison/maps/prison.tscn", Position = Vector2.Zero } },
+              LevelPath = "res://levels/prison/maps/prison.tscn", TargetTransitionName = "HubArrival" } },
         { "factory_gate", new WarpDestination
             { Id = "factory_gate", Name = "Factory Gate",
-              LevelPath = "res://levels/factory/maps/OpeningZone.tscn", Position = Vector2.Zero } },
+              LevelPath = "res://levels/factory/maps/OpeningZone.tscn", TargetTransitionName = "HubArrival" } },
         { "courtyard_depths", new WarpDestination
             { Id = "courtyard_depths", Name = "Courtyard Depths",
-              LevelPath = "res://levels/courtyard/maps/CourtyardDepths.tscn", Position = Vector2.Zero } },
+              LevelPath = "res://levels/courtyard/maps/CourtyardDepths.tscn", TargetTransitionName = "HubArrival" } },
         { "prison_block_c", new WarpDestination
             { Id = "prison_block_c", Name = "Prison Block C",
-              LevelPath = "res://levels/prison/maps/PrisonBlockC.tscn", Position = Vector2.Zero } },
+              LevelPath = "res://levels/prison/maps/PrisonBlockC.tscn", TargetTransitionName = "HubArrival" } },
         { "eggsile_sewers", new WarpDestination
             { Id = "eggsile_sewers", Name = "Eggsile Sewers",
-              LevelPath = "res://levels/eggsile/maps/EggsileSewers.tscn", Position = Vector2.Zero } },
+              LevelPath = "res://levels/eggsile/maps/EggsileSewers.tscn", TargetTransitionName = "HubArrival" } },
     };
     public static bool IsUnlocked(string id) =>
         WorldFlags.Instance.HasFlag($"warp_{id}");

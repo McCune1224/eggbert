@@ -42,19 +42,22 @@ public partial class FirstBootDialog : CanvasLayer
         AddChild(backdrop);
 
         // Container
+        var panel = new PanelContainer { ThemeTypeVariation = "MenuPanel" };
+        panel.SetAnchor(Side.Left, 0.3f);
+        panel.SetAnchor(Side.Top, 0.3f);
+        panel.SetAnchor(Side.Right, 0.7f);
+        panel.SetAnchor(Side.Bottom, 0.7f);
         var container = new VBoxContainer
         {
-            AnchorLeft = 0.3f,
-            AnchorTop = 0.3f,
-            AnchorRight = 0.7f,
-            AnchorBottom = 0.7f
         };
+        panel.AddChild(container);
 
         // Title
         var title = new Label
         {
             Text = "Text Speed",
-            HorizontalAlignment = HorizontalAlignment.Center
+            HorizontalAlignment = HorizontalAlignment.Center,
+            ThemeTypeVariation = "MenuLabelTitle"
         };
         var yosterFont = FontCache.Yoster;
         if (yosterFont != null)
@@ -66,7 +69,8 @@ public partial class FirstBootDialog : CanvasLayer
         var desc = new Label
         {
             Text = "How fast should dialog text appear?",
-            HorizontalAlignment = HorizontalAlignment.Center
+            HorizontalAlignment = HorizontalAlignment.Center,
+            ThemeTypeVariation = "MenuLabel"
         };
         if (yosterFont != null)
             desc.AddThemeFontOverride("font", yosterFont);
@@ -81,12 +85,15 @@ public partial class FirstBootDialog : CanvasLayer
         AddSpeedButton(container, "Instant", DialogManager.TextSpeed.Instant, "Text appears all at once.");
 
         container.AddChild(new Control { SizeFlagsVertical = Control.SizeFlags.Expand });
+
+        AddChild(panel);
     }
 
     private void AddSpeedButton(VBoxContainer parent, string label, DialogManager.TextSpeed speed, string hint)
     {
         var btn = new Button
         {
+            ThemeTypeVariation = "MenuButton",
             Text = $"{label}\n{hint}",
             Flat = false
         };

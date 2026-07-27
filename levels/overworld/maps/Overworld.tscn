@@ -784,3 +784,11 @@ Side = 3
 position = Vector2(-560, 200)
 script = ExtResource("14_2vu1d")
 LocationName = "Overworld Hub"
+
+[node name="HubArrival" parent="." instance=ExtResource("10_45llo")]
+monitoring = false
+position = Vector2(-560, 300)
+Level = "res://levels/overworld/maps/Overworld.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 2

@@ -9,7 +9,7 @@ size = Vector2(0, 16)
 [node name="LevelTransition" type="Area2D"]
 monitorable = false
 script = ExtResource("1_pl0kr")
-TargetTransitionArea = ""
+TargetTransitionName = ""
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)

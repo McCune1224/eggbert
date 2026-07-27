@@ -1,8 +1,8 @@
-[gd_resource type="Theme" format=3]
+[gd_resource type="Theme" format=3 uid="uid://bpy0dlbrununq"]
 
-[ext_resource type="FontFile" path="res://assets/fonts/yoster.ttf" id="1_4yvyr"]
-[ext_resource type="Texture2D" path="res://assets/ui/panel_highlight.png" id="2_hh4yh"]
-[ext_resource type="Texture2D" path="res://assets/ui/panel_9slice.png" id="3_2rf20"]
+[ext_resource type="FontFile" uid="uid://kt1xh1gdfgwk" path="res://assets/fonts/yoster.ttf" id="1_4yvyr"]
+[ext_resource type="Texture2D" uid="uid://bkdyeo3mignkg" path="res://assets/ui/panel_highlight.png" id="2_hh4yh"]
+[ext_resource type="Texture2D" uid="uid://bhu2natvu0no6" path="res://assets/ui/panel_9slice.png" id="3_2rf20"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4yvyr"]
 content_margin_left = 6.0

@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="QuestDefinition" format=3]
+[gd_resource type="Resource" script_class="QuestDefinition" format=3 uid="uid://bceivajrltjwf"]
 
-[ext_resource type="Script" path="res://resources/quests/QuestObjective.cs" id="1_2t4on"]
-[ext_resource type="Script" path="res://resources/quests/QuestDefinition.cs" id="2_c8ta1"]
+[ext_resource type="Script" uid="uid://c35j3vp4l0m4c" path="res://resources/quests/QuestObjective.cs" id="1_2t4on"]
+[ext_resource type="Script" uid="uid://mw4rsdp5wjwl" path="res://resources/quests/QuestDefinition.cs" id="2_c8ta1"]
 
 [sub_resource type="Resource" id="Resource_tujla"]
 script = ExtResource("1_2t4on")

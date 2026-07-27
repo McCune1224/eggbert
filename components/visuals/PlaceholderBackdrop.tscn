@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/placeholders/room_backdrop.png" id="1_backdrop"]
+
+[node name="PlaceholderBackdrop" type="Node2D"]
+z_index = -100
+
+[node name="RoomArt" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_backdrop")
+z_index = -100

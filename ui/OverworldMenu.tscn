@@ -1,6 +1,6 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bujexj1fh4elg"]
 
-[ext_resource type="Script" path="res://ui/OverworldMenu.cs" id="1_d4due"]
+[ext_resource type="Script" uid="uid://28qsckkkb1kv" path="res://ui/OverworldMenu.cs" id="1_d4due"]
 
 [node name="OverworldMenu" type="CanvasLayer" unique_id=354126348]
 process_mode = 3
@@ -15,90 +15,96 @@ mouse_filter = 2
 color = Color(0, 0, 0, 0.5)
 
 [node name="MainPanel" type="PanelContainer" parent="." unique_id=1119733622]
-theme_type_variation = "MenuPanel"
 offset_left = 160.0
 offset_top = 40.0
 offset_right = 480.0
 offset_bottom = 320.0
+theme_type_variation = &"MenuPanel"
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainPanel" unique_id=1981203550]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="ResumeButton" type="Button" parent="MainPanel/VBoxContainer" unique_id=825962487]
-theme_type_variation = "MenuButton"
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_type_variation = &"MenuButton"
 text = "Resume"
 
 [node name="GridRow1" type="HBoxContainer" parent="MainPanel/VBoxContainer" unique_id=1926259740]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 
 [node name="InventoryButton" type="Button" parent="MainPanel/VBoxContainer/GridRow1" unique_id=1533327599]
-theme_type_variation = "MenuButton"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_type_variation = &"MenuButton"
 text = "Items"
 
 [node name="MapButton" type="Button" parent="MainPanel/VBoxContainer/GridRow1" unique_id=1912784973]
-theme_type_variation = "MenuButton"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_type_variation = &"MenuButton"
 text = "Map"
 
 [node name="GridRow2" type="HBoxContainer" parent="MainPanel/VBoxContainer" unique_id=1653099276]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 
 [node name="HelpButton" type="Button" parent="MainPanel/VBoxContainer/GridRow2" unique_id=1538244850]
-theme_type_variation = "MenuButton"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_type_variation = &"MenuButton"
 text = "Help"
 
 [node name="QuestsButton" type="Button" parent="MainPanel/VBoxContainer/GridRow2" unique_id=1356859434]
-theme_type_variation = "MenuButton"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_type_variation = &"MenuButton"
 text = "Quests"
 
 [node name="GridRow3" type="HBoxContainer" parent="MainPanel/VBoxContainer" unique_id=729453014]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 
 [node name="SettingsButton" type="Button" parent="MainPanel/VBoxContainer/GridRow3" unique_id=1694702614]
-theme_type_variation = "MenuButton"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_type_variation = &"MenuButton"
 text = "Settings"
 
-[node name="MainMenuButton" type="Button" parent="MainPanel/VBoxContainer/GridRow3" unique_id=1226415494]
+[node name="QuitButton" type="Button" parent="MainPanel/VBoxContainer/GridRow3" unique_id=1226415494]
 theme_type_variation = "MenuButtonDanger"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-text = "Main Menu"
+text = "Quit"
 
 [node name="QuitButton" type="Button" parent="MainPanel/VBoxContainer" unique_id=2034722722]
-theme_type_variation = "MenuButtonDanger"
+visible = false
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_type_variation = &"MenuButtonDanger"
 text = "Quit"
 
 [node name="SettingsPanel" type="PanelContainer" parent="." unique_id=1110546048]
-theme_type_variation = "MenuPanel"
 visible = false
 offset_left = 120.0
 offset_top = 8.0
 offset_right = 520.0
 offset_bottom = 352.0
+theme_type_variation = &"MenuPanel"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel" unique_id=1841623967]
 layout_mode = 2
@@ -116,72 +122,72 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="MusicLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/MusicBox" unique_id=1536547132]
-theme_type_variation = "MenuLabelSmall"
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"MenuLabelSmall"
 text = "Music"
 
 [node name="MusicSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/MusicBox" unique_id=517215418]
-theme_type_variation = "MenuSlider"
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"MenuSlider"
 value = 100.0
 
 [node name="SfxBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox" unique_id=2074332750]
 layout_mode = 2
 
 [node name="SfxLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/SfxBox" unique_id=1849931957]
-theme_type_variation = "MenuLabelSmall"
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"MenuLabelSmall"
 text = "SFX"
 
 [node name="SfxSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/SfxBox" unique_id=1233771485]
-theme_type_variation = "MenuSlider"
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"MenuSlider"
 value = 100.0
 
 [node name="FullscreenBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox" unique_id=781190950]
 layout_mode = 2
 
 [node name="FullscreenLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/FullscreenBox" unique_id=764189010]
-theme_type_variation = "MenuLabelSmall"
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"MenuLabelSmall"
 text = "Fullscreen"
 
 [node name="FullscreenCheck" type="CheckButton" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/FullscreenBox" unique_id=302085013]
-theme_type_variation = "MenuCheck"
 layout_mode = 2
+theme_type_variation = &"MenuCheck"
 
 [node name="ScaleBox" type="HBoxContainer" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox" unique_id=1951735956]
 layout_mode = 2
 
 [node name="ScaleLabel" type="Label" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/ScaleBox" unique_id=1835123083]
-theme_type_variation = "MenuLabelSmall"
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"MenuLabelSmall"
 text = "Window Scale"
 
 [node name="ScaleOption" type="OptionButton" parent="SettingsPanel/VBoxContainer/ScrollContainer/SettingsVBox/ScaleBox" unique_id=1644088024]
-theme_type_variation = "MenuOption"
 layout_mode = 2
+theme_type_variation = &"MenuOption"
 
 [node name="BackButton" type="Button" parent="SettingsPanel/VBoxContainer" unique_id=1505045359]
-theme_type_variation = "MenuButton"
 layout_mode = 2
+theme_type_variation = &"MenuButton"
 text = "Back"
 
 [node name="MapPanel" type="PanelContainer" parent="." unique_id=1299242844]
-theme_type_variation = "MenuPanel"
 visible = false
 offset_left = 100.0
 offset_top = 20.0
 offset_right = 540.0
 offset_bottom = 340.0
+theme_type_variation = &"MenuPanel"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MapPanel" unique_id=1630282030]
 layout_mode = 2
@@ -200,17 +206,17 @@ size_flags_vertical = 3
 columns = 2
 
 [node name="MapBackButton" type="Button" parent="MapPanel/VBoxContainer" unique_id=1430703670]
-theme_type_variation = "MenuButton"
 layout_mode = 2
+theme_type_variation = &"MenuButton"
 text = "Back"
 
 [node name="InventoryPanel" type="PanelContainer" parent="." unique_id=2114870735]
-theme_type_variation = "MenuPanel"
 visible = false
 offset_left = 36.0
 offset_top = 8.0
 offset_right = 604.0
 offset_bottom = 352.0
+theme_type_variation = &"MenuPanel"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="InventoryPanel" unique_id=1295023424]
 layout_mode = 2
@@ -219,14 +225,14 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="TitleLabel" type="Label" parent="InventoryPanel/VBoxContainer/HpRow" unique_id=898088278]
-theme_type_variation = "MenuLabelTitle"
 layout_mode = 2
+theme_type_variation = &"MenuLabelTitle"
 text = "Items"
 
 [node name="HpLabel" type="Label" parent="InventoryPanel/VBoxContainer/HpRow" unique_id=749979231]
-theme_type_variation = "MenuLabelSmall"
 layout_mode = 2
 size_flags_horizontal = 10
+theme_type_variation = &"MenuLabelSmall"
 text = "HP 100/100"
 horizontal_alignment = 2
 
@@ -234,21 +240,21 @@ horizontal_alignment = 2
 layout_mode = 2
 
 [node name="KeyTab" type="Button" parent="InventoryPanel/VBoxContainer/TabBox" unique_id=59959031]
-theme_type_variation = "TabButton"
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"TabButton"
 text = "Key"
 
 [node name="ConsumableTab" type="Button" parent="InventoryPanel/VBoxContainer/TabBox" unique_id=1118916571]
-theme_type_variation = "TabButton"
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"TabButton"
 text = "Consumables"
 
 [node name="EquipmentTab" type="Button" parent="InventoryPanel/VBoxContainer/TabBox" unique_id=513730473]
-theme_type_variation = "TabButton"
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"TabButton"
 text = "Equipment"
 
 [node name="ContentRow" type="HBoxContainer" parent="InventoryPanel/VBoxContainer" unique_id=651219369]
@@ -256,17 +262,17 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="ItemList" type="ItemList" parent="InventoryPanel/VBoxContainer/ContentRow" unique_id=926515099]
-theme_type_variation = "ItemListRetro"
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_type_variation = &"ItemListRetro"
 
 [node name="DetailPanel" type="PanelContainer" parent="InventoryPanel/VBoxContainer/ContentRow" unique_id=1511263140]
-theme_type_variation = "MenuPanel"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_type_variation = &"MenuPanel"
 
 [node name="DetailVBox" type="VBoxContainer" parent="InventoryPanel/VBoxContainer/ContentRow/DetailPanel" unique_id=894830885]
 layout_mode = 2
@@ -282,55 +288,55 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="NameLabel" type="Label" parent="InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox/DetailHeader" unique_id=276567228]
-theme_type_variation = "MenuLabel"
 layout_mode = 2
+theme_type_variation = &"MenuLabel"
 
 [node name="CountLabel" type="Label" parent="InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox" unique_id=1099739947]
-theme_type_variation = "MenuLabelSmall"
 layout_mode = 2
+theme_type_variation = &"MenuLabelSmall"
 
 [node name="DescriptionLabel" type="Label" parent="InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox" unique_id=1234946072]
-theme_type_variation = "MenuLabelSmall"
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+theme_type_variation = &"MenuLabelSmall"
 autowrap_mode = 2
 
 [node name="StatsLabel" type="Label" parent="InventoryPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox" unique_id=1315595412]
-theme_type_variation = "MenuLabelSmall"
 layout_mode = 2
+theme_type_variation = &"MenuLabelSmall"
 autowrap_mode = 2
 
 [node name="ButtonRow" type="HBoxContainer" parent="InventoryPanel/VBoxContainer" unique_id=477972078]
 layout_mode = 2
 
 [node name="UseButton" type="Button" parent="InventoryPanel/VBoxContainer/ButtonRow" unique_id=921742980]
-theme_type_variation = "MenuButton"
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"MenuButton"
 disabled = true
 text = "Use"
 
 [node name="InventoryBackButton" type="Button" parent="InventoryPanel/VBoxContainer/ButtonRow" unique_id=1175758409]
-theme_type_variation = "MenuButton"
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"MenuButton"
 text = "Back"
 
 [node name="HelpPanel" type="PanelContainer" parent="." unique_id=397059110]
-theme_type_variation = "MenuPanel"
 visible = false
 offset_left = 80.0
 offset_top = 20.0
 offset_right = 560.0
 offset_bottom = 340.0
+theme_type_variation = &"MenuPanel"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HelpPanel" unique_id=165292353]
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="TitleLabel" type="Label" parent="HelpPanel/VBoxContainer" unique_id=2065779453]
-theme_type_variation = "MenuLabelTitle"
 layout_mode = 2
+theme_type_variation = &"MenuLabelTitle"
 text = "Help"
 horizontal_alignment = 1
 
@@ -343,25 +349,25 @@ follow_focus = true
 layout_mode = 2
 
 [node name="HelpBackButton" type="Button" parent="HelpPanel/VBoxContainer" unique_id=73559269]
-theme_type_variation = "MenuButton"
 layout_mode = 2
+theme_type_variation = &"MenuButton"
 text = "Back"
 
 [node name="QuestPanel" type="PanelContainer" parent="." unique_id=176821032]
-theme_type_variation = "MenuPanel"
 visible = false
 offset_left = 36.0
 offset_top = 8.0
 offset_right = 604.0
 offset_bottom = 352.0
+theme_type_variation = &"MenuPanel"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="QuestPanel" unique_id=40346790]
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="TitleLabel" type="Label" parent="QuestPanel/VBoxContainer" unique_id=802097382]
-theme_type_variation = "MenuLabelTitle"
 layout_mode = 2
+theme_type_variation = &"MenuLabelTitle"
 text = "Quests"
 horizontal_alignment = 1
 
@@ -370,29 +376,29 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="QuestList" type="ItemList" parent="QuestPanel/VBoxContainer/ContentRow" unique_id=710116234]
-theme_type_variation = "ItemListRetro"
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_type_variation = &"ItemListRetro"
 
 [node name="DetailPanel" type="PanelContainer" parent="QuestPanel/VBoxContainer/ContentRow" unique_id=1175041149]
-theme_type_variation = "MenuPanel"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_type_variation = &"MenuPanel"
 
 [node name="DetailVBox" type="VBoxContainer" parent="QuestPanel/VBoxContainer/ContentRow/DetailPanel" unique_id=1936961949]
 layout_mode = 2
 
 [node name="QuestTitleLabel" type="Label" parent="QuestPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox" unique_id=697260850]
-theme_type_variation = "MenuLabel"
 layout_mode = 2
+theme_type_variation = &"MenuLabel"
 
 [node name="QuestDescriptionLabel" type="Label" parent="QuestPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox" unique_id=16845473]
-theme_type_variation = "MenuLabelSmall"
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+theme_type_variation = &"MenuLabelSmall"
 autowrap_mode = 3
 
 [node name="ObjectivesScroll" type="ScrollContainer" parent="QuestPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox" unique_id=1635420339]
@@ -401,21 +407,21 @@ size_flags_vertical = 3
 follow_focus = true
 
 [node name="ObjectivesLabel" type="Label" parent="QuestPanel/VBoxContainer/ContentRow/DetailPanel/DetailVBox/ObjectivesScroll" unique_id=2062402889]
-theme_type_variation = "MenuLabelSmall"
 layout_mode = 2
+theme_type_variation = &"MenuLabelSmall"
 autowrap_mode = 3
 
 [node name="ButtonRow" type="HBoxContainer" parent="QuestPanel/VBoxContainer" unique_id=2133584063]
 layout_mode = 2
 
 [node name="PinButton" type="Button" parent="QuestPanel/VBoxContainer/ButtonRow" unique_id=159892281]
-theme_type_variation = "MenuButton"
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"MenuButton"
 text = "Pin to HUD"
 
 [node name="QuestBackButton" type="Button" parent="QuestPanel/VBoxContainer/ButtonRow" unique_id=984565332]
-theme_type_variation = "MenuButton"
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"MenuButton"
 text = "Back"

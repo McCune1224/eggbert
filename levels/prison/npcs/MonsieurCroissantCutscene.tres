@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://resources/cutscene/CutsceneCondition.cs" id="2_cond"]
 [ext_resource type="Script" path="res://resources/dialog/DialogVoiceResource.cs" id="3_voice"]
 [ext_resource type="Script" path="res://resources/cutscene/CutsceneStep.cs" id="4_step"]
+[ext_resource type="Texture2D" uid="uid://bisfndqlehc6l" path="res://assets/characters/Eggbert.png" id="5_texture"]
 
 [sub_resource type="Resource" id="SubResource_cond_notmet"]
 script = ExtResource("2_cond")
@@ -25,9 +26,14 @@ script = ExtResource("2_cond")
 Type = 2
 FlagKey = "gossip_waffles_about_croissant"
 
+[sub_resource type="AtlasTexture" id="SubResource_portrait_croissant"]
+region = Rect2(4, 4, 24, 20)
+atlas = ExtResource("5_texture")
+
 [sub_resource type="Resource" id="SubResource_voice_croissant"]
 script = ExtResource("3_voice")
 SpeakerName = "Monsieur Croissant"
+Portrait = SubResource("SubResource_portrait_croissant")
 BasePitch = 1.15
 VolumeDb = -2.0
 ConsonantPitchVariance = 0.08

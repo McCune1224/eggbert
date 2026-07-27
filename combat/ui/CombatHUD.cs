@@ -21,10 +21,10 @@ public partial class CombatHUD : CanvasLayer
     private List<EnemyBar> _enemyBars = new();
 
     private static readonly Color BarBgColor = new Color(0.1f, 0.1f, 0.15f, 0.9f);
-    private static readonly Color PlayerBarColor = new Color(0.2f, 0.8f, 0.2f);
-    private static readonly Color EnemyBarColor = new Color(0.8f, 0.2f, 0.2f);
-    private static readonly Color LowHpColor = new Color(0.9f, 0.9f, 0.1f);
-    private static readonly Color CriticalHpColor = new Color(0.9f, 0.2f, 0.1f);
+    private static readonly Color PlayerBarColor = new Color(0.9098039f, 0.72156864f, 0.3764706f);
+    private static readonly Color EnemyBarColor = new Color(0.8784314f, 0.40784314f, 0.40784314f);
+    private static readonly Color LowHpColor = new Color(0.91f, 0.45f, 0.1f);
+    private static readonly Color CriticalHpColor = new Color(0.8784314f, 0.40784314f, 0.40784314f);
 
     private const int BarWidth = 140;
     private const int BarHeight = 12;
@@ -191,7 +191,7 @@ public partial class CombatHUD : CanvasLayer
                          EnemyBarColor;
 
         if (bar.HC.IsDead)
-            bar.NameLabel.Modulate = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+            bar.NameLabel.Modulate = new Color(0.53333336f, 0.53333336f, 0.53333336f, 1f);
     }
 
     private void UpdateEnemyBarSafe(EnemyBar bar)

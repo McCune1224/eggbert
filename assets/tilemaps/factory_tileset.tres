@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=2 format=3]
+[gd_resource type="TileSet" format=3 uid="uid://dsv764cdk3bkw"]
 
 [ext_resource type="Texture2D" uid="uid://6tnuwowjvst3" path="res://assets/tilemaps/factorytileset.png" id="1"]
 

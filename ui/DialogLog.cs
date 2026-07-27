@@ -39,7 +39,7 @@ public partial class DialogLog : CanvasLayer
             ThemeTypeVariation = "MenuLabelSmall"
         };
         _logLabel.AddThemeFontSizeOverride("normal_font_size", 10);
-        _logLabel.AddThemeColorOverride("default_color", new Color(0.8f, 0.8f, 0.8f));
+        _logLabel.AddThemeColorOverride("default_color", new Color(0.83137256f, 0.76862746f, 0.627451f, 1f));
         _container.AddChild(_logLabel);
 
         _container.Visible = false;
