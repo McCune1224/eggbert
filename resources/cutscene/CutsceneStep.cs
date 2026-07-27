@@ -15,9 +15,8 @@ public enum StepType
     Fade,
     PromptChoice,
     LockPlayer,
-    UnlockPlayer,
-    DialogBranch,
-    Stop
+    Stop,
+    DialogBranch
 }
 
 [GlobalClass]

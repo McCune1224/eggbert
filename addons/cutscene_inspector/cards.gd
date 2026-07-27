@@ -6,6 +6,12 @@ extends RefCounted
 # Extracted into a RefCounted helper so tests can instantiate them
 # outside the editor (EditorInspectorPlugin itself is editor-only).
 
+# Indexed by StepType enum ordinal:
+# SayDialog=0, MoveNpc=1, MovePlayer=2, FaceDirection=3, PlayAnimation=4,
+# CameraMove=5, Wait=6, SetFlag=7, Fade=8, PromptChoice=9,
+# LockPlayer=10, UnlockPlayer=11, Stop=12, DialogBranch=13.
+# Order preserves the pre-DialogBranch enum so shipped .tres files
+# that store Type=12 (Stop) still deserialize as Stop.
 const STEP_TYPE_DATA := [
 	[0, "💬 SayDialog", "say_dialog"],
 	[1, "🚶 MoveNpc", "move_npc"],
@@ -19,8 +25,8 @@ const STEP_TYPE_DATA := [
 	[9, "❓ PromptChoice", "prompt_choice"],
 	[10, "🔒 LockPlayer", ""],
 	[11, "🔓 UnlockPlayer", ""],
-	[12, "🌿 DialogBranch", "dialog_branch"],
-	[13, "⛔ Stop", ""],
+	[12, "⛔ Stop", ""],
+	[13, "🌿 DialogBranch", "dialog_branch"],
 ]
 
 # Optional callback hooks the EditorInspectorPlugin uses to mutate the resource
