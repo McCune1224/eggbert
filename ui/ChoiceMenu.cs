@@ -12,15 +12,15 @@ public partial class ChoiceMenu : CanvasLayer
 	private int _selectedIndex;
 	private Control _root;
 	private VBoxContainer _choiceContainer;
-	private CenterContainer _centerBox;
-	private NinePatchRect _panel;
+	private PanelContainer _panel;
+	private MarginContainer _innerMargin;
 	private double _cursorBobTime;
 	private static Font _yosterFont => FontCache.Yoster;
 	private static Texture2D _cursorTexture => ResourceLoader.Load<Texture2D>("res://assets/ui/cursor_arrow.png");
-	private static Texture2D _panelTexture => ResourceLoader.Load<Texture2D>("res://assets/ui/panel_9slice.png");
 
 	private const float CURSOR_BOB_SPEED = 4.0f;       // radians per second
 	private const float CURSOR_BOB_AMPLITUDE = 2.0f;   // pixels
+	private const int CURSOR_SLOT_SIZE = 12;            // px, must match cursor texture
 	private const int PANEL_PADDING = 16;
 	private const int CHOICE_SEPARATION = 8;
 
@@ -34,7 +34,7 @@ public partial class ChoiceMenu : CanvasLayer
 		_root.MouseFilter = Control.MouseFilterEnum.Ignore;
 		AddChild(_root);
 
-		// Full-screen dark backdrop (kept per plan).
+		// Full-screen dark backdrop.
 		var backdrop = new ColorRect
 		{
 			Color = new Color(0, 0, 0, 0.5f),
@@ -43,35 +43,36 @@ public partial class ChoiceMenu : CanvasLayer
 		backdrop.SetAnchorsPreset(Control.LayoutPreset.FullRect);
 		_root.AddChild(backdrop);
 
-		// Centered NinePatch panel for the choice container.
-		_centerBox = new CenterContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
-		_centerBox.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-		_root.AddChild(_centerBox);
+		// Centered, auto-sizing panel. PanelContainer propagates the inner
+		// content's minimum size to itself, and the MenuPanel theme variation
+		// paints the panel_9slice background.
+		var centerBox = new CenterContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
+		centerBox.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+		_root.AddChild(centerBox);
 
-		_panel = new NinePatchRect
+		_panel = new PanelContainer
 		{
-			Texture = _panelTexture,
-			RegionRect = new Rect2(0, 0, 48, 48),
-			PatchMarginLeft = 8,
-			PatchMarginRight = 8,
-			PatchMarginTop = 8,
-			PatchMarginBottom = 8,
+			ThemeTypeVariation = "MenuPanel",
 			MouseFilter = Control.MouseFilterEnum.Stop
 		};
-		_centerBox.AddChild(_panel);
+		centerBox.AddChild(_panel);
 
-		_choiceContainer = new VBoxContainer { MouseFilter = Control.MouseFilterEnum.Pass };
-		_choiceContainer.AddThemeConstantOverride("separation", CHOICE_SEPARATION);
-		var innerMargin = new MarginContainer
+		_innerMargin = new MarginContainer
 		{
 			MouseFilter = Control.MouseFilterEnum.Pass
 		};
-		innerMargin.AddThemeConstantOverride("margin_left", PANEL_PADDING);
-		innerMargin.AddThemeConstantOverride("margin_right", PANEL_PADDING);
-		innerMargin.AddThemeConstantOverride("margin_top", PANEL_PADDING);
-		innerMargin.AddThemeConstantOverride("margin_bottom", PANEL_PADDING);
-		innerMargin.AddChild(_choiceContainer);
-		_panel.AddChild(innerMargin);
+		_innerMargin.AddThemeConstantOverride("margin_left", PANEL_PADDING);
+		_innerMargin.AddThemeConstantOverride("margin_right", PANEL_PADDING);
+		_innerMargin.AddThemeConstantOverride("margin_top", PANEL_PADDING);
+		_innerMargin.AddThemeConstantOverride("margin_bottom", PANEL_PADDING);
+		_panel.AddChild(_innerMargin);
+
+		_choiceContainer = new VBoxContainer
+		{
+			MouseFilter = Control.MouseFilterEnum.Pass
+		};
+		_choiceContainer.AddThemeConstantOverride("separation", CHOICE_SEPARATION);
+		_innerMargin.AddChild(_choiceContainer);
 	}
 
 	public void SetChoices(List<string> choices)
@@ -85,17 +86,24 @@ public partial class ChoiceMenu : CanvasLayer
 		{
 			_originalTexts.Add(choice);
 
-			// Button row: cursor (left) + button (fills rest).
+			// Row: fixed-size Control slot (reserves cursor width in HBoxContainer)
+			// containing a Sprite2D for the bobbing draw.
 			var row = new HBoxContainer { MouseFilter = Control.MouseFilterEnum.Stop };
 			row.AddThemeConstantOverride("separation", 6);
 
+			var slot = new Control
+			{
+				CustomMinimumSize = new Vector2(CURSOR_SLOT_SIZE, CURSOR_SLOT_SIZE),
+				MouseFilter = Control.MouseFilterEnum.Ignore
+			};
 			var cursor = new Sprite2D
 			{
 				Texture = _cursorTexture,
-				Visible = false,
-				Centered = true
+				Centered = true,
+				Position = new Vector2(CURSOR_SLOT_SIZE / 2f, CURSOR_SLOT_SIZE / 2f)
 			};
-			row.AddChild(cursor);
+			slot.AddChild(cursor);
+			row.AddChild(slot);
 			_cursors.Add(cursor);
 
 			var btn = new Button
@@ -123,14 +131,18 @@ public partial class ChoiceMenu : CanvasLayer
 
 	public override void _Process(double delta)
 	{
-		// Bob the selected cursor (matches DialogBubble's page-arrow pattern).
+		// Bob the selected cursor. HBoxContainer owns the slot's transform,
+		// so we animate the inner Sprite2D (child of the slot) — its position
+		// is local to the slot, which the container doesn't touch.
 		if (_selectedIndex < 0 || _selectedIndex >= _cursors.Count)
 			return;
 		_cursorBobTime += delta;
+		var center = new Vector2(CURSOR_SLOT_SIZE / 2f, CURSOR_SLOT_SIZE / 2f);
 		var offset = new Vector2(0, Mathf.Sin((float)_cursorBobTime * CURSOR_BOB_SPEED) * CURSOR_BOB_AMPLITUDE);
-		foreach (var cursor in _cursors)
+		for (int i = 0; i < _cursors.Count; i++)
 		{
-			cursor.Position = new Vector2(cursor.Position.X, 0) + offset;
+			if (_cursors[i] != null)
+				_cursors[i].Position = center + offset;
 		}
 	}
 

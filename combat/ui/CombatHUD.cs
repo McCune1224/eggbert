@@ -9,6 +9,8 @@ public partial class CombatHUD : CanvasLayer
     private Label _playerLabel;
     private HealthComponent _playerHC;
 
+    private PanelContainer _enemyPanel;
+    private VBoxContainer _enemyList;
     private struct EnemyBar
     {
         public HealthComponent HC;
@@ -16,7 +18,6 @@ public partial class CombatHUD : CanvasLayer
         public ColorRect Bg;
         public ColorRect Fill;
     }
-
     private List<EnemyBar> _enemyBars = new();
 
     private static readonly Color BarBgColor = new Color(0.1f, 0.1f, 0.15f, 0.9f);
@@ -85,6 +86,22 @@ public partial class CombatHUD : CanvasLayer
         _playerPanel.AddChild(playerVBox);
         AddChild(_playerPanel);
 
+        // Enemy bars panel (HudPanel) — top-right, auto-grows with rows.
+        const int enemyPanelWidth = EnemyBarWidth + 16;  // bar + padding
+        _enemyPanel = new PanelContainer
+        {
+            ThemeTypeVariation = "HudPanel",
+            Position = new Vector2(640 - sideMargin - enemyPanelWidth, topMargin),
+            CustomMinimumSize = new Vector2(enemyPanelWidth, 0)
+        };
+        _enemyList = new VBoxContainer
+        {
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        _enemyList.AddThemeConstantOverride("separation", 2);
+        _enemyPanel.AddChild(_enemyList);
+        AddChild(_enemyPanel);
+
         GameLogger.Debug("Combat", "CombatHUD: _Ready");
     }
 
@@ -98,39 +115,45 @@ public partial class CombatHUD : CanvasLayer
 
     public void AddEnemy(string name, HealthComponent hc)
     {
-        const int startY = 50;
         int index = _enemyBars.Count;
+        int y = index * EnemyRowHeight;  // tracked for legacy callers / debug
 
-        int x = 640 - 8 - EnemyBarWidth - 8;  // 8px outer margin + panel padding
-        int y = startY + index * EnemyRowHeight;
+        // Row: name label above the bar; everything inside the themed panel.
+        var row = new VBoxContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
 
         var label = new Label
         {
             Text = name,
             ThemeTypeVariation = "HudLabel",
-            MouseFilter = Control.MouseFilterEnum.Ignore,
-            Position = new Vector2(x, y - 11)
+            MouseFilter = Control.MouseFilterEnum.Ignore
         };
         label.AddThemeFontSizeOverride("font_size", 9);
-        AddChild(label);
+        row.AddChild(label);
 
+        var barContainer = new Control
+        {
+            CustomMinimumSize = new Vector2(EnemyBarWidth, EnemyBarHeight),
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
         var bg = new ColorRect
         {
-            Position = new Vector2(x, y),
+            Position = Vector2.Zero,
             Size = new Vector2(EnemyBarWidth, EnemyBarHeight),
             Color = BarBgColor,
             MouseFilter = Control.MouseFilterEnum.Ignore
         };
-        AddChild(bg);
-
         var fill = new ColorRect
         {
-            Position = new Vector2(x, y),
+            Position = Vector2.Zero,
             Size = new Vector2(EnemyBarWidth, EnemyBarHeight),
             Color = EnemyBarColor,
             MouseFilter = Control.MouseFilterEnum.Ignore
         };
-        AddChild(fill);
+        barContainer.AddChild(bg);
+        barContainer.AddChild(fill);
+        row.AddChild(barContainer);
+
+        _enemyList.AddChild(row);
 
         var entry = new EnemyBar { HC = hc, NameLabel = label, Bg = bg, Fill = fill };
         _enemyBars.Add(entry);
