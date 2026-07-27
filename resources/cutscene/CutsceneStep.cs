@@ -15,6 +15,7 @@ public enum StepType
     Fade,
     PromptChoice,
     LockPlayer,
+    UnlockPlayer,
     Stop,
     DialogBranch
 }
