@@ -8,6 +8,13 @@ public enum QuestStatus
 	Completed
 }
 
+/// <summary>
+/// Manages quest tracking using WorldFlags (bitmask or string flags).
+/// Supports quest pinning (single active quest) and objective completion.
+/// Pinned quest is stored in WorldFlags under "quest_pinned_id";
+/// unpinning uses the "__unpinned__" sentinel. Validation in
+/// _GetConfigurationWarnings catches duplicate quest IDs and null definitions.
+/// </summary>
 [Tool]
 public partial class QuestManager : Node
 {

@@ -8,7 +8,10 @@ public partial class ConditionalItem : Area2D
 {
     [Export] public string ItemId { get; set; } = "";
     [Export] public int Count { get; set; } = 1;
-    [Export] public string RequiredFlag { get; set; } = "";
+    /// <summary>
+    /// If non-empty, the item is only visible and collidable when this WorldFlag is set (or not set, when RequiresNotSet is true).
+    /// </summary>
+     [Export] public string RequiredFlag { get; set; } = "";
     [Export] public bool RequiresNotSet { get; set; } = false;
     [Export] public string[] PickupDialogLines { get; set; }
 

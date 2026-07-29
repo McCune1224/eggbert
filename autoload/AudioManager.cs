@@ -1,5 +1,12 @@
 using Godot;
 
+/// <summary>
+/// Manages music (2-player cross-fade pool on MUSIC bus), ambience,
+/// and SFX (on SFX bus). PlayMusic uses round-robin between two
+/// AudioStreamPlayers for seamless cross-fade. PlaySfx plays one-shot
+/// sound effects; PlayAmbience plays continuous ambient loops that
+/// can be stopped independently.
+/// </summary>
 public partial class AudioManager : Node
 {
     private static AudioManager _instance;

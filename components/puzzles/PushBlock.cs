@@ -1,3 +1,18 @@
+/// <summary>
+/// A pushable block that slides in response to player movement. Supports standard
+/// four-direction pushing and a <see cref="DirectionalMode"/> that constrains motion
+/// to the push axis only.
+/// </summary>
+/// <remarks>
+/// <b>DirectionalMode toggle:</b> When enabled, diagonal pushes are snapped to the dominant
+/// axis so the block moves in a straight line rather than diagonally. Use this for puzzles
+/// that require precise axis-aligned sliding.
+/// <b>Full-tile clearance:</b> The collision shape is sized to a 32×32 tile region
+/// (see <see cref="ApplyTexture"/>). The block requires one full tile of free space along
+/// its movement path to slide; partial overlaps with walls or other pushable blocks will
+/// block movement.
+/// </remarks>
+
 using Godot;
 
 [GlobalClass]
@@ -62,11 +77,13 @@ public partial class PushBlock : CharacterBody2D
 
         if (DirectionalMode)
         {
-            // In directional mode, constrain movement to the push axis only
+            // DirectionalMode: snap to the dominant axis so the block moves in a straight line
             pushDir = new Vector2(
                 Mathf.Abs(pushDir.X) > Mathf.Abs(pushDir.Y) ? Mathf.Sign(pushDir.X) : 0f,
                 Mathf.Abs(pushDir.Y) > Mathf.Abs(pushDir.X) ? Mathf.Sign(pushDir.Y) : 0f
             );
+            // Full-tile clearance required — the collision shape is a 32×32 tile region;
+            // partial overlaps with walls or other pushables will block movement.
         }
 
         Velocity = pushDir * PushSpeed;

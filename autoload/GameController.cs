@@ -59,6 +59,7 @@ public partial class GameController : Node
 	{
 		GameLogger.Info("GameController", $"Loading level (pos): {scenePath}");
 		string prevLevel = CurrentLevel?.Name ?? "none";
+		// CurrentLevel pattern: the loaded scene is reparented under the "CurrentLevel" node; each load replaces its children, so prevLevel is only used for debug logging.
 		CutsceneController.Instance.Stop();
 		DialogManager.Instance.Reset();
 		GetTree().Paused = true;
@@ -86,6 +87,7 @@ public partial class GameController : Node
 		Node loadedLevel = mapScene.Instantiate();
 		levelRoot.AddChild(loadedLevel);
 		CurrentLevel = loadedLevel;
+		// Update the current-level reference so combat re-entry and return-position saves work correctly.
 
 		// Place player at the stored position
 		var player = Player.Instance;
@@ -93,6 +95,7 @@ public partial class GameController : Node
 		GameLogger.Debug("GameController", $"Player placed at {playerPosition}");
 
 		await FadeTransition.Instance.PlayFadeIn();
+		// Fade transition in; the LevelLoaded signal fires after the new level is ready.
 		if (CurrentLevel is BaseLevel baseLevel && !string.IsNullOrEmpty(baseLevel.LevelName))
 			FadeTransition.Instance.ShowLocation(baseLevel.LevelName);
 		EmitSignal(nameof(LevelLoaded));
@@ -108,6 +111,7 @@ public partial class GameController : Node
 		CutsceneController.Instance.Stop();
 		GameLogger.Info("GameController", $"Loading level (transition): {scenePath} → '{targetTransitionName}'");
 		string prevLevel = CurrentLevel?.Name ?? "none";
+		// CurrentLevel pattern: the loaded scene replaces children of the "CurrentLevel" node each load; prevLevel is for debug context only.
 		DialogManager.Instance.Reset();
 		GetTree().Paused = true;
 		EmitSignal(nameof(LevelLoadStarted));
@@ -133,6 +137,7 @@ public partial class GameController : Node
 		Node loadedLevel = mapScene.Instantiate();
 		levelRoot.AddChild(loadedLevel);
 		CurrentLevel = loadedLevel;
+		// Update the current-level reference so combat re-entry and return-position saves work correctly.
 
 		// Place player at the transition area
 		LevelTransition transitionArea = CurrentLevel.GetNodeOrNull<LevelTransition>(targetTransitionName);
@@ -165,6 +170,7 @@ public partial class GameController : Node
 		GameLogger.Debug("GameController", $"Transition '{targetTransitionName}' side={transitionArea.Side} — player placed at {Player.Instance.Position}");
 
 		await FadeTransition.Instance.PlayFadeIn();
+		// Fade transition in; the LevelLoaded signal fires after the new level is ready.
 		if (CurrentLevel is BaseLevel baseLevel && !string.IsNullOrEmpty(baseLevel.LevelName))
 			FadeTransition.Instance.ShowLocation(baseLevel.LevelName);
 		EmitSignal(nameof(LevelLoaded));

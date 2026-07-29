@@ -1,3 +1,17 @@
+/// <summary>
+/// TileMapLayer that computes world-space camera bounds and generates collision-border
+/// visuals at level load. Registers the bounds with <see cref="GameController"/> so the
+/// camera can clamp to the level edges.
+/// </summary>
+/// <remarks>
+/// <b>TileMapLayer → camera bounds + collision border generation:</b> On <see cref="_Ready"/>
+/// the layer calls <see cref="TryGetUsedLocalRect"/> to get the used tile region, converts
+/// it to world coordinates via <see cref="MapToLocal"/>, then builds a bounding rectangle.
+/// This rectangle is sent to <see cref="GameController.ChangeTileMapBounds"/> for camera
+/// clamping. Additionally <see cref="CreateMapBorders"/> spawns thin static-body border
+/// nodes around the level perimeter so the player cannot walk off the map.
+/// </remarks>
+
 using Godot;
 using Godot.Collections;
 

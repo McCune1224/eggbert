@@ -10,6 +10,9 @@ public partial class WorldFlags : Node, ISavable
     private static WorldFlags _instance;
     public static WorldFlags Instance => _instance;
 
+    // Dictionary persisted via ISavable; keys follow naming conventions
+    // (see DESIGN.md): cutscene_<id>, gossip_<A>_about_<B>, met_<npc>,
+    // quest_pinned_id, and the "__unpinned__" sentinel for unpinning.
     private Dictionary<string, Variant> _flags = new();
 
     [Signal]

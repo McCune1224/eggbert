@@ -2,6 +2,23 @@ using Godot;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+/// <summary>
+/// The type of action a cutscene step performs. Each member controls a distinct behavior:
+/// SayDialog — displays dialog lines via DialogManager.
+/// MoveNpc — moves a named NPC node to a target position over a duration.
+/// MovePlayer — moves the player character to a target position.
+/// FaceDirection — plays a face-direction idle animation on a node (e.g. "idle_down").
+/// PlayAnimation — plays a named animation on an AnimationPlayer node.
+/// CameraMove — smoothly moves the player camera to an offset position.
+/// Wait — pauses execution for a specified number of seconds.
+/// SetFlag — sets a world flag to a value in WorldFlags.
+/// Fade — fades the screen in or out.
+/// PromptChoice — presents the player with a choice prompt; the selection index becomes a world flag.
+/// LockPlayer — disables player movement/input for the duration of the cutscene.
+/// UnlockPlayer — re-enables player movement/input.
+/// Stop — halts the currently running cutscene.
+/// DialogBranch — advances a DialogBranch resource from a specific start node, enabling branching narrative.
+/// </summary>
 public enum StepType
 {
     SayDialog,
@@ -20,45 +37,76 @@ public enum StepType
     DialogBranch
 }
 
+/// <summary>
+/// A single step in a cutscene sequence, defined by <see cref="StepType"/> and conditionally
+/// executed via <see cref="CutsceneCondition"/>. Fields scoped by [ExportGroup] are only
+/// meaningful for their associated step types (see each field's summary).
+/// </summary>
 [GlobalClass]
 public partial class CutsceneStep : Resource
 {
+    /// <summary>
+    /// Which type of step this is. Determines which [Export] fields are interpreted.
+    /// </summary>
     [Export] public StepType Type { get; set; } = StepType.SayDialog;
+    /// <summary>
+    /// Condition that must be met for this step to execute. If null, the step always runs.
+    /// </summary>
     [Export] public CutsceneCondition Condition { get; set; }
 
     [ExportGroup("Dialog")]
+    /// <summary>Lines displayed when <see cref="StepType"/> is SayDialog or PromptChoice. Ignored by other types.</summary>
     [Export] public string[] DialogLines { get; set; }
+    /// <summary>Voice resource for SayDialog and PromptChoice steps. Falls back to <see cref="DialogManager.Instance.DefaultVoice"/> if null.</summary>
     [Export] public DialogVoiceResource DialogVoice { get; set; }
 
     [ExportGroup("Movement")]
+    /// <summary>NodePath to the NPC node to move. Used by MoveNpc only.</summary>
     [Export] public NodePath TargetNode { get; set; }
+    /// <summary>Target world position the node moves toward. Used by MoveNpc and MovePlayer.</summary>
     [Export] public Vector2 MoveTarget { get; set; }
+    /// <summary>Duration of the move in seconds. Used by MoveNpc and MovePlayer.</summary>
     [Export] public float MoveDuration { get; set; } = 1.0f;
 
     [ExportGroup("Animation")]
+    /// <summary>NodePath to the node whose animation is played. Used by FaceDirection and PlayAnimation.</summary>
     [Export] public NodePath AnimationNode { get; set; }
+    /// <summary>Name of the animation to play (FaceDirection prepends "idle_"; PlayAnimation uses this directly). Used by FaceDirection and PlayAnimation.</summary>
     [Export] public string AnimationName { get; set; }
 
     [ExportGroup("Timing")]
+    /// <summary>Number of seconds to pause execution. Used by Wait only.</summary>
     [Export] public float WaitSeconds { get; set; }
 
     [ExportGroup("World Flag")]
+    /// <summary>The flag key to set. Used by SetFlag only.</summary>
     [Export] public string SetFlagKey { get; set; }
+    /// <summary>The value to assign to <see cref="SetFlagKey"/>. Used by SetFlag only.</summary>
     [Export] public Variant SetFlagValue { get; set; }
 
     [ExportGroup("Fade")]
+    /// <summary>"out" fades the screen to black; "in" fades it back in. Used by Fade only.</summary>
     [Export] public string FadeDirection { get; set; } = "out";
 
     [ExportGroup("Choice")]
+    /// <summary>Displayed choice labels shown to the player. Used by PromptChoice only.</summary>
     [Export] public string[] ChoiceOptions { get; set; }
+    /// <summary>World flags set to true when the player picks the corresponding option. Used by PromptChoice only.</summary>
     [Export] public string[] ChoiceFlags { get; set; }
+    /// <summary>Prompt lines shown before the choice menu. Used by PromptChoice only.</summary>
     [Export] public string[] ChoicePromptLines { get; set; }
+    /// <summary>Voice resource for choice prompt audio. Used by PromptChoice only.</summary>
     [Export] public DialogVoiceResource ChoicePromptVoice { get; set; }
 
     [ExportGroup("Dialog Branch")]
+    /// <summary>The DialogBranch resource to advance. Used by DialogBranch only.</summary>
     [Export] public Resource DialogBranchResource { get; set; }
+    /// <summary>The starting node id within <see cref="DialogBranchResource"/>. Used by DialogBranch only.</summary>
     [Export] public string StartNodeId { get; set; } = "";
 
+    /// <summary>
+    /// Checks whether the cutscene condition is met for this step. Returns true if <see cref="Condition"/> is null.
+    /// </summary>
     public bool ShouldExecute(WorldFlags flags, int lastChoiceIndex)
     {
         if (Condition == null) return true;

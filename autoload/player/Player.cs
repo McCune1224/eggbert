@@ -7,11 +7,15 @@ public partial class Player : CharacterBody2D, ISavable
     public const float SprintScale = 1.7f;
 
     private bool _inInteraction = false;
-    public bool InInteraction
-    {
-        get => _inInteraction;
-        set => _inInteraction = value;
-    }
+    /// <summary>
+    /// Prevents movement/input processing during cutscenes and dialogs.
+    /// Set to true by StartInteraction(), false by EndInteraction().
+    /// </summary>
+     public bool InInteraction
+     {
+         get => _inInteraction;
+         set => _inInteraction = value;
+     }
 
     public Vector2 FacingDirection { get; private set; } = Vector2.Down;
 
@@ -84,13 +88,18 @@ public partial class Player : CharacterBody2D, ISavable
 
     public override void _Process(double delta)
     {
-        if (!_inInteraction)
+        // Movement is gated by InInteraction to prevent input during cutscenes/dialogs
+         if (!_inInteraction)
         {
             HandleMovement(delta);
         }
     }
 
-    private void HandleMovement(double delta)
+    /// <summary>
+    /// Reads input vector, applies sprint/dash modifiers, moves the player,
+    /// and pushes adjacent PushBlock obstacles in the slide direction.
+    /// </summary>
+     private void HandleMovement(double delta)
     {
         Vector2 direction = Input.GetVector("player_left", "player_right", "player_up", "player_down");
         if (direction.Length() > 1.0f)
@@ -103,7 +112,8 @@ public partial class Player : CharacterBody2D, ISavable
 
         float speed = PlayerSpeed * (1 + Equipment.Instance.TotalSpeedBoost / 100f);
         Velocity = direction * Mathf.Max(PlayerSpeed * 0.5f, speed);
-        if (Input.IsActionJustPressed("dash"))
+            // Dash: overrides movement direction and speed for a brief burst
+             if (Input.IsActionJustPressed("dash"))
         {
             GameLogger.Debug("Player", $"Dash pressed — direction={direction}, dashing={_dash.IsDashing()}");
             _dash.StartDash(direction);
@@ -134,7 +144,11 @@ public partial class Player : CharacterBody2D, ISavable
         UpdateAnimation(direction);
     }
 
-    private void UpdateAnimation(Vector2 direction)
+    /// <summary>
+    /// Updates the player's animation state based on movement direction.
+    /// Plays idle variants when stopped; walk_left/right/back/forward when moving.
+    /// </summary>
+     private void UpdateAnimation(Vector2 direction)
     {
         if (direction == Vector2.Zero)
         {
@@ -270,7 +284,9 @@ public partial class Player : CharacterBody2D, ISavable
     // --- ISavable ---
 
     public string SaveKey => "player";
-    public Dictionary<string, Variant> Serialize()
+    /// <summary>Serializes player state to a dictionary for save storage.</summary>
+    /// <returns>Dictionary with position, health, facing direction, and level scene path.</returns>
+     public Dictionary<string, Variant> Serialize()
     {
         string levelPath = GameController.Instance.CurrentLevel?.SceneFilePath ?? "res://levels/overworld/maps/Overworld.tscn";
         GameLogger.Debug("Player", $"Serialize: pos={Position}, hp={HealthComponent.CurrentHP}, scene={levelPath}");
@@ -284,7 +300,9 @@ public partial class Player : CharacterBody2D, ISavable
         };
     }
 
-    public void Deserialize(Dictionary<string, Variant> data)
+    /// <summary>Restores player state from saved dictionary data.</summary>
+    /// <param name="data">Serialized dictionary with position, health, and level scene path.</param>
+     public void Deserialize(Dictionary<string, Variant> data)
     {
         GameLogger.Debug("Player", $"Deserialize: data keys=[{string.Join(",", data.Keys)}]");
         int health = 100;
@@ -317,11 +335,17 @@ public partial class Player : CharacterBody2D, ISavable
         GameLogger.Info("Player", $"Deserialize: LoadLevel returned (async, level may not be loaded yet).");
     }
 
-    public int GetLoadPriority() => 10;
+    /// <summary>Returns the load priority. Player (10) loads before Equipment (5), Inventory (0), WorldFlags (0).</summary>
+    /// <returns>Load priority value; higher values load first.</returns>
+     public int GetLoadPriority() => 10;
 
     private bool _deathInProgress = false;
 
-    private async void OnPlayerDied()
+    /// <summary>
+    /// Handles player death: defers if in combat arena, shows "You collapsed..." dialog,
+    /// then reloads from the last save via SaveManager. Prevents double-triggering with _deathInProgress guard.
+    /// </summary>
+     private async void OnPlayerDied()
     {
         if (_deathInProgress) return;
         _deathInProgress = true;

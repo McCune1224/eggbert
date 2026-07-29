@@ -1,3 +1,18 @@
+/// <summary>
+/// Toggleable door that switches between open and closed states. Controls a
+/// <see cref="CollisionShape2D"/> disable/enabled state and a visual <see cref="Modulate"/>
+/// fade. Fires audio SFX on state change.
+/// </summary>
+/// <remarks>
+/// <b>Toggle / Door state pattern:</b> <see cref="IsOpen"/> reflects the disabled state of
+/// the collision shape. <see cref="Open"/> disables collision and fades the sprite;
+/// <see cref="Close"/> re-enables collision and restores full opacity. Both are wrapped in
+/// <see cref="CallDeferred"/> to ensure collision changes are thread-safe.
+/// <b>StartOpen:</b> When true, the door opens immediately on <see cref="_Ready"/>.
+/// <b>Signals:</b> This class does not emit custom signals for open/close; call
+/// <see cref="Open"/> or <see cref="Close"/> directly and observe <see cref="IsOpen"/>.
+/// </remarks>
+
 using Godot;
 
 [GlobalClass]

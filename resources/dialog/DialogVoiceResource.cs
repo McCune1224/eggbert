@@ -1,34 +1,58 @@
 using Godot;
 
+/// <summary>
+/// Voice and intonation settings for a dialog speaker.
+/// If <see cref="VoiceStream"/> is assigned, it is used for all voiced line audio.
+/// When VoiceStream is null, <see cref="GetBlipStream"/> generates a procedural default blip (80ms sine at 440Hz, configured via <see cref="BlipDuration"/>)
+/// as a fallback, avoiding the need for a separate .ogg clip for every line.
+/// </summary>
 [GlobalClass]
 public partial class DialogVoiceResource : Resource
 {
+	/// <summary>Custom audio stream for this speaker. If null, a procedural blip is generated.</summary>
 	[Export] public AudioStream VoiceStream { get; set; }
+	/// <summary>Displayed as the speaker name in the dialog UI.</summary>
 	[Export] public string SpeakerName { get; set; } = "";
+	/// <summary>Optional portrait texture shown beside the speaker's dialog text.</summary>
 	[Export] public Texture2D Portrait { get; set; }
+	/// <summary>Base pitch multiplier for all generated voice audio. Default 1.0 (no pitch shift).</summary>
 	[Export] public float BasePitch { get; set; } = 1f;
+	/// <summary>Default blip duration in seconds for procedural fallback voice clips.</summary>
 	[Export(PropertyHint.Range, "0.01,0.5,0.01")]
 	public float BlipDuration { get; set; } = 0.08f;
+	/// <summary>Offset in seconds from the start of the audio stream to begin playback.</summary>
 	[Export(PropertyHint.Range, "0,15,0.1")]
 	public float StartOffset { get; set; } = 0f;
+	/// <summary>Volume adjustment in decibels applied to this voice resource.</summary>
 	[Export(PropertyHint.Range, "-12,6,0.1")]
 	public float VolumeDb { get; set; } = 0f;
+	/// <summary>Magnitude of random pitch variation added per consonant hit, creating a natural cadence.</summary>
 	[Export(PropertyHint.Range, "0,0.5,0.01")]
 	public float ConsonantPitchVariance { get; set; } = 0.12f;
+	/// <summary>Magnitude of random volume variation per syllable, simulating natural speech dynamics.</summary>
 	[Export(PropertyHint.Range, "0,6,0.1")]
 	public float VolumeVariance { get; set; } = 3f;
 
 	[ExportGroup("Vowel Pitches")]
+	/// <summary>Pitch multiplier for the vowel 'a'.</summary>
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float VowelA { get; set; } = 1.00f;
+	/// <summary>Pitch multiplier for the vowel 'e'.</summary>
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float VowelE { get; set; } = 1.10f;
+	/// <summary>Pitch multiplier for the vowel 'i'.</summary>
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float VowelI { get; set; } = 1.20f;
+	/// <summary>Pitch multiplier for the vowel 'o'.</summary>
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float VowelO { get; set; } = 0.90f;
+	/// <summary>Pitch multiplier for the vowel 'u'.</summary>
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float VowelU { get; set; } = 0.85f;
+	/// <summary>Pitch multiplier for the vowel 'y'.</summary>
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float VowelY { get; set; } = 1.05f;
 
 	[ExportGroup("Punctuation Pitches")]
+	/// <summary>Pitch multiplier applied when the spoken character ends with a period '.'.</summary>
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float PitchPeriod { get; set; } = 0.70f;
+	/// <summary>Pitch multiplier applied when the spoken character ends with a question mark '?'.</summary>
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float PitchQMark { get; set; } = 1.30f;
+	/// <summary>Pitch multiplier applied when the spoken character ends with an exclamation mark '!'.</summary>
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float PitchExclam { get; set; } = 1.20f;
 
 	private static AudioStreamWav _defaultBlip;

@@ -1,6 +1,10 @@
 using Godot;
 using System.Collections.Generic;
 
+/// <summary>
+/// Combat enemy using a state machine (Idle → Telegraph → Attacking → Cooldown)
+/// with four attack flavors per OatmealFlavor variant.
+/// </summary>
 public partial class CombatOatmeal : Area2D
 {
     public enum OatmealFlavor

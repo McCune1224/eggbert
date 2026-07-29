@@ -23,6 +23,12 @@ public partial class HealthComponent : Node
             CurrentHP = MaxHP;
     }
 
+    /// <summary>
+    /// Applies damage after reducing it by <see cref="Defense"/>. The minimum dealt damage is 1 (damage formula: max(1, raw - def)).
+    /// Emits <see cref="Damaged"/> and, if HP reaches zero, emits <see cref="Died"/>.
+    /// </summary>
+    /// <param name="rawDamage">Unreduced damage amount before defense mitigation.</param>
+    /// <param name="source">Optional node that originated the damage (used for logging).</param>
     public void TakeDamage(int rawDamage, Node source = null)
     {
         if (IsDead) return;
@@ -39,6 +45,11 @@ public partial class HealthComponent : Node
         }
     }
 
+    /// <summary>
+    /// Restores HP by <paramref name="amount"/> capped at <see cref="MaxHP"/>. Emits <see cref="Healed"/> with the actual amount healed.
+    /// Does nothing if the component is dead (<see cref="IsDead"/>).
+    /// </summary>
+    /// <param name="amount">HP to restore.</param>
     public void Heal(int amount)
     {
         if (IsDead) return;
@@ -48,6 +59,12 @@ public partial class HealthComponent : Node
         EmitSignal(SignalName.Healed, CurrentHP - before);
     }
 
+    /// <summary>
+    /// Updates <see cref="MaxHP"/> and optionally refills HP. If not refilling, current HP is clamped to the new maximum
+    /// so it does not exceed the new cap.
+    /// </summary>
+    /// <param name="newMax">The new maximum HP value.</param>
+    /// <param name="refill">If true, sets CurrentHP to newMax. Otherwise clamps CurrentHP to newMax.</param>
     public void SetMaxHP(int newMax, bool refill = false)
     {
         MaxHP = newMax;
@@ -57,6 +74,11 @@ public partial class HealthComponent : Node
             CurrentHP = Mathf.Min(CurrentHP, MaxHP);
     }
 
+    /// <summary>
+    /// Resurrects the entity with HP equal to the specified percentage of <see cref="MaxHP"/> (minimum 1).
+    /// Emits <see cref="Revived"/> on success.
+    /// </summary>
+    /// <param name="hpPercent">Percentage of MaxHP to restore on revive (default 50).</param>
     public void Revive(int hpPercent = 50)
     {
         CurrentHP = Mathf.Max(1, MaxHP * hpPercent / 100);

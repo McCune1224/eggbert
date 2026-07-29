@@ -1,6 +1,11 @@
 using Godot;
 using System.Collections.Generic;
 
+/// <summary>
+/// Main menu overlay: New Game (deletes save, loads FactoryOpening), Continue (loads
+/// from SaveManager, disabled when no save exists), Settings (volume, fullscreen, scale,
+/// text speed, key rebinding), and Quit. Sub-panel toggling via <see cref="View"/> enum.
+/// </summary>
 public partial class MainMenu : CanvasLayer
 {
 	private const string SettingsPath = "user://settings.cfg";

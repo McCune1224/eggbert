@@ -18,15 +18,22 @@ public enum TriggerMode
 public partial class CutsceneTrigger : InteractableArea
 {
     [ExportGroup("Trigger")]
+    /// <summary>Determines when the trigger fires. OnInteract requires the interact key; OnEnter fires when the player steps into the area.</summary>
     [Export] public TriggerMode Mode = TriggerMode.OnInteract;
+    /// <summary>If true, the trigger fires only once and is removed from the scene. When combined with a non-empty CutsceneId, sets the flag "cutscene_" + CutsceneId on WorldFlags for dedup across sessions.</summary>
     [Export] public bool Once = false;
+    /// <summary>An identifier used with Once for flag-based dedup ("cutscene_" + CutsceneId), or as a manual session flag for reusable cutscenes left open in the Inspector.</summary>
     [Export] public string CutsceneId = "";
+    /// <summary>Reference to a CutsceneResource defining the sequence of steps. Takes priority over DialogLines when set.</summary>
     [Export] public Resource Cutscene { get; set; }
+    /// <summary>Fallback inline dialog lines shown when Cutscene is not assigned. Ignored if ChoiceOptions has 2+ entries.</summary>
     [Export] public string[] DialogLines { get; set; }
     /// <summary>World flags set to true when this trigger fires (e.g. "met_jamitor").</summary>
     [Export] public string[] SetFlagsOnFire { get; set; }
     [ExportGroup("Flavor Choice")]
+    /// <summary>Options displayed as a prompt choice menu when 2 or more entries are provided. Pairs with ChoiceResponses index-by-index (Option A → Response A).</summary>
     [Export] public string[] ChoiceOptions { get; set; }
+    /// <summary>Responses for each ChoiceOption. Sets the corresponding index-matched flag in WorldFlags when chosen.</summary>
     [Export] public string[] ChoiceResponses { get; set; }
 
     [Signal]

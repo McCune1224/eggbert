@@ -3,6 +3,7 @@
 Godot 4.7 C# RPG. Undertale/EarthBound inspired, 640×360, top-down (zero gravity).
 
 Read ROADMAP.md for feature objectives. Read DESIGN.md for design decisions.
+Read docs/godot-editor-guide.md for editor setup, custom plugin usage, component reference, dialog/cutscene authoring, combat/quest/item systems, and architecture conventions.
 
 ## Commands
 

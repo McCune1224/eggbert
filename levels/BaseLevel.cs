@@ -1,3 +1,16 @@
+/// <summary>
+/// Root node for every level. Exports the level name, music, and ambience. Auto-plays music and
+/// ambience on <see cref="_Ready"/> and stops ambience on <see cref="_ExitTree"/>.
+/// </summary>
+/// <remarks>
+/// <b>LevelName:</b> Set via the Inspector or defaults to the node's <see cref="Node.Name"/>.
+/// <b>LevelMusic / LevelAmbience:</b> Played automatically when the level loads. Music loops
+/// indefinitely; ambience stops when the level exits the tree.
+/// <b>Signal lifecycle:</b> <see cref="LevelStarted"/> fires at the end of <see cref="_Ready"/>;
+/// <see cref="LevelEnded"/> should be emitted by subclasses or call sites when the level is
+/// being unloaded.
+/// </remarks>
+
 using Godot;
 
 public partial class BaseLevel : Node2D

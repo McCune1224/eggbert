@@ -12,6 +12,10 @@ public partial class KeybindManager : Node
     public static KeybindManager Instance => _instance;
 
     // Default binding(s) per action. Primary key listed first.
+    /// <summary>
+    /// Default binding(s) per action. Primary key listed first in the array.
+    /// Format: action name → Key[] (one entry per alternative binding).
+    /// </summary>
     private static readonly Dictionary<string, Key[]> DefaultBindings = new()
     {
         { "player_up", new[] { Key.W } },
@@ -69,7 +73,9 @@ public partial class KeybindManager : Node
         return key == Key.None ? "\u2014" : OS.GetKeycodeString(key);
     }
 
-    /// Removes all keyboard events for an action and adds a single new one.
+    /// <summary>
+    /// Removes all keyboard events for <paramref name="action"/> and adds a single new one.
+    /// </summary>
     public static void RebindAction(string action, Key newKey)
     {
         var events = InputMap.ActionGetEvents(action);
@@ -86,7 +92,9 @@ public partial class KeybindManager : Node
         GameLogger.Info("KeybindManager", $"Rebound '{action}' \u2192 {OS.GetKeycodeString(newKey)}");
     }
 
+    /// <summary>
     /// Restores the default binding(s) for a single action.
+    /// </summary>
     public static void ResetAction(string action)
     {
         if (!DefaultBindings.ContainsKey(action)) return;
@@ -110,7 +118,9 @@ public partial class KeybindManager : Node
         GameLogger.Debug("KeybindManager", $"Reset '{action}' to default");
     }
 
-    /// Restores every rebindable action to its default(s).
+    /// <summary>
+    /// Restores every rebindable action to its default(s) and persists the result.
+    /// </summary>
     public static void ResetAllBindings()
     {
         foreach (string action in RebindableActions)
@@ -118,6 +128,10 @@ public partial class KeybindManager : Node
         GameLogger.Debug("KeybindManager", "All bindings reset to defaults");
     }
 
+    /// <summary>
+    /// Persists current bindings to the project settings override layer
+    /// so they survive editor restarts and game sessions.
+    /// </summary>
     public static void SaveBindings()
     {
         var config = new ConfigFile();
@@ -130,6 +144,11 @@ public partial class KeybindManager : Node
         GameLogger.Debug("KeybindManager", "Bindings saved to user://keybinds.cfg");
     }
 
+    /// <summary>
+    /// Loads persisted bindings from config and replaces the
+    /// current InputMap for every rebindable action. Falls back to defaults
+    /// if no saved bindings exist.
+    /// </summary>
     public static void LoadBindings()
     {
         var config = new ConfigFile();

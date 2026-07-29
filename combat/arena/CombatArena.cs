@@ -1,3 +1,12 @@
+/// <summary>
+/// Combat arena that tracks enemy eliminations via <see cref="OnEnemyDefeated"/>. Fires <see cref="BattleWon"/> when <see cref="EnemiesRemaining"/> reaches zero
+/// and <see cref="BattleLost"/> when the player dies. Resets player position on ready.
+/// </summary>
+/// <remarks>
+/// OnEnemyDefeated decrements <see cref="EnemiesRemaining"/>, logs the count, and when the counter hits zero,
+/// frees the HUD, emits <see cref="BattleWon"/>, and logs victory. The counter starts at 1 and must be set
+/// per-arena to match the actual enemy count placed in the scene.
+/// </remarks>
 using Godot;
 
 public partial class CombatArena : Node2D
@@ -11,6 +20,9 @@ public partial class CombatArena : Node2D
 
     protected CombatHUD HUD { get; private set; }
 
+    /// <summary>
+    /// Number of enemies still alive in this arena. When it reaches zero, <see cref="BattleWon"/> fires.
+    /// </summary>
     public int EnemiesRemaining { get; set; } = 1;
 
     public override void _Ready()
@@ -47,6 +59,10 @@ public partial class CombatArena : Node2D
     }
 
 
+    /// <summary>
+    /// Called when an enemy is defeated. Decrements <see cref="EnemiesRemaining"/> and fires <see cref="BattleWon"/>
+    /// when all enemies in the arena have been eliminated.
+    /// </summary>
     public void OnEnemyDefeated()
     {
         EnemiesRemaining--;

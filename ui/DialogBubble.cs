@@ -2,6 +2,13 @@ using Godot;
 using System.Collections.Generic;
 using System.Text;
 
+/// <summary>
+/// Displays dialog text with a typewriter effect, supporting three text speeds
+/// (Instant / Fast / Normal via <see cref="DialogManager.TextSpeed"/>).
+/// Fast-forward on held input; skip to end of current page on action press.
+/// Manages a typed-character CPS rate, per-char pauses, voice blips (max 16
+/// concurrent one-shot AudioStreamPlayers), and page-completion state.
+/// </summary>
 public partial class DialogBubble : CanvasLayer
 {
 	const int MAX_VISIBLE_LINES = 3;

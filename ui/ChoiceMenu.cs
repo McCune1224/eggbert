@@ -1,6 +1,15 @@
 using Godot;
 using System.Collections.Generic;
 
+/// <summary>
+/// Overlay choice menu for dialog response selection.
+/// Arrow keys (up/down) navigate, E/Interact confirms the selection.
+/// Choices are presented as a vertical list with a bobbing cursor indicator.
+/// The selected index is returned via <see cref="ChoiceSelected"/> signal.
+/// The caller receives the chosen index via <see cref="ChoiceSelected"/> signal
+/// (or awaitable Task from DialogManager.PromptChoices) and maps it to a WorldFlag
+/// in the cutscene/dialog caller.
+/// </summary>
 public partial class ChoiceMenu : CanvasLayer
 {
 	[Signal]

@@ -9,6 +9,11 @@ public partial class FloorSwitch : Area2D
     [Signal] public delegate void ReleasedEventHandler();
 
     [ExportGroup("Target")]
+    /// <summary>
+    /// NodePath to the <see cref="Door"/> this switch controls. Must be set after both the
+    /// FloorSwitch and the target Door nodes are placed in the scene so the path resolves
+    /// correctly at runtime.
+    /// </summary>
     [Export] public NodePath TargetDoorPath;
     [Export] public bool Latching = false;
     private int _bodyCount = 0;

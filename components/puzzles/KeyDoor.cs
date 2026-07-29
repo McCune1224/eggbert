@@ -1,3 +1,18 @@
+/// <summary>
+/// A <see cref="Door"/> that is locked until the required WorldFlag is set. Displays a
+/// locked message via <see cref="DialogManager"/> when the player tries to open it without
+/// the flag. Once unlocked it stays unlocked permanently.
+/// </summary>
+/// <remarks>
+/// <b>RequiredFlag + lockedMessage pattern:</b> <see cref="RequiredFlag"/> is checked each time
+/// <see cref="Open"/> is called. If the flag is not present in <see cref="WorldFlags"/> the
+/// <see cref="LockedMessage"/> is shown as a single-line dialog and the door stays closed.
+/// When the flag is found, <see cref="_permanentlyUnlocked"/> is set to true and the door
+/// opens. Subsequent calls to <see cref="Open"/> bypass the flag check entirely.
+/// <see cref="Close"/> respects <see cref="_permanentlyUnlocked"/> — it will not re-close
+/// an already-unlocked KeyDoor.
+/// </remarks>
+
 using Godot;
 
 [GlobalClass]

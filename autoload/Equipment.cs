@@ -1,6 +1,14 @@
 using Godot;
 using Godot.Collections;
 
+/// <summary>
+/// Equipment autoload — holds equipped items in Weapon/Armor/Accessory slots.
+/// Stat application (ApplyItemStats) modifies player stats using equipped items:
+/// MaxHP and Defense are wired; ParryRadius and ParryDamage are wired.
+/// Attack and Speed are computed but unused (per DESIGN.md: these stats
+/// exist for future expansion, not current combat). Unequip reverses all
+/// stat changes. ISavable — persisted with load priority 5 (after player).
+/// </summary>
 public partial class Equipment : Node, ISavable
 {
     private static Equipment _instance;
@@ -87,6 +95,12 @@ public partial class Equipment : Node, ISavable
         GameLogger.Info("Equipment", $"Unequipped: {id} from {slot}");
     }
 
+    /// <summary>
+    /// Applies or reverses item stat modifiers. <paramref name="sign"/> is +1
+    /// on equip and -1 on unequip. Only stat fields wired to player stats
+    /// (MaxHP, Defense, ParryRadius, ParryDamage) are applied; Attack and
+    /// Speed are computed but not wired to the player per DESIGN.md.
+    /// </summary>
     private void ApplyItemStats(Item item, int sign)
     {
         var player = Player.Instance;

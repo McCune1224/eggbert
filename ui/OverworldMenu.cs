@@ -1,6 +1,12 @@
 using Godot;
 using System.Collections.Generic;
 
+/// <summary>
+/// Escape-menu overlay with tabbed panels: Inventory (Key Items/Consumables/Equipment),
+/// Map (region map + warp point list populated from WarpDatabase), Settings (volume,
+/// fullscreen, scale, text speed, key rebinding), and Quests (pinned quest tracking).
+/// Each panel swaps visibility; the current panel is tracked in <see cref="_currentPanel"/>.
+/// </summary>
 public partial class OverworldMenu : CanvasLayer
 {
 	private const string SettingsPath = "user://settings.cfg";

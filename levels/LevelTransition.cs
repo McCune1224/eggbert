@@ -1,6 +1,29 @@
+/// <summary>
+/// Area2D that triggers a scene change when the player walks into it. The transition fires once
+/// on BodyEntered for the player, unless <see cref="RequiredFlag"/> gates it.
+/// </summary>
+/// <remarks>
+/// <b>Size / Scale:</b> The exported <see cref="Size"/> property (range 1–12) controls the
+/// collision shape dimensions inside <see cref="Update_Area"/> — a larger Size widens the
+/// transition zone along the <see cref="Side"/> axis.
+///
+/// <b>RequiredFlag gating:</b> If set, the transition only fires when
+/// <see cref="WorldFlags.Instance"/> has the given flag. Empty means always fire.
+/// Used to gate post-ending exits (e.g. "go_home").
+///
+/// <b>Orphaned NodePaths:</b> <see cref="TargetTransitionName"/> resolves to direct
+/// children of the loaded scene only. If the target node does not exist, log error and skip.
+///
+/// <b>Empty Level path:</b> If <see cref="Level"/> is empty, the call logs an error and
+/// does not crash. Always provide a valid .tscn resource path.
+/// </remarks>
+
 using Godot;
 using System;
 
+/// <summary>
+/// The side of the level boundary from which the transition enters the target level.
+/// </summary>
 public enum TransitionSide
 {
     Up,
@@ -90,6 +113,15 @@ public partial class LevelTransition : Area2D
         }
     }
 
+    /// <summary>
+    /// Triggers the level transition when a player body enters the area. Checks <see cref="RequiredFlag"/>
+    /// gating and then loads <see cref="Level"/> at the position implied by <see cref="TargetTransitionName"/>.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="TargetTransitionName"/> is a NodePath that resolves to a direct child of the target
+    /// level scene. If the node cannot be found the transition logs an error and does not crash.
+    /// An empty or missing <see cref="Level"/> resource path logs an error and does not crash.
+    /// </remarks>
     public void SceneTransition(Node2D body)
     {
         if (body.IsInGroup("player"))
@@ -121,6 +153,10 @@ public partial class LevelTransition : Area2D
 
 
 
+    /// <summary>
+    /// Rebuilds the collision shape to match <see cref="Side"/> and <see cref="Size"/>.
+    /// Called on every property change and editor refresh.
+    /// </summary>
     public void Update_Area()
     {
         if (_collisionShape == null)

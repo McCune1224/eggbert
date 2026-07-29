@@ -2,6 +2,13 @@ using Godot;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Manages dialog display, text-speed choices, and the async choice-prompt
+/// pattern. Line-by-line lifecycle: StartDialog queues lines → ShowNextLine
+/// advances → OnCurrentLineComplete fires the next or finishes. PromptChoices
+/// returns the chosen index as an awaitable Task. Access via DialogManager.Instance.
+/// TextSpeed (Instant / Fast / Normal) controls line advance timing.
+/// </summary>
 public partial class DialogManager : Node2D
 {
     [Signal]
@@ -9,6 +16,10 @@ public partial class DialogManager : Node2D
     private static DialogManager _instance;
     public static DialogManager Instance => _instance;
 
+    /// <summary>
+    /// Controls how quickly dialog lines advance on input.
+    /// Instant = skip animation, Fast = brief pause, Normal = comfortable reading pace.
+    /// </summary>
     public enum TextSpeed { Instant, Fast, Normal }
     public static TextSpeed CurrentTextSpeed = TextSpeed.Fast;
 
@@ -37,6 +48,11 @@ public partial class DialogManager : Node2D
         DefaultVoice = new DialogVoiceResource();
     }
 
+    /// <summary>
+    /// Begins dialog by queuing lines for display. Lines advance one at a time
+    /// via ShowNextLine / OnCurrentLineComplete. Passing a DialogVoiceResource
+    /// overrides the default procedural voice; null uses the default fallback.
+    /// </summary>
     public void StartDialog(List<string> lines, DialogVoiceResource voice = null)
     {
         GameLogger.Debug("Dialog", $"Starting dialog ({lines.Count} lines)");
@@ -82,6 +98,13 @@ public partial class DialogManager : Node2D
         ShowNextLine();
     }
 
+    /// <summary>
+    /// Displays a choice menu and returns the index of the selected option as an
+    /// awaitable Task. Each choice's text is shown; selecting one sets the
+    /// corresponding WorldFlag (choice index → flag at that index) and returns the
+    /// chosen index. Use with async/await to pause dialog flow until the player
+    /// makes a decision.
+    /// </summary>
     public async Task<int> PromptChoices(List<string> choices)
     {
         bool wasDialogActive = IsDialogActive;

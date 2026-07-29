@@ -28,7 +28,7 @@ public partial class Inventory : Node, ISavable
         SeedTestItems();
     }
 
-    // --- API ---
+    // --- Add --- (consumables stack; key items and equipment are always count=1)
 
     public void Add(string id, int count = 1)
     {
@@ -40,6 +40,8 @@ public partial class Inventory : Node, ISavable
         _stacks[id] = _stacks.TryGetValue(id, out int c) ? c + count : count;
         GameLogger.Debug("Inventory", $"Add: {id} x{count} (total: {_stacks[id]})");
     }
+
+    // --- Remove --- (decrements stack; removes entry when count reaches 0)
 
     public bool Remove(string id, int count = 1)
     {
@@ -58,9 +60,12 @@ public partial class Inventory : Node, ISavable
         GameLogger.Debug("Inventory", $"Remove: {id} x{count} (remaining: {(_stacks.TryGetValue(id, out int r) ? r : 0)})");
         return true;
     }
+
+    // --- Has / Query --- (key items and equipment always count=1; Has checks c > 0)
+
     public bool Has(string id) => _stacks.TryGetValue(id, out int c) && c > 0;
     public int GetCount(string id) => _stacks.TryGetValue(id, out int c) ? c : 0;
-
+    // --- GetByCategory --- (returns item ids the player holds in a given category)
     /// <summary>All item ids in a category that the player currently holds.</summary>
     public List<string> GetByCategory(ItemCategory category)
     {

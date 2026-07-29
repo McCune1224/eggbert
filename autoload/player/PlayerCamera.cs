@@ -1,3 +1,9 @@
+/// <summary>
+/// Camera2D that tracks the player and clamps to tilemap bounds.
+/// Reads bounds from GameController.Instance.TileMapBounds and clamps
+/// LimitLeft/LimitTop/LimitRight/LimitBottom accordingly.
+/// Logs an error and returns early if bounds is null or empty.
+/// </summary>
 using Godot;
 using Godot.Collections;
 
@@ -13,7 +19,15 @@ public partial class PlayerCamera : Camera2D
         GameController.Instance.Connect(nameof(GameController.TileMapBoundsChanged), new Callable(this, nameof(UpdateLimits)));
     }
 
-    public void UpdateLimits(Array<Vector2> limits)
+    /// <summary>
+    /// Updates camera bounds from GameController tilemap limits.
+    /// </summary>
+    /// <param name="limits">Array of two Vector2: [top-left, bottom-right] in world pixels.</param>
+    /// <remarks>
+    /// Logs an error and returns early if limits is null or empty.
+    /// Called when GameController emits TileMapBoundsChanged.
+    /// </remarks>
+     public void UpdateLimits(Array<Vector2> limits)
     {
         if (limits == null) { GameLogger.Error("Camera", "Limits are null."); return; }
         if (limits.Count == 0)

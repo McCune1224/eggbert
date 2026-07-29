@@ -78,11 +78,12 @@ public partial class SaveManager : Node
     }
 
     /// <summary>
-    /// Loads the saved game state. Player loads first (priority 10) and triggers
-    /// the level scene switch; then Equipment (5), Inventory (0), WorldFlags (0) restore.
+    /// Loads the saved game state.
+    /// Deserialization runs by priority (Player=10 first, then Equipment=5, Inventory=0, WorldFlags=0).
+    /// If any component's data is corrupt, that system logs an error independently and continues.
     /// </summary>
-    /// <returns>True if the save was loaded successfully and a level was loaded.</returns>
-    public bool LoadGame()
+    /// <returns>True if save was loaded and a level was switched; false if no save file exists or save is invalid.</returns>
+     public bool LoadGame()
     {
         GameLogger.Info("SaveManager", "LoadGame called.");
         if (!ResourceLoader.Exists(SaveFileName))

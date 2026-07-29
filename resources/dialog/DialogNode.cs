@@ -1,5 +1,9 @@
 using Godot;
 
+/// <summary>
+/// A node in a dialog tree, defining a speaker, their lines, and the branching responses that lead to the next node.
+/// Created and managed via the Cutscene Inspector's visual node editor.
+/// </summary>
 [GlobalClass]
 public partial class DialogNode : Resource
 {

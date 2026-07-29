@@ -17,6 +17,12 @@ public partial class CombatController : Node
             QueueFree();
     }
 
+/// <summary>
+/// Enters a combat arena. Blocks re-entry — calls while already in
+/// combat are ignored so the saved return position isn't overwritten
+/// and event handlers don't pile up. No pre-combat save is performed;
+/// death in battle reloads from the last save point.
+/// </summary>
     public async void EnterCombat(string arenaPath, Vector2 playerSpawn)
     {
         GameLogger.Info("Combat", $"Entering combat arena: {arenaPath}");
