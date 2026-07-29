@@ -1,4 +1,8 @@
 using Godot;
+/// <summary>
+/// Enables a trade interaction on an NPC: the player gives an item
+/// from Inventory and receives a reward item on success.
+/// </summary>
 
 [GlobalClass]
 [Tool]

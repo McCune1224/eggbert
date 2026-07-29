@@ -1,4 +1,8 @@
 using Godot;
+/// <summary>
+/// Handles the player's dash movement: overrides direction/speed for a brief
+/// burst and suppresses normal movement input during the dash window.
+/// </summary>
 
 public partial class Dash : Node2D
 {

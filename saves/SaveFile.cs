@@ -1,5 +1,10 @@
 using Godot;
 using Godot.Collections;
+/// <summary>
+/// Serializable data-transfer resource for a single save game.
+/// Contains the save point location, playtime timestamp, and a
+/// dictionary of ISavable component data keyed by SaveKey.
+/// </summary>
 
 [GlobalClass]
 public partial class SaveFile : Resource

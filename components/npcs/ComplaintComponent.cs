@@ -1,4 +1,9 @@
 using Godot;
+/// <summary>
+/// NPC sub-component that provides a complaint response when
+/// the player checks/tattles on the NPC a certain number of times.
+/// Retries after all templates are exhausted.
+/// </summary>
 
 [GlobalClass]
 [Tool]

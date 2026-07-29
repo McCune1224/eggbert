@@ -1,4 +1,8 @@
 using Godot;
+/// <summary>
+/// Boot autoload that initializes the logger, loads settings,
+/// and either skips to the main menu or shows the MainMenu scene.
+/// </summary>
 
 public partial class GameInit : Node
 {

@@ -1,4 +1,8 @@
 using Godot;
+/// <summary>
+/// Arena for the Oatmeal mini-boss (first combat encounter).
+/// Builds code-defined bounds and spawns a single CombatOatmeal enemy.
+/// </summary>
 
 public partial class OatmealArena : CombatArena
 {

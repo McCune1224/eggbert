@@ -1,4 +1,8 @@
 using Godot;
+/// <summary>
+/// Light node that flickers at a configurable rate/amplitude.
+/// Useful for atmospheric effects (candles, emergency lights, etc.).
+/// </summary>
 
 public partial class FlickeringLight : PointLight2D
 {

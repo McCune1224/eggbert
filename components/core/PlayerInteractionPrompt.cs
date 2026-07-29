@@ -1,5 +1,11 @@
 using Godot;
 using System.Collections.Generic;
+/// <summary>
+/// Shows an interaction prompt (E key icon) when the player is
+/// within range of an interactable object (InteractableArea).
+/// The prompt visibility is toggled by the parent InteractableArea
+/// based on BodyEntered/BodyExited events.
+/// </summary>
 
 public partial class PlayerInteractionPrompt : Sprite2D
 {

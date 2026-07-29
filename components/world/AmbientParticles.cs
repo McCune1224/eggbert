@@ -1,4 +1,9 @@
 using Godot;
+/// <summary>
+/// Zone-specific ambient particle system (dust, leaves, steam,
+/// bubbles, etc.). Selects from named presets and configures
+/// a GpuParticles2D with matching ParticleProcessMaterial.
+/// </summary>
 
 /// <summary>
 /// Zone-specific ambient particle system (dust, leaves, steam, bubbles, etc.)

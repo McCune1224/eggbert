@@ -1,4 +1,9 @@
 using Godot;
+/// <summary>
+/// An area in a level the player can warp between once unlocked.
+/// Tracks unlock state via WorldFlags and exposes the target
+/// level path + arrival transition name to SaveManager/GameController.
+/// </summary>
 
 public partial class WarpPoint : Area2D
 {

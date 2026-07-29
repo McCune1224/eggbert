@@ -1,5 +1,10 @@
 using Godot;
 using Godot.Collections;
+/// <summary>
+/// NPC sub-component that can share a rumor text to the player.
+/// Each rumor is identified by an index and retrieved by index
+/// from the parent NPC's rumor array.
+/// </summary>
 
 [GlobalClass]
 [Tool]

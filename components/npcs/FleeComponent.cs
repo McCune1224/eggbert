@@ -1,4 +1,9 @@
 using Godot;
+/// <summary>
+/// Makes an NPC flee when the player gets too close.
+/// Can be chased for unique dialog. Respawns at original
+/// position after a cooldown.
+/// </summary>
 
 /// <summary>
 /// Makes an NPC flee when the player gets too close.

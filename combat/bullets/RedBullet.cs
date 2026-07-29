@@ -1,4 +1,8 @@
 using Godot;
+/// <summary>
+/// Enemy bullet projectile. Moves in the firing direction at a fixed
+/// speed and damages the player on contact via the PlayerHitbox layer.
+/// </summary>
 
 public partial class RedBullet : Area2D
 {

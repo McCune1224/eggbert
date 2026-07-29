@@ -1,4 +1,10 @@
 using Godot;
+/// <summary>
+/// A pressure plate that reports its SequenceIndex to the
+/// parent SequencePuzzleController when stepped on by
+/// the player or a pushable body. Flashes green/red for
+/// correct/wrong input.
+/// </summary>
 
 [GlobalClass]
 [Tool]

@@ -1,5 +1,10 @@
 using Godot;
 using System.Collections.Generic;
+/// <summary>
+/// Minimal overlay HUD displayed during combat.
+/// Shows enemy HP bar, enemy name canvas, and any
+/// battle outcome / player-death messaging.
+/// </summary>
 
 public partial class CombatHUD : CanvasLayer
 {

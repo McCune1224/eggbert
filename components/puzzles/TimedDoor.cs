@@ -1,5 +1,14 @@
 using Godot;
 
+/// <summary>
+/// A door that auto-closes after a configurable duration.
+/// Extends <see cref="Door"/> with a timer/blink lifecycle:
+/// - open duration set by OpenDuration;
+/// - BlinkBeforeClose triggers alpha pulses the final second
+///   before closing so the player gets a visual warning;
+/// - _openGeneration discards stale deferred Close calls
+///   when the door was reopened mid-lifecycle.
+/// </summary>
 [GlobalClass]
 [Tool]
 public partial class TimedDoor : Door

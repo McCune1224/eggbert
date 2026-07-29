@@ -1,5 +1,10 @@
 using Godot;
 using System.Collections.Generic;
+/// <summary>
+/// Static registry of WarpPoint definitions, keyed by warp id.
+/// Code-defined entries — no .tres files needed. Add new entries
+/// here when adding a new warp point to a level.
+/// </summary>
 
 public struct WarpDestination
 {

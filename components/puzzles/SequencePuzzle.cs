@@ -1,4 +1,9 @@
 using Godot;
+/// <summary>
+/// Ordered-sequence puzzle: switches must be pressed in the exact order
+/// specified by SwitchSequence. Wrong order resets the puzzle.
+/// Opens the target Door when all steps are completed correctly.
+/// </summary>
 
 [GlobalClass]
 [Tool]

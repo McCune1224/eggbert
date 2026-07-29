@@ -1,4 +1,9 @@
 using Godot;
+/// <summary>
+/// Time-windowed sequence puzzle (pressure plate variant).
+/// Pressure plates must be stepped on in order (SequenceIndex)
+/// within TimeWindow seconds; a wrong plate or timeout resets.
+/// </summary>
 
 [GlobalClass]
 [Tool]

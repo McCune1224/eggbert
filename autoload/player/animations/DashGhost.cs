@@ -1,4 +1,9 @@
 using Godot;
+/// <summary>
+/// Purely visual ghost sprite that shows the player's dash trajectory.
+/// No game-state interaction — spawns a fading sprite at the dash origin
+/// and auto-frees after the animation completes.
+/// </summary>
 
 public partial class DashGhost : Sprite2D
 {

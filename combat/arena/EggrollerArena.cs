@@ -1,4 +1,8 @@
 using Godot;
+/// <summary>
+/// Arena for the Eggroller mini-boss. Builds code-defined bounds
+/// and spawns a single CombatOatmeal enemy for the encounter.
+/// </summary>
 
 public partial class EggrollerArena : CombatArena
 {

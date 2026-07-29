@@ -1,5 +1,10 @@
 using Godot;
 using System.Threading.Tasks;
+/// <summary>
+/// Full-screen CanvasLayer that fades in/out between levels
+/// and plays a location-name banner. Uses a ColorRect tween
+/// and a Tween for banner slide-in/out animation.
+/// </summary>
 
 public partial class FadeTransition : CanvasLayer
 {

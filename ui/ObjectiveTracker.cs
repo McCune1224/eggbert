@@ -1,4 +1,9 @@
 using Godot;
+/// <summary>
+/// Overworld HUD element that shows the pinned quest's current
+/// objective text. Populated by QuestManager via the pinned
+/// quest flag stored in WorldFlags.
+/// </summary>
 
 public partial class ObjectiveTracker : CanvasLayer
 {

@@ -1,4 +1,8 @@
 using Godot;
+/// <summary>
+/// Decorative hanging sign with a sine-wave pendulum swing.
+/// Purely cosmetic — no interaction or game-state impact.
+/// </summary>
 
 public partial class HangingSign : Sprite2D
 {

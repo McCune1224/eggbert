@@ -1,4 +1,8 @@
 using Godot;
+/// <summary>
+/// Lightweight FPS counter utility. Displays current frame
+/// rate in the editor viewport when active.
+/// </summary>
 
 public partial class Fps : RichTextLabel
 {

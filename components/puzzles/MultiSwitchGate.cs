@@ -1,4 +1,12 @@
 using Godot;
+/// <summary>
+/// AND/OR gate that watches multiple FloorSwitch nodes and opens
+/// a target Door when the configured condition is met.
+/// </summary>
+/// <remarks>
+/// GateMode.And requires ALL switches pressed; GateMode.Or requires ANY one.
+/// When LatchOpen is true, the door stays open once opened.
+/// </remarks>
 
 public enum GateMode
 {

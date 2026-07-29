@@ -1,4 +1,8 @@
 using Godot;
+/// <summary>
+/// Timer-driven weather events (rain, etc.) that pass through outdoor
+/// zones. Spawns particle overlays and darkens the screen briefly.
+/// </summary>
 
 /// <summary>
 /// Timer-driven weather events (rain, etc.) that pass through outdoor zones.
