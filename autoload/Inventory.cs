@@ -89,6 +89,10 @@ public partial class Inventory : Node, ISavable
         Add("hardboiled_egg", 2);
         Add("scrambled_egg", 1);
         Add("eggshell_helm");
+        Add("eggdrop_soup");
+        Add("deviled_egg");
+        Add("egg_salad_sandwich");
+        Add("golden_yolk");
     }
     // --- ISavable ---
 
