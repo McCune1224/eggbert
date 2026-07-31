@@ -47,6 +47,27 @@ public static class WarpDatabase
         { "prison_block_c", new WarpDestination
             { Id = "prison_block_c", Name = "Prison Block C",
               LevelPath = "res://levels/prison/maps/PrisonBlockC.tscn", TargetTransitionName = "HubArrival" } },
+        { "kitchen", new WarpDestination
+            { Id = "kitchen", Name = "Kitchen",
+              LevelPath = "res://levels/kitchen/maps/Kitchen.tscn", TargetTransitionName = "HubArrival" } },
+        { "wardens_quarters", new WarpDestination
+            { Id = "wardens_quarters", Name = "Warden's Quarters",
+              LevelPath = "res://levels/warden/maps/WardensQuarters.tscn", TargetTransitionName = "HubArrival" } },
+        { "rec_room", new WarpDestination
+            { Id = "rec_room", Name = "Rec Room",
+              LevelPath = "res://levels/recroom/maps/RecRoom.tscn", TargetTransitionName = "HubArrival" } },
+        { "secret_tunnels", new WarpDestination
+            { Id = "secret_tunnels", Name = "Secret Tunnels",
+              LevelPath = "res://levels/tunnels/maps/SecretTunnels.tscn", TargetTransitionName = "HubArrival" } },
+        { "sunnyside_shrine", new WarpDestination
+            { Id = "sunnyside_shrine", Name = "Sunnyside Shrine",
+              LevelPath = "res://levels/shrine/maps/SunnysideShrine.tscn", TargetTransitionName = "HubArrival" } },
+        { "solitary", new WarpDestination
+            { Id = "solitary", Name = "Solitary",
+              LevelPath = "res://levels/solitary/maps/Solitary.tscn", TargetTransitionName = "HubArrival" } },
+        { "prison_tunnels", new WarpDestination
+            { Id = "prison_tunnels", Name = "Prison Tunnels",
+              LevelPath = "res://levels/prison/maps/prison.tscn", TargetTransitionName = "HubArrival" } },
         { "eggsile_sewers", new WarpDestination
             { Id = "eggsile_sewers", Name = "Eggsile Sewers",
               LevelPath = "res://levels/eggsile/maps/EggsileSewers.tscn", TargetTransitionName = "HubArrival" } },
