@@ -10,204 +10,19 @@
 [ext_resource type="Script" path="res://levels/LevelTransition.cs" id="7_je675"]
 [ext_resource type="PackedScene" path="res://levels/factory/props/FactoryTimedDoor.tscn" id="8_qiccx"]
 [ext_resource type="Script" path="res://components/puzzles/TimedDoor.cs" id="9_d5frw"]
-[ext_resource type="Texture2D" path="res://assets/placeholders/interaction_marker.png" id="9_qiccx"]
 [ext_resource type="AudioStream" path="res://assets/audio/sfx/retro/SoundMechanism.wav" id="10_3t1p2"]
 [ext_resource type="PackedScene" path="res://levels/factory/props/FactoryFloorSwitch.tscn" id="11_t41ok"]
 [ext_resource type="Script" path="res://components/puzzles/FloorSwitch.cs" id="12_gxm0q"]
-[ext_resource type="Texture2D" path="res://assets/generated/factory/door_32x64.png" id="13_d5frw"]
+[ext_resource type="FontFile" path="res://assets/fonts/yoster.ttf" id="13_pwuoi"]
 [ext_resource type="PackedScene" path="res://components/npcs/ReadableObject.tscn" id="14_wbylf"]
 [ext_resource type="Script" path="res://components/npcs/ReadableObject.cs" id="15_xs5tk"]
-[ext_resource type="Texture2D" path="res://assets/generated/factory/floor_switch.png" id="16_3t1p2"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="16_rqoys"]
 [ext_resource type="Script" path="res://components/npcs/CutsceneTrigger.cs" id="17_k5wpf"]
 [ext_resource type="Resource" path="res://levels/factory/npcs/OfficerBaconArrest.tres" id="18_iqss1"]
 [ext_resource type="PackedScene" path="res://levels/factory/npcs/FactoryOfficerBacon.tscn" id="19_tui5l"]
-[ext_resource type="Texture2D" path="res://assets/characters/Officer Bacon.png" id="23_t41ok"]
-[ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="24_gxm0q"]
-[ext_resource type="Script" path="res://saves/SavePoint.cs" id="25_pwuoi"]
-[ext_resource type="Texture2D" path="res://assets/ui/NPCPrompt.png" id="26_wbylf"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8krqk"]
-size = Vector2(0, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ouer6"]
-size = Vector2(32, 64)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_humx8"]
-size = Vector2(32, 16)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_1cak7"]
-radius = 48.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mi2n3"]
 size = Vector2(96, 512)
-
-[sub_resource type="Animation" id="Animation_2nhdl"]
-length = 0.1
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [9]
-}
-
-[sub_resource type="Animation" id="Animation_aka7k"]
-length = 0.1
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_aun8w"]
-length = 0.1
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [6]
-}
-
-[sub_resource type="Animation" id="Animation_jibbp"]
-length = 0.1
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [3]
-}
-
-[sub_resource type="Animation" id="Animation_5uefi"]
-length = 0.4
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [9, 10, 9, 11]
-}
-
-[sub_resource type="Animation" id="Animation_fe161"]
-length = 0.4
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 0, 2]
-}
-
-[sub_resource type="Animation" id="Animation_djnuq"]
-length = 0.4
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [6, 7, 6, 8]
-}
-
-[sub_resource type="Animation" id="Animation_pkb3n"]
-length = 0.4
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [3, 4, 3, 5]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_bibfu"]
-_data = {
-&"idle back": SubResource("Animation_2nhdl"),
-&"idle forward": SubResource("Animation_aka7k"),
-&"idle left": SubResource("Animation_aun8w"),
-&"idle right": SubResource("Animation_jibbp"),
-&"walk back": SubResource("Animation_5uefi"),
-&"walk forward": SubResource("Animation_fe161"),
-&"walk left": SubResource("Animation_djnuq"),
-&"walk right": SubResource("Animation_pkb3n")
-}
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6kkq5"]
-size = Vector2(24, 54)
-
-[sub_resource type="Animation" id="Animation_67jqy"]
-length = 1.4
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../Sprite2D:position:y")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.7, 1.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, -1.0, 0.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_54aio"]
-_data = {
-&"idle": SubResource("Animation_67jqy")
-}
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_jax6u"]
-radius = 16.0
 
 [node name="LoadingBay" type="Node2D" unique_id=1868535111]
 script = ExtResource("1_vqi7f")
@@ -228,39 +43,20 @@ tile_set = ExtResource("4_xp2m8")
 tile_map_data = PackedByteArray("AADc/+z/AAAUAA0AAADc/xQAAAAQAA0AAADd/+z/AAAOAA4AAADd/xQAAAARAA4AAADe/+z/AAAPAA8AAADe/xQAAAASAA8AAADf/+z/AAAQABAAAADf/xQAAAATABAAAADg/+z/AAARABEAAADg/xQAAAAUABEAAADh/+z/AAASABIAAADh/xQAAAAOABIAAADi/+z/AAATAA0AAADi/xQAAAAPAA0AAADj/+z/AAAUAA4AAADj/xQAAAAQAA4AAADk/+z/AAAOAA8AAADk/xQAAAARAA8AAADl/+z/AAAPABAAAADl/xQAAAASABAAAADm/+z/AAAQABEAAADm/xQAAAATABEAAADn/+z/AAARABIAAADn/xQAAAAUABIAAADo/+z/AAASAA0AAADo/xQAAAAOAA0AAADp/+z/AAATAA4AAADp/xQAAAAPAA4AAADq/+z/AAAUAA8AAADq/xQAAAAQAA8AAADr/+z/AAAOABAAAADr/xQAAAARABAAAADs/+z/AAAPABEAAADs/xQAAAASABEAAADt/+z/AAAQABIAAADt/xQAAAATABIAAADu/+z/AAARAA0AAADu/xQAAAAUAA0AAADv/+z/AAASAA4AAADv/xQAAAAOAA4AAADw/+z/AAATAA8AAADw/xQAAAAPAA8AAADx/+z/AAAUABAAAADx/xQAAAAQABAAAADy/+z/AAAOABEAAADy/xQAAAARABEAAADz/+z/AAAPABIAAADz/xQAAAASABIAAAD0/+z/AAAQAA0AAAD0/xQAAAATAA0AAAD1/+z/AAARAA4AAAD1/xQAAAAUAA4AAAD2/+z/AAASAA8AAAD2/xQAAAAOAA8AAAD3/+z/AAATABAAAAD3/xQAAAAPABAAAAD4/+z/AAAUABEAAAD4/xQAAAAQABEAAAD5/+z/AAAOABIAAAD5/xQAAAARABIAAAD6/+z/AAAPAA0AAAD6/xQAAAASAA0AAAD7/+z/AAAQAA4AAAD7/xQAAAATAA4AAAD8/+z/AAARAA8AAAD8/xQAAAAUAA8AAAD9/+z/AAASABAAAAD9/xQAAAAOABAAAAD+/+z/AAATABEAAAD+/xQAAAAPABEAAAD//+z/AAAUABIAAAD//xQAAAAQABIAAAAAAOz/AAAOAA0AAAAAABQAAAARAA0AAAABAOz/AAAPAA4AAAABABQAAAASAA4AAAACAOz/AAAQAA8AAAACABQAAAATAA8AAAADAOz/AAARABAAAAADABQAAAAUABAAAAAEAOz/AAASABEAAAAEABQAAAAOABEAAAAFAOz/AAATABIAAAAFABQAAAAPABIAAAAGAOz/AAAUAA0AAAAGABQAAAAQAA0AAAAHAOz/AAAOAA4AAAAHABQAAAARAA4AAAAIAOz/AAAPAA8AAAAIABQAAAASAA8AAAAJAOz/AAAQABAAAAAJABQAAAATABAAAAAKAOz/AAARABEAAAAKABQAAAAUABEAAAALAOz/AAASABIAAAALABQAAAAOABIAAAAMAOz/AAATAA0AAAAMABQAAAAPAA0AAAANAOz/AAAUAA4AAAANABQAAAAQAA4AAAAOAOz/AAAOAA8AAAAOABQAAAARAA8AAAAPAOz/AAAPABAAAAAPABQAAAASABAAAAAQAOz/AAAQABEAAAAQABQAAAATABEAAAARAOz/AAARABIAAAARABQAAAAUABIAAAASAOz/AAASAA0AAAASABQAAAAOAA0AAAATAOz/AAATAA4AAAATABQAAAAPAA4AAAAUAOz/AAAUAA8AAAAUABQAAAAQAA8AAAAVAOz/AAAOABAAAAAVABQAAAARABAAAAAWAOz/AAAPABEAAAAWABQAAAASABEAAAAXAOz/AAAQABIAAAAXABQAAAATABIAAAAYAOz/AAARAA0AAAAYABQAAAAUAA0AAAAZAOz/AAASAA4AAAAZABQAAAAOAA4AAAAaAOz/AAATAA8AAAAaABQAAAAPAA8AAAAbAOz/AAAUABAAAAAbABQAAAAQABAAAAAcAOz/AAAOABEAAAAcABQAAAARABEAAAAdAOz/AAAPABIAAAAdABQAAAASABIAAAAeAOz/AAAQAA0AAAAeABQAAAATAA0AAAAfAOz/AAARAA4AAAAfABQAAAAUAA4AAAAgAOz/AAASAA8AAAAgABQAAAAOAA8AAAAhAOz/AAATABAAAAAhABQAAAAPABAAAAAiAOz/AAAUABEAAAAiABQAAAAQABEAAAAjAOz/AAAOABIAAAAjABQAAAARABIAAAAkAOz/AAAPAA0AAAAkABQAAAASAA0AAAA=")
 tile_set = ExtResource("4_xp2m8")
 
-[node name="ControlRoomReturn" type="Area2D" parent="." unique_id=1145402946 instance=ExtResource("6_7pd0t")]
+[node name="SortingFloorReturn" type="Area2D" parent="." unique_id=1145402946 instance=ExtResource("6_7pd0t")]
 position = Vector2(-576, 0)
 monitorable = false
 script = ExtResource("7_je675")
-Level = "res://levels/factory/maps/ControlRoom.tscn"
+Level = "res://levels/factory/maps/SortingFloor.tscn"
 TargetTransitionName = "LoadingBayEntrance"
 Size = 7
 Side = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ControlRoomReturn" unique_id=100145509]
-position = Vector2(0, -8)
-shape = SubResource("RectangleShape2D_8krqk")
-
-[node name="TransitionMarker" type="Sprite2D" parent="ControlRoomReturn" unique_id=358309052]
-modulate = Color(0.35, 0.85, 1, 0.78)
-z_index = 2
-texture_filter = 1
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("9_qiccx")
 
 [node name="LoadingTimedGate" type="StaticBody2D" parent="." unique_id=731716496 instance=ExtResource("8_qiccx")]
 script = ExtResource("9_d5frw")
 OpenDuration = 5.0
 OpenSfx = ExtResource("10_3t1p2")
 CloseSfx = ExtResource("10_3t1p2")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LoadingTimedGate" unique_id=1124257230]
-shape = SubResource("RectangleShape2D_ouer6")
-
-[node name="Sprite2D" type="Sprite2D" parent="LoadingTimedGate" unique_id=1409914188]
-texture_filter = 1
-texture = ExtResource("13_d5frw")
-region_rect = Rect2(0, 16, 32, 64)
 
 [node name="LoadingTimedGateNorthWall" type="StaticBody2D" parent="." unique_id=1920635162]
 position = Vector2(0, -160)
@@ -277,37 +73,21 @@ position = Vector2(-256, 128)
 script = ExtResource("12_gxm0q")
 TargetDoorPath = NodePath("../LoadingTimedGate")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LoadingTimedSwitchWest" unique_id=803182318]
-shape = SubResource("RectangleShape2D_humx8")
-
-[node name="Sprite2D" type="Sprite2D" parent="LoadingTimedSwitchWest" unique_id=1610096099]
-texture_filter = 1
-texture = ExtResource("16_3t1p2")
-region_rect = Rect2(272, 64, 16, 16)
-
 [node name="LoadingTimedSwitchEast" type="Area2D" parent="." unique_id=330264355 instance=ExtResource("11_t41ok")]
 position = Vector2(256, 128)
 script = ExtResource("12_gxm0q")
 TargetDoorPath = NodePath("../LoadingTimedGate")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LoadingTimedSwitchEast" unique_id=911062203]
-shape = SubResource("RectangleShape2D_humx8")
-
-[node name="Sprite2D" type="Sprite2D" parent="LoadingTimedSwitchEast" unique_id=1353163723]
-texture_filter = 1
-texture = ExtResource("16_3t1p2")
-region_rect = Rect2(272, 64, 16, 16)
-
 [node name="SprintInstructionPanel" type="PanelContainer" parent="." unique_id=2037786285]
+theme_type_variation = "MenuPanel"
 offset_left = -256.0
 offset_top = 80.0
 offset_right = -16.0
 offset_bottom = 136.0
-theme_type_variation = &"MenuPanel"
 
 [node name="@Label@9" type="Label" parent="SprintInstructionPanel" unique_id=369710336]
+theme_type_variation = "MenuLabelSmall"
 layout_mode = 2
-theme_type_variation = &"MenuLabelSmall"
 text = "HOLD SHIFT  SPRINT
 SPACE       DASH
 GATE        5 SEC"
@@ -318,17 +98,11 @@ collision_layer = 0
 script = ExtResource("15_xs5tk")
 DialogLines = PackedStringArray("Manifest: 12 crates, 1 missing shoe, 0 questions.")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CargoManifest" unique_id=322502950]
-shape = SubResource("CircleShape2D_1cak7")
-
 [node name="LoadingBayWarning" type="Area2D" parent="." unique_id=1218320949 instance=ExtResource("14_wbylf")]
 position = Vector2(384, -128)
 collision_layer = 0
 script = ExtResource("15_xs5tk")
 DialogLines = PackedStringArray("AUTHORIZED PERSONNEL ONLY. Unauthorized personnel should be confident.")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LoadingBayWarning" unique_id=102445836]
-shape = SubResource("CircleShape2D_1cak7")
 
 [node name="ArrestCutscene" type="Area2D" parent="." unique_id=2046240818 instance=ExtResource("16_rqoys")]
 position = Vector2(384, 0)
@@ -346,47 +120,6 @@ shape = SubResource("RectangleShape2D_mi2n3")
 [node name="OfficerBacon" type="StaticBody2D" parent="." unique_id=1867212580 instance=ExtResource("19_tui5l")]
 position = Vector2(512, -160)
 
-[node name="@Polygon2D@3" type="Polygon2D" parent="OfficerBacon" unique_id=1429194948]
-z_index = -1
-position = Vector2(0, 20)
-color = Color(0, 0, 0, 0.28)
-polygon = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="OfficerBacon" unique_id=1263680665]
-texture_filter = 1
-texture = ExtResource("23_t41ok")
-hframes = 4
-vframes = 3
-metadata/_aseprite_wizard_interface_config_ = {
-"output_section": true,
-"pending_changes": {}
-}
-metadata/_aseprite_wizard_config_ = {
-"i_mode": 0,
-"keep_anim_length": false,
-"layers": [],
-"o_ex_p": "",
-"o_folder": "res://assets/characters",
-"o_name": "",
-"only_visible": false,
-"player": "AnimationPlayer",
-"slice": "",
-"source": "res://assets/characters/Officer Bacon.ase"
-}
-metadata/_aseprite_wizard_source_file_hash_ = "aaa8907a55dfecfc43b4070c368d2398"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="OfficerBacon" unique_id=2037230391]
-libraries/ = SubResource("AnimationLibrary_bibfu")
-autoplay = &"idle left"
-
-[node name="PhysicsCollision" type="CollisionShape2D" parent="OfficerBacon" unique_id=1736838530]
-position = Vector2(0, 1)
-shape = SubResource("RectangleShape2D_6kkq5")
-
-[node name="AmbientAnimation" type="AnimationPlayer" parent="OfficerBacon" unique_id=368973290]
-libraries/ = SubResource("AnimationLibrary_54aio")
-autoplay = &"idle"
-
 [node name="EggsileTransition" type="Area2D" parent="." unique_id=1880142895 instance=ExtResource("6_7pd0t")]
 position = Vector2(576, 0)
 monitorable = false
@@ -396,40 +129,3 @@ TargetTransitionName = "HubArrival"
 Size = 7
 Side = 3
 RequiredFlag = "arrested"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EggsileTransition" unique_id=179538419]
-position = Vector2(0, -8)
-shape = SubResource("RectangleShape2D_8krqk")
-
-[node name="TransitionMarker" type="Sprite2D" parent="EggsileTransition" unique_id=194090345]
-modulate = Color(0.35, 0.85, 1, 0.78)
-z_index = 2
-texture_filter = 1
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("9_qiccx")
-
-[node name="LoadingBaySavePoint" type="Area2D" parent="." unique_id=822265427 instance=ExtResource("24_gxm0q")]
-position = Vector2(-480, 96)
-script = ExtResource("25_pwuoi")
-LocationName = "Factory — Loading Bay"
-
-[node name="StarSprite" type="Sprite2D" parent="LoadingBaySavePoint" unique_id=1049374852]
-modulate = Color(1, 0.9, 0.4, 1)
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("26_wbylf")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="LoadingBaySavePoint" unique_id=1283359338]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LoadingBaySavePoint" unique_id=733138706]
-shape = SubResource("CircleShape2D_jax6u")
-
-[node name="SaveLabel" type="Label" parent="LoadingBaySavePoint" unique_id=80587452]
-offset_left = -64.0
-offset_top = -16.0
-offset_right = 64.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-text = "Game saved."
-horizontal_alignment = 1
-vertical_alignment = 1
