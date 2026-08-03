@@ -136,7 +136,8 @@ func _perform_check() -> void:
 			nearest = candidate
 	if nearest != null and dialog != null and dialog.has_method("start_dialog"):
 		GameLogger.info("Player", "Check interaction with %s (%s)" % [nearest.name, nearest.get_class()])
-		dialog.call("start_dialog", [str(nearest.call("get_check_line"))])
+		var lines: Array[String] = [str(nearest.call("get_check_line"))]
+		dialog.call("start_dialog", lines)
 
 func start_interaction() -> void:
 	in_interaction = true
@@ -187,7 +188,8 @@ func _on_health_died() -> void:
 	var save_manager := get_tree().root.get_node_or_null("SaveManager")
 	var dialog := get_tree().root.get_node_or_null("DialogManager")
 	if dialog != null and dialog.has_method("start_dialog"):
-		dialog.call("start_dialog", ["You collapsed..."])
+		var lines: Array[String] = ["You collapsed..."]
+		dialog.call("start_dialog", lines)
 	if save_manager != null and save_manager.has_method("load_game"):
 		await get_tree().process_frame
 		save_manager.call("load_game")

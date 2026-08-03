@@ -47,7 +47,8 @@ func _process(_delta: float) -> void:
 	if not destination.is_empty():
 		var dialog := get_tree().root.get_node_or_null("DialogManager")
 		if dialog != null and dialog.has_method("start_dialog"):
-			dialog.call("start_dialog", ["Warp unlocked: %s" % destination.get("name")])
+			var lines: Array[String] = ["Warp unlocked: %s" % destination.get("name")]
+			dialog.call("start_dialog", lines)
 
 func _update_interaction_prompt() -> void:
 	var player := get_tree().root.get_node_or_null("Player")
