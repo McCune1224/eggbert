@@ -29,6 +29,7 @@ func save_game(scene_path: String, position: Vector2, location_name: String) -> 
 			save_file.component_data[node.get_save_key()] = node.serialize()
 	var error := ResourceSaver.save(save_file, _get_save_path())
 	if error == OK:
+		GameLogger.info("SaveManager", "Saved game at %s (%s, %s)" % [location_name, scene_path, position])
 		save_completed.emit()
 	else:
 		GameLogger.error("SaveManager", "Failed to write save: %s" % error)
@@ -53,6 +54,7 @@ func load_game() -> bool:
 		var data: Variant = save_file.component_data.get(node.get_save_key())
 		if data is Dictionary:
 			node.deserialize(data)
+	GameLogger.info("SaveManager", "Loaded save: %d component(s) restored" % savable_nodes.size())
 	return true
 
 func _is_savable(node: Node) -> bool:

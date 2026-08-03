@@ -33,8 +33,10 @@ func on_enemy_defeated() -> void:
 	if _battle_finished:
 		return
 	enemies_remaining = maxi(0, enemies_remaining - 1)
+	GameLogger.debug("Combat", "Enemy defeated; %d remaining" % enemies_remaining)
 	if enemies_remaining == 0:
 		_battle_finished = true
+		GameLogger.info("Combat", "All enemies defeated; battle won")
 		if is_instance_valid(combat_hud):
 			combat_hud.queue_free()
 		battle_won.emit()
@@ -43,6 +45,7 @@ func _on_player_died() -> void:
 	if _battle_finished:
 		return
 	_battle_finished = true
+	GameLogger.info("Combat", "Player died in arena; battle lost")
 	battle_lost.emit()
 
 func _get_player_health(player: Node) -> HealthComponent:

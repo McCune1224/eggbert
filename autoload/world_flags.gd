@@ -10,6 +10,7 @@ func _ready() -> void:
 
 func set_flag(key: String, value: Variant) -> void:
 	_flags[key] = value
+	GameLogger.debug("WorldFlags", "set %s = %s" % [key, str(value)])
 	state_changed.emit()
 
 func get_flag(key: String, default_value: Variant = null) -> Variant:
@@ -20,10 +21,12 @@ func has_flag(key: String) -> bool:
 
 func clear_flag(key: String) -> void:
 	if _flags.erase(key):
+		GameLogger.debug("WorldFlags", "cleared %s" % key)
 		state_changed.emit()
 
 func clear_all() -> void:
 	_flags.clear()
+	GameLogger.debug("WorldFlags", "cleared all flags")
 	state_changed.emit()
 
 func get_all_flags() -> Dictionary[String, Variant]:

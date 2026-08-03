@@ -26,6 +26,7 @@ func _ready() -> void:
 	health.died.connect(_on_died)
 
 func _on_died() -> void:
+	GameLogger.info("Combat", "%s defeated" % name)
 	if health != null and health.died.is_connected(_on_died):
 		health.died.disconnect(_on_died)
 	var arena := get_parent() as CombatArena

@@ -10,6 +10,8 @@ var _cached_quest_id: String = ""
 var _cached_objective_id: String = ""
 var _cached_objective_text: String = ""
 var _display_version: int = 0
+var _last_logged_quest_id: String = ""
+var _last_logged_objective_id: String = ""
 
 func _ready() -> void:
 	if panel != null:
@@ -51,6 +53,7 @@ func refresh() -> void:
 		return
 	var quests := _autoload("QuestManager")
 	if quests == null or not quests.has_method("get_pinned_quest"):
+		GameLogger.debug("ObjectiveTracker", "QuestManager missing or no get_pinned_quest; hiding")
 		return
 	var quest = quests.call("get_pinned_quest")
 	var objective = quests.call("get_current_objective", quest) if quest != null and quests.has_method("get_current_objective") else null
@@ -58,6 +61,7 @@ func refresh() -> void:
 		_clear_cached_objective()
 		if panel != null:
 			panel.visible = false
+		GameLogger.debug("ObjectiveTracker", "No pinned quest or current objective; hiding")
 		return
 	_cached_quest_id = str(quest.get("id"))
 	_cached_objective_id = str(objective.get("id"))
@@ -68,6 +72,10 @@ func refresh() -> void:
 		objective_label.text = _cached_objective_text
 	if panel != null:
 		panel.visible = true
+	if _cached_quest_id != _last_logged_quest_id or _cached_objective_id != _last_logged_objective_id:
+		GameLogger.info("ObjectiveTracker", "Showing quest '%s' objective '%s': %s" % [_cached_quest_id, _cached_objective_id, _cached_objective_text])
+		_last_logged_quest_id = _cached_quest_id
+		_last_logged_objective_id = _cached_objective_id
 
 func _clear_cached_objective() -> void:
 	_cached_quest_id = ""

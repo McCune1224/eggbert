@@ -16,8 +16,10 @@ func open() -> void:
 	if flags != null and bool(flags.call("has_flag", required_flag)):
 		_permanently_unlocked = true
 		_play_sfx(unlock_jingle)
+		GameLogger.info("KeyDoor", "%s unlocked via flag '%s'" % [name, required_flag])
 		super.open()
 		return
+	GameLogger.info("KeyDoor", "%s locked (missing flag '%s')" % [name, required_flag])
 	_start_dialog([locked_message])
 
 func close() -> void:

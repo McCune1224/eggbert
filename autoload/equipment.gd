@@ -5,6 +5,7 @@ var total_speed_boost: int = 0
 
 func equip(item_id: String, slot: String) -> void:
 	equipped[slot] = item_id
+	GameLogger.info("Equipment", "Equipped %s in slot '%s'" % [item_id, slot])
 
 func get_save_key() -> String:
 	return "equipment"

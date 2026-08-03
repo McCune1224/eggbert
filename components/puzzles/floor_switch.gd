@@ -27,6 +27,7 @@ func _ready() -> void:
 func _on_body_entered(_body: Node2D) -> void:
 	if _body_count == 0 and not _has_triggered:
 		pressed.emit()
+		GameLogger.info("FloorSwitch", "%s pressed" % name)
 		if _target_door != null:
 			_target_door.open()
 	_body_count += 1
@@ -36,6 +37,7 @@ func _on_body_exited(_body: Node2D) -> void:
 	_body_count = maxi(0, _body_count - 1)
 	if _body_count == 0:
 		released.emit()
+		GameLogger.info("FloorSwitch", "%s released" % name)
 		if not latching or not _has_triggered:
 			if _target_door != null:
 				_target_door.close()

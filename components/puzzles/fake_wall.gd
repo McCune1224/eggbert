@@ -48,6 +48,7 @@ func _reveal() -> void:
 	if _revealed:
 		return
 	_revealed = true
+	GameLogger.info("FakeWall", "%s revealed" % name)
 	if _collision != null:
 		_collision.set_deferred("disabled", true)
 	if _sprite != null:

@@ -28,6 +28,7 @@ func _on_body_entered(body: Node2D) -> void:
 	_teleport(body)
 
 func _teleport(body: Node2D) -> void:
+	GameLogger.info("TeleportPad", "%s teleported %s -> %s" % [name, body.name, _target_pad.name])
 	var fade := get_tree().root.get_node_or_null("FadeTransition")
 	if fade != null and fade.has_method("play_fade_out"):
 		await fade.call("play_fade_out")

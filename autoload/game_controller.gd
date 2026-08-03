@@ -10,6 +10,20 @@ var current_level: Node
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	current_level = get_node_or_null("CurrentLevel")
+	call_deferred("_ensure_objective_tracker")
+
+func _ensure_objective_tracker() -> void:
+	var existing := get_tree().root.get_node_or_null("ObjectiveTracker")
+	if existing != null:
+		return
+	var tracker_scene := load("res://ui/ObjectiveTracker.tscn") as PackedScene
+	if tracker_scene == null:
+		GameLogger.error("GameController", "Failed to load ObjectiveTracker.tscn.")
+		return
+	var tracker := tracker_scene.instantiate()
+	tracker.name = "ObjectiveTracker"
+	get_tree().root.add_child(tracker)
+	GameLogger.info("GameController", "ObjectiveTracker instantiated")
 
 func change_tile_map_bounds(bounds: Array[Vector2]) -> void:
 	current_tile_map_bounds = bounds
@@ -38,6 +52,7 @@ func load_level_at_transition(scene_path: String, target_transition_name: String
 func _load_level(scene_path: String) -> void:
 	get_tree().paused = true
 	level_load_started.emit()
+	GameLogger.info("GameController", "Loading level %s" % scene_path)
 	var root := get_node_or_null("CurrentLevel")
 	if root == null:
 		root = Node.new()
@@ -52,6 +67,7 @@ func _load_level(scene_path: String) -> void:
 		return
 	current_level = packed.instantiate()
 	root.add_child(current_level)
+	GameLogger.info("GameController", "Level %s loaded" % scene_path)
 
 func _finish_level_load() -> void:
 	level_loaded.emit()

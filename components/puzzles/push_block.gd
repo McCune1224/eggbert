@@ -38,4 +38,6 @@ func try_push(direction: Vector2) -> bool:
 	move_and_slide()
 	var moved := global_position.distance_squared_to(origin) > 0.01
 	velocity = Vector2.ZERO
+	if moved:
+		GameLogger.debug("PushBlock", "%s pushed %s -> %s" % [name, push_direction, global_position])
 	return moved

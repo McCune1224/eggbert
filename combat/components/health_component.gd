@@ -23,8 +23,10 @@ func take_damage(raw_damage: int, source: Node = null) -> void:
 		return
 	var amount: int = maxi(1, raw_damage - defense)
 	current_hp = maxi(0, current_hp - amount)
+	GameLogger.debug("Health", "%s took %d damage (hp %d/%d, source %s)" % [name, amount, current_hp, max_hp, source.name if source != null else "null"])
 	damaged.emit(amount, source)
 	if current_hp == 0:
+		GameLogger.info("Health", "%s died" % name)
 		died.emit()
 
 func heal(amount: int) -> void:
@@ -32,6 +34,7 @@ func heal(amount: int) -> void:
 		return
 	var before: int = current_hp
 	current_hp = mini(max_hp, current_hp + maxi(0, amount))
+	GameLogger.debug("Health", "%s healed %d (hp %d/%d)" % [name, current_hp - before, current_hp, max_hp])
 	healed.emit(current_hp - before)
 
 func set_max_hp(new_max: int, refill: bool = false) -> void:

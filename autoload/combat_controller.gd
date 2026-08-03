@@ -14,6 +14,7 @@ func enter_combat(arena_path: String, return_position: Vector2) -> void:
 	var current_level: Node = GameController.current_level
 	if current_level == null:
 		return
+	GameLogger.info("Combat", "Entering combat arena %s (from %s)" % [arena_path, current_level.name])
 	_return_level_path = str(current_level.get("scene_file_path"))
 	if _return_level_path.is_empty():
 		_return_level_path = str(current_level.get("scene_path"))
@@ -39,12 +40,14 @@ func return_to_overworld() -> void:
 	GameController.load_level_at_position(_return_level_path, overworld_position)
 
 func _on_battle_won() -> void:
+	GameLogger.info("Combat", "Battle won")
 	_unhook_arena()
 	in_combat = false
 	battle_won.emit()
 	return_to_overworld()
 
 func _on_battle_lost() -> void:
+	GameLogger.info("Combat", "Battle lost")
 	_unhook_arena()
 	in_combat = false
 	battle_lost.emit()

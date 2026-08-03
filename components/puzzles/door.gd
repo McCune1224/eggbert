@@ -30,12 +30,14 @@ func open() -> void:
 	if _collision != null:
 		_collision.set_deferred("disabled", true)
 	modulate = Color(1.0, 1.0, 1.0, 0.3)
+	GameLogger.info("Door", "%s opened" % name)
 
 func close() -> void:
 	_play_sfx(close_sfx)
 	if _collision != null:
 		_collision.set_deferred("disabled", false)
 	modulate = Color.WHITE
+	GameLogger.info("Door", "%s closed" % name)
 
 func toggle() -> void:
 	if is_open:
