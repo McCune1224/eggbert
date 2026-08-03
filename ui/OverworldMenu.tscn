@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bujexj1fh4elg"]
 
-[ext_resource type="Script" uid="uid://28qsckkkb1kv" path="res://ui/OverworldMenu.cs" id="1_d4due"]
+[ext_resource type="Script" uid="uid://28qsckkkb1kv" path="res://ui/overworld_menu.gd" id="1_d4due"]
 
 [node name="OverworldMenu" type="CanvasLayer" unique_id=354126348]
 process_mode = 3

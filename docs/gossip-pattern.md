@@ -38,6 +38,7 @@ Step 3: SayDialog "Now if you'll excuse me."
 
 ## Implementation
 
-- No engine changes needed — uses existing CutsceneResource + CutsceneCondition + SetFlag
-- Create `.tres` cutscene resource files for NPCs that currently use plain `DialogLines`
-- NPC's CutsceneTrigger.Cutscene points to the resource instead of using DialogLines
+- No engine changes are needed: use the existing `CutsceneResource`, `CutsceneCondition`, and `SetFlag` action.
+- Create a `.tres` cutscene Resource for NPCs that currently use inline `dialog_lines`.
+- Assign the resource to the NPC's `CutsceneTrigger.cutscene` export in the Inspector.
+- A conditional step uses `condition` with `FlagSet` or `FlagNotSet` and the exact `gossip_<npcA>_about_<npcB>` key.

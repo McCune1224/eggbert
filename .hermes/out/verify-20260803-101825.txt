@@ -1,0 +1,443 @@
+Godot Engine v4.7.1.stable.flathub.a13da4feb - https://godotengine.org
+
+WARNING: res://autoload/player/Player.tscn:3 - ext_resource, invalid UID: uid://bwj7bsgjwenk1 - using text path instead: res://autoload/player/player.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+WARNING: res://autoload/player/Player.tscn:5 - ext_resource, invalid UID: uid://bir1phaqnfct3 - using text path instead: res://autoload/player/player_camera.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+WARNING: res://autoload/player/animations/Dash.tscn:3 - ext_resource, invalid UID: uid://cejojurqs6b2q - using text path instead: res://autoload/player/animations/dash.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+WARNING: res://ui/FadeTransition.tscn:3 - ext_resource, invalid UID: uid://cp4jn6evyriyd - using text path instead: res://ui/fade_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+WARNING: res://addons/AsepriteWizard/config/config_dialog.tscn:3 - ext_resource, invalid UID: uid://chbd0835e0gjq - using text path instead: res://addons/AsepriteWizard/config/config_dialog.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/dock_fields.tscn:3 - ext_resource, invalid UID: uid://dh2q3wpm4aa6j - using text path instead: res://addons/AsepriteWizard/interface/docks/dock_fields.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/animation_player_drop_button.tscn:3 - ext_resource, invalid UID: uid://d1o084nbethek - using text path instead: res://addons/AsepriteWizard/interface/shared/animation_player_drop_button.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/source_drop_button.tscn:3 - ext_resource, invalid UID: uid://df348ubfyhmw1 - using text path instead: res://addons/AsepriteWizard/interface/shared/source_drop_button.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/dir_drop_button.tscn:3 - ext_resource, invalid UID: uid://cw85fyo7enlxk - using text path instead: res://addons/AsepriteWizard/interface/shared/dir_drop_button.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/multi_layer_select_field.tscn:3 - ext_resource, invalid UID: uid://lcev7ycp360o - using text path instead: res://addons/AsepriteWizard/interface/docks/multi_layer_select_field.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/layer_select_field.tscn:3 - ext_resource, invalid UID: uid://b6jr7o61q4cv4 - using text path instead: res://addons/AsepriteWizard/interface/docks/layer_select_field.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/multi_layer_select_field.tscn:3 - ext_resource, invalid UID: uid://lcev7ycp360o - using text path instead: res://addons/AsepriteWizard/interface/docks/multi_layer_select_field.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/animated_sprite/animated_sprite_inspector_dock.tscn:3 - ext_resource, invalid UID: uid://cslmigkaq8wv7 - using text path instead: res://addons/AsepriteWizard/interface/docks/animated_sprite/animated_sprite_inspector_dock.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/dock_fields.tscn:3 - ext_resource, invalid UID: uid://dh2q3wpm4aa6j - using text path instead: res://addons/AsepriteWizard/interface/docks/dock_fields.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/animation_player_drop_button.tscn:3 - ext_resource, invalid UID: uid://d1o084nbethek - using text path instead: res://addons/AsepriteWizard/interface/shared/animation_player_drop_button.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/source_drop_button.tscn:3 - ext_resource, invalid UID: uid://df348ubfyhmw1 - using text path instead: res://addons/AsepriteWizard/interface/shared/source_drop_button.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/dir_drop_button.tscn:3 - ext_resource, invalid UID: uid://cw85fyo7enlxk - using text path instead: res://addons/AsepriteWizard/interface/shared/dir_drop_button.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/sprite/sprite_inspector_dock.tscn:3 - ext_resource, invalid UID: uid://gc8vpxo8a867 - using text path instead: res://addons/AsepriteWizard/interface/docks/sprite/sprite_inspector_dock.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/as_wizard_window.tscn:3 - ext_resource, invalid UID: uid://bns1hlrklbjtd - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/as_wizard_window.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/as_wizard_dock_container.tscn:4 - ext_resource, invalid UID: uid://bdbnrwikrweb2 - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/as_wizard_dock_container.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/sprite_frames_import_history.tscn:3 - ext_resource, invalid UID: uid://6v7x5u6xl4qu - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/sprite_frames_import_history.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/source_path.tscn:3 - ext_resource, invalid UID: uid://chqolhf6oo7q8 - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/source_path.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/import_date.tscn:3 - ext_resource, invalid UID: uid://wkvtx07lb8kp - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/import_date.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/list_actions.tscn:3 - ext_resource, invalid UID: uid://c6y0tojnlx46q - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/list_actions.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/details.tscn:3 - ext_resource, invalid UID: uid://dtagk61pu8cbu - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/details.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/imported_sprite_frames.tscn:3 - ext_resource, invalid UID: uid://dib6yfceo5sri - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/imported_sprite_frames.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/resource_tree.tscn:3 - ext_resource, invalid UID: uid://cqrey4l0d1dpi - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/resource_tree.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/resource_tree.tscn:4 - ext_resource, invalid UID: uid://dg8dllyvny6pg - using text path instead: res://addons/AsepriteWizard/interface/imports_manager/tree_filter_field.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_single_item.tscn:3 - ext_resource, invalid UID: uid://caej0fp65m5nq - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_single_item.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.tscn:3 - ext_resource, invalid UID: uid://dgtbhjun6rbw6 - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_multiple_items.tscn:3 - ext_resource, invalid UID: uid://dsw03hyy4cd1q - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_multiple_items.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/tree_selection_confirmation_warning.tscn:3 - ext_resource, invalid UID: uid://cvg240fb0xw6w - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/tree_selection_confirmation_warning.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/imported_sprite_frames.tscn:3 - ext_resource, invalid UID: uid://dib6yfceo5sri - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/imported_sprite_frames.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/resource_tree.tscn:3 - ext_resource, invalid UID: uid://cqrey4l0d1dpi - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/resource_tree.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/resource_tree.tscn:4 - ext_resource, invalid UID: uid://dg8dllyvny6pg - using text path instead: res://addons/AsepriteWizard/interface/imports_manager/tree_filter_field.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_single_item.tscn:3 - ext_resource, invalid UID: uid://caej0fp65m5nq - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_single_item.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.tscn:3 - ext_resource, invalid UID: uid://dgtbhjun6rbw6 - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_multiple_items.tscn:3 - ext_resource, invalid UID: uid://dsw03hyy4cd1q - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_multiple_items.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/tree_selection_confirmation_warning.tscn:3 - ext_resource, invalid UID: uid://cvg240fb0xw6w - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/tree_selection_confirmation_warning.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_single_item.tscn:3 - ext_resource, invalid UID: uid://caej0fp65m5nq - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_single_item.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.tscn:3 - ext_resource, invalid UID: uid://dgtbhjun6rbw6 - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/docks/wizard/sprite_frames_import_history.tscn:3 - ext_resource, invalid UID: uid://6v7x5u6xl4qu - using text path instead: res://addons/AsepriteWizard/interface/docks/wizard/sprite_frames_import_history.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/imports_manager/aseprite_imports_manager.tscn:3 - ext_resource, invalid UID: uid://ibpqc273je2u - using text path instead: res://addons/AsepriteWizard/interface/imports_manager/aseprite_imports_manager.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/imports_manager/dock_imports_panel.tscn:3 - ext_resource, invalid UID: uid://lue1nis60tcq - using text path instead: res://addons/AsepriteWizard/interface/imports_manager/dock_imports_panel.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/resource_tree.tscn:3 - ext_resource, invalid UID: uid://cqrey4l0d1dpi - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/resource_tree.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/resource_tree.tscn:4 - ext_resource, invalid UID: uid://dg8dllyvny6pg - using text path instead: res://addons/AsepriteWizard/interface/imports_manager/tree_filter_field.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/tree_selection_confirmation_warning.tscn:3 - ext_resource, invalid UID: uid://cvg240fb0xw6w - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/tree_selection_confirmation_warning.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/imports_manager/tree_selection_single_item.tscn:3 - ext_resource, invalid UID: uid://fasgnn3du1is - using text path instead: res://addons/AsepriteWizard/interface/imports_manager/tree_selection_single_item.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.tscn:3 - ext_resource, invalid UID: uid://dgtbhjun6rbw6 - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/imports_manager/tree_selection_multiple_items.tscn:3 - ext_resource, invalid UID: uid://0kaey48qwjww - using text path instead: res://addons/AsepriteWizard/interface/imports_manager/tree_selection_multiple_items.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/imports_manager/import_panels.tscn:3 - ext_resource, invalid UID: uid://dsblml5xglni7 - using text path instead: res://addons/AsepriteWizard/interface/imports_manager/import_panels.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/imports_manager/tree_selection_single_item.tscn:3 - ext_resource, invalid UID: uid://fasgnn3du1is - using text path instead: res://addons/AsepriteWizard/interface/imports_manager/tree_selection_single_item.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.tscn:3 - ext_resource, invalid UID: uid://dgtbhjun6rbw6 - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/animation_player_drop_button.tscn:3 - ext_resource, invalid UID: uid://d1o084nbethek - using text path instead: res://addons/AsepriteWizard/interface/shared/animation_player_drop_button.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/dir_drop_button.tscn:3 - ext_resource, invalid UID: uid://cw85fyo7enlxk - using text path instead: res://addons/AsepriteWizard/interface/shared/dir_drop_button.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/source_drop_button.tscn:3 - ext_resource, invalid UID: uid://df348ubfyhmw1 - using text path instead: res://addons/AsepriteWizard/interface/shared/source_drop_button.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.tscn:3 - ext_resource, invalid UID: uid://dgtbhjun6rbw6 - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/resource_tree.tscn:3 - ext_resource, invalid UID: uid://cqrey4l0d1dpi - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/resource_tree.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/resource_tree.tscn:4 - ext_resource, invalid UID: uid://dg8dllyvny6pg - using text path instead: res://addons/AsepriteWizard/interface/imports_manager/tree_filter_field.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://addons/AsepriteWizard/interface/shared/tree/tree_selection_confirmation_warning.tscn:3 - ext_resource, invalid UID: uid://cvg240fb0xw6w - using text path instead: res://addons/AsepriteWizard/interface/shared/tree/tree_selection_confirmation_warning.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://autoload/AudioManager.tscn:3 - ext_resource, invalid UID: uid://bxl4tw26aq7e1 - using text path instead: res://autoload/audio_manager.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://autoload/DialogManager.tscn:3 - ext_resource, invalid UID: uid://b2audw1h6al3n - using text path instead: res://autoload/dialog_manager.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://autoload/GameController.tscn:3 - ext_resource, invalid UID: uid://35fbd2ldc1xj - using text path instead: res://autoload/game_controller.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://resources/quests/FactoryGateQuest.tres:3 - ext_resource, invalid UID: uid://c35j3vp4l0m4c - using text path instead: res://resources/quests/quest_objective.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://resources/quests/FactoryGateQuest.tres:4 - ext_resource, invalid UID: uid://mw4rsdp5wjwl - using text path instead: res://resources/quests/quest_definition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://autoload/player/Player.tscn:3 - ext_resource, invalid UID: uid://bwj7bsgjwenk1 - using text path instead: res://autoload/player/player.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://autoload/player/Player.tscn:5 - ext_resource, invalid UID: uid://bir1phaqnfct3 - using text path instead: res://autoload/player/player_camera.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://autoload/player/animations/Dash.tscn:3 - ext_resource, invalid UID: uid://cejojurqs6b2q - using text path instead: res://autoload/player/animations/dash.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://boot/GameInit.tscn:3 - ext_resource, invalid UID: uid://b4a82ckctegtg - using text path instead: res://boot/game_init.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://combat/bullets/RedBullet.tscn:3 - ext_resource, invalid UID: uid://bco5ecxn14rbo - using text path instead: res://combat/bullets/red_bullet.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://combat/arena/GenericArena.tscn:6 - ext_resource, invalid UID: uid://cek7ht65f8fj5 - using text path instead: res://combat/arena/generic_arena.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://combat/enemies/CombatOatmeal.tscn:3 - ext_resource, invalid UID: uid://dvptuuesoks1x - using text path instead: res://combat/enemies/combat_oatmeal.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://combat/arena/OatmealArena.tscn:3 - ext_resource, invalid UID: uid://brpcdu3ssxqxx - using text path instead: res://combat/arena/oatmeal_arena.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/core/CoreTilemapLayer.tscn:3 - ext_resource, invalid UID: uid://bbkcsovvq8cd2 - using text path instead: res://components/core/level_tile_map_layer.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/items/ConditionalItem.tscn:3 - ext_resource, invalid UID: uid://d255gas3lchnl - using text path instead: res://components/items/conditional_item.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/items/PickupItem.tscn:3 - ext_resource, invalid UID: uid://c5nkwg6g27ibr - using text path instead: res://components/items/pickup_item.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/BaseLevel.tscn:3 - ext_resource, invalid UID: uid://bs36et7il2p62 - using text path instead: res://levels/base_level.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/LevelTransition.tscn:3 - ext_resource, invalid UID: uid://cikp84axjq2ur - using text path instead: res://levels/level_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/LevelTransition.tscn:3 - ext_resource, invalid UID: uid://cikp84axjq2ur - using text path instead: res://levels/level_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/core/CoreTilemapLayer.tscn:3 - ext_resource, invalid UID: uid://bbkcsovvq8cd2 - using text path instead: res://components/core/level_tile_map_layer.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/LevelTransition.tscn:3 - ext_resource, invalid UID: uid://cikp84axjq2ur - using text path instead: res://levels/level_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/core/CoreTilemapLayer.tscn:3 - ext_resource, invalid UID: uid://bbkcsovvq8cd2 - using text path instead: res://components/core/level_tile_map_layer.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/core/CoreTilemapLayer.tscn:3 - ext_resource, invalid UID: uid://bbkcsovvq8cd2 - using text path instead: res://components/core/level_tile_map_layer.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/LevelTransition.tscn:3 - ext_resource, invalid UID: uid://cikp84axjq2ur - using text path instead: res://levels/level_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/items/PickupItem.tscn:3 - ext_resource, invalid UID: uid://c5nkwg6g27ibr - using text path instead: res://components/items/pickup_item.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/factory/maps/OpeningZone.tscn:3 - ext_resource, invalid UID: uid://bs36et7il2p62 - using text path instead: res://levels/base_level.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/factory/npcs/FactoryJamitorTutorial.tres:3 - ext_resource, invalid UID: uid://bhn02hmiipnne - using text path instead: res://resources/cutscene/cutscene_condition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/factory/npcs/FactoryJamitorTutorial.tres:4 - ext_resource, invalid UID: uid://dvhwgxm701bvh - using text path instead: res://resources/cutscene/cutscene_step.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/factory/npcs/FactoryJamitorTutorial.tres:5 - ext_resource, invalid UID: uid://cn451i4kwjk57 - using text path instead: res://resources/cutscene/cutscene_resource.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/factory/npcs/FactoryJamitorTutorial.tres:3 - ext_resource, invalid UID: uid://bhn02hmiipnne - using text path instead: res://resources/cutscene/cutscene_condition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/factory/npcs/FactoryJamitorTutorial.tres:4 - ext_resource, invalid UID: uid://dvhwgxm701bvh - using text path instead: res://resources/cutscene/cutscene_step.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/factory/npcs/FactoryJamitorTutorial.tres:5 - ext_resource, invalid UID: uid://cn451i4kwjk57 - using text path instead: res://resources/cutscene/cutscene_resource.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/core/CoreTilemapLayer.tscn:3 - ext_resource, invalid UID: uid://bbkcsovvq8cd2 - using text path instead: res://components/core/level_tile_map_layer.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/LevelTransition.tscn:3 - ext_resource, invalid UID: uid://cikp84axjq2ur - using text path instead: res://levels/level_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/core/CoreTilemapLayer.tscn:3 - ext_resource, invalid UID: uid://bbkcsovvq8cd2 - using text path instead: res://components/core/level_tile_map_layer.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/LevelTransition.tscn:3 - ext_resource, invalid UID: uid://cikp84axjq2ur - using text path instead: res://levels/level_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/LevelTransition.tscn:3 - ext_resource, invalid UID: uid://cikp84axjq2ur - using text path instead: res://levels/level_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/core/CoreTilemapLayer.tscn:3 - ext_resource, invalid UID: uid://bbkcsovvq8cd2 - using text path instead: res://components/core/level_tile_map_layer.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/core/CoreTilemapLayer.tscn:3 - ext_resource, invalid UID: uid://bbkcsovvq8cd2 - using text path instead: res://components/core/level_tile_map_layer.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/LevelTransition.tscn:3 - ext_resource, invalid UID: uid://cikp84axjq2ur - using text path instead: res://levels/level_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/core/CoreTilemapLayer.tscn:3 - ext_resource, invalid UID: uid://bbkcsovvq8cd2 - using text path instead: res://components/core/level_tile_map_layer.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/LevelTransition.tscn:3 - ext_resource, invalid UID: uid://cikp84axjq2ur - using text path instead: res://levels/level_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://components/core/CoreTilemapLayer.tscn:3 - ext_resource, invalid UID: uid://bbkcsovvq8cd2 - using text path instead: res://components/core/level_tile_map_layer.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://levels/LevelTransition.tscn:3 - ext_resource, invalid UID: uid://cikp84axjq2ur - using text path instead: res://levels/level_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://resources/dialog/NarratorVoice.tres:3 - ext_resource, invalid UID: uid://dqih1abt04loc - using text path instead: res://resources/dialog/dialog_voice_resource.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://resources/quests/FactoryGateQuest.tres:3 - ext_resource, invalid UID: uid://c35j3vp4l0m4c - using text path instead: res://resources/quests/quest_objective.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://resources/quests/FactoryGateQuest.tres:4 - ext_resource, invalid UID: uid://mw4rsdp5wjwl - using text path instead: res://resources/quests/quest_definition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://ui/FadeTransition.tscn:3 - ext_resource, invalid UID: uid://cp4jn6evyriyd - using text path instead: res://ui/fade_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://ui/ObjectiveTracker.tscn:3 - ext_resource, invalid UID: uid://d3y3vujy5yer4 - using text path instead: res://ui/objective_tracker.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://ui/OverworldMenu.tscn:3 - ext_resource, invalid UID: uid://28qsckkkb1kv - using text path instead: res://ui/overworld_menu.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://ui/FadeTransition.tscn:3 - ext_resource, invalid UID: uid://cp4jn6evyriyd - using text path instead: res://ui/fade_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+WARNING: res://util/fps.tscn:3 - ext_resource, invalid UID: uid://b4xrqo0yaqftc - using text path instead: res://util/fps.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _initialize (res://tests/verify_migration_integrity.gd:16)
+Migration integrity passed: 154 resources loaded

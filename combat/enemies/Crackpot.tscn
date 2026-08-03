@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=4]
 
-[ext_resource type="Script" path="res://combat/enemies/Crackpot.cs" id="1"]
+[ext_resource type="Script" path="res://combat/enemies/crackpot.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/characters/Oatmeal.png" id="2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape_collision"]

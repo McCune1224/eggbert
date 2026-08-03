@@ -1,69 +1,85 @@
-# AGENTS.md — Eggbert
+# Eggbert contributor guide
 
-Godot 4.7 C# RPG. Undertale/EarthBound inspired, 640×360, top-down (zero gravity).
+Godot 4.7, statically typed GDScript, 640×360 pixel-art top-down RPG inspired by Undertale and EarthBound. Game scripts use snake_case `.gd` paths and PascalCase `class_name` declarations; the game runs directly in Godot.
 
-Read ROADMAP.md for feature objectives. Read DESIGN.md for design decisions.
-Read docs/godot-editor-guide.md for editor setup, custom plugin usage, component reference, dialog/cutscene authoring, combat/quest/item systems, and architecture conventions.
+Read `ROADMAP.md` for objectives, `DESIGN.md` for settled design, `LOGGING.md` for diagnostics, and `docs/godot-editor-guide.md` before authoring scenes or resources.
 
 ## Commands
 
+From the repository root:
+
 ```bash
-dotnet build          # compile C# (Godot.NET.Sdk/4.7.0, net8.0)
+# Import resources and parse the project without opening a window
+godot --headless --path . --editor --quit
+# Run a targeted verifier
+godot --headless --path . --script res://tests/verify_migration_integrity.gd
+# Run the game
+godot --path .
 ```
 
-Godot MCP tools available via `godot-mcp` server (godot_run_project, godot_launch_editor, godot_get_debug_output, etc.).
+Targeted structural verifiers live in `tests/`: `verify_factory_layout.gd`, `verify_factory_expansion.gd`, `verify_quest_auto_pin.gd`, `verify_dialog_branch.gd`, `verify_combat_once_flag.gd`, `verify_warp_fix.gd`, and `verify_save_manager.gd`. The UI verifier is `verify_ui_colors.gd` at the project root. Factory layout checks select a map with `FACTORY_LAYOUT_SCENE=AssemblyLine` or `ControlRoom`.
 
 ## Architecture
 
 ### Boot order
-boot/GameInit.tscn → Main menu (New Game/Continue/Settings/Quit) or debug-skip → GameController.LoadLevel → player at saved position.
 
-Debug auto-start: EGGBERT_SKIP_MENU=1 env var skips menu, loads last save.
+`boot/GameInit.tscn` opens the main menu (or skips it when `EGGBERT_SKIP_MENU=1`), then `GameController` loads the current level and restores Player's saved position.
 
-### Autoload singletons (project.godot)
-| Singleton | Class | Role |
-|-----------|-------|------|
-| GameController | Node | Level loading/unloading, tilemap bounds → camera |
-| WorldFlags | Node | Dictionary<string, Variant>, dialog branching, warp/quest progression, ISavable |
-| DialogManager | Node2D | NPC dialog lines + DialogBubble |
-| AudioManager | Node | Music cross-fade (2-player pool) |
-| Player | CharacterBody2D | WASD movement, dash, save/load |
-| FadeTransition | CanvasLayer | Screen fade between levels |
-| CutsceneController | Node | Resource-driven cutscene player (CutsceneResource + CutsceneStep + CutsceneCondition) |
-| DebugOverlay | Node | Debug HUD overlay (FPS, state info) |
-| SaveLoadManager | Node | Persist via ResourceSaver → user://savegame.tres |
-| Inventory | Node | Item stacks by id, ISavable, seeds test items on new game |
-| Equipment | Node | Equip/unequip Weapon/Armor/Accessory, applies stats, ISavable |
-| CombatController | Node | EnterCombat scene swap, saved overworld position, win/lose flow |
+### Autoloads
+
+| Name | Path | Role |
+|---|---|---|
+| `WorldFlags` | `autoload/world_flags.tscn` | Persistent story, quest, and warp flags |
+| `QuestManager` | `autoload/quest_manager.tscn` | Ordered quest objectives and pinning |
+| `GameController` | `autoload/game_controller.tscn` | Level replacement, pause/fade ordering, camera bounds |
+| `DialogManager` | `autoload/dialog_manager.tscn` | Dialog sessions and `DialogBubble` |
+| `AudioManager` | `autoload/audio_manager.tscn` | Music, ambience, and SFX |
+| `Player` | `autoload/player/player.tscn` | Movement, interaction, combat return, persistence |
+| `FadeTransition` | `ui/fade_transition.tscn` | Screen fades and location banners |
+| `CutsceneController` | `autoload/cutscene_controller.gd` | Resource-driven cutscenes |
+| `DebugOverlay` | `autoload/debug_overlay.gd` | Runtime diagnostics |
+| `SaveManager` | `saves/save_manager.tscn` | `user://savegame.tres` persistence |
+| `Inventory` | `autoload/inventory.gd` | Item counts |
+| `Equipment` | `autoload/equipment.gd` | Equipment and stat bonuses |
+| `CombatController` | `autoload/combat_controller.gd` | Arena entry and overworld return |
+| `KeybindManager` | `autoload/keybind_manager.gd` | Input bindings |
+| `FactoryOpeningFlow` | `levels/factory/factory_opening_flow.gd` | Opening route state |
+
+Use these names directly. Do not add singleton wrapper accessors.
 
 ### Level loading
-GameController.LoadLevel(scenePath, playerPosition|transitionName, skipAutoSave). Clears CurrentLevel children, instantiates scene, repositions player, fades.
 
-### Combat
-CombatController.EnterCombat(arenaPath, playerSpawn) → CombatArena with enemies. CombatOatmeal has 4 flavors (spread/burst/homing/aimed). State machine: idle→telegraph→attack→cooldown. Proximity parry (J key) via ParryComponent. CombatHUD with reactive HP bars. Arenas: OatmealArena, GenericArena.
+`GameController` exposes two non-overloaded methods:
 
-### Dialog voice system
-DialogVoiceResource ([GlobalClass] Resource) per NPC, procedural fallback (60ms sine blip at 440Hz). One-shot AudioStreamPlayer per blip, max 16 concurrent.
+```gdscript
+GameController.load_level_at_position(scene_path, player_position)
+GameController.load_level_at_transition(scene_path, target_transition_name)
+```
 
-### Save system
-ISavable interface. Nodes in "persist" group auto-saved. Single slot: user://savegame.tres. Saves player position/health, WorldFlags, warp unlocks, inventory, equipment.
+Both clear the current level, pause and fade, instantiate the requested scene, place `Player`, emit `level_loaded`, and unpause. Transition loading applies the existing directional offset. Position callers use the first method; named-transition callers use the second.
+
+### Save contract
+
+Nodes in the `persist` group implement `get_save_key() -> String`, `serialize() -> Dictionary[String, Variant]`, `deserialize(data: Dictionary[String, Variant]) -> void`, and `get_load_priority() -> int`. `SaveManager` keeps `player`, `inventory`, `equipment`, and `world_flags` keys, loads in priority order (Player 10, Equipment 5, other persistent nodes 0), and deletes invalid save resources before starting a fresh run.
+
+### Combat and dialog
+
+Combat is an arena handoff: `CombatController` saves the overworld position, instantiates an arena, and returns through `GameController.load_level_at_position`. Enemies follow idle → telegraph → attack → cooldown. Proximity parry uses J. Cutscenes are `CutsceneResource` `.tres` files containing typed `CutsceneStep` resources and optional `CutsceneCondition`/`DialogBranch` resources.
 
 ## Conventions
-- C# only for game code. GDScript exists only in addons/ (AsepriteWizard).
-- No tests, no CI.
-- Physics layers in components/core/CollisionConfig.cs: 1=Player, 2=Walls, 3=NPCs, 4=Bullets, 5=Interactables, 6=Enemies, 7=TriggerAreas, 8=PlayerHitbox, 9=EnemyHitbox, 10=Items.
-- Inputs: WASD movement, E=interact/dialog advance, Esc=menu, Space=dash, Shift=sprint, J=parry (combat), arrow keys+E=choice menu selection.
-- All work commits directly to main. No branches, no PRs.
 
-## Design unknowns — ASK, don't assume
-- Story/narrative (who is Eggbert?) — #9
-- Consumable items (what do they do?) — #6
-- Equipment stats (what do they affect?) — #7
-- Difficulty tuning (easy mode? HP scaling?) — not yet filed
+- Tabs for indentation; typed variables, parameters, returns, and collections.
+- `class_name` and scene node names are PascalCase. Files, functions, variables, signals, and exported fields are snake_case; constants are `CONSTANT_CASE`.
+- Prefer `@export`, `@onready`, native signals (`signal.connect`, `signal.emit`, `await node.signal`), `PackedScene.instantiate()`, and typed `NodePath` lookups.
+- Physics layers remain 1 Player, 2 Walls, 3 NPCs, 4 Bullets, 5 Interactables, 6 Enemies, 7 TriggerAreas, 8 PlayerHitbox, 9 EnemyHitbox, 10 Items. Definitions are in `components/core/collision_config.gd`.
+- Inputs: WASD movement, E interact/advance, Esc pause, Space dash, Shift sprint, J parry, F check, Tab dialog log, and Backtick debug overlay.
+- Author scenes and nested resources in the Godot editor. Do not hand-edit tilemap data, atlas subresources, or generated UIDs.
+- Supported editor addons are AsepriteWizard, `nklbdev.aseprite_importers`, `level_assembly`, and `cutscene_inspector`; the latter is GDScript-based.
 
-## GitHub workflow
-File an issue before non-trivial work. Commit with `Closes #N` on main. Push.
+## Workflow
 
-## Feature ideas
-`FEATURE_IDEAS.md` is a loose bucket of feature ideas — dialog, puzzles, NPC behaviors,
-atmosphere, items, secrets. No priority, no phases. Pull from it when you want something to build.
+Work on a feature branch (the migration branch is `port/gdscript-migration`), keep commits focused, and open a review when a change is ready. Keep `main` integration-only. Report changed paths and the exact headless verifier commands exercised. Read the latest `user://logs/eggbert_YYYY-MM-DD.log` before repeating a debugging loop.
+
+## Design unknowns
+
+Ask before inventing unresolved story, consumable, equipment, or difficulty decisions. `FEATURE_IDEAS.md` is an unprioritized idea bucket.

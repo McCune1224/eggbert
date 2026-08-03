@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d0kg3d2oh5pde"]
 
-[ext_resource type="Script" path="res://components/puzzles/LightMirror.cs" id="1_lm"]
+[ext_resource type="Script" path="res://components/puzzles/light_mirror.gd" id="1_lm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cp4p"]
 size = Vector2(32, 8)

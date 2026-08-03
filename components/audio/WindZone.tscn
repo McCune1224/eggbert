@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b6hm2nbnjmwo8"]
 
-[ext_resource type="Script" path="res://components/audio/WindZone.cs" id="1_wz"]
+[ext_resource type="Script" path="res://components/audio/wind_zone.gd" id="1_wz"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cp4p"]
 size = Vector2(640, 360)

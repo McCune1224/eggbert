@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://components/puzzles/PushBlock.cs" id="1_u1k4g"]
+[ext_resource type="Script" path="res://components/puzzles/push_block.gd" id="1_u1k4g"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/crate.png" id="2_u1k4g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ktt8f"]

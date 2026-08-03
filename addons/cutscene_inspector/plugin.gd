@@ -1,8 +1,8 @@
 @tool
 extends EditorPlugin
 
-const CUTSCENE_SCRIPT := preload("res://resources/cutscene/CutsceneResource.cs")
-const DIALOG_BRANCH_SCRIPT := preload("res://resources/dialog/DialogBranch.cs")
+const CUTSCENE_SCRIPT := preload("res://resources/cutscene/cutscene_resource.gd")
+const DIALOG_BRANCH_SCRIPT := preload("res://resources/dialog/dialog_branch.gd")
 const CARDS := preload("res://addons/cutscene_inspector/cards.gd")
 
 var _cutscene_inspector: CutsceneResourceInspector
@@ -37,7 +37,7 @@ class CutsceneResourceInspector extends EditorInspectorPlugin:
 		return object.get_script() == CUTSCENE_SCRIPT
 
 	func _parse_property(object: Object, type: int, name: String, hint_type: int, hint_string: String, usage_flags: int, wide: bool) -> bool:
-		if name == "Steps":
+		if name == "steps":
 			return true
 		return false
 
@@ -84,8 +84,8 @@ class CutsceneResourceInspector extends EditorInspectorPlugin:
 		if new_step == null:
 			EditorInterface.get_editor_toaster().push_toast("Could not create step.", EditorToaster.SEVERITY_ERROR)
 			return
-		# C# enum binding: must pass the integer ordinal, not the name string.
-		new_step.set("Type", ordinal)
+			# Resource enum properties are serialized by integer ordinal.
+		new_step.set("type", ordinal)
 		var next := steps_array.duplicate()
 		next.append(new_step)
 		_apply_steps_change(parent_resource, steps_array, next, "Add Cutscene Step")
@@ -96,9 +96,9 @@ class CutsceneResourceInspector extends EditorInspectorPlugin:
 	static func _apply_steps_change(parent_resource: Resource, old_array: Array, new_array: Array, action_label: String) -> void:
 		var undo_redo := EditorInterface.get_editor_undo_redo()
 		undo_redo.create_action(action_label)
-		undo_redo.add_do_method(parent_resource, "set", "Steps", new_array)
+		undo_redo.add_do_method(parent_resource, "set", "steps", new_array)
 		undo_redo.add_do_method(parent_resource, "emit_changed")
-		undo_redo.add_undo_method(parent_resource, "set", "Steps", old_array)
+		undo_redo.add_undo_method(parent_resource, "set", "steps", old_array)
 		undo_redo.add_undo_method(parent_resource, "emit_changed")
 		# Always re-mark for inspector + filesystem refresh, both directions.
 		undo_redo.add_do_method(EditorInterface, "edit_resource", parent_resource)
@@ -116,7 +116,7 @@ class DialogBranchInspector extends EditorInspectorPlugin:
 		return object.get_script() == DIALOG_BRANCH_SCRIPT
 
 	func _parse_property(object: Object, type: int, name: String, hint_type: int, hint_string: String, usage_flags: int, wide: bool) -> bool:
-		if name == "Nodes":
+		if name == "nodes":
 			return true
 		return false
 
@@ -139,7 +139,7 @@ class DialogBranchInspector extends EditorInspectorPlugin:
 		if new_node == null:
 			EditorInterface.get_editor_toaster().push_toast("DialogNode script missing.", EditorToaster.SEVERITY_ERROR)
 			return
-		new_node.set("Id", "node_%d" % nodes_array.size())
+		new_node.set("id", "node_%d" % nodes_array.size())
 		var next := nodes_array.duplicate()
 		next.append(new_node)
 		_apply_nodes_change(parent_resource, nodes_array, next, "Add Dialog Node")
@@ -165,9 +165,9 @@ class DialogBranchInspector extends EditorInspectorPlugin:
 	static func _apply_nodes_change(parent_resource: Resource, old_array: Array, new_array: Array, action_label: String) -> void:
 		var undo_redo := EditorInterface.get_editor_undo_redo()
 		undo_redo.create_action(action_label)
-		undo_redo.add_do_method(parent_resource, "set", "Nodes", new_array)
+		undo_redo.add_do_method(parent_resource, "set", "nodes", new_array)
 		undo_redo.add_do_method(parent_resource, "emit_changed")
-		undo_redo.add_undo_method(parent_resource, "set", "Nodes", old_array)
+		undo_redo.add_undo_method(parent_resource, "set", "nodes", old_array)
 		undo_redo.add_undo_method(parent_resource, "emit_changed")
 		undo_redo.add_do_method(EditorInterface, "edit_resource", parent_resource)
 		undo_redo.add_undo_method(EditorInterface, "edit_resource", parent_resource)
@@ -179,13 +179,13 @@ class DialogBranchInspector extends EditorInspectorPlugin:
 
 class PuzzleCrossRefInspector extends EditorInspectorPlugin:
 	const TRIGGER_PATHS := [
-		"res://components/npcs/CutsceneTrigger.cs",
-		"res://components/npcs/DialogBranchTrigger.cs",
+		"res://components/npcs/cutscene_trigger.gd",
+		"res://components/npcs/dialog_branch_trigger.gd",
 	]
 	const PUZZLE_PATHS := [
-		"res://components/puzzles/FloorSwitch.cs",
-		"res://components/puzzles/KeyDoor.cs",
-		"res://components/puzzles/Door.cs",
+		"res://components/puzzles/floor_switch.gd",
+		"res://components/puzzles/key_door.gd",
+		"res://components/puzzles/door.gd",
 	]
 
 	func _can_handle(object: Object) -> bool:

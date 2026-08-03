@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" path="res://assets/characters/Jamitor.png" id="1_spr"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_ct"]
-[ext_resource type="Script" path="res://components/npcs/CutsceneTrigger.cs" id="3_sh0db"]
+[ext_resource type="Script" path="res://components/npcs/cutscene_trigger.gd" id="3_sh0db"]
 [ext_resource type="Resource" path="res://levels/factory/npcs/FactoryJamitorTutorial.tres" id="4_hsvgg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
@@ -75,7 +75,7 @@ metadata/_aseprite_wizard_source_file_hash_ = "bdbd245aa30096173c674f8717af6008"
 
 [node name="CutsceneTrigger" type="Area2D" parent="." unique_id=1156089521 instance=ExtResource("2_ct")]
 script = ExtResource("3_sh0db")
-Cutscene = ExtResource("4_hsvgg")
+cutscene = ExtResource("4_hsvgg")
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger" unique_id=397618045]
 shape = SubResource("CircleShape2D_interact")

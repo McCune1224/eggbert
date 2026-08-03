@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dmnci8q7nei3e"]
 
-[ext_resource type="Script" path="res://components/npcs/CutsceneTrigger.cs" id="1_f7wod"]
+[ext_resource type="Script" path="res://components/npcs/cutscene_trigger.gd" id="1_f7wod"]
 
 [node name="CutsceneTrigger" type="Area2D"]
 script = ExtResource("1_f7wod")

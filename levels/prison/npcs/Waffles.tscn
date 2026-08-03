@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" path="res://assets/characters/Officer Bacon.png" id="1_spr"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_ct"]
-[ext_resource type="Script" path="res://components/core/CheckableComponent.cs" id="3_check"]
+[ext_resource type="Script" path="res://components/core/checkable_component.gd" id="3_check"]
 [ext_resource type="Resource" uid="uid://draki0hfv6rb" path="res://levels/prison/npcs/WafflesCutscene.tres" id="4_cutscene"]
 
 [sub_resource type="RectangleShape2D" id="RectShape_phys"]
@@ -20,8 +20,8 @@ scale = Vector2(1.5, 1.5)
 modulate = Color(0.7, 0.5, 0.3, 1)
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
-Cutscene = ExtResource("4_cutscene")
-Mode = 0
+cutscene = ExtResource("4_cutscene")
+mode = 0
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
 shape = SubResource("CircleShape_interact")
@@ -32,7 +32,7 @@ shape = SubResource("RectShape_phys")
 
 [node name="Checkable" type="Area2D" parent="."]
 script = ExtResource("3_check")
-CheckLine = "Waffles: A grumpy guard. Probably seen too many escape attempts."
+check_line = "Waffles: A grumpy guard. Probably seen too many escape attempts."
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkable"]
 shape = SubResource("CircleShape_interact")

@@ -1,18 +1,18 @@
 [gd_scene format=4]
 
-[ext_resource type="Script" path="res://levels/BaseLevel.cs" id="1_1r5ua"]
+[ext_resource type="Script" path="res://levels/base_level.gd" id="1_1r5ua"]
 [ext_resource type="AudioStream" path="res://assets/audio/music/indie_meditations/lvl_2_the_village.ogg" id="2_1r5ua"]
 [ext_resource type="Texture2D" path="res://assets/tilemaps/Texture/TX Tileset Grass.png" id="2_7v7eg"]
 [ext_resource type="Texture2D" path="res://assets/tilemaps/Map01.png" id="3_ldk86"]
 [ext_resource type="PackedScene" path="res://levels/overworld/npcs/GrandpaSmith.tscn" id="3_mglvr"]
-[ext_resource type="Script" path="res://components/core/LevelTileMapLayer.cs" id="4_mael7"]
+[ext_resource type="Script" path="res://components/core/level_tile_map_layer.gd" id="4_mael7"]
 [ext_resource type="PackedScene" path="res://components/puzzles/Door.tscn" id="8_xd65o"]
 [ext_resource type="PackedScene" path="res://levels/LevelTransition.tscn" id="10_45llo"]
 [ext_resource type="PackedScene" path="res://components/puzzles/FloorSwitch.tscn" id="10_u1a1b"]
 [ext_resource type="PackedScene" path="res://components/puzzles/PushBlock.tscn" id="11_2vu1d"]
 [ext_resource type="Texture2D" path="res://assets/tilemaps/Texture/TX Tileset Wall.png" id="13_8f3k1"]
 [ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="13_u1a1b"]
-[ext_resource type="Script" path="res://saves/SavePoint.cs" id="14_2vu1d"]
+[ext_resource type="Script" path="res://saves/save_point.gd" id="14_2vu1d"]
 [ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l2fk0"]
@@ -598,8 +598,8 @@ sources/1 = SubResource("TileSetAtlasSource_ehtq2")
 [node name="Node2D" type="Node2D" unique_id=925475164]
 scale = Vector2(0.99266, 1)
 script = ExtResource("1_1r5ua")
-LevelName = "Overworld"
-LevelMusic = ExtResource("2_1r5ua")
+level_name = "Overworld"
+level_music = ExtResource("2_1r5ua")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1767922658]
 scale = Vector2(0.936165, 0.999989)
@@ -613,18 +613,18 @@ position = Vector2(179, -222)
 
 [node name="RightWalkwayTransition" parent="." unique_id=1763621704 instance=ExtResource("10_45llo")]
 position = Vector2(614.511, -44)
-Level = "res://levels/eggsile/maps/area1.tscn"
-TargetTransitionName = "LeftHallwayTransition"
-Size = 7
-Side = 3
-SnapToGrid = true
+level = "res://levels/eggsile/maps/area1.tscn"
+target_transition_name = "LeftHallwayTransition"
+size = 7
+side = 3
+snap_to_grid = true
 
 [node name="DummyDown" parent="." unique_id=499587909 instance=ExtResource("10_45llo")]
 position = Vector2(254.871, 15)
-Level = "res://levels/eggsile/maps/area1.tscn"
-TargetTransitionName = "DummyUp"
-Size = 7
-Side = 1
+level = "res://levels/eggsile/maps/area1.tscn"
+target_transition_name = "DummyUp"
+size = 7
+side = 1
 
 [node name="Door" parent="." unique_id=1351808436 instance=ExtResource("8_xd65o")]
 position = Vector2(-108.79858, -203)
@@ -632,163 +632,163 @@ _texture = ExtResource("13_8f3k1")
 
 [node name="FloorSwitch" parent="." unique_id=162749475 instance=ExtResource("10_u1a1b")]
 position = Vector2(-320.35138, -106)
-TargetDoorPath = NodePath("../Door")
+target_door_path = NodePath("../Door")
 
 [node name="PushBlock" parent="." unique_id=955289274 instance=ExtResource("11_2vu1d")]
 position = Vector2(-220.61935, -108)
 
 [node name="WarpPoint" parent="." unique_id=311184065 instance=ExtResource("99_warp")]
 position = Vector2(0, 20)
-WarpId = "overworld_entry"
+warp_id = "overworld_entry"
 
 [node name="GreatBeyondExit" parent="." unique_id=1388168860 instance=ExtResource("10_45llo")]
 position = Vector2(600, 50)
-Level = "res://levels/overworld/maps/TheGreatBeyond.tscn"
-TargetTransitionName = "LevelTransition"
-Size = 7
-Side = 3
+level = "res://levels/overworld/maps/TheGreatBeyond.tscn"
+target_transition_name = "LevelTransition"
+size = 7
+side = 3
 
 [node name="CourtyardEntrance" parent="." unique_id=1310960186 instance=ExtResource("10_45llo")]
 position = Vector2(300, 200)
-Level = "res://levels/courtyard/maps/courtyard.tscn"
-TargetTransitionName = "OverworldEntrance"
-Size = 7
-Side = 3
+level = "res://levels/courtyard/maps/courtyard.tscn"
+target_transition_name = "OverworldEntrance"
+size = 7
+side = 3
 
 [node name="PrisonEntrance" parent="." unique_id=2039441409 instance=ExtResource("10_45llo")]
 position = Vector2(100, 300)
-Level = "res://levels/prison/maps/prison.tscn"
-TargetTransitionName = "OverworldPrisonGate"
-Size = 7
-Side = 1
+level = "res://levels/prison/maps/prison.tscn"
+target_transition_name = "OverworldPrisonGate"
+size = 7
+side = 1
 
 [node name="FactoryGateEntrance" parent="." unique_id=1738319634 instance=ExtResource("10_45llo")]
 position = Vector2(400, -100)
-Level = "res://levels/factory/maps/OpeningZone.tscn"
-TargetTransitionName = "OverworldFactoryGate"
-Size = 7
+level = "res://levels/factory/maps/OpeningZone.tscn"
+target_transition_name = "OverworldFactoryGate"
+size = 7
 
 [node name="HubCourtyardGate" parent="." unique_id=1440669540 instance=ExtResource("10_45llo")]
 position = Vector2(-560, -280)
-Level = "res://levels/courtyard/maps/courtyard.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/courtyard/maps/courtyard.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubCourtyardDepthsGate" parent="." unique_id=531622315 instance=ExtResource("10_45llo")]
 position = Vector2(-240, -280)
-Level = "res://levels/courtyard/maps/CourtyardDepths.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/courtyard/maps/CourtyardDepths.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubEggsileArea1Gate" parent="." unique_id=1511405026 instance=ExtResource("10_45llo")]
 position = Vector2(80, -280)
-Level = "res://levels/eggsile/maps/area1.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/eggsile/maps/area1.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubEggsileSewersGate" parent="." unique_id=385305356 instance=ExtResource("10_45llo")]
 position = Vector2(400, -280)
-Level = "res://levels/eggsile/maps/EggsileSewers.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/eggsile/maps/EggsileSewers.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubFactoryGateGate" parent="." unique_id=1162497553 instance=ExtResource("10_45llo")]
 position = Vector2(-560, -152)
-Level = "res://levels/factory/maps/OpeningZone.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/factory/maps/OpeningZone.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubFactoryZone1Gate" parent="." unique_id=2066740142 instance=ExtResource("10_45llo")]
 position = Vector2(-240, -152)
-Level = "res://levels/factory/maps/Zone1.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/factory/maps/Zone1.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubGreatBeyondGate" parent="." unique_id=496801211 instance=ExtResource("10_45llo")]
 position = Vector2(80, -152)
-Level = "res://levels/overworld/maps/TheGreatBeyond.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/overworld/maps/TheGreatBeyond.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubPrisonGate" parent="." unique_id=636110206 instance=ExtResource("10_45llo")]
 position = Vector2(400, -152)
-Level = "res://levels/prison/maps/prison.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/prison/maps/prison.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubPrisonBlockCGate" parent="." unique_id=140688972 instance=ExtResource("10_45llo")]
 position = Vector2(-560, -24)
-Level = "res://levels/prison/maps/PrisonBlockC.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/prison/maps/PrisonBlockC.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubKitchenGate" parent="." unique_id=430343766 instance=ExtResource("10_45llo")]
 position = Vector2(-240, -24)
-Level = "res://levels/kitchen/maps/Kitchen.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/kitchen/maps/Kitchen.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubHomeGate" parent="." unique_id=293169989 instance=ExtResource("10_45llo")]
 position = Vector2(80, -24)
-Level = "res://levels/home/maps/Home.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/home/maps/Home.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubSolitaryGate" parent="." unique_id=822968329 instance=ExtResource("10_45llo")]
 position = Vector2(400, -24)
-Level = "res://levels/solitary/maps/Solitary.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/solitary/maps/Solitary.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubSunnysideShrineGate" parent="." unique_id=223958232 instance=ExtResource("10_45llo")]
 position = Vector2(-560, 104)
-Level = "res://levels/shrine/maps/SunnysideShrine.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/shrine/maps/SunnysideShrine.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubSecretTunnelsGate" parent="." unique_id=1371283748 instance=ExtResource("10_45llo")]
 position = Vector2(-240, 104)
-Level = "res://levels/tunnels/maps/SecretTunnels.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/tunnels/maps/SecretTunnels.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubWardensQuartersGate" parent="." unique_id=1655848042 instance=ExtResource("10_45llo")]
 position = Vector2(80, 104)
-Level = "res://levels/warden/maps/WardensQuarters.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/warden/maps/WardensQuarters.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubRecRoomGate" parent="." unique_id=387829410 instance=ExtResource("10_45llo")]
 position = Vector2(400, 104)
-Level = "res://levels/recroom/maps/RecRoom.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 3
+level = "res://levels/recroom/maps/RecRoom.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 3
 
 [node name="HubSavePoint" type="Area2D" parent="." unique_id=1595740797 instance=ExtResource("13_u1a1b")]
 position = Vector2(-560, 200)
 script = ExtResource("14_2vu1d")
-LocationName = "Overworld Hub"
+location_name = "Overworld Hub"
 
 [node name="HubArrival" parent="." instance=ExtResource("10_45llo")]
 monitoring = false
 position = Vector2(-560, 300)
-Level = "res://levels/overworld/maps/Overworld.tscn"
-TargetTransitionName = "HubArrival"
-Size = 4
-Side = 2
+level = "res://levels/overworld/maps/Overworld.tscn"
+target_transition_name = "HubArrival"
+size = 4
+side = 2

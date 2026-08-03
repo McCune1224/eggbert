@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://d3g4p3asro7bd" path="res://assets/tilemaps/Texture/TX Tileset Stone Ground.png" id="1_hl8be"]
 [ext_resource type="Texture2D" uid="uid://bfuoybtdj8wis" path="res://assets/tilemaps/Texture/TX Tileset Wall.png" id="2_407af"]
 [ext_resource type="Texture2D" uid="uid://dbjgyn7hr4wha" path="res://assets/tilemaps/Map01.png" id="3_407af"]
-[ext_resource type="Script" uid="uid://cek7ht65f8fj5" path="res://combat/arena/GenericArena.cs" id="4_generic"]
+[ext_resource type="Script" uid="uid://cek7ht65f8fj5" path="res://combat/arena/generic_arena.gd" id="4_generic"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1atpt"]
 texture = ExtResource("1_hl8be")

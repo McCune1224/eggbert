@@ -16,18 +16,18 @@ func _initialize() -> void:
 		return
 
 	# ---- Build a CutsceneResource with one SayDialog + one DialogBranch step.
-	var cutscene: Resource = load("res://resources/cutscene/CutsceneResource.cs").new()
-	var step1: Resource = load("res://resources/cutscene/CutsceneStep.cs").new()
+	var cutscene: Resource = load("res://resources/cutscene/cutscene_resource.gd").new()
+	var step1: Resource = load("res://resources/cutscene/cutscene_step.gd").new()
 	step1.set("Type", 0)
 	step1.set("DialogLines", ["Hello, friend.", "Welcome to the demo."])
-	var cond: Resource = load("res://resources/cutscene/CutsceneCondition.cs").new()
+	var cond: Resource = load("res://resources/cutscene/cutscene_condition.gd").new()
 	cond.set("Type", 1)
 	cond.set("FlagKey", "demo_flag")
 	step1.set("Condition", cond)
 
-	var step2: Resource = load("res://resources/cutscene/CutsceneStep.cs").new()
+	var step2: Resource = load("res://resources/cutscene/cutscene_step.gd").new()
 	step2.set("Type", 13)
-	var branch: Resource = load("res://resources/dialog/DialogBranch.cs").new()
+	var branch: Resource = load("res://resources/dialog/dialog_branch.gd").new()
 	step2.set("DialogBranchResource", branch)
 	step2.set("StartNodeId", "greeting")
 	cutscene.set("Steps", [step1, step2])
@@ -121,20 +121,20 @@ func _initialize() -> void:
 	print("[cards] + Add Step dropdown: 14 items, DialogBranch=13, Stop=12 (int ordinals)")
 
 	# ---- DialogBranch node cards: same shape and Edit button wiring.
-	var greeting: Resource = load("res://resources/dialog/DialogNode.cs").new()
+	var greeting: Resource = load("res://resources/dialog/dialog_node.gd").new()
 	greeting.set("Id", "greeting")
 	greeting.set("Lines", ["Hi!", "Need help?"])
-	var yes_resp: Resource = load("res://resources/dialog/DialogResponse.cs").new()
+	var yes_resp: Resource = load("res://resources/dialog/dialog_response.gd").new()
 	yes_resp.set("Text", "Yes, I'll help")
 	yes_resp.set("NextNodeId", "farewell")
 	yes_resp.set("SetFlagOnSelect", "npc_helped")
-	var no_resp: Resource = load("res://resources/dialog/DialogResponse.cs").new()
+	var no_resp: Resource = load("res://resources/dialog/dialog_response.gd").new()
 	no_resp.set("Text", "No thanks")
 	no_resp.set("NextNodeId", "")
 	no_resp.set("SetFlagOnSelect", "npc_declined")
 	greeting.set("Responses", [yes_resp, no_resp])
 
-	var farewell: Resource = load("res://resources/dialog/DialogNode.cs").new()
+	var farewell: Resource = load("res://resources/dialog/dialog_node.gd").new()
 	farewell.set("Id", "farewell")
 	farewell.set("Lines", ["See you later."])
 	branch.set("Nodes", [greeting, farewell])

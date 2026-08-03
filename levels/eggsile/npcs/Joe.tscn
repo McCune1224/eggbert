@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" path="res://assets/characters/Joe.png" id="1_etl7m"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_qip81"]
-[ext_resource type="Script" path="res://components/npcs/CutsceneTrigger.cs" id="3_qip81"]
+[ext_resource type="Script" path="res://components/npcs/cutscene_trigger.gd" id="3_qip81"]
 [ext_resource type="Resource" path="res://levels/eggsile/npcs/JoeArrival.tres" id="4_k2x2l"]
 
 [sub_resource type="Animation" id="Animation_375ex"]
@@ -47,7 +47,7 @@ shape = SubResource("RectangleShape2D_xyx71")
 
 [node name="CutsceneTrigger" type="Area2D" parent="." unique_id=741175961 instance=ExtResource("2_qip81")]
 script = ExtResource("3_qip81")
-Cutscene = ExtResource("4_k2x2l")
+cutscene = ExtResource("4_k2x2l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CutsceneTrigger" unique_id=1228170826]
 position = Vector2(2, 2)

@@ -1,30 +1,30 @@
 [gd_resource type="Resource" format=3 uid="uid://cq21tb37xpj0e"]
 
-[ext_resource type="Script" path="res://resources/cutscene/CutsceneResource.cs" id="1_cs"]
-[ext_resource type="Script" path="res://resources/cutscene/CutsceneCondition.cs" id="2_cond"]
-[ext_resource type="Script" path="res://resources/dialog/DialogVoiceResource.cs" id="3_voice"]
-[ext_resource type="Script" path="res://resources/cutscene/CutsceneStep.cs" id="4_step"]
+[ext_resource type="Script" path="res://resources/cutscene/cutscene_resource.gd" id="1_cs"]
+[ext_resource type="Script" path="res://resources/cutscene/cutscene_condition.gd" id="2_cond"]
+[ext_resource type="Script" path="res://resources/dialog/dialog_voice_resource.gd" id="3_voice"]
+[ext_resource type="Script" path="res://resources/cutscene/cutscene_step.gd" id="4_step"]
 [ext_resource type="Texture2D" uid="uid://bisfndqlehc6l" path="res://assets/characters/Eggbert.png" id="5_texture"]
 
 [sub_resource type="Resource" id="SubResource_cond_notmet"]
 script = ExtResource("2_cond")
-Type = 2
-FlagKey = "has_met_croissant"
+type = 2
+flag_key = "has_met_croissant"
 
 [sub_resource type="Resource" id="SubResource_cond_met"]
 script = ExtResource("2_cond")
-Type = 1
-FlagKey = "has_met_croissant"
+type = 1
+flag_key = "has_met_croissant"
 
 [sub_resource type="Resource" id="SubResource_cond_gossip_heard"]
 script = ExtResource("2_cond")
-Type = 1
-FlagKey = "gossip_waffles_about_croissant"
+type = 1
+flag_key = "gossip_waffles_about_croissant"
 
 [sub_resource type="Resource" id="SubResource_cond_no_gossip"]
 script = ExtResource("2_cond")
-Type = 2
-FlagKey = "gossip_waffles_about_croissant"
+type = 2
+flag_key = "gossip_waffles_about_croissant"
 
 [sub_resource type="AtlasTexture" id="SubResource_portrait_croissant"]
 region = Rect2(4, 4, 24, 20)
@@ -32,60 +32,60 @@ atlas = ExtResource("5_texture")
 
 [sub_resource type="Resource" id="SubResource_voice_croissant"]
 script = ExtResource("3_voice")
-SpeakerName = "Monsieur Croissant"
-Portrait = SubResource("SubResource_portrait_croissant")
-BasePitch = 1.15
-VolumeDb = -2.0
-ConsonantPitchVariance = 0.08
+speaker_name = "Monsieur Croissant"
+portrait = SubResource("SubResource_portrait_croissant")
+base_pitch = 1.15
+volume_db = -2.0
+consonant_pitch_variance = 0.08
 
 [sub_resource type="Resource" id="SubResource_step_1"]
 script = ExtResource("4_step")
-Type = 0
-Condition = SubResource("SubResource_cond_notmet")
-DialogLines = ["Bonjour. I am Monsieur Croissant. I keep to myself.", "The food here is terrible, but ze bread is... acceptable."]
-DialogVoice = SubResource("SubResource_voice_croissant")
+type = 0
+condition = SubResource("SubResource_cond_notmet")
+dialog_lines = ["Bonjour. I am Monsieur Croissant. I keep to myself.", "The food here is terrible, but ze bread is... acceptable."]
+dialog_voice = SubResource("SubResource_voice_croissant")
 
 [sub_resource type="Resource" id="SubResource_step_2"]
 script = ExtResource("4_step")
-Type = 0
-Condition = SubResource("SubResource_cond_notmet")
-DialogLines = ["Do not listen to anything ze guards say about me. Zey are... jealous of my mustache."]
-DialogVoice = SubResource("SubResource_voice_croissant")
+type = 0
+condition = SubResource("SubResource_cond_notmet")
+dialog_lines = ["Do not listen to anything ze guards say about me. Zey are... jealous of my mustache."]
+dialog_voice = SubResource("SubResource_voice_croissant")
 
 [sub_resource type="Resource" id="SubResource_step_3"]
 script = ExtResource("4_step")
-Type = 7
-Condition = SubResource("SubResource_cond_notmet")
-SetFlagKey = "has_met_croissant"
-SetFlagValue = true
+type = 7
+condition = SubResource("SubResource_cond_notmet")
+set_flag_key = "has_met_croissant"
+set_flag_value = true
 
 [sub_resource type="Resource" id="SubResource_step_4"]
 script = ExtResource("4_step")
-Type = 0
-Condition = SubResource("SubResource_cond_no_gossip")
-DialogLines = ["Bonjour. I have done nothing wrong. Why do you look at me like zat?"]
-DialogVoice = SubResource("SubResource_voice_croissant")
+type = 0
+condition = SubResource("SubResource_cond_no_gossip")
+dialog_lines = ["Bonjour. I have done nothing wrong. Why do you look at me like zat?"]
+dialog_voice = SubResource("SubResource_voice_croissant")
 
 [sub_resource type="Resource" id="SubResource_step_5"]
 script = ExtResource("4_step")
-Type = 0
-Condition = SubResource("SubResource_cond_gossip_heard")
-DialogLines = ["Waffles told you he saw me in ze kitchen? Ze fool!", "I was simply... inspecting ze quality of ze ingredients.", "For hygiene purposes. Yes. Ze hygiene."]
-DialogVoice = SubResource("SubResource_voice_croissant")
+type = 0
+condition = SubResource("SubResource_cond_gossip_heard")
+dialog_lines = ["Waffles told you he saw me in ze kitchen? Ze fool!", "I was simply... inspecting ze quality of ze ingredients.", "For hygiene purposes. Yes. Ze hygiene."]
+dialog_voice = SubResource("SubResource_voice_croissant")
 
 [sub_resource type="Resource" id="SubResource_step_6"]
 script = ExtResource("4_step")
-Type = 0
-Condition = SubResource("SubResource_cond_gossip_heard")
-DialogLines = ["Now if you'll excuse me, I have... important business.", "(He quickly walks away, adjusting his collar.)"]
-DialogVoice = SubResource("SubResource_voice_croissant")
+type = 0
+condition = SubResource("SubResource_cond_gossip_heard")
+dialog_lines = ["Now if you'll excuse me, I have... important business.", "(He quickly walks away, adjusting his collar.)"]
+dialog_voice = SubResource("SubResource_voice_croissant")
 
 [sub_resource type="Resource" id="SubResource_step_7"]
 script = ExtResource("4_step")
-Type = 0
-DialogLines = ["That is all. I have nothing more to say."]
-DialogVoice = SubResource("SubResource_voice_croissant")
+type = 0
+dialog_lines = ["That is all. I have nothing more to say."]
+dialog_voice = SubResource("SubResource_voice_croissant")
 
 [resource]
 script = ExtResource("1_cs")
-Steps = Array[Resource]([SubResource("SubResource_step_1"), SubResource("SubResource_step_2"), SubResource("SubResource_step_3"), SubResource("SubResource_step_4"), SubResource("SubResource_step_5"), SubResource("SubResource_step_6"), SubResource("SubResource_step_7")])
+steps = Array[Resource]([SubResource("SubResource_step_1"), SubResource("SubResource_step_2"), SubResource("SubResource_step_3"), SubResource("SubResource_step_4"), SubResource("SubResource_step_5"), SubResource("SubResource_step_6"), SubResource("SubResource_step_7")])

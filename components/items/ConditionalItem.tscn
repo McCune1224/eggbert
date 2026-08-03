@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bcond1t1onl2r"]
 
-[ext_resource type="Script" uid="uid://d255gas3lchnl" path="res://components/items/ConditionalItem.cs" id="1_conditional"]
+[ext_resource type="Script" uid="uid://d255gas3lchnl" path="res://components/items/conditional_item.gd" id="1_conditional"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_conditional"]
 size = Vector2(16, 16)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ln6ctbe0nysj"]
 
-[ext_resource type="Script" uid="uid://brpcdu3ssxqxx" path="res://combat/arena/OatmealArena.cs" id="1_laihi"]
+[ext_resource type="Script" uid="uid://brpcdu3ssxqxx" path="res://combat/arena/oatmeal_arena.gd" id="1_laihi"]
 [ext_resource type="PackedScene" uid="uid://dn0vursikxduh" path="res://combat/enemies/CombatOatmeal.tscn" id="2_laihi"]
 
 [node name="OatmealArena" type="Node2D"]

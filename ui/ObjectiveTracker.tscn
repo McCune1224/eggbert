@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cid306i5m24tw"]
 
-[ext_resource type="Script" uid="uid://d3y3vujy5yer4" path="res://ui/ObjectiveTracker.cs" id="1_0n6ip"]
+[ext_resource type="Script" uid="uid://d3y3vujy5yer4" path="res://ui/objective_tracker.gd" id="1_0n6ip"]
 
 [node name="ObjectiveTracker" type="CanvasLayer" unique_id=1436495567]
 script = ExtResource("1_0n6ip")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dc1kn3llv4x71"]
 
-[ext_resource type="Script" path="res://components/puzzles/FloorSwitch.cs" id="1_he3vm"]
+[ext_resource type="Script" path="res://components/puzzles/floor_switch.gd" id="1_he3vm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cp4p"]
 size = Vector2(32, 8)

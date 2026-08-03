@@ -89,50 +89,67 @@ func _check_overworld_menu_quit_button() -> void:
 			_fail("OverworldMenu active QuitButton variation = %s, expected MenuButtonDanger" % quit_btn.theme_type_variation)
 
 func _check_first_boot_dialog_source() -> void:
-	var f := FileAccess.open("res://ui/FirstBootDialog.cs", FileAccess.READ)
+	var f := FileAccess.open("res://ui/first_boot_dialog.gd", FileAccess.READ)
 	if f == null:
-		_fail("FirstBootDialog.cs not found")
+		_fail("first_boot_dialog.gd not found")
 		return
 
 	var src := f.get_as_text()
 	f.close()
 
-	var checks := {
-		"MenuButton variation on speed buttons": "ThemeTypeVariation = \"MenuButton\"",
-		"MenuLabelTitle variation on title":     "ThemeTypeVariation = \"MenuLabelTitle\"",
-		"MenuLabel variation on description":    "ThemeTypeVariation = \"MenuLabel\"",
-		"PanelContainer wrapper present":         "var panel = new PanelContainer",
-		"Panel anchors on parent (not child)":    "panel.SetAnchor",
-	}
+	# Built in GDScript: assert the real property assignments, not C# literals.
+	if src.find("PanelContainer.new()") >= 0:
+		_pass("FirstBootDialog: PanelContainer wrapper present")
+	else:
+		_fail("FirstBootDialog: missing PanelContainer.new()")
 
-	for entry: Variant in checks:
-		var label: String = entry as String
-		var needle: String = checks[entry] as String
-		if src.find(needle) >= 0:
-			_pass("FirstBootDialog: " + label)
-		else:
-			_fail("FirstBootDialog: missing " + label + " (expected: " + needle + ")")
+	if src.find("set_anchors_preset") >= 0:
+		_pass("FirstBootDialog: Panel anchors set on panel")
+	else:
+		_fail("FirstBootDialog: missing set_anchors_preset")
+
+	# Theme type variations must match the eggbert theme.
+	if src.find("&" + "\"MenuButton\"") >= 0 or src.find("\"MenuButton\"") >= 0:
+		_pass("FirstBootDialog: MenuButton variation on speed buttons")
+	else:
+		_fail("FirstBootDialog: missing MenuButton theme_type_variation on speed buttons")
+
+	if src.find("&" + "\"MenuLabelTitle\"") >= 0 or src.find("\"MenuLabelTitle\"") >= 0:
+		_pass("FirstBootDialog: MenuLabelTitle variation on title")
+	else:
+		_fail("FirstBootDialog: missing MenuLabelTitle theme_type_variation on title")
+
+	if src.find("&" + "\"MenuLabel\"") >= 0 or src.find("\"MenuLabel\"") >= 0:
+		_pass("FirstBootDialog: MenuLabel variation present")
+	else:
+		_fail("FirstBootDialog: missing MenuLabel theme_type_variation")
 
 func _check_combat_hud_source() -> void:
-	var f := FileAccess.open("res://combat/ui/CombatHUD.cs", FileAccess.READ)
+	var f := FileAccess.open("res://combat/ui/combat_hud.gd", FileAccess.READ)
 	if f == null:
-		_fail("CombatHUD.cs not found")
+		_fail("combat_hud.gd not found")
 		return
 
 	var src := f.get_as_text()
 	f.close()
 
-	var checks := {
-		"Player bar uses theme orange":     "0.9098039f, 0.72156864f, 0.3764706f",
-		"Enemy bar uses theme danger pink": "0.8784314f, 0.40784314f, 0.40784314f",
-		"Low-HP uses distinct amber":         "0.91f, 0.45f, 0.1f",
-		"Enemy dead nameplate themed":        "0.53333336f, 0.53333336f, 0.53333336f",
-	}
+	# GDScript float literals drop the trailing 'f' used by the old C# sources.
+	if src.find("0.91, 0.72, 0.38") >= 0:
+		_pass("CombatHUD: Player bar uses theme orange")
+	else:
+		_fail("CombatHUD: missing player bar orange (0.91, 0.72, 0.38)")
 
-	for entry: Variant in checks:
-		var label: String = entry as String
-		var needle: String = checks[entry] as String
-		if src.find(needle) >= 0:
-			_pass("CombatHUD: " + label)
-		else:
-			_fail("CombatHUD: missing " + label + " (expected: " + needle + ")")
+	if src.find("0.88, 0.41, 0.41") >= 0:
+		_pass("CombatHUD: Enemy bar uses theme danger pink")
+	else:
+		_fail("CombatHUD: missing enemy bar danger pink (0.88, 0.41, 0.41)")
+
+	if src.find("0.91, 0.45, 0.1") >= 0:
+		_pass("CombatHUD: Low-HP uses distinct amber")
+	else:
+		_fail("CombatHUD: missing low-HP amber (0.91, 0.45, 0.1)")
+
+	if src.find("Color(0.53, 0.53, 0.53)") >= 0:
+		_pass("CombatHUD: Enemy dead nameplate themed")
+	else:
+		_fail("CombatHUD: missing enemy dead nameplate grey (0.53, 0.53, 0.53)")

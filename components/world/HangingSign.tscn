@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d1m4wkswc0gby"]
 
-[ext_resource type="Script" path="res://components/world/HangingSign.cs" id="1_hs"]
+[ext_resource type="Script" path="res://components/world/hanging_sign.gd" id="1_hs"]
 [ext_resource type="Texture2D" uid="uid://bfuoybtdj8wis" path="res://assets/tilemaps/Texture/TX Tileset Wall.png" id="2_wall"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cp4p"]

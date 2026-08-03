@@ -1,0 +1,127 @@
+WorkerThreadPool: 24 threads, 7 max low-priority.
+Godot Engine v4.7.stable.mono.official.5b4e0cb0f - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+SDL: Joystick RDMCTMZT RD 75 System Control connected
+SDL: Init OK!
+Using "default" pen tablet driver...
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+.NET: Initializing module...
+Found hostfxr: /usr/lib64/dotnet/host/fxr/10.0.10/libhostfxr.so
+.NET: hostfxr initialized
+.NET: GodotPlugins initialized
+.NET: Failed to load project assembly
+Loading resource: res://assets/themes/eggbert_theme.tres remapped: res://assets/themes/eggbert_theme.tres
+Loading resource: res://assets/fonts/yoster.ttf remapped: res://assets/fonts/yoster.ttf
+Loading resource: res://.godot/imported/yoster.ttf-7cef9b7dce5ce91cdcc28263aa7977b8.fontdata remapped: res://.godot/imported/yoster.ttf-7cef9b7dce5ce91cdcc28263aa7977b8.fontdata
+Completed load for: 'res://assets/fonts/yoster.ttf' remapped 'res://assets/fonts/yoster.ttf' at thread -1
+Loading resource: res://assets/ui/panel_highlight.png remapped: res://assets/ui/panel_highlight.png
+Loading resource: res://.godot/imported/panel_highlight.png-e43ebc5a8d9440cba8ce8854f3d31676.ctex remapped: res://.godot/imported/panel_highlight.png-e43ebc5a8d9440cba8ce8854f3d31676.ctex
+Completed load for: 'res://assets/ui/panel_highlight.png' remapped 'res://assets/ui/panel_highlight.png' at thread -1
+Loading resource: res://assets/ui/panel_9slice.png remapped: res://assets/ui/panel_9slice.png
+Loading resource: res://.godot/imported/panel_9slice.png-e92d33f939b6f2ab1ea9e6ffde1bb16f.ctex remapped: res://.godot/imported/panel_9slice.png-e92d33f939b6f2ab1ea9e6ffde1bb16f.ctex
+Completed load for: 'res://assets/ui/panel_9slice.png' remapped 'res://assets/ui/panel_9slice.png' at thread -1
+Completed load for: 'res://assets/themes/eggbert_theme.tres' remapped 'res://assets/themes/eggbert_theme.tres' at thread -1
+Loading resource: res://default_bus_layout.tres remapped: res://default_bus_layout.tres
+Completed load for: 'res://default_bus_layout.tres' remapped 'res://default_bus_layout.tres' at thread -1
+CORE API HASH: 3727971243
+EDITOR API HASH: 352756578
+SceneTreeFTI: traversal method DEFAULT
+Loading resource: res://autoload/world_flags.tscn remapped: res://autoload/world_flags.tscn
+Loading resource: res://autoload/world_flags.gd remapped: res://autoload/world_flags.gd
+Completed load for: 'res://autoload/world_flags.gd' remapped 'res://autoload/world_flags.gd' at thread -1
+Completed load for: 'res://autoload/world_flags.tscn' remapped 'res://autoload/world_flags.tscn' at thread -1
+Loading resource: res://autoload/quest_manager.tscn remapped: res://autoload/quest_manager.tscn
+Loading resource: res://autoload/quest_manager.gd remapped: res://autoload/quest_manager.gd
+Completed load for: 'res://autoload/quest_manager.gd' remapped 'res://autoload/quest_manager.gd' at thread -1
+Completed load for: 'res://autoload/quest_manager.tscn' remapped 'res://autoload/quest_manager.tscn' at thread -1
+Loading resource: res://autoload/game_controller.tscn remapped: res://autoload/game_controller.tscn
+Loading resource: res://autoload/game_controller.gd remapped: res://autoload/game_controller.gd
+Completed load for: 'res://autoload/game_controller.gd' remapped 'res://autoload/game_controller.gd' at thread -1
+Completed load for: 'res://autoload/game_controller.tscn' remapped 'res://autoload/game_controller.tscn' at thread -1
+Loading resource: res://autoload/dialog_manager.tscn remapped: res://autoload/dialog_manager.tscn
+Loading resource: res://autoload/dialog_manager.gd remapped: res://autoload/dialog_manager.gd
+Completed load for: 'res://autoload/dialog_manager.gd' remapped 'res://autoload/dialog_manager.gd' at thread -1
+Completed load for: 'res://autoload/dialog_manager.tscn' remapped 'res://autoload/dialog_manager.tscn' at thread -1
+Loading resource: res://autoload/audio_manager.tscn remapped: res://autoload/audio_manager.tscn
+Loading resource: res://autoload/audio_manager.gd remapped: res://autoload/audio_manager.gd
+Completed load for: 'res://autoload/audio_manager.gd' remapped 'res://autoload/audio_manager.gd' at thread -1
+Completed load for: 'res://autoload/audio_manager.tscn' remapped 'res://autoload/audio_manager.tscn' at thread -1
+Loading resource: res://autoload/player/player.tscn remapped: res://autoload/player/player.tscn
+Loading resource: res://autoload/player/Player.tscn remapped: res://autoload/player/Player.tscn
+WARNING: res://autoload/player/Player.tscn:3 - ext_resource, invalid UID: uid://bwj7bsgjwenk1 - using text path instead: res://autoload/player/player.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+Loading resource: res://autoload/player/player.gd remapped: res://autoload/player/player.gd
+Completed load for: 'res://autoload/player/player.gd' remapped 'res://autoload/player/player.gd' at thread -1
+Loading resource: res://assets/characters/Eggbert2.png remapped: res://assets/characters/Eggbert2.png
+Loading resource: res://.godot/imported/Eggbert2.png-9f47cbc5306ccb2e443758dc69a4fa18.ctex remapped: res://.godot/imported/Eggbert2.png-9f47cbc5306ccb2e443758dc69a4fa18.ctex
+Completed load for: 'res://assets/characters/Eggbert2.png' remapped 'res://assets/characters/Eggbert2.png' at thread -1
+WARNING: res://autoload/player/Player.tscn:5 - ext_resource, invalid UID: uid://bir1phaqnfct3 - using text path instead: res://autoload/player/player_camera.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+Loading resource: res://autoload/player/player_camera.gd remapped: res://autoload/player/player_camera.gd
+Completed load for: 'res://autoload/player/player_camera.gd' remapped 'res://autoload/player/player_camera.gd' at thread -1
+Loading resource: res://autoload/player/animations/Dash.tscn remapped: res://autoload/player/animations/Dash.tscn
+WARNING: res://autoload/player/animations/Dash.tscn:3 - ext_resource, invalid UID: uid://cejojurqs6b2q - using text path instead: res://autoload/player/animations/dash.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+Loading resource: res://autoload/player/animations/dash.gd remapped: res://autoload/player/animations/dash.gd
+Completed load for: 'res://autoload/player/animations/dash.gd' remapped 'res://autoload/player/animations/dash.gd' at thread -1
+Completed load for: 'res://autoload/player/animations/Dash.tscn' remapped 'res://autoload/player/animations/Dash.tscn' at thread -1
+Loading resource: res://components/core/player_interaction_prompt.gd remapped: res://components/core/player_interaction_prompt.gd
+Completed load for: 'res://components/core/player_interaction_prompt.gd' remapped 'res://components/core/player_interaction_prompt.gd' at thread -1
+Loading resource: res://combat/components/health_component.gd remapped: res://combat/components/health_component.gd
+Completed load for: 'res://combat/components/health_component.gd' remapped 'res://combat/components/health_component.gd' at thread -1
+Loading resource: res://combat/components/parry_component.gd remapped: res://combat/components/parry_component.gd
+Completed load for: 'res://combat/components/parry_component.gd' remapped 'res://combat/components/parry_component.gd' at thread -1
+Completed load for: 'res://autoload/player/Player.tscn' remapped 'res://autoload/player/Player.tscn' at thread -1
+Completed load for: 'res://autoload/player/player.tscn' remapped 'res://autoload/player/player.tscn' at thread -1
+Loading resource: res://ui/fade_transition.tscn remapped: res://ui/fade_transition.tscn
+Loading resource: res://ui/FadeTransition.tscn remapped: res://ui/FadeTransition.tscn
+WARNING: res://ui/FadeTransition.tscn:3 - ext_resource, invalid UID: uid://cp4jn6evyriyd - using text path instead: res://ui/fade_transition.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+Loading resource: res://ui/fade_transition.gd remapped: res://ui/fade_transition.gd
+Completed load for: 'res://ui/fade_transition.gd' remapped 'res://ui/fade_transition.gd' at thread -1
+Completed load for: 'res://ui/FadeTransition.tscn' remapped 'res://ui/FadeTransition.tscn' at thread -1
+Completed load for: 'res://ui/fade_transition.tscn' remapped 'res://ui/fade_transition.tscn' at thread -1
+Loading resource: res://autoload/cutscene_controller.gd remapped: res://autoload/cutscene_controller.gd
+Completed load for: 'res://autoload/cutscene_controller.gd' remapped 'res://autoload/cutscene_controller.gd' at thread -1
+Loading resource: res://autoload/debug_overlay.gd remapped: res://autoload/debug_overlay.gd
+Completed load for: 'res://autoload/debug_overlay.gd' remapped 'res://autoload/debug_overlay.gd' at thread -1
+Loading resource: res://saves/save_manager.tscn remapped: res://saves/save_manager.tscn
+Loading resource: res://saves/save_manager.gd remapped: res://saves/save_manager.gd
+Completed load for: 'res://saves/save_manager.gd' remapped 'res://saves/save_manager.gd' at thread -1
+Completed load for: 'res://saves/save_manager.tscn' remapped 'res://saves/save_manager.tscn' at thread -1
+Loading resource: res://autoload/inventory.gd remapped: res://autoload/inventory.gd
+Completed load for: 'res://autoload/inventory.gd' remapped 'res://autoload/inventory.gd' at thread -1
+Loading resource: res://autoload/equipment.gd remapped: res://autoload/equipment.gd
+Completed load for: 'res://autoload/equipment.gd' remapped 'res://autoload/equipment.gd' at thread -1
+Loading resource: res://autoload/combat_controller.gd remapped: res://autoload/combat_controller.gd
+Completed load for: 'res://autoload/combat_controller.gd' remapped 'res://autoload/combat_controller.gd' at thread -1
+Loading resource: res://autoload/keybind_manager.gd remapped: res://autoload/keybind_manager.gd
+Completed load for: 'res://autoload/keybind_manager.gd' remapped 'res://autoload/keybind_manager.gd' at thread -1
+Loading resource: res://levels/factory/factory_opening_flow.gd remapped: res://levels/factory/factory_opening_flow.gd
+Completed load for: 'res://levels/factory/factory_opening_flow.gd' remapped 'res://levels/factory/factory_opening_flow.gd' at thread -1
+Loaded system CA certificates
+Loading resource: res://boot/game_init.tscn remapped: res://boot/game_init.tscn
+Loading resource: res://boot/game_init.gd remapped: res://boot/game_init.gd
+Completed load for: 'res://boot/game_init.gd' remapped 'res://boot/game_init.gd' at thread -1
+Completed load for: 'res://boot/game_init.tscn' remapped 'res://boot/game_init.tscn' at thread -1
+Loading resource: res://autoload/player/animations/DashGhost.tscn remapped: res://autoload/player/animations/DashGhost.tscn
+WARNING: res://autoload/player/animations/DashGhost.tscn:3 - ext_resource, invalid UID: uid://bt3f0kol5ybbl - using text path instead: res://autoload/player/animations/dash_ghost.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://autoload/player/animations/dash.gd:20)
+Loading resource: res://autoload/player/animations/dash_ghost.gd remapped: res://autoload/player/animations/dash_ghost.gd
+Completed load for: 'res://autoload/player/animations/dash_ghost.gd' remapped 'res://autoload/player/animations/dash_ghost.gd' at thread -1
+Completed load for: 'res://autoload/player/animations/DashGhost.tscn' remapped 'res://autoload/player/animations/DashGhost.tscn' at thread -1
+2026-08-03T09:57:50 [INFO] [GameInit] Boot initialized logger and settings.
+Loading resource: res://ui/dialog_log.gd remapped: res://ui/dialog_log.gd
+Completed load for: 'res://ui/dialog_log.gd' remapped 'res://ui/dialog_log.gd' at thread -1
+Loading resource: res://ui/MainMenu.tscn remapped: res://ui/MainMenu.tscn
+WARNING: res://ui/MainMenu.tscn:3 - ext_resource, invalid UID: uid://cpcvsqhcm1hvg - using text path instead: res://ui/main_menu.gd
+     at: load (scene/resources/resource_format_text.cpp:501)
+     GDScript backtrace (most recent call first):
+         [0] _boot (res://boot/game_init.gd:25)
+Loading resource: res://ui/main_menu.gd remapped: res://ui/main_menu.gd
+Completed load for: 'res://ui/main_menu.gd' remapped 'res://ui/main_menu.gd' at thread -1
+Completed load for: 'res://ui/MainMenu.tscn' remapped 'res://ui/MainMenu.tscn' at thread -1

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dm6eypfit75f2"]
 
-[ext_resource type="Script" path="res://components/puzzles/TimedSpikes.cs" id="1_ts"]
+[ext_resource type="Script" path="res://components/puzzles/timed_spikes.gd" id="1_ts"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cp4p"]
 size = Vector2(32, 32)

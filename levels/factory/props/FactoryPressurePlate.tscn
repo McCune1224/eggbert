@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://components/puzzles/WeightedPressurePlate.cs" id="1_1ljon"]
+[ext_resource type="Script" path="res://components/puzzles/weighted_pressure_plate.gd" id="1_1ljon"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/pressure_plate.png" id="2_1ljon"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u71xs"]

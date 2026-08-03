@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://csfjihf8bm7m4"]
 
-[ext_resource type="Script" path="res://components/puzzles/TeleportPad.cs" id="1_tp"]
+[ext_resource type="Script" path="res://components/puzzles/teleport_pad.gd" id="1_tp"]
 [ext_resource type="Texture2D" uid="uid://c0m8ma1xjpjho" path="res://assets/tilemaps/grass tileset.png" id="2_grass"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cp4p"]

@@ -1,8 +1,11 @@
 ---
 name: run
-description: Launch the game and capture debug output
+description: Launch Eggbert and inspect runtime output
 ---
-1. Run `dotnet build` to verify compilation.
-2. Use `godot_run_project` (MCP) to launch the game.
-3. Wait a few seconds, then call `godot_get_debug_output`.
-4. Report any errors or warnings. If clean, confirm the game is running.
+
+1. Import and parse resources with `godot --headless --path . --editor --quit`.
+2. Launch with `godot --path .` (use the hub-managed process for an interactive session).
+3. Exercise the requested flow, then inspect Godot stdout/stderr and the newest `user://logs/eggbert_YYYY-MM-DD.log`.
+4. For deterministic checks, run the relevant `tests/verify_*.gd` script directly with `godot --headless --path . --script`.
+
+Report observed errors and the exact path/command used. Do not claim a pass from launch alone.

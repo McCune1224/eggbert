@@ -1,76 +1,45 @@
-# .omp/AGENTS.md — Eggbert
+# OMP agent guide — Eggbert
 
-Godot 4.7 C# RPG. Undertale/EarthBound inspired, 640×360, top-down (zero gravity).
+Eggbert is a Godot 4.7, statically typed GDScript RPG: 640×360, pixel-art, top-down, and zero gravity. Read `../DESIGN.md`, `../ROADMAP.md`, `../LOGGING.md`, and `../docs/godot-editor-guide.md` before changing a scene or resource.
 
-Read ROADMAP.md for feature objectives. Read DESIGN.md for design decisions. Read LOGGING.md for the logging system and AI debugging recipes.
-Read docs/godot-editor-guide.md for the editor setup, plugin usage, component reference, dialog/cutscene authoring, combat/quest/item systems, and architecture conventions.
+## Headless commands
 
-## Commands
+Run from the repository root:
 
 ```bash
-dotnet build          # compile C# (Godot.NET.Sdk/4.7.0, net8.0)
+godot --headless --path . --editor --quit
+godot --headless --path . --script res://tests/verify_migration_integrity.gd
 ```
 
-## Architecture
+Targeted scripts are listed in `../docs/verification.md`; use `FACTORY_LAYOUT_SCENE=AssemblyLine` or `ControlRoom` for the two factory layouts. The port has no separate compilation step; Godot import and the targeted verifiers are the verification contract.
 
-### Boot order
-boot/GameInit.tscn → Main menu or debug-skip → GameController.LoadLevel → player at saved pos
+## Runtime contracts
 
-Debug auto-start: EGGBERT_SKIP_MENU=1 env var skips menu, loads last save. Set in .omp/mcp.json.
+Autoload names are used directly: `WorldFlags`, `QuestManager`, `GameController`, `DialogManager`, `AudioManager`, `Player`, `FadeTransition`, `CutsceneController`, `DebugOverlay`, `SaveManager`, `Inventory`, `Equipment`, `CombatController`, `KeybindManager`, and `FactoryOpeningFlow`.
 
-### Autoload singletons
-| Singleton | Class | Role |
-|-----------|-------|------|
-| `GameController` | `Node` | Level loading/unloading, tilemap bounds → camera |
-| `WorldFlags` | `Node` | Dictionary<string, Variant>, dialog branching, warp/quest progression, ISavable |
-| `DialogManager` | `Node2D` | NPC dialog lines + DialogBubble |
-| `AudioManager` | `Node` | Music cross-fade (2-player pool) |
-| `Player` | `CharacterBody2D` | WASD movement, dash, save/load |
-| `FadeTransition` | `CanvasLayer` | Screen fade between levels |
-| `CutsceneController` | `Node` | Resource-driven cutscene player |
-| `DebugOverlay` | `Node` | Debug HUD overlay |
-| `SaveLoadManager` | `Node` | Persist via ResourceSaver → user://savegame.tres |
-| `Inventory` | `Node` | Item stacks by id, ISavable |
-| `Equipment` | `Node` | Equip/unequip Weapon/Armor/Accessory, stat application |
-| `CombatController` | `Node` | EnterCombat scene swap, win/lose flow |
+Level loading is deliberately non-overloaded:
 
-### Level loading
-GameController.LoadLevel(scenePath, playerPosition|transitionName, skipAutoSave). Clears CurrentLevel, instantiates scene, repositions player, fades.
+```gdscript
+GameController.load_level_at_position(scene_path, player_position)
+GameController.load_level_at_transition(scene_path, target_transition_name)
+```
 
-### Combat
-CombatController.EnterCombat(arenaPath, playerSpawn). State machine on enemies (idle→telegraph→attack→cooldown). Proximity parry (J key). Win/lose returns to overworld.
+Persistent nodes in `persist` provide `get_save_key`, `serialize`, `deserialize`, and `get_load_priority`. Save keys are `player`, `inventory`, `equipment`, and `world_flags`; storage is `user://savegame.tres`.
 
-### Dialog voice system
-DialogVoiceResource ([GlobalClass] Resource) per NPC, procedural fallback (60ms sine blip). One-shot AudioStreamPlayer per blip, max 16 concurrent.
+## Authoring conventions
 
-### Save system
-ISavable interface. Nodes in "persist" group auto-saved. Single slot: user://savegame.tres.
+Use snake_case files, functions, fields, and signals; PascalCase `class_name` declarations and node names; CONSTANT_CASE constants; typed collections and returns; tabs; `@export` and `@onready`; native `signal.connect`, `signal.emit`, and `await`; and `PackedScene.instantiate()`. Use the editor for nested `.tres` resources, tilemap data, and UIDs.
 
-### Logging system
-See LOGGING.md for the full logging reference. Quick facts:
-- **File:** `user://logs/eggbert_YYYY-MM-DD.log` (auto-rotates)
-- **Env:** `EGGBERT_LOG_LEVEL=debug` for verbose traces
-- **Bridge:** `GameLogBridge` captures engine errors to file
-- **Init:** `GameLogger.InitializeFromEnv()` in `boot/GameInit.cs`
+Physics layers: 1 Player, 2 Walls, 3 NPCs, 4 Bullets, 5 Interactables, 6 Enemies, 7 TriggerAreas, 8 PlayerHitbox, 9 EnemyHitbox, 10 Items. Inputs include WASD, E, Esc, Space, Shift, J, F, Tab, and Backtick.
 
-## Verification workflow
-- Prefer test-driven changes for behavior. Write the smallest targeted verification script before or alongside the code change when practical.
-- For scene/layout changes, use a GDScript verifier that instantiates the scene and checks node names, positions, exported properties, and resource references. Keep it headless when `_Ready()` side effects are irrelevant; add the scene to the tree only when `_Ready()` behavior is what you're proving.
-- Run `godot --headless --path . --script <verifier>` and `dotnet build` before commit.
+Supported addons are AsepriteWizard, `nklbdev.aseprite_importers`, `level_assembly`, and `cutscene_inspector`. Do not configure an unestablished MCP server.
 
+## Logging and workflow
 
-## Conventions
-- C# only for game code. GDScript in addons/ only (AsepriteWizard).
-- No tests, no CI.
-- Physics layers: constants in components/core/CollisionConfig.cs. 1=Player, 2=Walls, 3=NPCs, 4=Bullets, 5=Interactables, 6=Enemies, 7=TriggerAreas, 8=PlayerHitbox, 9=EnemyHitbox, 10=Items.
-- Inputs: WASD, E=interact, Esc=menu, Space=dash, Shift=sprint, J=parry.
-- All work commits directly to main. No branches, no PRs.
+`GameLogger` writes game-originated tagged lines to `user://logs/eggbert_YYYY-MM-DD.log`; use `EGGBERT_LOG_LEVEL=debug` for tracing and `EGGBERT_LOG_ECHO=0` for file-only output. Engine errors remain in Godot stdout/stderr. Read the newest log before repeating a debugging loop.
 
-## Design unknowns — ASK, don't assume
-- Story/narrative (who is Eggbert?) — #9
-- Consumable items (what do they do?) — #6
-- Equipment stats (what do they affect?) — #7
-- Difficulty tuning (easy mode? HP scaling?) — not yet filed
+Work on `port/gdscript-migration` or another feature branch. Keep commits focused and submit review before integration; `main` is integration-only. Preserve unrelated working-tree changes and report exact paths and verifier commands.
 
-## GitHub workflow
-File an issue before non-trivial work. Commit with `Closes #N` on main. Push.
+## Design questions
+
+Ask before deciding unresolved narrative, consumable, equipment, or difficulty details. `FEATURE_IDEAS.md` is not a priority queue.

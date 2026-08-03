@@ -1,15 +1,15 @@
 ---
 name: new-scene
-description: Create a new Godot scene with proper structure. Usage: /new-scene <type> <path> (e.g., /new-scene enemy combat/enemies/Slime)
+description: Create a Godot scene with the project's typed GDScript structure. Usage: /new-scene <type> <path>
 ---
-Create a new Godot scene for Eggbert using $ARGUMENTS. The first argument is the scene type (level, enemy, npc, bullet, ui, item), the second is the path relative to res://.
 
-Choose root node and structure based on type:
-- level: Node2D (BaseLevel.cs). Add LevelTileMapLayer.
-- enemy: CharacterBody2D or Area2D. Add CollisionShape2D, Sprite2D. Set layer per CollisionConfig.
-- npc: CharacterBody2D. Add PromptArea2D, CollisionShape2D, Sprite2D.
-- bullet: Area2D (reference RedBullet.tscn). Add CollisionShape2D, Sprite2D.
-- ui: CanvasLayer or Control. Follow patterns in ui/.
-- item: Area2D. Set collision layer 10 (Items).
+Create a scene for the type and path in `$ARGUMENTS`, relative to `res://`:
 
-New scenes go in appropriate subdirectories. Always build after creating C# scripts.
+- `level`: Node2D with `levels/base_level.gd` and a direct-root `LevelTileMapLayer`.
+- `enemy`: CharacterBody2D or Area2D with CollisionShape2D and Sprite2D; choose a layer from `components/core/collision_config.gd`.
+- `npc`: CharacterBody2D with interaction area, collision, and sprite.
+- `bullet`: Area2D following `combat/components/red_bullet.tscn`.
+- `ui`: CanvasLayer or Control following existing `ui/` scenes.
+- `item`: Area2D on Items layer 10.
+
+Use snake_case filenames and typed `@export` fields. Configure nodes and nested Resources in the editor, save the scene, then import it with `godot --headless --path . --editor --quit` and run a relevant verifier.

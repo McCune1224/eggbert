@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dp6bxsv2fnq6x"]
 
-[ext_resource type="Script" path="res://components/puzzles/WeightedPressurePlate.cs" id="1_wpp"]
+[ext_resource type="Script" path="res://components/puzzles/weighted_pressure_plate.gd" id="1_wpp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cp4p"]
 size = Vector2(32, 8)

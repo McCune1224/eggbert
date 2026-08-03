@@ -55,7 +55,7 @@ static func build_steps_view(parent_resource: Resource, helper: CutsceneCards = 
 	header.add_theme_font_size_override("font_size", 14)
 	root.add_child(header)
 
-	var steps_array: Array = parent_resource.get("Steps")
+	var steps_array: Array = parent_resource.get("steps")
 	if steps_array == null:
 		steps_array = []
 
@@ -173,7 +173,7 @@ static func build_nodes_view(parent_resource: Resource, helper: CutsceneCards = 
 	header.add_theme_font_size_override("font_size", 14)
 	root.add_child(header)
 
-	var nodes_array: Array = parent_resource.get("Nodes")
+	var nodes_array: Array = parent_resource.get("nodes")
 	if nodes_array == null:
 		nodes_array = []
 
@@ -204,7 +204,7 @@ func build_node_card(parent_resource: Resource, nodes_array: Array, index: int) 
 	panel.add_child(body)
 
 	var header_row := HBoxContainer.new()
-	var id_text := str(node.get("Id")) if node else "(unnamed)"
+	var id_text := str(node.get("id")) if node else "(unnamed)"
 	var title := Label.new()
 	title.text = "#%d  🆔 %s" % [index, id_text]
 	title.add_theme_font_size_override("font_size", 13)
@@ -247,9 +247,9 @@ func build_node_card(parent_resource: Resource, nodes_array: Array, index: int) 
 		body.add_child(placeholder)
 		return card
 
-	var lines: Array = node.get("Lines")
-	var responses: Array = node.get("Responses")
-	var speaker := str(node.get("SpeakerName"))
+	var lines: Array = node.get("lines")
+	var responses: Array = node.get("responses")
+	var speaker := str(node.get("speaker_name"))
 	var summary := Label.new()
 	summary.text = "Speaker: %s  ·  Lines: %d  ·  Responses: %d" % [speaker if speaker != "" else "—", lines.size() if lines != null else 0, responses.size() if responses != null else 0]
 	summary.add_theme_color_override("font_color", Color(0.78, 0.78, 0.85))
@@ -291,19 +291,19 @@ func build_node_add_controls(parent_resource: Resource, nodes_array: Array) -> C
 # ----------------------------- introspection ---------------------------------
 
 static func instantiate_step() -> Resource:
-	var step_script := load("res://resources/cutscene/CutsceneStep.cs") as Script
+	var step_script := load("res://resources/cutscene/cutscene_step.gd") as Script
 	if step_script == null:
 		return null
 	return step_script.new()
 
 static func instantiate_node() -> Resource:
-	var node_script := load("res://resources/dialog/DialogNode.cs") as Script
+	var node_script := load("res://resources/dialog/dialog_node.gd") as Script
 	if node_script == null:
 		return null
 	return node_script.new()
 
 static func label_for_step(step: Resource) -> String:
-	var ordinal: int = int(step.get("Type"))
+	var ordinal: int = int(step.get("type"))
 	for entry in STEP_TYPE_DATA:
 		if int(entry[0]) == ordinal:
 			return entry[1]
@@ -317,7 +317,7 @@ static func ordinal_for_menu_index(menu_index: int) -> int:
 # ----------------------------- helpers ---------------------------------------
 
 static func _summary_for_step(step: Resource) -> String:
-	var ordinal: int = int(step.get("Type"))
+	var ordinal: int = int(step.get("type"))
 	var kind: String = ""
 	for entry in STEP_TYPE_DATA:
 		if int(entry[0]) == ordinal:
@@ -355,10 +355,10 @@ static func _summary_for_step(step: Resource) -> String:
 			return ""
 
 static func _condition_tag_for_step(step: Resource) -> String:
-	var condition = step.get("Condition")
+	var condition = step.get("condition")
 	if condition == null:
 		return ""
-	var condition_type: int = int(condition.get("Type"))
+	var condition_type: int = int(condition.get("type"))
 	match condition_type:
 		1:
 			return "🟢 if flag '%s' is set" % str(condition.get("FlagKey"))
@@ -369,15 +369,15 @@ static func _condition_tag_for_step(step: Resource) -> String:
 	return ""
 
 static func _card_color_for_step(step: Resource) -> Color:
-	if step.get("Condition") != null:
+	if step.get("condition") != null:
 		return Color(0.22, 0.20, 0.10, 1.0)
 	return Color(0.18, 0.18, 0.22, 1.0)
 
 static func _condition_tag_for_node(node: Resource) -> String:
-	var condition = node.get("Condition")
+	var condition = node.get("condition")
 	if condition == null:
 		return ""
-	var condition_type: int = int(condition.get("Type"))
+	var condition_type: int = int(condition.get("type"))
 	match condition_type:
 		1:
 			return "🟢 runs if flag '%s' is set" % str(condition.get("FlagKey"))
@@ -388,7 +388,7 @@ static func _condition_tag_for_node(node: Resource) -> String:
 	return ""
 
 static func _card_color_for_node(node: Resource) -> Color:
-	if node != null and node.get("Condition") != null:
+	if node != null and node.get("condition") != null:
 		return Color(0.22, 0.20, 0.10, 1.0)
 	return Color(0.18, 0.18, 0.22, 1.0)
 

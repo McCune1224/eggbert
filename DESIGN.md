@@ -1,12 +1,8 @@
 # DESIGN.md — Eggbert
 
-Game design document. What we're building, what's decided, what's still open.
+Settled game-design decisions. Feature status is tracked in `ROADMAP.md`; authoring details are in `docs/godot-editor-guide.md`.
 
-> This file records settled design decisions. For feature status and objectives, see ROADMAP.md.
-
----
-
-## Core Loop
+## Core loop
 
 ```
 Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
@@ -14,125 +10,68 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
        └──────────────────────────────────────────────────────┘
 ```
 
-**Overworld**: Top-down, zero gravity. Talk to NPCs, get quests, solve puzzles, explore. Story-driven.
+The overworld is a story-driven, top-down, zero-gravity space for talking to NPCs, pursuing quests, solving environmental puzzles, and exploring. Combat is a dedicated bullet-hell arena: Eggbert has no direct attack, and a proximity parry (J) within a brief timing window deals damage. Equipment can extend parry radius and damage.
 
-**Combat**: Dedicated arena screen. Bullet-hell dodge. Player has no direct attacks — proximity parry (J key) within a brief window deals damage. Items extend parry radius and parry damage.
+## Overworld systems
 
----
+- **Dialog:** `WorldFlags` select NPC lines. Optional choice menus offer 2–4 responses; arrow keys plus E select a response and the cutscene caller may set a flag from the selected index.
+- **Pause menu (Esc):** EarthBound-style Items, Status, Map, Save, and Settings panels. Inventory and Equipment tabs provide Use/Equip controls.
+- **Fast travel:** placed `WarpPoint` nodes unlock destinations. The pause menu lists unlocked warps and uses a fade before arrival.
+- **World map:** a stylized region panel with no real-time player marker.
+- **Audio:** each `BaseLevel` owns ambient loops; `AudioManager` plays music, ambience, and UI sounds.
+- **Traversal:** push blocks, floor switches, switch-gated doors, conveyors, teleport pads, and related puzzles.
 
-## Overworld Systems (decided)
+## Core systems
 
-### Dialog
-- **World-state branching**: NPC dialog lists change based on `WorldFlags` (e.g. `HasMetPlayer`, `BossDefeated`). Branching is implicit — the world state determines what NPCs say.
-- **Choice menu**: Optional in-dialog choice menu for explicit player responses (pick from 2–4 options). Arrow keys + E to select. Selection sets a WorldFlag — the cutscene caller picks which flag based on the choice index. Not all dialogs use choices; the default path remains WorldFlags-only.
+### World flags
 
-### Pause Menu (Esc)
-- **EarthBound-style**: Items · Status · Map · Save · Settings
-- Inventory and Equipment panels fully wired (Key Items, Consumables, Equipment tabs with Use/Equip buttons).
+`WorldFlags` is an autoload storing typed `Variant` values for dialog branching, quest progression, warp unlocks, and map reveals. It is persisted under the `world_flags` save key.
 
-### Fast Travel
-- **Warp points**: Place `WarpPoint` nodes in levels. Touch one → unlocked. Menu lists unlocked warps → pick → fade → arrive.
+### Save system
 
-### World Map
-- **Pause menu region map**: Stylized region map panel in pause menu. No real-time player tracking.
-
-### Audio
-- **Ambient + UI**: Per-level ambient loops (attached to `BaseLevel`). UI/menu/interaction sounds via `AudioManager.PlaySfx()`.
-
-### Traversal
-- **Environmental puzzles**: Push blocks, floor switches, switch-gated doors.
-
----
-
-## Core Systems (decided)
-
-### World Flags
-- Singleton autoload. `Godot.Collections.Dictionary<string, Variant>` (bool, int, string).
-- Saved/loaded as part of `SaveResource`. Underpins dialog branching, quest progression, warp unlocks, map reveals.
-
-### Save System
-- **1 save slot** — `user://savegame.tres`
-- **What's saved**: Player position + health + level path, WorldFlags, warp unlocks, inventory, quest state.
-- **Save triggers**: Menu (OverworldMenu Save button) + auto-save on level transition.
-- **Format**: Godot .tres via `ResourceSaver`. Each `ISavable` implementation writes its data into `SaveResource` sub-objects.
+There is one slot, `user://savegame.tres`. It stores Player position/health/level, WorldFlags, warp unlocks, inventory, equipment, and quest state. The menu Save action and level transitions trigger saves. `SaveManager` writes a Godot `Resource` and validates persistent nodes through the typed duck-typed contract (`get_save_key`, `serialize`, `deserialize`, `get_load_priority`). Invalid old resources are deleted and treated as a fresh run.
 
 ### Settings
-- Volume sliders (MUSIC, SFX) — buses already exist
-- Text speed (Instant / Fast / Normal) — critical for dialog feel
-- Fullscreen toggle
-- Window scale (1x–4x) — 640×360 is tiny on modern screens
-- **Skip**: Key rebinding
 
-### Quests
-- **Editor-authored ordered objectives backed by WorldFlags**. Multiple linear quests can be active concurrently; the player can pin or unpin one current objective from the pause-menu quest log for the overworld HUD, which also provides active/completed quest entries. Guidance remains text-only: no map markers, paths, distance indicators, rewards, timers, or branching graphs.
+Music and SFX volume, text speed (Instant/Fast/Normal), fullscreen, and 1×–4× window scale are supported. Key rebinding remains excluded.
 
-### Inventory
-- **Categories**: Key Items (story), Consumables (overworld healing), Equipment (1–2 slots, stat boosts)
-- **EarthBound-style UI**: Categorized tabs in pause menu
-- **Overworld only**: No item usage during combat (combat is dodge-only)
+### Quests and inventory
 
-### Party
-- **Solo protagonist**. No companions. Add only if story demands it.
+Quests are editor-authored ordered objectives backed by WorldFlags. Multiple linear quests may be active; one current objective can be pinned to the overworld HUD. There are no map paths, distance indicators, timers, or branching quest graphs. Inventory categories are Key Items, Consumables, and Equipment; item use is overworld-only.
 
-### Cutscenes
-- **Resource-driven controller**: `CutsceneController` singleton. Cutscenes are authored as `CutsceneResource` (.tres) files containing an array of `CutsceneStep` resources with optional `CutsceneCondition` branching (FlagSet/FlagNotSet/ChoiceEquals). In-game, no separate scene files.
-- Actions: `LockPlayer`, `UnlockPlayer`, `MoveNpc`, `MovePlayer`, `FaceDirection`, `PlayAnimation`, `CameraMove`, `SayDialog`, `Wait`, `SetFlag`, `Fade`, `PromptChoice`, `Stop`.
-- **CutsceneTrigger node** (Area2D, `components/npcs/`): `[Export] CutsceneResource Cutscene`, `[Export] string[] DialogLines` (inline fallback), `[Export] TriggerMode { OnInteract, OnEnter }`, `[Export] bool Once` + `CutsceneId` (dedup via `cutscene_<id>` WorldFlag). Calls `CutsceneController.StartCutscene()` directly.
-- **Stop()**: aborts the current cutscene after the in-progress action finishes.
+### Cutscenes and dialog branches
 
-### Main Menu
-- New Game / Continue / Settings / Quit
-- Continue loads the single save slot directly (no slot picker)
+Cutscenes are `.tres` `CutsceneResource` files containing typed `CutsceneStep` resources and optional `CutsceneCondition` branches (`FlagSet`, `FlagNotSet`, `ChoiceEquals`). `CutsceneController` runs them; no separate cutscene scene files are required. The action enum retains its serialized order and includes `LockPlayer`, `UnlockPlayer`, `MoveNpc`, `MovePlayer`, `FaceDirection`, `PlayAnimation`, `CameraMove`, `SayDialog`, `Wait`, `SetFlag`, `Fade`, `PromptChoice`, `Stop`, and `DialogBranch`.
 
-### Death / Game Over
-- HP hits 0 → fade to black → "You collapsed..." message → respawn at last save location (or level entrance).
-- HP restored to some fraction. No item/money loss.
+`CutsceneTrigger` is an Area2D with exported `cutscene`, optional `dialog_lines`, `trigger_mode`, `once`, and `cutscene_id`. One-shot triggers use `cutscene_<id>` in WorldFlags and call `CutsceneController` directly. `DialogBranch` resources contain ordered `DialogNode` and `DialogResponse` data.
 
----
+### Main menu and game over
 
-## Combat System
+The menu provides New Game, Continue, Settings, and Quit. Continue loads the single slot. At zero HP, the game fades to black, shows “You collapsed…”, and restores the last save location (or level entrance) with partial HP and no item loss.
 
-### Player
-- Movement: WASD (same as overworld), dash (Space), sprint (Shift)
-- Offense: Proximity parry (J key) — press near enemy within a brief window to deal damage. Items extend parry radius and parry damage.
-- Defense: Collision with bullets = damage (PlayerHitbox layer 8).
-- Victory: Reduce enemy HP to 0.
+## Combat
 
-### Enemy
-- Attack patterns: bullet spreads, aimed shots, zone denial, laser beams
-- State machine: idle → telegraph → attack → cooldown
-- HP: depleted = win.
+Player movement uses WASD, dash (Space), and sprint (Shift). Bullets collide with PlayerHitbox layer 8. Enemies use idle → telegraph → attack → cooldown, with spreads, aimed shots, zone denial, and laser patterns. The HUD is a minimal CanvasLayer containing an HP bar and enemy name.
 
-### Combat UI
-- Minimal overlay: HP bar + enemy name as CanvasLayer
+`CombatController` saves the overworld scene and position, instantiates an arena, and returns through `GameController.load_level_at_position(scene_path, player_position)`. A re-entry guard rejects calls while already fighting; there is no pre-combat save. Arena victory returns to the saved overworld position, while defeat reloads the last save.
 
-### Transition
-- `EnterCombat(enemyData, arenaPath)` — touch enemy, random encounter, or scripted trigger.
+Health damage is `max(1, raw_damage - defense)`. Healing is clamped to MaxHP; zero HP emits `died`; revive restores at least one HP.
 
----
+## Open design questions
 
-## Open Design Questions
+- Concrete consumable names, effects, and heal values.
+- Whether future equipment should use currently unused Attack and Speed fields.
+- Difficulty and HP scaling.
+- Full story and narrative conflict.
 
-- **Inventory consumables**: What consumables exist? What do they do? *(Framework ready; effects wire through HealthComponent.Heal(). Need concrete item names + heal values.)*
-- **Equipment**: What stats does equipment affect? *(Data fields exist: attack/defense/speed. MaxHP/Defense/ParryRadius/ParryDamage are wired; Attack and Speed are unused.)*
-- **Difficulty**: HP scaling? Easy mode?
-- **Story/Narrative**: What's the game about? Who is Eggbert?
+## Excluded unless future need
 
----
+Party companions, key rebinding, multiple save slots, and combat item usage.
 
-## Excluded (unless future need)
+## Technical constraints
 
-- Party/companion system
-- Key rebinding
-- Multiple save slots
-- Combat item usage
-
----
-
-## Constraints
-
-- Godot 4.7 + C# only (GDScript is addons/ only)
-- 640×360 resolution, canvas_items stretch
-- Top-down, zero gravity
-- No tests, no CI (yet)
-- Save format: Godot .tres via ResourceSaver
+- Godot 4.7 and statically typed GDScript.
+- 640×360 viewport with `canvas_items` stretch.
+- Top-down, zero gravity.
+- Resource save format via `ResourceSaver`.
+- Headless verification scripts under `tests/`; use the editor for nested resource serialization.

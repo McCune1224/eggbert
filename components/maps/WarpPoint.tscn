@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cyrqwcqnrxf2n"]
 
-[ext_resource type="Script" path="res://components/maps/WarpPoint.cs" id="1_57ocq"]
+[ext_resource type="Script" path="res://components/maps/warp_point.gd" id="1_57ocq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ttles"]
 size = Vector2(32, 32)

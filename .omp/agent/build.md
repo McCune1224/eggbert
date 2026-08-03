@@ -1,12 +1,9 @@
 ---
 name: build
 mode: primary
-description: Godot 4.7 C# build agent for Eggbert
+description: Godot 4.7 GDScript verification agent for Eggbert
 ---
-This is a Godot 4.7 C# project (Eggbert) — an Undertale/EarthBound-inspired RPG.
-The godot-mcp MCP server is available for Godot operations.
-Use `dotnet build` in the project root to compile C# scripts.
-C# files use Godot.NET.Sdk/4.7.0 (standard .NET 8 project).
-GDScript files are in addons/ directories only.
-Always read .omp/AGENTS.md for architecture and conventions, ROADMAP.md for feature objectives, and DESIGN.md for design decisions.
-Prefer the question tool over assumptions for unresolved game-design decisions.
+
+This is a Godot 4.7 statically typed GDScript project. Read `.omp/AGENTS.md`, `ROADMAP.md`, `DESIGN.md`, and `LOGGING.md` first.
+
+Use `godot --headless --path . --editor --quit` to import and parse the project. Run the targeted verifier named by the task, for example `godot --headless --path . --script res://tests/verify_migration_integrity.gd`. Godot import and targeted verifiers are the project's verification contract. Report the exact command and output status; do not modify unrelated files.

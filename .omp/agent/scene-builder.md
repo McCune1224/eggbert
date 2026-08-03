@@ -1,33 +1,10 @@
 ---
-name: scene-builder
+description: Godot scene builder for Eggbert's Godot 4.7 GDScript project
 mode: subagent
-description: Creates Godot scenes, adds nodes, wires up signals using godot-mcp tools.
-permission:
-  edit: allow
-  bash: allow
 ---
-You are a Godot scene builder for Eggbert, a Godot 4.7 C# RPG project.
-Use godot-mcp tools for scene operations: godot_create_scene, godot_add_node, godot_save_scene, godot_load_sprite.
-The project uses Node2D-based scenes with C# scripts. GDScript only exists in addons/.
-Common node types: CharacterBody2D, Area2D, Sprite2D, CollisionShape2D, TileMapLayer, Camera2D, CanvasLayer, Control, MarginContainer, Label.
-Physics layers in components/core/CollisionConfig.cs: 1=Player, 2=Walls, 3=NPCs, 4=Bullets, 5=Interactables, 6=Enemies, 7=TriggerAreas, 8=PlayerHitbox, 9=EnemyHitbox, 10=Items.
-When creating a node that needs a C# script, create the .cs file separately with the correct class extending the right Godot type.
-New scenes go in appropriate subdirectories: combat/, levels/, ui/, components/.
-Always build after creating C# scripts.
 
-## Level-authoring requests
+Use the Godot editor and retained authoring addons for scene operations. Scripts are typed snake_case `.gd` files; GDScript is the game runtime. Common nodes are CharacterBody2D, Area2D, Sprite2D, CollisionShape2D, TileMapLayer, Camera2D, CanvasLayer, Control, MarginContainer, and Label.
 
-If a request creates or materially wires a level (adding/removing rooms, reordering transitions, changing flag gates, wiring puzzle components, or authoring cutscenes that span multiple scenes), stop and direct the request to the `factory-level-authoring` skill via `.omp/agent/level-author.md`. The level-author subagent handles the full workflow: question gate, graph plan, editor-first construction, component recipes, and layered verification.
+Physics layers are defined in `components/core/collision_config.gd`: 1 Player, 2 Walls, 3 NPCs, 4 Bullets, 5 Interactables, 6 Enemies, 7 TriggerAreas, 8 PlayerHitbox, 9 EnemyHitbox, 10 Items. Create a new script with `extends` and typed exports, then attach it in the editor. New scenes belong in `combat/`, `levels/`, `ui/`, or `components/`.
 
-For isolated scene-node work (a single NPC scene, a prop, a bullet, a UI panel, or a standalone C# component), continue with the existing scene-building workflow below.
-
-## Editor-first serialization
-
-- Use the Godot editor and Inspector for all node placement, TileMap painting, collision, animations, and nested resource creation.
-- Never hand-edit `tile_map_data`, atlas subresources, generated UIDs, or nested `.tres` data.
-- Create `.tres` resources via the Inspector (Resource > New > [type]), then Save As. This guarantees correct serialization of sub-resources and UIDs.
-- For flat scalar `.tres` only, hand-authoring is acceptable as a fallback.
-
-## Ask before inventing design
-
-Before authoring any content that affects game progression — flags, items, dialog facts, puzzle solutions, combat outcomes, or tuning values — check whether the design is already decided by inspecting issues, existing scenes, `STORY.md`, `ItemDatabase`, and WorldFlags. If a load-bearing choice is unresolved, ask the user rather than inventing a value.
+For levels, follow `.omp/skills/factory-level-authoring/SKILL.md`. For isolated scenes, use editor-first serialization: configure exported properties in the Inspector, save nested Resources through the editor, and never hand-edit tilemap data or generated UIDs. Import and run the relevant verifier with Godot headlessly after authoring.

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bqwe0fl4n2y1p"]
 
-[ext_resource type="Script" path="res://components/npcs/ReadableObject.cs" id="1_pxk0n"]
+[ext_resource type="Script" path="res://components/npcs/readable_object.gd" id="1_pxk0n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1cak7"]
 radius = 48.0

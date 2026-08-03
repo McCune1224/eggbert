@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d4b1w0yfyrqep"]
 
-[ext_resource type="Script" path="res://components/puzzles/MovingPlatform.cs" id="1_mp"]
+[ext_resource type="Script" path="res://components/puzzles/moving_platform.gd" id="1_mp"]
 [ext_resource type="Texture2D" uid="uid://c0m8ma1xjpjho" path="res://assets/tilemaps/grass tileset.png" id="2_grass"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cp4p"]

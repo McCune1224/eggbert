@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c3k6bqd5y7ya6"]
 
-[ext_resource type="Script" path="res://saves/SavePoint.cs" id="1_sp"]
+[ext_resource type="Script" path="res://saves/save_point.gd" id="1_sp"]
 [ext_resource type="Texture2D" uid="uid://l00ofsfnsxb4" path="res://assets/ui/NPCPrompt.png" id="2_prompt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jax6u"]

@@ -1,102 +1,46 @@
-# Eggbert Development Checkpoint
+# Eggbert development checkpoint
 
-**Date:** 2026-07-18  
-**Project:** Godot 4.7 Mono / C# RPG  
-**Working tree:** Not committed. The repository contains many pre-existing and unrelated modifications; preserve them.
+**Date:** 2026-08-02  
+**Project:** Godot 4.7 statically typed GDScript RPG  
+**Working tree:** Migration work is in progress on `port/gdscript-migration`; preserve unrelated changes.
 
 ## Current stable state
 
-The game now boots into the overworld and can transition through the repaired Courtyard and Prison paths without the previously reported scene-loading failures.
+The port retains the 640×360 pixel-art presentation, overworld-to-arena loop, authored scenes/resources, input map, and progression goals. Runtime scripts use snake_case `.gd` paths and direct autoload names. The repository root is the only Godot project root.
 
-### Scene-loading fixes completed
+### Scene and resource migration
 
-- Fixed malformed `PatrolComponent` nodes in `levels/courtyard/maps/courtyard.tscn`.
-  - `PatrolComponent.cs` is a script, not a `PackedScene`.
-  - Courtyard patrol nodes now use `script = ExtResource("13_patrol")`.
-- Fixed malformed `SleepingInmate` declaration in `levels/prison/maps/prison.tscn`.
-  - It is now a normal `Area2D` with `SleepingNPC.cs` assigned through `script`.
-- Converted hand-written dictionary-based `CutsceneResource.Steps` arrays into typed `CutsceneStep` subresources:
-  - `levels/prison/npcs/WafflesCutscene.tres`
-  - `levels/prison/npcs/MonsieurCroissantCutscene.tres`
-  - `levels/shrine/npcs/SunnysideRevelationCutscene.tres`
-  - `levels/beach/npcs/GreatBeyondFinaleCutscene.tres`
+- Patrol, sleeping-NPC, and cutscene resources have typed GDScript counterparts.
+- Authored cutscene resources retain typed `CutsceneStep` subresources and their action enum order.
+- Level scenes keep direct-root tilemap layers and stable transition, save-point, puzzle, NPC, and flag node names.
+- Character sprites and placeholder visuals remain part of the sparse map presentation.
 
-These changes fixed:
+### Runtime contracts
 
-- `Unable to convert array index 0 from "Dictionary" to "Object"`
-- `Scene instance is missing`
-- `Required object "rp_child" is null`
-- `GameController.LoadLevel` null reference cascades
+- `GameController.load_level_at_position(scene_path, player_position)` handles position-based placement.
+- `GameController.load_level_at_transition(scene_path, target_transition_name)` resolves named transitions and directional offsets.
+- Persistent nodes implement `get_save_key`, `serialize`, `deserialize`, and `get_load_priority`.
+- `SaveManager` uses `user://savegame.tres`; invalid old resources are removed and produce a fresh-run path.
 
-## Character visual work completed
+## Logging
 
-Added visible sprites to previously sprite-less character triggers:
+`GameLogger` writes tagged game-originated messages to `user://logs/eggbert_YYYY-MM-DD.log`. `EGGBERT_LOG_LEVEL=debug|info|warn|error|off` controls filtering, `EGGBERT_LOG_ECHO=0` selects file-only output, and the five newest daily files are retained. Godot engine errors remain in stdout/stderr because engine-level logger interception is not part of the GDScript port. Read the latest log before diagnosing a new issue.
 
-- Courtyard Depths Gardener
-- Eggsile Sewers Plumber
-- Prison Sleeping Inmate
+## Verification workflow
 
-Corrected spritesheet frame configuration for:
+From the repository root, import and parse the project with:
 
-- Courtyard Egguardo
-- Eggsile Chef
-- Eggsile Frank
+```bash
+godot --headless --path . --editor --quit
+godot --headless --path . --script res://tests/verify_migration_integrity.gd
+```
 
-Existing NPC scenes with sprites include Grandpa Smith, Officer Bacon, Joe, Frank, Factory Jamitor, Waffles, Monsieur Croissant, and Home's Eggatha/EJ.
+Then run the targeted scripts listed in `docs/verification.md`, including both `FACTORY_LAYOUT_SCENE=AssemblyLine` and `FACTORY_LAYOUT_SCENE=ControlRoom`. Do not treat a scene skeleton as complete: verify transitions, interactions, flags, save/reload, and arena return.
 
-## Console/logging cleanup completed
+## Working-tree guidance
 
-The console spam was traced to `PatrolComponent` resolving waypoint paths from the wrong base node.
+Do not reset or discard unrelated modifications. Keep commits focused on the migration branch and review before integration. Preserve authored scenes and resources; use the Godot editor for nested resources and generated UIDs rather than hand-editing serialized internals.
 
-- Changed Courtyard patrol paths from `../../Waypoint...` to `../Waypoint...`.
-- Added per-waypoint warning throttling in `components/npcs/PatrolComponent.cs` so malformed paths cannot emit a warning every frame.
+## Next work
 
-Expected normal output is now limited to intentional lifecycle messages such as level loading and `BaseLevel._Ready`.
-
-## Placeholder visual work completed earlier
-
-Standalone non-tilemap visuals were added and wired into sparse scenes/components:
-
-- `assets/placeholders/room_backdrop.png`
-- `assets/placeholders/door.png`
-- `assets/placeholders/interaction_marker.png`
-- `assets/placeholders/encounter_marker.png`
-- SVG source files remain beside the PNG assets.
-- `components/visuals/PlaceholderBackdrop.tscn`
-
-Backdrops were added to Kitchen, Rec Room, Warden's Quarters, Secret Tunnels, Sunnyside Shrine, Solitary, and Home. Door, exit, and encounter markers were also wired.
-
-## Verification completed
-
-- `dotnet build` passes with 0 warnings and 0 errors.
-- Direct headless launches succeeded for:
-  - Courtyard
-  - Courtyard Depths
-  - Eggsile Sewers
-  - Prison
-- Overworld → Courtyard transition succeeded.
-- Overworld → Prison transition succeeded.
-- All four repaired cutscene resources load with expected step counts:
-  - Waffles: 7
-  - Monsieur Croissant: 7
-  - Sunnyside Revelation: 12
-  - Great Beyond Finale: 9
-- Courtyard transition smoke output no longer contains repeated PatrolComponent warnings.
-
-## Important working-tree guidance
-
-Do not reset or discard the working tree. `git status` currently reports roughly 98 modified paths and 15 untracked paths, including broad unrelated gameplay, logging, UI, scene, and asset work from earlier sessions.
-
-Before the next implementation session:
-
-1. Read this checkpoint.
-2. Read `.omp/AGENTS.md`, `ROADMAP.md`, and `DESIGN.md`.
-3. Read the latest runtime log before diagnosing a new issue.
-4. Preserve unrelated modifications byte-for-byte.
-5. Run `dotnet build` and a representative headless scene smoke test after changes.
-
-## Likely next work
-
-- Continue visual audit in the running game, especially any remaining NPCs or encounter actors that appear blank.
-- Inspect the console after traversing more story transitions; do not suppress new errors without tracing their source.
-- Commit/push only after the current broad working-tree changes have been reviewed and grouped appropriately.
+Continue visual traversal of the remaining maps, inspect fresh logs after transitions, expand deterministic verifier coverage, and fill unresolved narrative, consumable, and difficulty decisions through the design process before implementing them.

@@ -184,7 +184,7 @@ position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_6kkq5")
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_6kkq5")]
-DialogLines = Array[String](["Hold it right there. Do you have a permit to be wandering around?", "This area has had seventeen unsolved refrigerator incidents this month."])
+dialog_lines = Array[String](["Hold it right there. Do you have a permit to be wandering around?", "This area has had seventeen unsolved refrigerator incidents this month."])
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]
 shape = SubResource("CircleShape2D_ucj4v")

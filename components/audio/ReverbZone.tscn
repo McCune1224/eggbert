@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://hny734it2rsl"]
 
-[ext_resource type="Script" path="res://components/audio/ReverbZone.cs" id="1_rz"]
+[ext_resource type="Script" path="res://components/audio/reverb_zone.gd" id="1_rz"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cp4p"]
 size = Vector2(320, 320)

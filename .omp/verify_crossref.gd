@@ -107,7 +107,7 @@ extends Node2D
 	root.add_child(cutscene_node)
 	await process_frame
 
-	var fake_cutscene: Resource = load("res://resources/cutscene/CutsceneResource.cs").new()
+	var fake_cutscene: Resource = load("res://resources/cutscene/cutscene_resource.gd").new()
 	fake_cutscene.take_over_path("res://test/fake_cutscene.tres")
 	# Assign via set_indexed so the typed @export accepts a Resource.
 	cutscene_node.set_indexed("Cutscene", fake_cutscene)
