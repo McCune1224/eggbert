@@ -8,6 +8,19 @@ func stop() -> void:
 	cancelled = true
 	is_playing = false
 
+func start_dialog(lines: Array[String], voice: DialogVoiceResource = null) -> void:
+	if is_playing or lines.is_empty():
+		return
+	GameLogger.debug("Cutscene", "Starting dialog-only (%d lines)" % lines.size())
+	is_playing = true
+	cancelled = false
+	var dialog := get_tree().root.get_node_or_null("DialogManager")
+	if dialog != null and dialog.has_method("start_dialog"):
+		dialog.call("start_dialog", lines, voice)
+		await dialog.dialog_finished
+	is_playing = false
+	GameLogger.debug("Cutscene", "DoDialog finished")
+
 func play_cutscene(resource: CutsceneResource) -> void:
 	is_playing = true
 	cancelled = false

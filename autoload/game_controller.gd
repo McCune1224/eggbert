@@ -11,6 +11,20 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	current_level = get_node_or_null("CurrentLevel")
 	call_deferred("_ensure_objective_tracker")
+	call_deferred("_ensure_overworld_menu")
+
+func _ensure_overworld_menu() -> void:
+	var existing := get_tree().root.get_node_or_null("OverworldMenu")
+	if existing != null:
+		return
+	var menu_scene := load("res://ui/OverworldMenu.tscn") as PackedScene
+	if menu_scene == null:
+		GameLogger.error("GameController", "Failed to load OverworldMenu.tscn.")
+		return
+	var menu := menu_scene.instantiate()
+	menu.name = "OverworldMenu"
+	get_tree().root.add_child(menu)
+	GameLogger.info("GameController", "OverworldMenu instantiated")
 
 func _ensure_objective_tracker() -> void:
 	var existing := get_tree().root.get_node_or_null("ObjectiveTracker")

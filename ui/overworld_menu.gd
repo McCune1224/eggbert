@@ -169,11 +169,12 @@ func _refresh_warps() -> void:
 		child.queue_free()
 	var database := _autoload("WarpDatabase")
 	if database == null or not database.has_method("get_unlocked"):
-		var empty := Label.new()
-		empty.text = "No warps discovered"
-		_map_grid.add_child(empty)
-		return
-	var unlocked: Array = database.call("get_unlocked")
+		if WarpDatabase.get_unlocked().is_empty():
+			var empty := Label.new()
+			empty.text = "No warps discovered"
+			_map_grid.add_child(empty)
+			return
+	var unlocked: Array = database.call("get_unlocked") if database != null and database.has_method("get_unlocked") else WarpDatabase.get_unlocked()
 	if unlocked.is_empty():
 		var empty_label := Label.new()
 		empty_label.text = "No warps discovered"

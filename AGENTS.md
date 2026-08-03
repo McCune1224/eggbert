@@ -71,7 +71,7 @@ Combat is an arena handoff: `CombatController` saves the overworld position, ins
 - Tabs for indentation; typed variables, parameters, returns, and collections.
 - `class_name` and scene node names are PascalCase. Files, functions, variables, signals, and exported fields are snake_case; constants are `CONSTANT_CASE`.
 - Prefer `@export`, `@onready`, native signals (`signal.connect`, `signal.emit`, `await node.signal`), `PackedScene.instantiate()`, and typed `NodePath` lookups.
-- Physics layers remain 1 Player, 2 Walls, 3 NPCs, 4 Bullets, 5 Interactables, 6 Enemies, 7 TriggerAreas, 8 PlayerHitbox, 9 EnemyHitbox, 10 Items. Definitions are in `components/core/collision_config.gd`.
+- Physics layers remain 1 Player, 2 Walls, 3 NPCs, 4 Bullets, 5 Interactables, 6 Enemies, 7 TriggerAreas, 8 PlayerHitbox, 9 EnemyHitbox, 10 Items. Definitions are in `util/collision_config.gd`.
 - Inputs: WASD movement, E interact/advance, Esc pause, Space dash, Shift sprint, J parry, F check, Tab dialog log, and Backtick debug overlay.
 - Author scenes and nested resources in the Godot editor. Do not hand-edit tilemap data, atlas subresources, or generated UIDs.
 - Supported editor addons are AsepriteWizard, `nklbdev.aseprite_importers`, `level_assembly`, and `cutscene_inspector`; the latter is GDScript-based.
