@@ -42,6 +42,8 @@ public partial class ConveyorTile : Area2D
         GameLogger.Info("ConveyorTile", $"{Name}: {bodyType} '{bodyName}' entered — direction={ConveyorDirection}, speed={ConveyorSpeed}");
         if (body is PushBlock block)
             block.TryPush(ConveyorDirection);
+        else if (body is Player player)
+            player.RegisterConveyor(this);
     }
 
     private void OnBodyExited(Node2D body)
@@ -49,6 +51,8 @@ public partial class ConveyorTile : Area2D
         string bodyName = body.Name;
         string bodyType = body is PushBlock ? "PushBlock" : body.IsInGroup("player") ? "Player" : "Unknown";
         GameLogger.Info("ConveyorTile", $"{Name}: {bodyType} '{bodyName}' exited");
+        if (body is Player player)
+            player.UnregisterConveyor(this);
     }
 
     public Vector2 GetConveyorVelocity(Node2D body)

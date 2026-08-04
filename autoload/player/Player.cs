@@ -33,6 +33,40 @@ public partial class Player : CharacterBody2D, ISavable
 
     public PlayerInteractionPrompt InteractionPrompt { get; private set; }
 
+    private readonly System.Collections.Generic.List<ConveyorTile> _activeConveyors = new();
+
+    /// <summary>
+    /// Registers this player as standing on a conveyor tile. Called by ConveyorTile.BodyEntered.
+    /// </summary>
+    public void RegisterConveyor(ConveyorTile conveyor)
+    {
+        if (!_activeConveyors.Contains(conveyor))
+            _activeConveyors.Add(conveyor);
+    }
+
+    /// <summary>
+    /// Unregisters this player from a conveyor tile. Called by ConveyorTile.BodyExited.
+    /// </summary>
+    public void UnregisterConveyor(ConveyorTile conveyor)
+    {
+        _activeConveyors.Remove(conveyor);
+    }
+
+    /// <summary>
+    /// Sums the velocity from all conveyor tiles the player is currently standing on.
+    /// Sprinting overrides the conveyor effect (returns zero).
+    /// </summary>
+    private Vector2 GetConveyorVelocity()
+    {
+        if (Input.IsActionPressed("player_sprint") && _activeConveyors.Count > 0)
+            return Vector2.Zero;
+
+        Vector2 total = Vector2.Zero;
+        foreach (var conveyor in _activeConveyors)
+            total += conveyor.GetConveyorVelocity(this);
+        return total;
+    }
+
     public Array<Node2D> GetCollidingBodies()
     {
         var colliders = new Array<Node2D>();
@@ -127,6 +161,10 @@ public partial class Player : CharacterBody2D, ISavable
         {
             Velocity *= _dash.DashScale;
         }
+
+        // Apply conveyor velocity (additive). Sprinting overrides conveyor effect.
+        Velocity += GetConveyorVelocity();
+
         MoveAndSlide();
 
         // Push blocks in slide direction
