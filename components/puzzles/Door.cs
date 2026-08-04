@@ -56,7 +56,11 @@ public partial class Door : StaticBody2D
     {
         if (OpenSfx != null)
             AudioManager.Instance.PlaySfx(OpenSfx);
+        // Disable collision both by disabling the shape and by clearing the layer,
+        // so physics queries no longer detect this body. CallDeferred ensures
+        // thread-safety if called from a physics callback (e.g. pressure plate).
         CallDeferred(nameof(SetCollisionEnabled), false);
+        CallDeferred(nameof(SetCollisionLayerZero), 0);
         Modulate = new Color(1, 1, 1, 0.3f);
         GameLogger.Info("Door", $"'{Name}': opened");
     }
@@ -66,6 +70,7 @@ public partial class Door : StaticBody2D
         if (CloseSfx != null)
             AudioManager.Instance.PlaySfx(CloseSfx);
         CallDeferred(nameof(SetCollisionEnabled), true);
+        CallDeferred(nameof(SetCollisionLayerZero), CollisionConfig.WallsLayer);
         Modulate = Colors.White;
         GameLogger.Info("Door", $"'{Name}': closed");
     }
@@ -73,6 +78,16 @@ public partial class Door : StaticBody2D
     private void SetCollisionEnabled(bool enabled)
     {
         _collision.Disabled = !enabled;
+    }
+
+    /// <summary>
+    /// Helper called via CallDeferred to set the StaticBody2D's CollisionLayer
+    /// to or from zero. This reliably removes/restores the body in the physics
+    /// space, complementing the CollisionShape2D.Disabled toggle.
+    /// </summary>
+    private void SetCollisionLayerZero(uint layer)
+    {
+        CollisionLayer = layer;
     }
 
     public void Toggle()
