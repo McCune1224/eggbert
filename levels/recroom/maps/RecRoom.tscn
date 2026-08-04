@@ -67,3 +67,11 @@ Side = 2
 [node name="HubSavePoint" parent="." unique_id=1951306658 instance=ExtResource("10_sp")]
 position = Vector2(-576, 320)
 LocationName = "RecRoom Hub"
+
+[node name="TunnelsTransition" parent="." unique_id=8374015193 instance=ExtResource("6_lt")]
+position = Vector2(40, 120)
+Level = "res://levels/tunnels/maps/SecretTunnels.tscn"
+TargetTransitionName = "HubArrival"
+RequiredFlag = "tunnels_unlocked"
+Size = 4
+Side = 1

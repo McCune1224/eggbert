@@ -216,3 +216,10 @@ Side = 2
 [node name="HubSavePoint" parent="." unique_id=217438024 instance=ExtResource("20_sp")]
 position = Vector2(-576, 320)
 LocationName = "Courtyard Hub"
+
+[node name="WardenTransition" parent="." unique_id=2839407234 instance=ExtResource("10_lt")]
+position = Vector2(380, -40)
+Level = "res://levels/warden/maps/WardensQuarters.tscn"
+TargetTransitionName = "CourtyardArrival"
+Size = 4
+Side = 3

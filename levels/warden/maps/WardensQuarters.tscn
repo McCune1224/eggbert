@@ -95,3 +95,18 @@ Side = 2
 [node name="HubSavePoint" parent="." unique_id=566985585 instance=ExtResource("10_sp")]
 position = Vector2(-576, 320)
 LocationName = "WardensQuarters Hub"
+
+[node name="CourtyardArrival" parent="." unique_id=1928475031 instance=ExtResource("7_lt")]
+position = Vector2(640, 100)
+Level = "res://levels/courtyard/maps/courtyard.tscn"
+TargetTransitionName = "HubArrival"
+Size = 4
+Side = 0
+
+[node name="RecRoomTransition" parent="." unique_id=3729584102 instance=ExtResource("7_lt")]
+position = Vector2(200, 120)
+Level = "res://levels/recroom/maps/RecRoom.tscn"
+TargetTransitionName = "HubArrival"
+RequiredFlag = "resolved_yogurt"
+Size = 4
+Side = 3
