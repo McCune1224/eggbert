@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cyrqwcqnrxf2n"]
+[gd_scene load_steps=4 format=3 uid="uid://cyrqwcqnrxf2n"]
 
 [ext_resource type="Script" path="res://components/maps/WarpPoint.cs" id="1_57ocq"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/warp_crystal.png" id="2_wcrys"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ttles"]
 size = Vector2(32, 32)
@@ -8,20 +9,20 @@ size = Vector2(32, 32)
 [node name="WarpPoint" type="Area2D"]
 script = ExtResource("1_57ocq")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture_filter = 1
-modulate = Color(0.3, 0.8, 1, 0.5)
-
 [node name="WarpCrystal" type="ColorRect" parent="."]
 offset_left = -16
 offset_top = -16
 offset_right = 16
 offset_bottom = 16
-color = Color(0.3, 0.8, 1, 0.5)
+color = Color(0, 0, 0, 0)
 mouse_filter = 2
 
-[node name="PromptArea2D" type="Area2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="WarpCrystal"]
+position = Vector2(16, 16)
+texture_filter = 1
+texture = ExtResource("2_wcrys")
 
+[node name="PromptArea2D" type="Area2D" parent="."]
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="PromptArea2D"]
 shape = SubResource("RectangleShape2D_ttles")

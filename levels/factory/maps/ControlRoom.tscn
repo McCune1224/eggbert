@@ -275,7 +275,7 @@ shape = SubResource("RectangleShape2D_58vyy")
 [node name="Sprite2D" type="Sprite2D" parent="InspectionDoor" unique_id=1480305986]
 texture_filter = 1
 texture = ExtResource("16_jftsr")
-region_rect = Rect2(0, 16, 32, 64)
+region_rect = Rect2(0, 0, 32, 64)
 
 [node name="SequenceInstruction" type="Area2D" parent="." unique_id=1401101308 instance=ExtResource("17_ijefr")]
 position = Vector2(-160, -32)
@@ -299,7 +299,7 @@ shape = SubResource("RectangleShape2D_u71xs")
 [node name="Sprite2D" type="Sprite2D" parent="SequencePlateA" unique_id=1156870912]
 texture_filter = 1
 texture = ExtResource("21_ug75i")
-region_rect = Rect2(64, 16, 32, 16)
+region_rect = Rect2(0, 0, 32, 32)
 
 [node name="SequencePlateB" type="Area2D" parent="." unique_id=1726389029]
 script = ExtResource("20_7b4ac")
@@ -311,7 +311,7 @@ shape = SubResource("RectangleShape2D_u71xs")
 [node name="Sprite2D" type="Sprite2D" parent="SequencePlateB" unique_id=926973579]
 texture_filter = 1
 texture = ExtResource("21_ug75i")
-region_rect = Rect2(64, 16, 32, 16)
+region_rect = Rect2(0, 0, 32, 32)
 
 [node name="SequencePlateC" type="Area2D" parent="." unique_id=479353381]
 position = Vector2(64, 0)
@@ -324,7 +324,7 @@ shape = SubResource("RectangleShape2D_u71xs")
 [node name="Sprite2D" type="Sprite2D" parent="SequencePlateC" unique_id=1428948876]
 texture_filter = 1
 texture = ExtResource("21_ug75i")
-region_rect = Rect2(64, 16, 32, 16)
+region_rect = Rect2(0, 0, 32, 32)
 
 [node name="SequenceController" type="Node" parent="." unique_id=604881503]
 script = ExtResource("22_sbtdq")

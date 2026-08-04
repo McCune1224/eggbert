@@ -199,7 +199,7 @@ shape = SubResource("RectangleShape2D_ktt8f")
 [node name="Sprite2D" type="Sprite2D" parent="FactoryCrate" unique_id=123464445]
 texture_filter = 1
 texture = ExtResource("17_vnjn7")
-region_rect = Rect2(240, 16, 32, 32)
+region_rect = Rect2(0, 0, 32, 32)
 
 [node name="FactoryPressurePlate" type="Area2D" parent="." unique_id=289733155 instance=ExtResource("11_ly8cv")]
 position = Vector2(0, -16)
@@ -213,7 +213,7 @@ shape = SubResource("RectangleShape2D_u71xs")
 [node name="Sprite2D" type="Sprite2D" parent="FactoryPressurePlate" unique_id=164635956]
 texture_filter = 1
 texture = ExtResource("20_7x35c")
-region_rect = Rect2(64, 16, 32, 16)
+region_rect = Rect2(0, 0, 32, 32)
 
 [node name="CrateGate" type="StaticBody2D" parent="." unique_id=1752379093 instance=ExtResource("13_u24be")]
 position = Vector2(288, 0)
@@ -228,7 +228,7 @@ shape = SubResource("RectangleShape2D_58vyy")
 [node name="Sprite2D" type="Sprite2D" parent="CrateGate" unique_id=1480305986]
 texture_filter = 1
 texture = ExtResource("24_ydt8l")
-region_rect = Rect2(0, 16, 32, 64)
+region_rect = Rect2(0, 0, 32, 64)
 
 [node name="CrateBackstop" type="StaticBody2D" parent="." unique_id=555264809]
 position = Vector2(0, -64)

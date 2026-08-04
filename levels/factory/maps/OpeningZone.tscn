@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://bqwe32dmkljra" path="res://levels/LevelTransition.tscn" id="10_e0urw"]
 [ext_resource type="PackedScene" uid="uid://dmnci8q7nei3e" path="res://components/npcs/CutsceneTrigger.tscn" id="12_hg47v"]
 [ext_resource type="PackedScene" uid="uid://bqwe0fl4n2y1p" path="res://components/npcs/ReadableObject.tscn" id="14_nyxuo"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/time_clock.png" id="15_tclk"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/card_rack.png" id="16_rack"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/vending_machine.png" id="17_vend"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_66w77"]
 size = Vector2(80, 80)
@@ -78,6 +81,10 @@ CutsceneId = "tutorial_clock_out"
 DialogLines = PackedStringArray("TIME CLOCK: 5:03 PM. You were scheduled to leave at 5:00. The clock has filed a complaint.", "Eggbert punches out. The machine says: \'GOOD JOB, TEMPORARY ORGANISM.\'")
 SetFlagsOnFire = PackedStringArray("tutorial_clocked_out")
 
+[node name="Sprite2D" type="Sprite2D" parent="TimeClock"]
+texture_filter = 1
+texture = ExtResource("15_tclk")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TimeClock" unique_id=1974333202]
 shape = SubResource("RectangleShape2D_66w77")
 
@@ -86,10 +93,18 @@ position = Vector2(-192, -192)
 collision_layer = 0
 DialogLines = PackedStringArray("Time cards wait quietly for their next victim.")
 
+[node name="Sprite2D" type="Sprite2D" parent="TimeCardRack"]
+texture_filter = 1
+texture = ExtResource("16_rack")
+
 [node name="VendingMachine" parent="." unique_id=1764614866 instance=ExtResource("14_nyxuo")]
 position = Vector2(256, 176)
 collision_layer = 0
 DialogLines = PackedStringArray("The vending machine accepts coins, stamps, and vague promises.")
+
+[node name="Sprite2D" type="Sprite2D" parent="VendingMachine"]
+texture_filter = 1
+texture = ExtResource("17_vend")
 
 [node name="ControlsPanel" type="PanelContainer" parent="." unique_id=1869518538]
 offset_left = -192.0

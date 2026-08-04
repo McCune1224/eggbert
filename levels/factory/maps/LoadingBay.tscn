@@ -26,6 +26,8 @@
 [ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="24_gxm0q"]
 [ext_resource type="Script" path="res://saves/SavePoint.cs" id="25_pwuoi"]
 [ext_resource type="Texture2D" path="res://assets/ui/NPCPrompt.png" id="26_wbylf"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/manifest.png" id="27_mnfst"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/warning_sign.png" id="28_wsign"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8krqk"]
 size = Vector2(0, 16)
@@ -260,7 +262,7 @@ shape = SubResource("RectangleShape2D_ouer6")
 [node name="Sprite2D" type="Sprite2D" parent="LoadingTimedGate" unique_id=1409914188]
 texture_filter = 1
 texture = ExtResource("13_d5frw")
-region_rect = Rect2(0, 16, 32, 64)
+region_rect = Rect2(0, 0, 32, 64)
 
 [node name="LoadingTimedGateNorthWall" type="StaticBody2D" parent="." unique_id=1920635162]
 position = Vector2(0, -160)
@@ -283,7 +285,7 @@ shape = SubResource("RectangleShape2D_humx8")
 [node name="Sprite2D" type="Sprite2D" parent="LoadingTimedSwitchWest" unique_id=1610096099]
 texture_filter = 1
 texture = ExtResource("16_3t1p2")
-region_rect = Rect2(272, 64, 16, 16)
+region_rect = Rect2(0, 0, 32, 32)
 
 [node name="LoadingTimedSwitchEast" type="Area2D" parent="." unique_id=330264355 instance=ExtResource("11_t41ok")]
 position = Vector2(256, 128)
@@ -296,7 +298,7 @@ shape = SubResource("RectangleShape2D_humx8")
 [node name="Sprite2D" type="Sprite2D" parent="LoadingTimedSwitchEast" unique_id=1353163723]
 texture_filter = 1
 texture = ExtResource("16_3t1p2")
-region_rect = Rect2(272, 64, 16, 16)
+region_rect = Rect2(0, 0, 32, 32)
 
 [node name="SprintInstructionPanel" type="PanelContainer" parent="." unique_id=2037786285]
 offset_left = -256.0
@@ -318,6 +320,10 @@ collision_layer = 0
 script = ExtResource("15_xs5tk")
 DialogLines = PackedStringArray("Manifest: 12 crates, 1 missing shoe, 0 questions.")
 
+[node name="Sprite2D" type="Sprite2D" parent="CargoManifest"]
+texture_filter = 1
+texture = ExtResource("27_mnfst")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CargoManifest" unique_id=322502950]
 shape = SubResource("CircleShape2D_1cak7")
 
@@ -326,6 +332,10 @@ position = Vector2(384, -128)
 collision_layer = 0
 script = ExtResource("15_xs5tk")
 DialogLines = PackedStringArray("AUTHORIZED PERSONNEL ONLY. Unauthorized personnel should be confident.")
+
+[node name="Sprite2D" type="Sprite2D" parent="LoadingBayWarning"]
+texture_filter = 1
+texture = ExtResource("28_wsign")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LoadingBayWarning" unique_id=102445836]
 shape = SubResource("CircleShape2D_1cak7")

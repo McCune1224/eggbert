@@ -20,7 +20,8 @@
 [ext_resource type="Script" path="res://components/puzzles/ConveyorTile.cs" id="18_fig14"]
 [ext_resource type="PackedScene" path="res://components/puzzles/TeleportPad.tscn" id="19_wpdgm"]
 [ext_resource type="Script" path="res://components/puzzles/TeleportPad.cs" id="20_b8p2w"]
-[ext_resource type="Texture2D" path="res://assets/tilemaps/grass tileset.png" id="21_0lxco"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/clipboard.png" id="22_fclip"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/warning_sign.png" id="23_fsign"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jmhb7"]
 size = Vector2(1504, 16)
@@ -251,13 +252,6 @@ ConveyorDirection = Vector2(-1, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Conveyor01" unique_id=2128639482]
 shape = SubResource("RectangleShape2D_3cp4p")
 
-[node name="ColorRect" type="ColorRect" parent="Conveyor01" unique_id=1906281854]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.4, 0.6)
-
 [node name="Conveyor02" type="Area2D" parent="." unique_id=1739390850 instance=ExtResource("17_4ntpu")]
 position = Vector2(-160, 0)
 script = ExtResource("18_fig14")
@@ -265,13 +259,6 @@ ConveyorDirection = Vector2(-1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Conveyor02" unique_id=468907038]
 shape = SubResource("RectangleShape2D_3cp4p")
-
-[node name="ColorRect" type="ColorRect" parent="Conveyor02" unique_id=78804919]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.4, 0.6)
 
 [node name="Conveyor03" type="Area2D" parent="." unique_id=2048111290 instance=ExtResource("17_4ntpu")]
 position = Vector2(-128, 0)
@@ -281,13 +268,6 @@ ConveyorDirection = Vector2(-1, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Conveyor03" unique_id=434436584]
 shape = SubResource("RectangleShape2D_3cp4p")
 
-[node name="ColorRect" type="ColorRect" parent="Conveyor03" unique_id=1431408522]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.4, 0.6)
-
 [node name="Conveyor04" type="Area2D" parent="." unique_id=1341673627 instance=ExtResource("17_4ntpu")]
 position = Vector2(-96, 0)
 script = ExtResource("18_fig14")
@@ -295,13 +275,6 @@ ConveyorDirection = Vector2(-1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Conveyor04" unique_id=1727781216]
 shape = SubResource("RectangleShape2D_3cp4p")
-
-[node name="ColorRect" type="ColorRect" parent="Conveyor04" unique_id=903702863]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.4, 0.6)
 
 [node name="Conveyor05" type="Area2D" parent="." unique_id=1533703192 instance=ExtResource("17_4ntpu")]
 position = Vector2(-64, 0)
@@ -311,13 +284,6 @@ ConveyorDirection = Vector2(-1, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Conveyor05" unique_id=606001380]
 shape = SubResource("RectangleShape2D_3cp4p")
 
-[node name="ColorRect" type="ColorRect" parent="Conveyor05" unique_id=2008839441]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.4, 0.6)
-
 [node name="Conveyor06" type="Area2D" parent="." unique_id=1111803290 instance=ExtResource("17_4ntpu")]
 position = Vector2(-32, 0)
 script = ExtResource("18_fig14")
@@ -326,26 +292,12 @@ ConveyorDirection = Vector2(-1, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Conveyor06" unique_id=536352037]
 shape = SubResource("RectangleShape2D_3cp4p")
 
-[node name="ColorRect" type="ColorRect" parent="Conveyor06" unique_id=1865295423]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.4, 0.6)
-
 [node name="Conveyor07" type="Area2D" parent="." unique_id=558781769 instance=ExtResource("17_4ntpu")]
 script = ExtResource("18_fig14")
 ConveyorDirection = Vector2(-1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Conveyor07" unique_id=1485340449]
 shape = SubResource("RectangleShape2D_3cp4p")
-
-[node name="ColorRect" type="ColorRect" parent="Conveyor07" unique_id=499741918]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.4, 0.6)
 
 [node name="Conveyor08" type="Area2D" parent="." unique_id=1282832820 instance=ExtResource("17_4ntpu")]
 position = Vector2(32, 0)
@@ -355,13 +307,6 @@ ConveyorDirection = Vector2(-1, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Conveyor08" unique_id=1031517079]
 shape = SubResource("RectangleShape2D_3cp4p")
 
-[node name="ColorRect" type="ColorRect" parent="Conveyor08" unique_id=2013907808]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.4, 0.6)
-
 [node name="Conveyor09" type="Area2D" parent="." unique_id=1252872193 instance=ExtResource("17_4ntpu")]
 position = Vector2(64, 0)
 script = ExtResource("18_fig14")
@@ -369,13 +314,6 @@ ConveyorDirection = Vector2(-1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Conveyor09" unique_id=610849273]
 shape = SubResource("RectangleShape2D_3cp4p")
-
-[node name="ColorRect" type="ColorRect" parent="Conveyor09" unique_id=552886617]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.4, 0.6)
 
 [node name="Conveyor10" type="Area2D" parent="." unique_id=1174070251 instance=ExtResource("17_4ntpu")]
 position = Vector2(96, 0)
@@ -385,13 +323,6 @@ ConveyorDirection = Vector2(-1, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Conveyor10" unique_id=1908500926]
 shape = SubResource("RectangleShape2D_3cp4p")
 
-[node name="ColorRect" type="ColorRect" parent="Conveyor10" unique_id=793079088]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.4, 0.6)
-
 [node name="Conveyor11" type="Area2D" parent="." unique_id=1168078423 instance=ExtResource("17_4ntpu")]
 position = Vector2(128, 0)
 script = ExtResource("18_fig14")
@@ -399,13 +330,6 @@ ConveyorDirection = Vector2(-1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Conveyor11" unique_id=1566963274]
 shape = SubResource("RectangleShape2D_3cp4p")
-
-[node name="ColorRect" type="ColorRect" parent="Conveyor11" unique_id=1204292053]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.4, 0.6)
 
 [node name="Conveyor12" type="Area2D" parent="." unique_id=152134081 instance=ExtResource("17_4ntpu")]
 position = Vector2(160, 0)
@@ -415,13 +339,6 @@ ConveyorDirection = Vector2(-1, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Conveyor12" unique_id=836973533]
 shape = SubResource("RectangleShape2D_3cp4p")
 
-[node name="ColorRect" type="ColorRect" parent="Conveyor12" unique_id=2019743589]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.4, 0.6)
-
 [node name="MaintenancePadWest" type="Area2D" parent="." unique_id=1441591273 instance=ExtResource("19_wpdgm")]
 position = Vector2(224, 0)
 script = ExtResource("20_b8p2w")
@@ -429,13 +346,6 @@ TargetPadPath = NodePath("../MaintenancePadEast")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MaintenancePadWest" unique_id=1101187768]
 shape = SubResource("RectangleShape2D_x1bq8")
-
-[node name="Sprite2D" type="Sprite2D" parent="MaintenancePadWest" unique_id=485769273]
-modulate = Color(0.3, 0.8, 1, 0.7)
-texture_filter = 1
-texture = ExtResource("21_0lxco")
-region_enabled = true
-region_rect = Rect2(64, 64, 32, 32)
 
 [node name="MaintenancePadEast" type="Area2D" parent="." unique_id=1666215858 instance=ExtResource("19_wpdgm")]
 position = Vector2(448, 0)
@@ -445,9 +355,14 @@ TargetPadPath = NodePath("../MaintenancePadWest")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MaintenancePadEast" unique_id=528099701]
 shape = SubResource("RectangleShape2D_x1bq8")
 
-[node name="Sprite2D" type="Sprite2D" parent="MaintenancePadEast" unique_id=183858705]
-modulate = Color(0.3, 0.8, 1, 0.7)
+[node name="ClipboardSprite" type="Sprite2D" parent="ShutdownChecklist"]
 texture_filter = 1
-texture = ExtResource("21_0lxco")
-region_enabled = true
-region_rect = Rect2(64, 64, 32, 32)
+texture = ExtResource("22_fclip")
+
+[node name="ConveyorSign" type="Sprite2D" parent="ConveyorInstruction"]
+texture_filter = 1
+texture = ExtResource("23_fsign")
+
+[node name="TransferSign" type="Sprite2D" parent="MaintenanceTransferInstruction"]
+texture_filter = 1
+texture = ExtResource("23_fsign")
