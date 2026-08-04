@@ -71,6 +71,15 @@ public static class WarpDatabase
         { "eggsile_sewers", new WarpDestination
             { Id = "eggsile_sewers", Name = "Eggsile Sewers",
               LevelPath = "res://levels/eggsile/maps/EggsileSewers.tscn", TargetTransitionName = "HubArrival" } },
+        { "sandbox_hub", new WarpDestination
+            { Id = "sandbox_hub", Name = "Sandbox Hub",
+              LevelPath = "res://levels/sandbox/maps/SandboxHub.tscn", TargetTransitionName = "NorthToGrasslands" } },
+        { "sandbox_grasslands", new WarpDestination
+            { Id = "sandbox_grasslands", Name = "Sandbox Grasslands",
+              LevelPath = "res://levels/sandbox/maps/SandboxGrasslands.tscn", TargetTransitionName = "SouthToHub" } },
+        { "sandbox_depths", new WarpDestination
+            { Id = "sandbox_depths", Name = "Sandbox Depths",
+              LevelPath = "res://levels/sandbox/maps/SandboxDepths.tscn", TargetTransitionName = "EastToHub" } },
     };
     public static bool IsUnlocked(string id) =>
         WorldFlags.Instance.HasFlag($"warp_{id}");

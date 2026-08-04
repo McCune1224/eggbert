@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="CutsceneResource" format=3]
+[gd_resource type="Resource" format=3 uid="uid://dinvvtpu44tb8"]
 
-[ext_resource type="Script" path="res://resources/cutscene/CutsceneStep.cs" id="1_vtria"]
-[ext_resource type="Script" path="res://resources/cutscene/CutsceneCondition.cs" id="2_ea00d"]
-[ext_resource type="Script" path="res://resources/cutscene/CutsceneResource.cs" id="3_dhr5s"]
+[ext_resource type="Script" uid="uid://dvhwgxm701bvh" path="res://resources/cutscene/CutsceneStep.cs" id="1_vtria"]
+[ext_resource type="Script" uid="uid://bhn02hmiipnne" path="res://resources/cutscene/CutsceneCondition.cs" id="2_ea00d"]
+[ext_resource type="Script" uid="uid://cn451i4kwjk57" path="res://resources/cutscene/CutsceneResource.cs" id="3_dhr5s"]
 
 [sub_resource type="Resource" id="Resource_8u1bx"]
 script = ExtResource("1_vtria")
@@ -52,4 +52,4 @@ SetFlagValue = null
 
 [resource]
 script = ExtResource("3_dhr5s")
-Steps = [SubResource("Resource_8u1bx"), SubResource("Resource_gdurh"), SubResource("Resource_jui38"), SubResource("Resource_5weui")]
+Steps = Array[ExtResource("1_vtria")]([SubResource("Resource_8u1bx"), SubResource("Resource_gdurh"), SubResource("Resource_jui38"), SubResource("Resource_5weui")])

@@ -19,7 +19,7 @@ vframes = 1
 frame = 0
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
-DialogLines = Array[String](["Hey, bunkmate! Name's Frank. Welcome to Eggs Isle.", "Listen up — the warden's got the guard rotations in his quarters. We get those, we're halfway out.", "But first, we gotta blend in. Cafeteria's through the hall. Kitchen's downstairs. Find out what you can."])
+DialogLines = Array[String](["Hey, bunkmate! Name's Frank. Welcome to Eggs Isle.", "Layout: Block C's past the north door. Guard room's got the keys. Block A's collapsed, Block B's the noisy ones. Kitchen's through the west hall.", "Before you can hide in there, we gotta pass intake. Officer's been on about some towels.", "Do me a favor — find the towels somewhere in this block, and we'll get you into the kitchen. Blend in. Find out what you can."])
 Mode = 0
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]

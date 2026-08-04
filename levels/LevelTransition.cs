@@ -160,8 +160,13 @@ public partial class LevelTransition : Area2D
     public void Update_Area()
     {
         if (_collisionShape == null)
+            _collisionShape = GetNodeOrNull<CollisionShape2D>("CollisionShape2D");
+        if (_collisionShape == null)
         {
-            GameLogger.Error("LevelTransition", "CollisionShape2D not found.");
+            // _Set for Size/Side runs before _Ready during scene instantiation; only
+            // report a genuinely missing collision shape once the node is in the tree.
+            if (IsInsideTree())
+                GameLogger.Error("LevelTransition", "CollisionShape2D not found.");
             return;
         }
         Vector2 newRectangleSize = new Vector2(16, 16);

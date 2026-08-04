@@ -464,13 +464,13 @@ See `LOGGING.md` for full reference. Quick facts:
 
 ### Headless verification scripts
 
-Test scripts in `tests/` can be run headless:
+C# verifier scripts in `tests/` can be run headless (C# only — no GDScript outside `addons/`):
 
 ```bash
-godot --headless --path . --script tests/<script>.cs
+godot --headless --path . --script res://tests/<Name>.cs
 ```
 
-Current test scripts: `VerifyQuestAutoPin.cs`, `VerifyDialogBranch.cs`, `VerifyCombatOnceFlag.cs`, `WarpFixVerifier.cs`.
+Current test scripts: `VerifyFactoryExpansion.cs` (Factory 5-room route — the structural contract for the shipped tutorial), `VerifyQuestAutoPin.cs`, `VerifyDialogBranch.cs`, `VerifyCombatOnceFlag.cs`, `WarpFixVerifier.cs`. New levels should ship with a matching `Verify<Level>.cs` following the `VerifyFactoryExpansion.cs` pattern.
 
 ---
 

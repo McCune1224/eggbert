@@ -9,9 +9,13 @@ Read docs/godot-editor-guide.md for editor setup, custom plugin usage, component
 
 ```bash
 dotnet build          # compile C# (Godot.NET.Sdk/4.7.0, net8.0)
+godot --headless --path . --script res://tests/<Name>.cs   # run a C# verifier
 ```
 
 Godot MCP tools available via `godot-mcp` server (godot_run_project, godot_launch_editor, godot_get_debug_output, etc.).
+
+### Demo route (the shipped tutorial)
+New Game → `levels/factory/maps/OpeningZone.tscn` → SortingFloor → AssemblyLine → ControlRoom → LoadingBay → arrest → `levels/eggsile/maps/area1.tscn`. Five rooms, ~10 minutes. See `docs/factory-opening.md` for the beat-by-beat contract and `tests/VerifyFactoryExpansion.cs` for the structural contract.
 
 ## Architecture
 
@@ -31,7 +35,7 @@ Debug auto-start: EGGBERT_SKIP_MENU=1 env var skips menu, loads last save.
 | FadeTransition | CanvasLayer | Screen fade between levels |
 | CutsceneController | Node | Resource-driven cutscene player (CutsceneResource + CutsceneStep + CutsceneCondition) |
 | DebugOverlay | Node | Debug HUD overlay (FPS, state info) |
-| SaveLoadManager | Node | Persist via ResourceSaver → user://savegame.tres |
+| SaveManager | Node | Persist via ResourceSaver → user://savegame.tres |
 | Inventory | Node | Item stacks by id, ISavable, seeds test items on new game |
 | Equipment | Node | Equip/unequip Weapon/Armor/Accessory, applies stats, ISavable |
 | CombatController | Node | EnterCombat scene swap, saved overworld position, win/lose flow |
@@ -49,7 +53,7 @@ DialogVoiceResource ([GlobalClass] Resource) per NPC, procedural fallback (60ms 
 ISavable interface. Nodes in "persist" group auto-saved. Single slot: user://savegame.tres. Saves player position/health, WorldFlags, warp unlocks, inventory, equipment.
 
 ## Conventions
-- C# only for game code. GDScript exists only in addons/ (AsepriteWizard).
+- C# only for game code and `tests/` verifiers. GDScript exists only in `addons/` (AsepriteWizard, editor plugins).
 - No tests, no CI.
 - Physics layers in components/core/CollisionConfig.cs: 1=Player, 2=Walls, 3=NPCs, 4=Bullets, 5=Interactables, 6=Enemies, 7=TriggerAreas, 8=PlayerHitbox, 9=EnemyHitbox, 10=Items.
 - Inputs: WASD movement, E=interact/dialog advance, Esc=menu, Space=dash, Shift=sprint, J=parry (combat), arrow keys+E=choice menu selection.

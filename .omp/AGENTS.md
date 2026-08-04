@@ -1,5 +1,10 @@
 # .omp/AGENTS.md — Eggbert
 
+> **Harness note (2026-08-03):** The Oh My Pi harness is retired. `.omp/` remains as
+> the repo's authoring contract, but the executable skills now live in Hermes:
+> `eggbert-level-authoring`, `eggbert-godot-authoring`, `eggbert-godot-csharp-patterns`.
+> The godot-mcp server config is `.omp/mcp.json` (restored from `.bak`).
+
 Godot 4.7 C# RPG. Undertale/EarthBound inspired, 640×360, top-down (zero gravity).
 
 Read ROADMAP.md for feature objectives. Read DESIGN.md for design decisions. Read LOGGING.md for the logging system and AI debugging recipes.
@@ -29,7 +34,7 @@ Debug auto-start: EGGBERT_SKIP_MENU=1 env var skips menu, loads last save. Set i
 | `FadeTransition` | `CanvasLayer` | Screen fade between levels |
 | `CutsceneController` | `Node` | Resource-driven cutscene player |
 | `DebugOverlay` | `Node` | Debug HUD overlay |
-| `SaveLoadManager` | `Node` | Persist via ResourceSaver → user://savegame.tres |
+| `SaveManager` | `Node` | Persist via ResourceSaver → user://savegame.tres |
 | `Inventory` | `Node` | Item stacks by id, ISavable |
 | `Equipment` | `Node` | Equip/unequip Weapon/Armor/Accessory, stat application |
 | `CombatController` | `Node` | EnterCombat scene swap, win/lose flow |
@@ -54,13 +59,14 @@ See LOGGING.md for the full logging reference. Quick facts:
 - **Init:** `GameLogger.InitializeFromEnv()` in `boot/GameInit.cs`
 
 ## Verification workflow
+- C# only — no GDScript outside `addons/`. Write verifiers as C# `SceneTree` scripts in `tests/` (e.g. `tests/VerifyFactoryExpansion.cs`), run with `godot --headless --path . --script res://tests/<Name>.cs`.
 - Prefer test-driven changes for behavior. Write the smallest targeted verification script before or alongside the code change when practical.
-- For scene/layout changes, use a GDScript verifier that instantiates the scene and checks node names, positions, exported properties, and resource references. Keep it headless when `_Ready()` side effects are irrelevant; add the scene to the tree only when `_Ready()` behavior is what you're proving.
-- Run `godot --headless --path . --script <verifier>` and `dotnet build` before commit.
+- For scene/layout changes, use a C# verifier that instantiates the scene and checks node names, positions, exported properties, and resource references. Keep it headless when `_Ready()` side effects are irrelevant; add the scene to the tree only when `_Ready()` behavior is what you're proving.
+- Run `dotnet build`, then the relevant `tests/*.cs` verifiers, before commit.
 
 
 ## Conventions
-- C# only for game code. GDScript in addons/ only (AsepriteWizard).
+- C# only for game code and `tests/` verifiers. GDScript exists only in `addons/` (AsepriteWizard, editor plugins).
 - No tests, no CI.
 - Physics layers: constants in components/core/CollisionConfig.cs. 1=Player, 2=Walls, 3=NPCs, 4=Bullets, 5=Interactables, 6=Enemies, 7=TriggerAreas, 8=PlayerHitbox, 9=EnemyHitbox, 10=Items.
 - Inputs: WASD, E=interact, Esc=menu, Space=dash, Shift=sprint, J=parry.

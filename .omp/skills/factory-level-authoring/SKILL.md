@@ -11,7 +11,7 @@ Before authoring, read these resources in order:
 
 1. `docs/godot-editor-guide.md` — editor setup, plugins, resource rules, component reference
 2. `docs/level-authoring.md` — detailed component recipes, verification playbook, Oh My Pi handoff template
-3. `docs/factory-opening.md` — the canonical three-room Factory reference (OpeningZone → SortingFloor → LoadingBay)
+3. `docs/factory-opening.md` — the canonical five-room Factory reference (OpeningZone → SortingFloor → AssemblyLine → ControlRoom → LoadingBay, ~10 min, arrest handoff)
 4. `LOGGING.md` — debug protocol, log tags, and failure-triage recipes
 5. `skill://godot-authoring` — editor-first serialization rules and `.tres` constraints
 6. `skill://godot-csharp-patterns` — C# exports, signals, scene loading, and collision-layer patterns
@@ -20,7 +20,7 @@ Then inspect the nearest existing level and every component script/scene the lev
 
 ## 1. Question gate before implementation
 
-Inspect issues, existing scenes, `STORY.md`, `ItemDatabase`, and WorldFlags first. Then use the Oh My Pi `ask` tool in one batch if any load-bearing choice is absent:
+Inspect issues, existing scenes, `STORY.md`, `ItemDatabase`, and WorldFlags first. Then use the `ask`/`clarify` question tool in one batch if any load-bearing choice is absent:
 
 - Player objective / exit condition
 - Story beat / dialog facts
@@ -101,23 +101,23 @@ Require the following baseline for every level:
 - Use an existing arena/encounter component or a new `CombatArena` subclass with a defined combat contract
 - No pre-combat save and no mandatory encounter without a known return/checkpoint path
 
-## 5. Use Oh My Pi deliberately
+## 5. Use tools deliberately
 
-- Use `glob`/`grep`/`read` to map existing patterns
-- Use `lsp` for C# symbols and references
-- Use `task` only for independent read-only audits
-- Use `ask` for the question gate
+- Use search/read tools (`search_files`, `read_file` — or `glob`/`grep`/`read` in Oh My Pi) to map existing patterns
+- Use `lsp` (Oh My Pi) or `search_files` over `*.cs` for C# symbols and references
+- Use `task` (Oh My Pi) or `delegate_task` only for independent read-only audits
+- Use `ask` (Oh My Pi) or `clarify` for the question gate
 - Use `todo` for multi-step levels
 - Use Godot MCP editor operations for scene construction and runtime inspection
-- Use `inspect_image` for screenshots/assets
-- Use `hub`-managed project processes only for interactive runtime
+- Use `inspect_image` / `vision_analyze` for screenshots/assets
+- Use `hub`-managed project processes (or a local `godot` run) only for interactive runtime
 
 The Godot MCP surface exposes operations such as `get_project_info`, `get_scene_tree`, `create_scene`, `add_node`, `save_scene`, `run_project`, `stop_project`, `get_debug_output`, `load_sprite`, `call_method`, `set_property`, `get_node`, `list_scenes`, `search_files`, and `execute_code`. Direct agents to use the operations exposed by their current MCP surface rather than inventing aliases. Project docs may contain prefixed or unprefixed naming drift; the documented operation purpose is the source of truth.
 
 ## 6. Verify in layers
 
 ### Static verification
-1. Use a headless verifier to load and instantiate the level and assert root/type, direct-root arrivals, transition targets, component NodePaths, and referenced item IDs.
+1. Use a headless C# verifier (`tests/*.cs`, `SceneTree` subclass — reference: `tests/VerifyFactoryExpansion.cs`) to load and instantiate the level and assert root/type, direct-root arrivals, transition targets, component NodePaths, and referenced item IDs. Run with `godot --headless --path . --script res://tests/<Name>.cs`.
 
 ### In-editor traversal
 2. Run the level in Godot and exercise both directions of every transition.

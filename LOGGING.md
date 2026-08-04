@@ -12,12 +12,76 @@
 - **Rotation:** Keeps last 5 files, auto-deletes oldest
 - **Thread-safe:** Internal lock on file writes
 
+## JSONL mirror (agent-parseable) — since 2026-08-03
+
+Every log line is also written as one JSON object per line to `user://logs/eggbert_YYYY-MM-DD.jsonl`:
+
+```json
+{"ts":"2026-08-03T23:20:46.785","level":"INFO","tag":"GameLogger","msg":"...","src":"GameLogger.cs:56","session":"ff8ae35de514"}
+```
+
+| Field | Meaning |
+|-------|---------|
+| `ts` | ISO-8601 timestamp (yyyy-MM-dd'T'HH:mm:ss.fff) |
+| `level` | DEBUG / INFO / WARN / ERROR |
+| `tag` | System tag (same as the `[tag]` in the text log) |
+| `msg` | Log message |
+| `src` | `File.cs:Line` of the callsite |
+| `session` | Session id — `EGGBERT_SESSION_ID` env var if set, else a per-boot id |
+
+Session ids let you trace one play session across the whole file (and correlate
+with a verifier run: pass `EGGBERT_SESSION_ID=<id>` when launching).
+
+### JSONL query recipes (agents)
+
+```bash
+LOG_DIR=~/.local/share/godot/app_userdata/Eggbert/logs
+
+# All errors as JSON
+grep '"level":"ERROR"' $LOG_DIR/eggbert_*.jsonl
+
+# Everything one system emitted during one session
+grep '"tag":"Combat"' $LOG_DIR/eggbert_*.jsonl | grep '"session":"<id>"'
+
+# Latest session id (tail of the file)
+tail -1 $LOG_DIR/eggbert_*.jsonl | python3 -c 'import json,sys; print(json.loads(sys.stdin.read())["session"])'
+
+# Summary: error/warn counts per tag
+python3 - "$LOG_DIR"/eggbert_*.jsonl <<'PY'
+import json, sys, collections
+c = collections.Counter(); sev = collections.Counter()
+for f in sys.argv[1:]:
+    for line in open(f):
+        try: e = json.loads(line)
+        except Exception: continue
+        c[(e["tag"], e["level"])] += 1
+for (tag, lvl), n in c.most_common(25): print(f"{lvl:5} {tag:20} {n}")
+PY
+```
+
+## Diagnostics bundle (share with a future session)
+
+`tools/collect-diagnostics.sh [godot-binary]` packages logs, `dotnet build`
+result, every `tests/Verify*.cs` result, and git state into
+`diagnostics/<stamp>/` with a `summary.json` manifest and a `PASTE_ME.md`
+block you can paste into a fresh agent session. Run it before handing a bug
+off:
+
+```bash
+tools/collect-diagnostics.sh ~/.local/opt/Godot_v4.7-stable_mono_linux_x86_64/Godot_v4.7-stable_mono_linux.x86_64
+```
+
+Requires Python 3 + `jq`-free (pure stdlib). The bundle is the feedback loop:
+an agent in a future session reads `summary.json` + the JSONL logs and can
+assess build/verifier/log state without re-running anything.
+
 ## Control
 
 | Env var | Values | Default | Effect |
 |---------|--------|---------|--------|
 | `EGGBERT_LOG_LEVEL` | debug, info, warn, error, off | info | Filter level |
 | `EGGBERT_LOG_ECHO` | 1, 0 | 1 | Mirror to GD.Print (0 = file-only) |
+| `EGGBERT_SESSION_ID` | any string | per-boot id | Session id stamped on every JSONL entry |
 
 ## Engine error capture
 
@@ -207,6 +271,8 @@ EGGBERT_LOG_LEVEL=debug godot --path .
 |--------|------|-------|
 | `MaxLogFiles` | GameLogger.cs | 5 |
 | `LogPrefix` | GameLogger.cs | `eggbert_` |
-| Log dir | GameLogger.cs:35 | `user://logs` |
-| Bridge registration | GameLogger.cs:43 | `OS.AddLogger(new GameLogBridge())` |
-| Init call | GameInit.cs:14 | `GameLogger.InitializeFromEnv()` |
+| Log dir | GameLogger.cs | `user://logs` |
+| JSONL mirror | GameLogger.cs | `eggbert_YYYY-MM-DD.jsonl` beside the `.log` |
+| Session id env | GameLogger.cs | `EGGBERT_SESSION_ID` (override, else per-boot) |
+| Bridge registration | GameLogger.cs | `OS.AddLogger(new GameLogBridge())` |
+| Init call | GameInit.cs | `GameLogger.InitializeFromEnv()` |

@@ -33,14 +33,14 @@ If all design decisions are resolved after research, record "no questions needed
 | C# runtime behavior | Only after confirming no existing component suffices |
 | Flat scalar `.tres` | Inspector `Save As` (never hand-edit) |
 | Nested `.tres` resources | Inspector only (Godot serializes sub-resources and UIDs) |
-| Research existing patterns | `glob`/`grep`/`read` |
-| C# symbol/reference intelligence | `lsp` |
-| Independent read-only audits | `task` (scout agent) |
-| Design questions | `ask` (one batch) |
+| Research existing patterns | `search_files` (grep) / `read_file` (read) — or `glob`/`grep`/`read` in Oh My Pi |
+| C# symbol/reference intelligence | `lsp` (Oh My Pi) or `search_files` over `*.cs` |
+| Independent read-only audits | `task` (scout agent, Oh My Pi) or `delegate_task` |
+| Design questions | `ask` (Oh My Pi) or `clarify` — one batch |
 | Multi-step level work | `todo` |
 | Scene construction and runtime inspection | Godot MCP editor operations |
-| Screenshots/assets | `inspect_image` |
-| Interactive runtime | `hub`-managed project processes |
+| Screenshots/assets | `inspect_image` / `vision_analyze` |
+| Interactive runtime | `hub`-managed project processes or local `godot` run |
 
 ## 3. Production map contract
 
@@ -80,6 +80,16 @@ Every level must satisfy these baseline requirements:
 | Sequence Puzzle | `SequencePuzzle.cs` / `SequencePressurePlate` | `ExpectedOrder` on controller, unique ordered indices on plates | Plates must be stepped on in correct order | Wrong order resets; test the reset path before committing |
 | Fake Wall | `FakeWall.cs` | — | Walk-through wall toggles collision on proximity | Use for secret routes; not a required-path gate |
 | Combat Arena | `CombatArena.tscn` / `CombatArena` | `PlayerSpawnPosition`, `EnemiesRemaining` | Enter via `CombatController.Instance.EnterCombat()` | No pre-combat save; death reloads from last save point |
+
+### Sandbox test levels
+
+`levels/sandbox/maps/` holds three loose "test around" levels — a stone hub, an open grass combat
+field, and a walled maze: `SandboxHub.tscn`, `SandboxGrasslands.tscn`, `SandboxDepths.tscn`. They are
+standalone, not part of the shipped demo route. Reach them via the warp menu (unlock `sandbox_hub` on
+site) or load them directly. Each door is a two-way `LevelTransition` to its neighbor, and all three
+warps are registered. Regenerate or extend them with `tests/GenerateSandboxLevels.cs`
+(`godot --headless --path . --script res://tests/GenerateSandboxLevels.cs`); verify with
+`tests/VerifySandboxLevels.cs`.
 
 ## 5. Dialog / prompt / cutscene recipe
 
@@ -127,6 +137,7 @@ Available step types: `LockPlayer`, `MoveNpc`, `MovePlayer`, `FaceDirection`, `C
 4. Confirm every `WarpPoint.WarpId` has a matching `WarpDatabase.All` entry.
 5. Confirm every referenced item ID exists in `ItemDatabase.All`.
 6. Confirm every `NodePath` export resolves to an existing node.
+7. Write a C# verifier in `tests/` (`SceneTree` subclass) that instantiates the scene headless and asserts root/type, transitions, NodePaths, flags, and item IDs — the Factory route is the reference: `tests/VerifyFactoryExpansion.cs`. Run it with `godot --headless --path . --script res://tests/<Name>.cs`.
 
 ### In-editor traversal
 1. Run the scene from the editor. Confirm `BaseLevel` loads with no missing-resource errors.

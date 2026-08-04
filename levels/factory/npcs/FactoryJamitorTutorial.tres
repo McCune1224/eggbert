@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CutsceneResource" format=3 uid="uid://tr3gvxncedtp"]
+[gd_resource type="Resource" format=3 uid="uid://tr3gvxncedtp"]
 
 [ext_resource type="Script" uid="uid://bhn02hmiipnne" path="res://resources/cutscene/CutsceneCondition.cs" id="1_bkdc7"]
 [ext_resource type="Script" uid="uid://dvhwgxm701bvh" path="res://resources/cutscene/CutsceneStep.cs" id="2_pyn7a"]

@@ -23,6 +23,7 @@ Read `.omp/skills/factory-level-authoring/SKILL.md` and follow its execution con
 
 ## Key constraints
 
+- C# only — no GDScript outside `addons/`. Verifiers are C# `SceneTree` scripts in `tests/` (reference: `tests/VerifyFactoryExpansion.cs`), run with `godot --headless --path . --script res://tests/<Name>.cs`.
 - Stable node names and WorldFlag keys are APIs — do not rename them without updating every source transition.
 - Never hand-edit `tile_map_data`, atlas subresources, generated UIDs, or nested `.tres` data.
 - Only use item IDs already in `ItemDatabase.All` unless a separately approved item design is implemented first.
