@@ -64,4 +64,4 @@ func register_enemy(enemy: Node, display_name: String = "") -> void:
 	if health == null:
 		health = enemy.get_node_or_null("HealthComponent") as HealthComponent
 	if combat_hud != null and health != null:
-		combat_hud.add_enemy(display_name if not display_name.is_empty() else enemy.name, health)
+		combat_hud.add_enemy(display_name if not display_name.is_empty() else str(enemy.name), health)

@@ -35,9 +35,9 @@ func start_dash(direction: Vector2) -> Vector2:
 	if sprite != null:
 		var shader := load("res://autoload/player/animations/DashGhost.gdshader") as Shader
 		if shader != null:
-			var material := ShaderMaterial.new()
-			material.shader = shader
-			sprite.material = material
+			var shader_material := ShaderMaterial.new()
+			shader_material.shader = shader
+			sprite.material = shader_material
 	return dash_direction
 
 func is_dashing() -> bool:

@@ -23,7 +23,7 @@ func take_damage(raw_damage: int, source: Node = null) -> void:
 		return
 	var amount: int = maxi(1, raw_damage - defense)
 	current_hp = maxi(0, current_hp - amount)
-	GameLogger.debug("Health", "%s took %d damage (hp %d/%d, source %s)" % [name, amount, current_hp, max_hp, source.name if source != null else "null"])
+	GameLogger.debug("Health", "%s took %d damage (hp %d/%d, source %s)" % [name, amount, current_hp, max_hp, (str(source.name) if source != null else "null")])
 	damaged.emit(amount, source)
 	if current_hp == 0:
 		GameLogger.info("Health", "%s died" % name)

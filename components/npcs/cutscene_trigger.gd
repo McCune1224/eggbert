@@ -78,13 +78,12 @@ func fire() -> void:
 	if cutscene_controller != null and bool(cutscene_controller.get("is_playing")):
 		GameLogger.debug("CutsceneTrigger", "'%s': Fire skipped — cutscene already playing" % name)
 		return
+	var flags := get_tree().root.get_node_or_null("WorldFlags")
 	if once:
 		_has_fired = true
 		if not cutscene_id.is_empty():
-			var flags := get_tree().root.get_node_or_null("WorldFlags")
 			if flags != null and flags.has_method("set_flag"):
 				flags.call("set_flag", "cutscene_" + cutscene_id, true)
-	var flags := get_tree().root.get_node_or_null("WorldFlags")
 	for flag in set_flags_on_fire:
 		if flag.is_empty():
 			continue

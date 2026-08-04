@@ -48,7 +48,7 @@ func load_level_at_position(scene_path: String, player_position: Vector2) -> voi
 	var player := get_tree().root.get_node_or_null("Player")
 	if player != null:
 		player.position = player_position
-	await _finish_level_load()
+	_finish_level_load()
 
 func load_level_at_transition(scene_path: String, target_transition_name: String) -> void:
 	await _load_level(scene_path)
@@ -61,7 +61,7 @@ func load_level_at_transition(scene_path: String, target_transition_name: String
 			"right": player.position = transition.global_position - Vector2(30.0, 0.0)
 			"up": player.position = transition.global_position + Vector2(0.0, 50.0)
 			"down": player.position = transition.global_position - Vector2(0.0, 50.0)
-	await _finish_level_load()
+	_finish_level_load()
 
 func _load_level(scene_path: String) -> void:
 	get_tree().paused = true

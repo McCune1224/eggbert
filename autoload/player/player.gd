@@ -145,8 +145,8 @@ func start_interaction() -> void:
 func end_interaction() -> void:
 	in_interaction = false
 
-func set_initial_position(position: Vector2) -> void:
-	global_position = position
+func set_initial_position(new_position: Vector2) -> void:
+	global_position = new_position
 
 func get_colliding_bodies() -> Array[Node2D]:
 	var colliders: Array[Node2D] = []
