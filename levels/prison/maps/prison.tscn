@@ -263,12 +263,10 @@ position = Vector2(-100, 50)
 script = ExtResource("12_lm7ch")
 RequiredFlag = "has_cell_key"
 LockedMessage = "You need to find the cell key first."
-_texture = ExtResource("1_3ox1m")
 
 [node name="BlockPuzzleDoor" type="StaticBody2D" parent="." unique_id=191028632 instance=ExtResource("5")]
 position = Vector2(300, -50)
 script = ExtResource("14_digy8")
-_texture = ExtResource("1_3ox1m")
 
 [node name="BlockPuzzleSwitch" type="Area2D" parent="." unique_id=214373048 instance=ExtResource("6")]
 position = Vector2(200, 0)
@@ -294,7 +292,6 @@ Latching = true
 [node name="ExitDoor" type="StaticBody2D" parent="." unique_id=1118397054 instance=ExtResource("5")]
 position = Vector2(500, 0)
 script = ExtResource("14_digy8")
-_texture = ExtResource("1_3ox1m")
 
 [node name="ExitGateController" type="Node" parent="." unique_id=453158712]
 script = ExtResource("10")
