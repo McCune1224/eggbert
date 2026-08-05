@@ -257,10 +257,12 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
         _tiles.SetCell(new Vector2I(40, -10), 0, Candle, 0);
         _tiles.SetCell(new Vector2I(-45, 20), 0, Candle, 0);
 
-        // --- Transitions (both directions) ---
-        AddTransition(_root, "DockArrival", new Vector2(-960, 0), TransitionSide.Left, 8,
+        // --- Transitions (both directions) — placed INSIDE the rim walls (the wall
+        // band spans the outer 4 tiles; a transition at the map edge would be
+        // unreachable and its spawn would land inside a colliding wall) ---
+        AddTransition(_root, "DockArrival", new Vector2(-880, 0), TransitionSide.Left, 8,
             "res://levels/eggsile/maps/EggsIsle.tscn", "DockGate", "");
-        AddTransition(_root, "GatehouseExit", new Vector2(960, 0), TransitionSide.Right, 8,
+        AddTransition(_root, "GatehouseExit", new Vector2(880, 0), TransitionSide.Right, 8,
             "res://levels/eggsile/maps/EggsIsleBlock.tscn", "GatehouseArrival", "met_tea");
 
         AddSave(_root, "GatehouseSavePoint", "Gatehouse Bench", new Vector2(-500, 200));
@@ -358,8 +360,8 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
         _tiles.SetCell(new Vector2I(-40, -10), 0, Vent, 0);
         _tiles.SetCell(new Vector2I(80, 10), 0, Vent, 0);
 
-        // --- Arrival + placement cutscene (one-shot at the west gate) ---
-        AddTransition(_root, "GatehouseArrival", new Vector2(-1664, 0), TransitionSide.Left, 8,
+        // --- Arrival + placement cutscene (one-shot just inside the west gate) ---
+        AddTransition(_root, "GatehouseArrival", new Vector2(-1600, 0), TransitionSide.Left, 8,
             "res://levels/eggsile/maps/EggsIsleGatehouse.tscn", "GatehouseExit", "");
         AddCutsceneTrigger(_root, "CellPlacement", new Vector2(-1500, 0), TriggerMode.OnEnter,
             once: true, cutsceneId: "cell_placement", cutsceneScene: PlacementCutscene,
@@ -523,6 +525,9 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
             }
         };
         body.AddChild(shape);
+        // CRITICAL: without Owner, PackedScene.Pack() silently drops the shape —
+        // the wall body would save with no collision (player walks through walls).
+        shape.Owner = _root;
         body.Position = new Vector2((x0 + x1 + 1) * 8, (y0 + y1 + 1) * 8);
     }
 

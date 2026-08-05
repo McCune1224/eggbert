@@ -224,12 +224,20 @@ public partial class VerifyEggsileFirstNight : SceneTree
         }
         Check(root.GetNodeOrNull("HatchNote") != null, "HatchNote readable present");
 
-        // Collision walls
+        // Collision walls — every wall body MUST have a collision shape (a past bug
+        // dropped shapes at Pack() time, leaving the player able to walk through walls)
         int wallBodies = 0;
+        int wallShapes = 0;
         foreach (var child in root.GetChildren())
             if (child is StaticBody2D sb && sb.Name.ToString().StartsWith("Wall_"))
+            {
                 wallBodies++;
+                foreach (var sub in sb.GetChildren())
+                    if (sub is CollisionShape2D)
+                        wallShapes++;
+            }
         Check(wallBodies >= 10, $"{wallBodies} StaticBody2D wall strips present");
+        Check(wallShapes == wallBodies, $"every wall strip has a CollisionShape2D ({wallShapes}/{wallBodies})");
 
         // Items
         Check(ItemDatabase.Get("tunnel_key") != null, "tunnel_key in ItemDatabase");

@@ -98,7 +98,8 @@ Exit condition = witness the count (`eggsile_count_survived`) + find the tunnel 
 
 ### The Gatehouse (120×60: x −60…+60, y −30…+30)
 - Rim walls 3 tiles thick; booking desk visual at tiles (−21…−16, −6…−3).
-- `DockArrival` at west edge (−960,0), `GatehouseExit` at east edge (960,0), Mr Tea
+- `DockArrival` at ≈(−880,0) (just inside the west rim), `GatehouseExit` at ≈(880,0)
+  (just inside the east rim, `RequiredFlag=met_tea`), Mr Tea
   ≈(−300,−60), ledger ≈(−420,−100), rules board ≈(−380,60), stamp ≈(−220,−80),
   `CheckInCutscene` trigger ≈(−660,0, 240×320 — generous box), save "Gatehouse Bench" ≈(−500,200).
 
