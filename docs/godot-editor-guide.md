@@ -34,6 +34,8 @@ To enable Level Assembly: `Project > Project Settings > Plugins > Level Assembly
 
 Set `EGGBERT_SKIP_MENU=1` to bypass the main menu and load the last save directly. Configured in `.omp/mcp.json`.
 
+Set `EGGBERT_LOAD_STATE=<slot>` to boot straight into a named dev save state (issue #168) — works even without a `savegame.tres`; falls back to committed fixtures in `tests/savestates/`. In-game: `Ctrl+S` capture quick slot, `Ctrl+L` load it, `Ctrl+M` open the save-state menu.
+
 ---
 
 ## 2. Custom Editor Plugins

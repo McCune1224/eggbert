@@ -21,7 +21,31 @@ public partial class GameInit : Node
 
         // Debug auto-start: skip the main menu and load the last save directly.
         bool skipMenu = System.Environment.GetEnvironmentVariable("EGGBERT_SKIP_MENU") == "1";
-        GameLogger.Info("GameInit", $"BootDeferred: EGGBERT_SKIP_MENU={skipMenu}, HasSave={SaveManager.Instance.HasSave()}, SaveManager.Instance is null? {SaveManager.Instance == null}");
+        // Debug auto-start variant: boot straight into a named dev save state (EGGBERT_LOAD_STATE=<slot>).
+        // Takes precedence over EGGBERT_SKIP_MENU; works even when no default save exists.
+        string loadState = System.Environment.GetEnvironmentVariable("EGGBERT_LOAD_STATE");
+        GameLogger.Info("GameInit", $"BootDeferred: EGGBERT_SKIP_MENU={skipMenu}, EGGBERT_LOAD_STATE='{loadState}', HasSave={SaveManager.Instance.HasSave()}, SaveManager.Instance is null? {SaveManager.Instance == null}");
+
+        if (!string.IsNullOrEmpty(loadState))
+        {
+            GameLogger.Info("GameInit", $"EGGBERT_LOAD_STATE set — loading dev state '{loadState}'.");
+            if (!SaveManager.Instance.HasSave(loadState))
+            {
+                GameLogger.Warn("GameInit", $"EGGBERT_LOAD_STATE='{loadState}' has no matching slot or fixture — falling through to normal boot.");
+            }
+            else
+            {
+                bool loaded = SaveManager.Instance.LoadGame(loadState);
+                GameLogger.Info("GameInit", $"LoadGame('{loadState}') returned {loaded}. Waiting for level load...");
+                if (loaded)
+                {
+                    await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
+                    GameLogger.Info("GameInit", "Load-state: level loaded, returning (no MainMenu).");
+                    return;
+                }
+                GameLogger.Warn("GameInit", "LoadGame returned false — falling through to normal boot.");
+            }
+        }
 
         if (skipMenu && SaveManager.Instance.HasSave())
         {

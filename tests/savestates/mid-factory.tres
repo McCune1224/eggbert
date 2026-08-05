@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="SaveFile" format=3]
+
+[ext_resource type="Script" path="res://saves/SaveFile.cs" id="1_xesdr"]
+
+[resource]
+script = ExtResource("1_xesdr")
+SavePointScenePath = "res://levels/factory/maps/OpeningZone.tscn"
+LocationName = "Factory — Opening Zone"
+SaveTimestamp = 1785899342.248367
+PlayTimeSeconds = 1.544
+ComponentData = Dictionary[String, Dictionary]({
+"equipment": Dictionary[String, Variant]({
+"accessory_id": "",
+"armor_id": "",
+"weapon_id": ""
+}),
+"inventory": Dictionary[String, Variant]({
+"stacks": Dictionary[String, Variant]({
+"cell_key": 1,
+"deviled_egg": 1,
+"egg_salad_sandwich": 1,
+"eggdrop_soup": 1,
+"eggshell_helm": 1,
+"golden_yolk": 1,
+"hardboiled_egg": 2,
+"rusty_key": 1,
+"scrambled_egg": 1
+})
+}),
+"player": Dictionary[String, Variant]({
+"facing_dir": "(0, 1)",
+"health": 100,
+"level_scene_path": "res://levels/factory/maps/OpeningZone.tscn",
+"position_x": 0.0,
+"position_y": 0.0
+}),
+"world_flags": Dictionary[String, Variant]({
+"flags": Dictionary[String, Variant]({
+"met_jamitor": true,
+"tutorial_clocked_out": true
+})
+})
+})

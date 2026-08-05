@@ -53,6 +53,13 @@ DialogVoiceResource ([GlobalClass] Resource) per NPC, procedural fallback (60ms 
 ### Save system
 ISavable interface. Nodes in "persist" group auto-saved. Single slot: user://savegame.tres. Saves player position/health, WorldFlags, warp unlocks, inventory, equipment.
 
+### Dev save states (#168)
+Named dev save states snapshot the full game state anywhere and load it back to test features/zones without replaying the demo. `SaveManager.SaveGame(..., slotName)` writes `user://saves/<slot>.tres`; committed read-only fixtures live in `tests/savestates/*.tres` and are resolved as a fallback (fresh clones get them for free).
+- **Hotkeys** (no F-keys — they collide with editor binds): `Ctrl+S` capture quick slot, `Ctrl+L` load quick/last slot, `Ctrl+M` toggle the DevSaveStates menu (list/capture/load/delete/rename). Blocked during dialogs, cutscenes, and combat.
+- **Boot**: `EGGBERT_LOAD_STATE=<slot>` (parallel to `EGGBERT_SKIP_MENU`) loads a named state at startup, even without a `savegame.tres`.
+- **Regenerate fixtures**: `godot --headless --path . --script res://tests/GenerateSaveStateFixtures.cs`; verify with `res://tests/VerifySaveStates.cs`.
+- Named-slot loads are non-destructive: corrupt/stale states are reported and kept, never deleted (unlike the default slot).
+
 ## Conventions
 - C# only for game code and `tests/` verifiers. GDScript exists only in `addons/` (AsepriteWizard, editor plugins).
 - No tests, no CI.

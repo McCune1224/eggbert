@@ -9,6 +9,15 @@ using Godot.Collections;
 [GlobalClass]
 public partial class SaveFile : Resource
 {
+    /// <summary>
+    /// Bump when the serialized shape of SaveFile/ComponentData changes
+    /// incompatibly. Loaders compare against this to detect stale states.
+    /// </summary>
+    public const int CurrentSchemaVersion = 1;
+
+    [Export]
+    public int SchemaVersion { get; set; } = CurrentSchemaVersion;
+
     [Export]
     public string SavePointScenePath { get; set; } = "";
 
