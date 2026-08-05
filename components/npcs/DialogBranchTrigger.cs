@@ -10,12 +10,18 @@ using System.Collections.Generic;
 [Tool]
 public partial class DialogBranchTrigger : InteractableArea
 {
+    /// <summary>When the trigger fires: OnInteract (press E) or OnEnter (step into the area).</summary>
     [ExportGroup("Trigger")]
     [Export] public TriggerMode Mode = TriggerMode.OnInteract;
+    /// <summary>If true, the branch runs only once and sets "branch_&lt;DialogBranchId&gt;" on WorldFlags.</summary>
     [Export] public bool Once = false;
+    /// <summary>Stable id used with Once for the "branch_&lt;id&gt;" dedup flag.</summary>
     [Export] public string DialogBranchId = "";
+    /// <summary>The authored dialog tree to run. Create one via Resource > New > DialogBranch.</summary>
     [Export] public DialogBranch DialogBranch { get; set; }
+    /// <summary>Node id in the branch to start from. Empty = the branch's default start node.</summary>
     [Export] public string StartNodeId { get; set; } = "";
+    /// <summary>WorldFlags set to true when the branch fires (e.g. "met_frank").</summary>
     [Export] public string[] SetFlagsOnFire { get; set; }
 
     [Signal]

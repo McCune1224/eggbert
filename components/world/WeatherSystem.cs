@@ -10,9 +10,13 @@ using Godot;
 /// </summary>
 public partial class WeatherSystem : Node
 {
-    [Export] public float MinInterval { get; set; } = 60f;
-    [Export] public float MaxInterval { get; set; } = 180f;
-    [Export] public float RainDuration { get; set; } = 30f;
+    /// <summary>Minimum seconds between rain events.</summary>
+    [ExportGroup("Weather")]
+    [Export(PropertyHint.Range, "10,600,10")] public float MinInterval { get; set; } = 60f;
+    /// <summary>Maximum seconds between rain events.</summary>
+    [Export(PropertyHint.Range, "10,600,10")] public float MaxInterval { get; set; } = 180f;
+    /// <summary>How long each rain event lasts, in seconds.</summary>
+    [Export(PropertyHint.Range, "5,120,5")] public float RainDuration { get; set; } = 30f;
 
     private Timer _timer;
     private bool _isRaining = false;

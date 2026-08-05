@@ -6,6 +6,7 @@ using Godot;
 /// </summary>
 public partial class ZoneStinger : AudioStreamPlayer2D
 {
+    /// <summary>The short musical sting to play when the zone is entered.</summary>
     [Export] public AudioStream StingerSfx { get; set; }
 
     public override void _Ready()

@@ -7,7 +7,18 @@ using Godot;
 
 public partial class WarpPoint : Area2D
 {
+	/// <summary>Stable warp id matching a WarpDatabase entry. This is the API key that connects the warp crystal to its destination.</summary>
 	[Export] public string WarpId = "";
+
+	public override string[] _GetConfigurationWarnings()
+	{
+		var warnings = new System.Collections.Generic.List<string>();
+		if (string.IsNullOrEmpty(WarpId))
+			warnings.Add("WarpId is empty — this warp point is not connected to any destination. Set it to a WarpDatabase id.");
+		else if (!WarpDatabase.All.ContainsKey(WarpId))
+			warnings.Add($"WarpId '{WarpId}' has no matching entry in WarpDatabase.All — the warp has no destination.");
+		return warnings.ToArray();
+	}
 
 	private Area2D _promptArea;
 	private bool _playerNear = false;

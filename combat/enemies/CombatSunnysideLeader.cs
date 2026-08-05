@@ -4,9 +4,9 @@ using System.Collections.Generic;
 /// <summary>
 /// Sunnyside Leader final boss (Beach finale, story beat 10).
 /// Multi-phase bullet patterns that escalate as HP drops:
-///   Phase 1 (>66% HP): aimed spread (3 bullets, slow)
+///   Phase 1 (&gt;66% HP): aimed spread (3 bullets, slow)
 ///   Phase 2 (33-66% HP): ring burst (12 bullets)
-///   Phase 3 (<33% HP): spiral (rotating shots) + aimed spread combined
+///   Phase 3 (&lt;33% HP): spiral (rotating shots) + aimed spread combined
 /// </summary>
 public partial class CombatSunnysideLeader : Area2D
 {

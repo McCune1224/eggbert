@@ -6,8 +6,11 @@ using Godot;
 
 public partial class HangingSign : Sprite2D
 {
-    [Export] public float SwingSpeed { get; set; } = 2.0f;
-    [Export] public float SwingAngle { get; set; } = 5.0f;
+    /// <summary>How fast the sign swings, in cycles per second.</summary>
+    [ExportGroup("Swing")]
+    [Export(PropertyHint.Range, "0.1,10,0.1")] public float SwingSpeed { get; set; } = 2.0f;
+    /// <summary>Maximum swing angle in degrees from vertical.</summary>
+    [Export(PropertyHint.Range, "0,30,1")] public float SwingAngle { get; set; } = 5.0f;
 
     private float _time = 0f;
 

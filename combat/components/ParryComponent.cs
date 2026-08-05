@@ -1,3 +1,5 @@
+using Godot;
+
 /// <summary>
 /// Proximity-based parry tool for enemies and the player. Uses <see cref="ParryRadius"/> to detect nearby
 /// targets during the <see cref="_canParry"/> window and <see cref="ParryDamage"/> for reflected damage.
@@ -8,8 +10,6 @@
 /// ring flashes red to indicate the attack was missed. On success the ring flashes cyan and
 /// <see cref="Parried"/> fires.
 /// </remarks>
-using Godot;
-
 public partial class ParryComponent : Node2D
 {
     [Signal]

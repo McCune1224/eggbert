@@ -18,10 +18,14 @@ public enum GateMode
 [Tool]
 public partial class MultiSwitchGate : Node
 {
+    /// <summary>FloorSwitch nodes the gate watches. Order is irrelevant for AND/OR logic.</summary>
     [ExportGroup("Targets")]
     [Export] public NodePath[] SwitchPaths = System.Array.Empty<NodePath>();
+    /// <summary>Door that opens when the gate condition is met.</summary>
     [Export] public NodePath TargetDoorPath;
+    /// <summary>And = all switches pressed; Or = any one switch pressed.</summary>
     [Export] public GateMode Mode = GateMode.And;
+    /// <summary>If true, the door stays open forever once opened.</summary>
     [Export] public bool LatchOpen = false;
 
     private FloorSwitch[] _switches;

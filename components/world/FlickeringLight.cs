@@ -6,9 +6,14 @@ using Godot;
 
 public partial class FlickeringLight : PointLight2D
 {
-    [Export] public float MinEnergy { get; set; } = 0.2f;
-    [Export] public float MaxEnergy { get; set; } = 1.0f;
-    [Export] public float FlickerSpeed { get; set; } = 5.0f;
+    /// <summary>Lowest light energy in the flicker cycle.</summary>
+    [ExportGroup("Flicker")]
+    [Export(PropertyHint.Range, "0,1,0.05")] public float MinEnergy { get; set; } = 0.2f;
+    /// <summary>Highest light energy in the flicker cycle.</summary>
+    [Export(PropertyHint.Range, "0,2,0.05")] public float MaxEnergy { get; set; } = 1.0f;
+    /// <summary>Flicker speed in cycles per second.</summary>
+    [Export(PropertyHint.Range, "0.5,20,0.5")] public float FlickerSpeed { get; set; } = 5.0f;
+    /// <summary>Optional electrical buzz sound played while the light is on.</summary>
     [Export] public AudioStream BuzzSfx { get; set; }
 
     private AudioStreamPlayer2D _buzzPlayer;

@@ -10,7 +10,10 @@ using Godot.Collections;
 [Tool]
 public partial class RumorComponent : Node
 {
+    /// <summary>Rumor lines, shared in order (wraps around). One line shown per interaction.</summary>
+    [ExportGroup("Rumors")]
     [Export] public Array<string> Rumors { get; set; } = new();
+    /// <summary>Stable id used for the "rumor_index_&lt;id&gt;" WorldFlag. Defaults to the node name.</summary>
     [Export] public string NpcId { get; set; } = "";
 
     public string GetNextRumor()

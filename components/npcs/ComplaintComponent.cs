@@ -9,7 +9,10 @@ using Godot;
 [Tool]
 public partial class ComplaintComponent : Node
 {
+    /// <summary>Complaint lines, cycled in order. Each is shown with escalating "!" exaggeration per check.</summary>
+    [ExportGroup("Complaints")]
     [Export] public string[] ComplaintTemplate { get; set; }
+    /// <summary>Stable id used for the "complaint_count_&lt;id&gt;" WorldFlag. Defaults to the node name.</summary>
     [Export] public string NpcId { get; set; } = "";
 
     public string GetComplaint()

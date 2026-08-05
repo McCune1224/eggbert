@@ -8,9 +8,11 @@ using Godot;
 [Tool]
 public partial class SleepingNPC : InteractableArea
 {
-    [ExportGroup("SleepingNPC")]
+    /// <summary>Grumpy lines spoken the first time the NPC is woken up.</summary>
     [Export] public string[] WakeLines { get; set; }
+    /// <summary>Lines spoken on later interactions after the NPC is awake.</summary>
     [Export] public string[] AwakeLines { get; set; }
+    /// <summary>Stable id for the "woke_&lt;id&gt;" WorldFlag. Defaults to the node name when empty.</summary>
     [Export] public string NpcId { get; set; } = "";
 
     private AnimatedSprite2D _zzzSprite;

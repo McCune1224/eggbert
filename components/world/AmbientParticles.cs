@@ -11,11 +11,15 @@ using Godot;
 /// </summary>
 public partial class AmbientParticles : GpuParticles2D
 {
-    [Export] public float EmissionRate { get; set; } = 5f;
+    /// <summary>How many particles are emitted per second (drives the Amount property).</summary>
+    [Export(PropertyHint.Range, "1,200,1")]
+    public float EmissionRate { get; set; } = 5f;
 
     public enum ParticlePreset { Dust, Leaves, Steam, Bubbles, Seafoam, Fireflies, None }
 
-    [Export] public ParticlePreset Preset { get; set; } = ParticlePreset.None;
+    /// <summary>Which particle look to use. None = particles stay disabled.</summary>
+    [Export]
+    public ParticlePreset Preset { get; set; } = ParticlePreset.None;
 
     public override void _Ready()
     {

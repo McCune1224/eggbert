@@ -8,7 +8,9 @@ using Godot;
 [Tool]
 public partial class ReadableObject : InteractableArea
 {
+    /// <summary>Lines shown when the player reads this object (or when GateFlag is unset).</summary>
     [Export] public string[] DialogLines { get; set; }
+    /// <summary>Lines shown instead of DialogLines when GateFlag is set to true.</summary>
     [Export] public string[] AlternateLines { get; set; }
 
     /// <summary>

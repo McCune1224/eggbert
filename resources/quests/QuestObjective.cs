@@ -1,9 +1,9 @@
+using Godot;
+
 /// <summary>
 /// A single quest objective tied to WorldFlags.
 /// Completion is signaled by setting CompletionFlag to true in WorldFlags.
 /// </summary>
-using Godot;
-
 [GlobalClass]
 public partial class QuestObjective : Resource
 {

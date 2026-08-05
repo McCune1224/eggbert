@@ -7,11 +7,17 @@ using Godot;
 /// </summary>
 public partial class Scuttler : Sprite2D
 {
-    [Export] public float TriggerRadius { get; set; } = 80f;
-    [Export] public float ScuttleDistance { get; set; } = 48f;
-    [Export] public float ScuttleSpeed { get; set; } = 60f;
-    [Export] public float PauseMin { get; set; } = 1f;
-    [Export] public float PauseMax { get; set; } = 3f;
+    /// <summary>Distance at which the creature notices the player and starts moving.</summary>
+    [ExportGroup("Scuttle")]
+    [Export(PropertyHint.Range, "16,300,8")] public float TriggerRadius { get; set; } = 80f;
+    /// <summary>How far it scuttles from its start position, in pixels.</summary>
+    [Export(PropertyHint.Range, "8,200,8")] public float ScuttleDistance { get; set; } = 48f;
+    /// <summary>Movement speed in pixels per second.</summary>
+    [Export(PropertyHint.Range, "8,200,8")] public float ScuttleSpeed { get; set; } = 60f;
+    /// <summary>Minimum seconds it sits still between dashes.</summary>
+    [Export(PropertyHint.Range, "0,10,0.5")] public float PauseMin { get; set; } = 1f;
+    /// <summary>Maximum seconds it sits still between dashes.</summary>
+    [Export(PropertyHint.Range, "0,10,0.5")] public float PauseMax { get; set; } = 3f;
 
     private Vector2 _startPosition;
     private Vector2 _targetPosition;

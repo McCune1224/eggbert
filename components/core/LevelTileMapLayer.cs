@@ -1,3 +1,6 @@
+using Godot;
+using Godot.Collections;
+
 /// <summary>
 /// TileMapLayer that computes world-space camera bounds and generates collision-border
 /// visuals at level load. Registers the bounds with <see cref="GameController"/> so the
@@ -11,9 +14,6 @@
 /// clamping. Additionally <see cref="CreateMapBorders"/> spawns thin static-body border
 /// nodes around the level perimeter so the player cannot walk off the map.
 /// </remarks>
-
-using Godot;
-using Godot.Collections;
 
 public partial class LevelTileMapLayer : TileMapLayer
 {

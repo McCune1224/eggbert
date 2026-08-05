@@ -7,12 +7,12 @@ using Godot;
 [Tool]
 public partial class SpikeTile : Area2D
 {
-    [ExportGroup("Damage")]
-    [Export]
     /// HP lost on contact.
+    [ExportGroup("Damage")]
+    [Export(PropertyHint.Range, "1,99,1")]
     public int Damage { get; set; } = 1;
-    [Export]
     /// If true, the spike only damages the player once, then deactivates.
+    [Export]
     public bool OneShot { get; set; } = false;
     private bool _hasTriggered = false;
 

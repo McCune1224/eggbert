@@ -1,12 +1,12 @@
+using Godot;
+using Godot.Collections;
+
 /// <summary>
 /// Camera2D that tracks the player and clamps to tilemap bounds.
 /// Reads bounds from GameController.Instance.TileMapBounds and clamps
 /// LimitLeft/LimitTop/LimitRight/LimitBottom accordingly.
 /// Logs an error and returns early if bounds is null or empty.
 /// </summary>
-using Godot;
-using Godot.Collections;
-
 public partial class PlayerCamera : Camera2D
 {
     private float _shakeIntensity;

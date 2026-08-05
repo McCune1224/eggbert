@@ -12,18 +12,18 @@ using Godot;
 [Tool]
 public partial class FakeWall : StaticBody2D
 {
+    /// If true, player must press E to reveal the wall. If false, walking into it reveals automatically.
     [ExportGroup("Behavior")]
     [Export]
-    /// If true, player must press E to reveal the wall. If false, walking into it reveals automatically.
     public bool RequireInteract { get; set; } = false;
 
+    /// Optional lines shown when the wall is revealed.
     [ExportGroup("Dialog")]
     [Export]
-    /// Optional lines shown when the wall is revealed.
     public string[] RevealDialogLines { get; set; }
 
-    [Export]
     /// Voice style for reveal dialog.
+    [Export]
     public DialogVoiceResource RevealVoice { get; set; }
 
     private CollisionShape2D _collision;

@@ -1,3 +1,17 @@
+using Godot;
+using System;
+
+/// <summary>
+/// The side of the level boundary from which the transition enters the target level.
+/// </summary>
+public enum TransitionSide
+{
+    Up,
+    Down,
+    Left,
+    Right
+}
+
 /// <summary>
 /// Area2D that triggers a scene change when the player walks into it. The transition fires once
 /// on BodyEntered for the player, unless <see cref="RequiredFlag"/> gates it.
@@ -17,45 +31,44 @@
 /// <b>Empty Level path:</b> If <see cref="Level"/> is empty, the call logs an error and
 /// does not crash. Always provide a valid .tscn resource path.
 /// </remarks>
-
-using Godot;
-using System;
-
-/// <summary>
-/// The side of the level boundary from which the transition enters the target level.
-/// </summary>
-public enum TransitionSide
-{
-    Up,
-    Down,
-    Left,
-    Right
-}
-
-
 [Tool]
 public partial class LevelTransition : Area2D
 {
     CollisionShape2D _collisionShape;
 
+    /// <summary>The level scene to load when the player walks into this transition zone.</summary>
     [Export(PropertyHint.File, "*.tscn")]
     public string Level { get; set; }
 
+    /// <summary>Name of the transition node in the target level where the player appears. Empty = spawn at (0,0).</summary>
     [Export]
     public string TargetTransitionName = "";
-    [ExportCategory("CollisionAreaSettings")]
 
+    /// <summary>Length of the transition zone in tiles along the level boundary (perpendicular to the entry side).</summary>
+    [ExportCategory("CollisionAreaSettings")]
     [Export(PropertyHint.Range, "1,12,1,or_greater")]
     public int Size;
 
-[Export]
+    /// <summary>Which edge of the level this transition sits on. Determines where the player exits and how the zone is shaped.</summary>
+    [Export]
     public TransitionSide Side;
+    /// <summary>Snaps the node position to the 16px tile grid when toggled in the Inspector.</summary>
     [Export]
     bool SnapToGrid = false;
 
-    [Export]
     /// <summary>Optional WorldFlag required to fire this transition. Empty = always fires. Used to gate post-ending exits (e.g. "go_home").</summary>
+    [Export]
     public string RequiredFlag = "";
+
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (string.IsNullOrEmpty(Level))
+            warnings.Add("Level is empty — this transition leads nowhere. Assign the target .tscn file.");
+        if (string.IsNullOrEmpty(TargetTransitionName))
+            warnings.Add("TargetTransitionName is empty — the player will spawn at (0,0) of the target level. Set it to the destination transition node's name.");
+        return warnings.ToArray();
+    }
 
     public override bool _Set(StringName property, Variant value)
     {

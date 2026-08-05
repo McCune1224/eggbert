@@ -9,14 +9,15 @@ using Godot;
 [Tool]
 public partial class SequencePuzzleController : Node
 {
+    /// <summary>Array of NodePaths to SequencePressurePlate nodes, in expected press order.</summary>
     [ExportGroup("Targets")]
-    /// Array of NodePaths to SequencePressurePlate nodes, in expected press order.
     [Export] public NodePath[] PlatePaths { get; set; }
-    /// Door node that opens when the sequence is solved.
+    /// <summary>Door node that opens when the sequence is solved.</summary>
     [Export] public NodePath TargetDoorPath { get; set; }
+    /// <summary>Seconds the player has to press the next plate before the sequence resets.</summary>
     [ExportGroup("Timing")]
-    /// Seconds the player has to press the next plate before the sequence resets.
-    [Export] public float TimeWindow { get; set; } = 5.0f;
+    [Export(PropertyHint.Range, "1,30,0.5")]
+    public float TimeWindow { get; set; } = 5.0f;
 
     private int _nextExpectedIndex = 0;
     private Timer _timer;

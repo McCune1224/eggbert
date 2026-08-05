@@ -1,10 +1,10 @@
+using Godot;
+using Godot.Collections;
+
 /// <summary>
 /// Defines a quest with StartFlag gating and ordered objectives.
 /// The quest is active while StartFlag is set; objectives are checked in order.
 /// </summary>
-using Godot;
-using Godot.Collections;
-
 [GlobalClass]
 public partial class QuestDefinition : Resource
 {

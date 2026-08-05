@@ -17,11 +17,11 @@ public partial class WeightedPressurePlate : Area2D
     [Signal]
     public delegate void PlateReleasedEventHandler();
 
+    /// <summary>Path to a Door node that opens while the plate is pressed.</summary>
     [ExportGroup("Target")]
-    [Export]
-    /// Path to a Door node that opens while the plate is pressed.
-    public NodePath TargetDoorPath { get; set; }
+    [Export] public NodePath TargetDoorPath { get; set; }
 
+    /// <summary>WorldFlag set when a pushable block is resting on the plate (e.g. "tutorial_crate_gate_open").</summary>
     [ExportGroup("Progression")]
     [Export] public string PushablePressedFlag { get; set; } = "";
 
@@ -49,6 +49,22 @@ public partial class WeightedPressurePlate : Area2D
         if (TargetDoorPath == null || TargetDoorPath.IsEmpty)
             warnings.Add("TargetDoorPath is not set. The plate will emit signals but won't open any door.");
         return warnings.ToArray();
+    }
+
+    public override void _Draw()
+    {
+        if (!Engine.IsEditorHint()) return;
+        // Gizmo: draw a line to the target door so wiring is visible in the editor.
+        if (TargetDoorPath == null || TargetDoorPath.IsEmpty) return;
+        var target = GetNodeOrNull<Door>(TargetDoorPath);
+        if (target == null) return;
+        DrawLine(Vector2.Zero, ToLocal(target.GlobalPosition), new Color(1, 0.5f, 0, 0.5f), 2f);
+        DrawCircle(ToLocal(target.GlobalPosition), 5f, new Color(1, 0.5f, 0, 0.8f));
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Engine.IsEditorHint()) QueueRedraw();
     }
     private void OnBodyEntered(Node2D body)
     {

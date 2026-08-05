@@ -1,3 +1,5 @@
+using Godot;
+
 /// <summary>
 /// A pushable block that slides in response to player movement. Supports standard
 /// four-direction pushing and a <see cref="DirectionalMode"/> that constrains motion
@@ -13,16 +15,17 @@
 /// block movement.
 /// </remarks>
 
-using Godot;
-
 [GlobalClass]
 [Tool]
 public partial class PushBlock : CharacterBody2D
 {
 
+    /// <summary>How fast the block slides per push, in pixels per second.</summary>
     [ExportGroup("PushBlock")]
-    [Export] public float PushSpeed = 200f;
+    [Export(PropertyHint.Range, "40,600,20")] public float PushSpeed = 200f;
+    /// <summary>If true, diagonal pushes snap to the dominant axis so the block only slides in straight lines.</summary>
     [Export] public bool DirectionalMode = false;
+    /// <summary>Optional tileset texture shown on the block (first 32×32 tile is used).</summary>
     [Export]
     private Texture2D _texture;
     public Texture2D Texture

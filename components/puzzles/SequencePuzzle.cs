@@ -9,9 +9,12 @@ using Godot;
 [Tool]
 public partial class SequencePuzzle : Node
 {
+    /// <summary>Switches in the exact order they must be pressed (index 0 first).</summary>
     [ExportGroup("Sequence")]
     [Export] public NodePath[] SwitchSequence;
+    /// <summary>Door that opens when the full sequence is completed in order.</summary>
     [Export] public NodePath TargetDoorPath;
+    /// <summary>If true, the door stays open permanently after the sequence completes.</summary>
     [Export] public bool LatchOnComplete = true;
     private FloorSwitch[] _switches;
     private Door _targetDoor;

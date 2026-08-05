@@ -7,18 +7,18 @@ using Godot;
 [Tool]
 public partial class TimedSpikes : Area2D
 {
-    [ExportGroup("Timing")]
-    [Export]
     /// HP lost on contact while spikes are extended.
+    [ExportGroup("Timing")]
+    [Export(PropertyHint.Range, "1,99,1")]
     public int Damage { get; set; } = 1;
-    [Export]
     /// Seconds spikes remain extended and dangerous.
+    [Export(PropertyHint.Range, "0.1,10,0.1")]
     public float ActiveDuration { get; set; } = 2.0f;
-    [Export]
     /// Seconds spikes remain retracted (safe).
+    [Export(PropertyHint.Range, "0.1,10,0.1")]
     public float InactiveDuration { get; set; } = 2.0f;
-    [Export]
     /// Seconds of red telegraph flash before spikes extend.
+    [Export(PropertyHint.Range, "0,3,0.1")]
     public float TelegraphDuration { get; set; } = 0.5f;
 
     private CollisionShape2D _collision;

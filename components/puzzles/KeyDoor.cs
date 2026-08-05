@@ -1,3 +1,5 @@
+using Godot;
+
 /// <summary>
 /// A <see cref="Door"/> that is locked until the required WorldFlag is set. Displays a
 /// locked message via <see cref="DialogManager"/> when the player tries to open it without
@@ -13,15 +15,16 @@
 /// an already-unlocked KeyDoor.
 /// </remarks>
 
-using Godot;
-
 [GlobalClass]
 [Tool]
 public partial class KeyDoor : Door
 {
+    /// <summary>WorldFlag that unlocks this door (e.g. "has_cell_key"). Empty = door always opens.</summary>
     [ExportGroup("KeyDoor")]
     [Export] public string RequiredFlag;
+    /// <summary>Dialog shown when the player tries to open the locked door without the flag.</summary>
     [Export] public string LockedMessage = "It's locked.";
+    /// <summary>Jingle played when the door unlocks.</summary>
     [Export] public AudioStream UnlockJingle { get; set; }
 
     private bool _permanentlyUnlocked = false;

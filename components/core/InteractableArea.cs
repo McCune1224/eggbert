@@ -11,6 +11,7 @@ using Godot;
 /// </summary>
 public abstract partial class InteractableArea : Area2D
 {
+    /// <summary>Voice style for this NPC's dialog blips (pitch, volume, portrait). Shared across the NPC's lines.</summary>
     [Export] public DialogVoiceResource Voice { get; set; }
 
     protected bool PlayerInRange { get; set; } = false;

@@ -10,9 +10,9 @@ using Godot;
 [Tool]
 public partial class SequencePressurePlate : Area2D
 {
-    [ExportGroup("Sequence")]
-    [Export]
     /// Order index in the sequence (0-based). Plates must be pressed in ascending order.
+    [ExportGroup("Sequence")]
+    [Export(PropertyHint.Range, "0,99,1")]
     public int SequenceIndex { get; set; } = 0;
     internal SequencePuzzleController _controller;
     private Sprite2D _sprite;

@@ -11,18 +11,27 @@ using System.Collections.Generic;
 [GlobalClass]
 public partial class QuizNpc : Area2D
 {
+    /// <summary>The quiz questions, asked in order. Each grants its own flag on a correct answer.</summary>
     [ExportGroup("Quiz")]
     [Export] public QuizQuestion[] Questions { get; set; }
+    /// <summary>WorldFlag set when the whole quiz is passed.</summary>
     [Export] public string PassFlag { get; set; } = "";
     /// <summary>World flags set to true when the quiz is passed (in addition to PassFlag).</summary>
     [Export] public string[] GrantFlags { get; set; }
+    /// <summary>Lines spoken when the player first interacts, before the first question.</summary>
     [Export] public string[] IntroLines { get; set; }
+    /// <summary>Lines spoken when the quiz is fully passed.</summary>
     [Export] public string[] PassLines { get; set; }
+    /// <summary>Lines spoken when any question is answered wrong (retryable).</summary>
     [Export] public string[] FailLines { get; set; }
+    /// <summary>Item granted on passing (use an ItemDatabase id, e.g. "cell_key"). Empty = no item.</summary>
     [Export] public string GrantItemId { get; set; } = "";
-    [Export] public int GrantCount { get; set; } = 1;
+    /// <summary>Stack count granted with GrantItemId.</summary>
+    [Export(PropertyHint.Range, "1,99,1")] public int GrantCount { get; set; } = 1;
+    /// <summary>Voice style for all quiz dialog.</summary>
     [Export] public DialogVoiceResource Voice { get; set; }
 
+    /// <summary>When the quiz fires: OnInteract (press E) or OnEnter (step into the area).</summary>
     [ExportGroup("Trigger")]
     [Export] public TriggerMode Mode { get; set; } = TriggerMode.OnInteract;
     /// <summary>If set, the NPC self-frees once this flag is true (one-shot quiz gates).</summary>

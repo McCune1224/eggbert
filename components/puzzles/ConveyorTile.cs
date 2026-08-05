@@ -8,13 +8,12 @@ using Godot;
 [Tool]
 public partial class ConveyorTile : Area2D
 {
+    /// <summary>Direction the conveyor pushes bodies (e.g. Vector2.Right, Vector2.Up).</summary>
     [ExportGroup("Conveyor")]
-    [Export]
-    /// Direction the conveyor pushes bodies (e.g. Vector2.Right, Vector2.Up).
-    public Vector2 ConveyorDirection { get; set; } = Vector2.Right;
+    [Export] public Vector2 ConveyorDirection { get; set; } = Vector2.Right;
 
-    [Export]
-    /// Push speed applied to bodies on the conveyor.
+    /// <summary>Push speed applied to bodies on the conveyor, in pixels per second.</summary>
+    [Export(PropertyHint.Range, "10,300,10")]
     public float ConveyorSpeed { get; set; } = 80f;
 
     public override void _Ready()
@@ -33,6 +32,27 @@ public partial class ConveyorTile : Area2D
         if (ConveyorSpeed <= 0f)
             warnings.Add("ConveyorSpeed is zero or negative — conveyor will not push anything.");
         return warnings.ToArray();
+    }
+
+    public override void _Draw()
+    {
+        if (!Engine.IsEditorHint()) return;
+        // Gizmo: draw an arrow showing the push direction in the editor.
+        Vector2 dir = ConveyorDirection.Normalized();
+        if (dir == Vector2.Zero) return;
+        var color = new Color(1, 0.8f, 0.2f, 0.7f);
+        DrawLine(Vector2.Zero, dir * 24f, color, 3f);
+        // Arrowhead
+        Vector2 tip = dir * 24f;
+        Vector2 left = tip + dir.Rotated(2.6f) * 8f;
+        Vector2 right = tip + dir.Rotated(-2.6f) * 8f;
+        DrawLine(tip, left, color, 3f);
+        DrawLine(tip, right, color, 3f);
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Engine.IsEditorHint()) QueueRedraw();
     }
 
     private void OnBodyEntered(Node2D body)

@@ -33,8 +33,8 @@ public partial class DialogVoiceResource : Resource
 	[Export(PropertyHint.Range, "0,6,0.1")]
 	public float VolumeVariance { get; set; } = 3f;
 
-	[ExportGroup("Vowel Pitches")]
 	/// <summary>Pitch multiplier for the vowel 'a'.</summary>
+	[ExportGroup("Vowel Pitches")]
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float VowelA { get; set; } = 1.00f;
 	/// <summary>Pitch multiplier for the vowel 'e'.</summary>
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float VowelE { get; set; } = 1.10f;
@@ -47,8 +47,8 @@ public partial class DialogVoiceResource : Resource
 	/// <summary>Pitch multiplier for the vowel 'y'.</summary>
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float VowelY { get; set; } = 1.05f;
 
-	[ExportGroup("Punctuation Pitches")]
 	/// <summary>Pitch multiplier applied when the spoken character ends with a period '.'.</summary>
+	[ExportGroup("Punctuation Pitches")]
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float PitchPeriod { get; set; } = 0.70f;
 	/// <summary>Pitch multiplier applied when the spoken character ends with a question mark '?'.</summary>
 	[Export(PropertyHint.Range, "0.5,2,0.01")] public float PitchQMark { get; set; } = 1.30f;

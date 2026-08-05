@@ -7,9 +7,9 @@ using Godot;
 [Tool]
 public partial class MovingPlatform : AnimatableBody2D
 {
-    [ExportGroup("Platform")]
-    [Export]
     /// Speed multiplier for the platform animation. 1.0 = normal speed.
+    [ExportGroup("Platform")]
+    [Export(PropertyHint.Range, "0.1,5,0.1")]
     public float Speed { get; set; } = 1.0f;
     private AnimationPlayer _animationPlayer;
     private bool _movingForward = true;

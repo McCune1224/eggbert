@@ -1,3 +1,5 @@
+using Godot;
+
 /// <summary>
 /// Root node for every level. Exports the level name, music, and ambience. Auto-plays music and
 /// ambience on <see cref="_Ready"/> and stops ambience on <see cref="_ExitTree"/>.
@@ -11,17 +13,17 @@
 /// being unloaded.
 /// </remarks>
 
-using Godot;
-
 public partial class BaseLevel : Node2D
 {
-    // Level metadata
+    /// <summary>Display name shown in location banners and logs. Defaults to the node's name when empty.</summary>
     [Export]
     public string LevelName = "";
 
+    /// <summary>Music track that starts looping when the level loads. Leave empty for silence.</summary>
     [Export]
     public AudioStream LevelMusic;
 
+    /// <summary>Ambient loop (wind, machinery hum, etc.) played while the level is loaded. Stops on level exit.</summary>
     [Export]
     public AudioStream LevelAmbience;
 

@@ -6,9 +6,13 @@ using Godot;
 /// </summary>
 public partial class WindZone : Area2D
 {
+    /// <summary>Ambient wind loop played while the player is inside the zone.</summary>
+    [ExportGroup("Wind")]
     [Export] public AudioStream WindLoop { get; set; }
-    [Export] public float MaxVolume { get; set; } = -6f;
-    [Export] public float FadeSeconds { get; set; } = 2f;
+    /// <summary>Peak volume in decibels when fully inside the zone.</summary>
+    [Export(PropertyHint.Range, "-60,0,1")] public float MaxVolume { get; set; } = -6f;
+    /// <summary>Seconds to fade the wind in/out when entering/exiting.</summary>
+    [Export(PropertyHint.Range, "0.1,10,0.1")] public float FadeSeconds { get; set; } = 2f;
 
     private AudioStreamPlayer2D _player;
     private Tween _tween;

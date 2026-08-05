@@ -6,12 +6,19 @@ using Godot;
 /// </summary>
 public partial class FootstepManager : Node
 {
+    /// <summary>Step sound for stone / default floors.</summary>
+    [ExportGroup("Footstep Sounds")]
     [Export] public AudioStream StoneSfx { get; set; }
+    /// <summary>Step sound for metal / factory floors.</summary>
     [Export] public AudioStream MetalSfx { get; set; }
+    /// <summary>Step sound for grass floors.</summary>
     [Export] public AudioStream GrassSfx { get; set; }
+    /// <summary>Step sound for water floors.</summary>
     [Export] public AudioStream WaterSfx { get; set; }
+    /// <summary>Step sound for wood floors.</summary>
     [Export] public AudioStream WoodSfx { get; set; }
-    [Export] public float StepInterval { get; set; } = 0.35f;
+    /// <summary>Seconds between steps while the player walks.</summary>
+    [Export(PropertyHint.Range, "0.1,1,0.05")] public float StepInterval { get; set; } = 0.35f;
 
     private float _stepTimer = 0f;
     private Player _player;

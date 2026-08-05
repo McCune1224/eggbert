@@ -6,14 +6,28 @@ using Godot;
 /// </summary>
 public partial class ConditionalItem : Area2D
 {
+    /// <summary>ItemDatabase id of the item granted (e.g. "cell_key").</summary>
+    [ExportGroup("Pickup")]
     [Export] public string ItemId { get; set; } = "";
-    [Export] public int Count { get; set; } = 1;
+    /// <summary>Stack count granted on pickup.</summary>
+    [Export(PropertyHint.Range, "1,99,1")] public int Count { get; set; } = 1;
     /// <summary>
     /// If non-empty, the item is only visible and collidable when this WorldFlag is set (or not set, when RequiresNotSet is true).
     /// </summary>
+    [ExportGroup("Condition")]
      [Export] public string RequiredFlag { get; set; } = "";
+    /// <summary>If true, the item appears when RequiredFlag is NOT set (inverts the condition).</summary>
     [Export] public bool RequiresNotSet { get; set; } = false;
+    /// <summary>Dialog shown when the item is picked up.</summary>
     [Export] public string[] PickupDialogLines { get; set; }
+
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (string.IsNullOrEmpty(ItemId))
+            warnings.Add("ItemId is empty — nothing will be granted. Set an ItemDatabase id (e.g. \"cell_key\").");
+        return warnings.ToArray();
+    }
 
     private CollisionShape2D _collision;
     private Sprite2D _sprite;

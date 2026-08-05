@@ -6,6 +6,7 @@ using Godot;
 /// </summary>
 public partial class CheckableComponent : Area2D
 {
+    /// <summary>Text shown in the check dialog when the player presses the check key near this object.</summary>
     [Export] public string CheckLine { get; set; } = "";
 
     public override void _Ready()

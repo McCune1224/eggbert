@@ -8,10 +8,15 @@ using Godot;
 [Tool]
 public partial class LightBeam : Node2D
 {
-    [Export] public float BeamLength { get; set; } = 400f;
+    /// <summary>Maximum distance the beam travels before fading out, in pixels.</summary>
+    [ExportGroup("Beam")]
+    [Export(PropertyHint.Range, "32,1200,16")] public float BeamLength { get; set; } = 400f;
+    /// <summary>Color of the beam line.</summary>
     [Export] public Color BeamColor { get; set; } = new Color(1, 0.8f, 0.2f, 0.9f);
-    [Export] public float BeamWidth { get; set; } = 4f;
-    [Export] public int MaxReflections { get; set; } = 10;
+    /// <summary>Thickness of the beam line in pixels.</summary>
+    [Export(PropertyHint.Range, "1,16,1")] public float BeamWidth { get; set; } = 4f;
+    /// <summary>How many mirrors the beam can bounce off before stopping.</summary>
+    [Export(PropertyHint.Range, "1,32,1")] public int MaxReflections { get; set; } = 10;
 
     private Line2D _line;
     private Vector2 _direction = Vector2.Right;

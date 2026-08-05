@@ -1,9 +1,4 @@
 using Godot;
-/// <summary>
-/// Makes an NPC flee when the player gets too close.
-/// Can be chased for unique dialog. Respawns at original
-/// position after a cooldown.
-/// </summary>
 
 /// <summary>
 /// Makes an NPC flee when the player gets too close.
@@ -13,11 +8,18 @@ using Godot;
 [Tool]
 public partial class FleeComponent : Node
 {
-    [Export] public float FleeRadius { get; set; } = 120f;
-    [Export] public float FleeSpeed { get; set; } = 100f;
+    /// <summary>Distance at which the NPC starts fleeing from the player.</summary>
+    [ExportGroup("Flee")]
+    [Export(PropertyHint.Range, "16,400,8")] public float FleeRadius { get; set; } = 120f;
+    /// <summary>Movement speed while fleeing.</summary>
+    [Export(PropertyHint.Range, "16,400,8")] public float FleeSpeed { get; set; } = 100f;
+    /// <summary>Node the NPC flees toward. Empty = a random point near its start position.</summary>
     [Export] public NodePath FleeTargetPath { get; set; }
+    /// <summary>Dialog shown when the player catches the NPC.</summary>
     [Export] public string[] CatchDialogLines { get; set; }
+    /// <summary>Voice style for the catch dialog.</summary>
     [Export] public DialogVoiceResource CatchVoice { get; set; }
+    /// <summary>WorldFlag set when the NPC is caught (one-shot catch, e.g. "caught_scuttler").</summary>
     [Export] public string CaughtFlag { get; set; } = "";
 
     private Node2D _parent;

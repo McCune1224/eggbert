@@ -17,8 +17,8 @@ public enum TriggerMode
 [Tool]
 public partial class CutsceneTrigger : InteractableArea
 {
-    [ExportGroup("Trigger")]
     /// <summary>Determines when the trigger fires. OnInteract requires the interact key; OnEnter fires when the player steps into the area.</summary>
+    [ExportGroup("Trigger")]
     [Export] public TriggerMode Mode = TriggerMode.OnInteract;
     /// <summary>If true, the trigger fires only once and is removed from the scene. When combined with a non-empty CutsceneId, sets the flag "cutscene_" + CutsceneId on WorldFlags for dedup across sessions.</summary>
     [Export] public bool Once = false;
@@ -30,8 +30,8 @@ public partial class CutsceneTrigger : InteractableArea
     [Export] public string[] DialogLines { get; set; }
     /// <summary>World flags set to true when this trigger fires (e.g. "met_jamitor").</summary>
     [Export] public string[] SetFlagsOnFire { get; set; }
-    [ExportGroup("Flavor Choice")]
     /// <summary>Options displayed as a prompt choice menu when 2 or more entries are provided. Pairs with ChoiceResponses index-by-index (Option A → Response A).</summary>
+    [ExportGroup("Flavor Choice")]
     [Export] public string[] ChoiceOptions { get; set; }
     /// <summary>Responses for each ChoiceOption. Sets the corresponding index-matched flag in WorldFlags when chosen.</summary>
     [Export] public string[] ChoiceResponses { get; set; }
@@ -40,6 +40,16 @@ public partial class CutsceneTrigger : InteractableArea
     public delegate void TriggeredEventHandler();
     private bool _hasFired = false;
 
+    public override string[] _GetConfigurationWarnings()
+    {
+        var warnings = new System.Collections.Generic.List<string>();
+        if (Cutscene == null && (DialogLines == null || DialogLines.Length == 0))
+            warnings.Add("No content assigned — the trigger will only emit its raw Triggered signal. Assign a Cutscene resource or DialogLines.");
+        if (ChoiceOptions != null && ChoiceOptions.Length >= 2
+            && (ChoiceResponses == null || ChoiceResponses.Length != ChoiceOptions.Length))
+            warnings.Add("ChoiceOptions and ChoiceResponses must have matching indexes — every option needs a response entry.");
+        return warnings.ToArray();
+    }
 
     public override void _Ready()
     {

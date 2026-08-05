@@ -4,7 +4,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Trigger that offers the player a Spare/Fight choice before a combat encounter.
 /// Mirrors CerealEncounterTrigger flow but interleaves a dialog + PromptChoices
-/// so mercy routes can set a "spared_<id>" flag without entering combat.
+/// so mercy routes can set a "spared_&lt;id&gt;" flag without entering combat.
 ///
 /// On win, the "BeatFlag" remains set in WorldFlags; on loss, SaveManager reloads
 /// the last save and reverts it (Undertale-style death handling).
@@ -12,12 +12,14 @@ using System.Collections.Generic;
 [GlobalClass]
 public partial class MercyEncounterTrigger : Area2D
 {
+    /// <summary>The arena scene to load when the player chooses to fight.</summary>
     [ExportGroup("Combat")]
     [Export] public string ArenaPath = "res://combat/arena/OatmealArena.tscn";
+    /// <summary>Player spawn position inside the arena.</summary>
     [Export] public Vector2 PlayerSpawn = Vector2.Zero;
 
-    [ExportGroup("Flags")]
     /// <summary>Flag set to true when the player chooses mercy. e.g. "spared_oatmeal".</summary>
+    [ExportGroup("Flags")]
     [Export] public string SpareFlag = "";
     /// <summary>Flag set to true when the player chooses to fight. e.g. "fought_oatmeal".</summary>
     [Export] public string FightFlag = "";
@@ -28,11 +30,16 @@ public partial class MercyEncounterTrigger : Area2D
     /// <summary>If set, the trigger only fires when this flag is already true. Lets a separate intro interaction run first.</summary>
     [Export] public string PrerequisiteFlag = "";
 
+    /// <summary>Lines spoken when the player first enters the encounter area.</summary>
     [ExportGroup("Dialog")]
     [Export] public string[] IntroLines = System.Array.Empty<string>();
+    /// <summary>Lines spoken after choosing mercy.</summary>
     [Export] public string[] SpareLines = System.Array.Empty<string>();
+    /// <summary>Lines spoken after choosing to fight.</summary>
     [Export] public string[] FightLines = System.Array.Empty<string>();
+    /// <summary>Options shown in the choice menu ("Spare it" / "Fight it").</summary>
     [Export] public string[] SpareChoiceOptions = { "Spare it", "Fight it" };
+    /// <summary>Voice style for all encounter dialog.</summary>
     [Export] public DialogVoiceResource Voice;
 
     private bool _fired = false;

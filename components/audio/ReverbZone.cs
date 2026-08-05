@@ -5,9 +5,13 @@ using Godot;
 /// </summary>
 public partial class ReverbZone : Area2D
 {
-    [Export] public float ReverbWet { get; set; } = 0.4f;
-    [Export] public float ReverbDry { get; set; } = 0.6f;
-    [Export] public float ReverbRoomSize { get; set; } = 0.6f;
+    /// <summary>How much of the wet (echoed) signal is mixed in. 0 = none, 1 = full.</summary>
+    [ExportGroup("Reverb")]
+    [Export(PropertyHint.Range, "0,1,0.05")] public float ReverbWet { get; set; } = 0.4f;
+    /// <summary>How much of the dry (direct) signal is kept. 0 = none, 1 = full.</summary>
+    [Export(PropertyHint.Range, "0,1,0.05")] public float ReverbDry { get; set; } = 0.6f;
+    /// <summary>Simulated room size. Larger = longer, boomier echo.</summary>
+    [Export(PropertyHint.Range, "0.1,1,0.05")] public float ReverbRoomSize { get; set; } = 0.6f;
 
     private AudioEffectReverb _reverb;
     private int _reverbIndex = -1;

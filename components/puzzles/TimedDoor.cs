@@ -13,8 +13,10 @@ using Godot;
 [Tool]
 public partial class TimedDoor : Door
 {
+    /// <summary>Seconds the door stays open before auto-closing. 0 = closes immediately after opening.</summary>
     [ExportGroup("TimedDoor")]
-    [Export] public float OpenDuration = 3.0f;
+    [Export(PropertyHint.Range, "0,30,0.5")] public float OpenDuration = 3.0f;
+    /// <summary>If true, the door blinks during the final second before closing as a warning.</summary>
     [Export] public bool BlinkBeforeClose = true;
 
     private Timer _closeTimer;

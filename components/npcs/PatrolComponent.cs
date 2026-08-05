@@ -9,9 +9,13 @@ using Godot;
 [Tool]
 public partial class PatrolComponent : Node
 {
+    /// <summary>Waypoint nodes the parent NPC walks between, in order (loops back to the first).</summary>
+    [ExportGroup("Patrol")]
     [Export] public NodePath[] Waypoints { get; set; }
-    [Export] public float Speed { get; set; } = 40f;
-    [Export] public float PauseSeconds { get; set; } = 1.0f;
+    /// <summary>Walk speed in pixels per second.</summary>
+    [Export(PropertyHint.Range, "8,240,4")] public float Speed { get; set; } = 40f;
+    /// <summary>Seconds the NPC waits at each waypoint before continuing.</summary>
+    [Export(PropertyHint.Range, "0,10,0.1")] public float PauseSeconds { get; set; } = 1.0f;
 
     private Node2D _parent;
     private int _currentWaypoint = 0;

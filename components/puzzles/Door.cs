@@ -1,3 +1,5 @@
+using Godot;
+
 /// <summary>
 /// Toggleable door that switches between open and closed states. Controls a
 /// <see cref="CollisionShape2D"/> disable/enabled state and a visual <see cref="Modulate"/>
@@ -13,18 +15,20 @@
 /// <see cref="Open"/> or <see cref="Close"/> directly and observe <see cref="IsOpen"/>.
 /// </remarks>
 
-using Godot;
-
 [GlobalClass]
 [Tool]
 public partial class Door : StaticBody2D
 {
 
+    /// <summary>If true, the door starts already open when the level loads.</summary>
     [ExportGroup("Door")]
     [Export] public bool StartOpen = false;
+    /// <summary>Sound played when the door opens.</summary>
     [Export] public AudioStream OpenSfx { get; set; }
+    /// <summary>Sound played when the door closes.</summary>
     [Export] public AudioStream CloseSfx { get; set; }
 
+    /// <summary>Optional texture to display on the door sprite. Leave empty to keep the scene's own sprite.</summary>
     [Export]
     private Texture2D _texture;
     public Texture2D Texture

@@ -8,6 +8,7 @@ using Godot;
 [Tool]
 public partial class LightMirror : StaticBody2D
 {
+    /// <summary>Optional texture for the mirror sprite. Leave empty to keep the scene's own sprite.</summary>
     [ExportGroup("Mirror")]
     [Export] public Texture2D MirrorTexture { get; set; }
 

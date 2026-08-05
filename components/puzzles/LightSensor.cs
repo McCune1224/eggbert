@@ -8,16 +8,15 @@ public partial class LightSensor : Area2D
     [Signal]
     public delegate void BeamReceivedEventHandler();
 
+    /// <summary>Path to a Door node that opens when the beam hits this sensor.</summary>
     [ExportGroup("Target")]
-    [Export]
-    /// Path to a Door node that opens when the beam hits this sensor.
-    public NodePath TargetDoorPath { get; set; }
+    [Export] public NodePath TargetDoorPath { get; set; }
+    /// <summary>Color when a beam is actively hitting the sensor.</summary>
     [ExportGroup("Visuals")]
     [Export]
-    /// Color when a beam is actively hitting the sensor.
     public Color ActiveColor { get; set; } = new Color(0, 1, 0, 0.5f);
+    /// <summary>Color when no beam is hitting the sensor.</summary>
     [Export]
-    /// Color when no beam is hitting the sensor.
     public Color InactiveColor { get; set; } = new Color(1, 0, 0, 0.3f);
     private bool _active = false;
     private Sprite2D _sprite;
@@ -42,6 +41,22 @@ public partial class LightSensor : Area2D
         if (TargetDoorPath == null || TargetDoorPath.IsEmpty)
             warnings.Add("TargetDoorPath is not set. The sensor will activate but won't open any door.");
         return warnings.ToArray();
+    }
+
+    public override void _Draw()
+    {
+        if (!Engine.IsEditorHint()) return;
+        // Gizmo: draw a line to the target door so wiring is visible in the editor.
+        if (TargetDoorPath == null || TargetDoorPath.IsEmpty) return;
+        var target = GetNodeOrNull<Door>(TargetDoorPath);
+        if (target == null) return;
+        DrawLine(Vector2.Zero, ToLocal(target.GlobalPosition), new Color(0, 1, 0.5f, 0.5f), 2f);
+        DrawCircle(ToLocal(target.GlobalPosition), 5f, new Color(0, 1, 0.5f, 0.8f));
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Engine.IsEditorHint()) QueueRedraw();
     }
     public void Activate()
     {
