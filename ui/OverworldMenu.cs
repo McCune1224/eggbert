@@ -426,10 +426,35 @@ public partial class OverworldMenu : CanvasLayer
 		else if (item.Category == ItemCategory.Equipment)
 		{
 			var boosts = new System.Collections.Generic.List<string>();
-			if (item.MaxHPBoost > 0) boosts.Add($"+{item.MaxHPBoost} HP");
-			if (item.AttackBoost > 0) boosts.Add($"+{item.AttackBoost} ATK");
-			if (item.DefenseBoost > 0) boosts.Add($"+{item.DefenseBoost} DEF");
-			if (item.SpeedBoost > 0) boosts.Add($"+{item.SpeedBoost} SPD");
+			void AddBoostInt(string label, int v) { if (v != 0) boosts.Add($"{(v > 0 ? "+" : "")}{v} {label}"); }
+			void AddBoostFloat(string label, float v, string fmt = "0.#", string unit = "")
+			{
+				if (Mathf.Abs(v) < 0.0005f) return;
+				boosts.Add($"{(v > 0 ? "+" : "")}{v.ToString(fmt)}{unit} {label}");
+			}
+			void AddPct(string label, float v)
+			{
+				if (Mathf.Abs(v) < 0.0005f) return;
+				boosts.Add($"{(v > 0 ? "+" : "")}{v * 100f:0}% {label}");
+			}
+
+			AddBoostInt("HP", item.MaxHPBoost);
+			AddBoostInt("ATK", item.AttackBoost);
+			AddBoostInt("DEF", item.DefenseBoost);
+			AddBoostInt("SPD", item.SpeedBoost);
+			AddBoostFloat("PARRY R", item.ParryRadiusBoost);
+			AddBoostInt("PARRY DMG", item.ParryDamageBoost);
+			AddBoostFloat("PARRY CD", item.ParryCooldownReduction, "0.0#", "s");
+			AddPct("BULLET SLOW", item.BulletSlowFactor);
+			AddPct("REFLECT SPD", item.ReflectSpeedBoost);
+			AddBoostFloat("GRAZE R", item.GrazeRadiusBoost);
+			AddPct("HOMING RES", item.HomingResistance);
+			AddBoostInt("BLOCK", item.BlockCharges);
+			AddBoostFloat("REGEN", item.RegenPerSecond, "0.#", "/s");
+			AddPct("EVADE", item.EvadeChance);
+			AddBoostFloat("IFRAMES", item.InvulnerabilityBoost, "0.0#", "s");
+			AddBoostFloat("DASH CD", item.DashCooldownReduction, "0.0#", "s");
+			AddPct("TELEGRAPH", item.TelegraphBoost);
 			_statsLabel.Text = string.Join(", ", boosts);
 
 			// Show stat preview for unequipped items

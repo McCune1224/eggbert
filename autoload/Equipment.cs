@@ -314,6 +314,7 @@ public partial class Equipment : Node, ISavable
     /// <summary>
     /// Returns a stat-change preview string for equipping an item,
     /// showing current vs projected values with +/- deltas.
+    /// Covers every combat-relevant field (docs/combat-ui-design.md §5.1).
     /// </summary>
     public string PreviewDeltas(Item item)
     {
@@ -328,18 +329,58 @@ public partial class Equipment : Node, ISavable
         int currentAtk = current?.AttackBoost ?? 0;
         int currentDef = current?.DefenseBoost ?? 0;
         int currentSpd = current?.SpeedBoost ?? 0;
+        float currentParryR = current?.ParryRadiusBoost ?? 0;
+        int currentParryDmg = current?.ParryDamageBoost ?? 0;
+        float currentCd = current?.ParryCooldownReduction ?? 0;
+        float currentSlow = current?.BulletSlowFactor ?? 0;
+        float currentReflect = current?.ReflectSpeedBoost ?? 0;
+        float currentGraze = current?.GrazeRadiusBoost ?? 0;
+        float currentHoming = current?.HomingResistance ?? 0;
+        int currentBlock = current?.BlockCharges ?? 0;
+        float currentRegen = current?.RegenPerSecond ?? 0;
+        float currentEvade = current?.EvadeChance ?? 0;
+        float currentIframes = current?.InvulnerabilityBoost ?? 0;
+        float currentDashCd = current?.DashCooldownReduction ?? 0;
+        float currentTelegraph = current?.TelegraphBoost ?? 0;
 
-        void AddDelta(string label, int cur, int nxt)
+        void AddDeltaInt(string label, int cur, int nxt)
         {
             int delta = nxt - cur;
             if (delta == 0) return;
             deltas.Add($"{label} {(delta > 0 ? "+" : "")}{delta}");
         }
 
-        AddDelta("HP", currentHp, item.MaxHPBoost);
-        AddDelta("ATK", currentAtk, item.AttackBoost);
-        AddDelta("DEF", currentDef, item.DefenseBoost);
-        AddDelta("SPD", currentSpd, item.SpeedBoost);
+        void AddDeltaFloat(string label, float cur, float nxt, string fmt = "0.#", string unit = "")
+        {
+            float delta = nxt - cur;
+            if (Mathf.Abs(delta) < 0.0005f) return;
+            deltas.Add($"{label} {(delta > 0 ? "+" : "")}{delta.ToString(fmt)}{unit}");
+        }
+
+        void AddPercent(string label, float cur, float nxt)
+        {
+            float delta = nxt - cur;
+            if (Mathf.Abs(delta) < 0.0005f) return;
+            deltas.Add($"{label} {(delta > 0 ? "+" : "")}{delta * 100f:0}%");
+        }
+
+        AddDeltaInt("HP", currentHp, item.MaxHPBoost);
+        AddDeltaInt("ATK", currentAtk, item.AttackBoost);
+        AddDeltaInt("DEF", currentDef, item.DefenseBoost);
+        AddDeltaInt("SPD", currentSpd, item.SpeedBoost);
+        AddDeltaFloat("PARRY R", currentParryR, item.ParryRadiusBoost);
+        AddDeltaInt("PARRY DMG", currentParryDmg, item.ParryDamageBoost);
+        AddDeltaFloat("PARRY CD", currentCd, item.ParryCooldownReduction, "0.0#", "s");
+        AddPercent("SLOW", currentSlow, item.BulletSlowFactor);
+        AddPercent("REFLECT", currentReflect, item.ReflectSpeedBoost);
+        AddDeltaFloat("GRAZE", currentGraze, item.GrazeRadiusBoost);
+        AddPercent("HOMING RES", currentHoming, item.HomingResistance);
+        AddDeltaInt("BLOCK", currentBlock, item.BlockCharges);
+        AddDeltaFloat("REGEN", currentRegen, item.RegenPerSecond, "0.#", "/s");
+        AddPercent("EVADE", currentEvade, item.EvadeChance);
+        AddDeltaFloat("IFRAMES", currentIframes, item.InvulnerabilityBoost, "0.0#", "s");
+        AddDeltaFloat("DASH CD", currentDashCd, item.DashCooldownReduction, "0.0#", "s");
+        AddPercent("TELEGRAPH", currentTelegraph, item.TelegraphBoost);
 
         return string.Join(", ", deltas);
     }
