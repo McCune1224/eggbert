@@ -92,6 +92,11 @@ File an issue before non-trivial work. Commit with `Closes #N` on main. Push.
 - **Verify before closing bug reports**: run `VerifyAllLevels.cs` / the relevant verifier; cite the commit that fixed it in the close comment.
 - **Never bulk-close**: the 2026-07-17 sweep marked 18 unbuilt FEATURE_IDEAS items as `completed`; they were re-marked `not planned` in the 2026-08-05 audit. Close one issue at a time with an accurate reason and comment.
 
+**When another agent is committing to main**: do feature work in a separate git worktree
+(`git worktree add <path> -b feature/<name> main`), and keep it synced with
+`git rebase main` — never merge. Fast-forward main to the feature tip when done.
+See the `eggbert-git-rebase-workflow` skill for the full procedure.
+
 ## Feature ideas
 `FEATURE_IDEAS.md` is a loose bucket of feature ideas — dialog, puzzles, NPC behaviors,
 atmosphere, items, secrets. No priority, no phases. Pull from it when you want something to build.
