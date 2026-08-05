@@ -93,6 +93,12 @@ public partial class Inventory : Node, ISavable
         Add("deviled_egg");
         Add("egg_salad_sandwich");
         Add("golden_yolk");
+        // Combat gear (docs/combat-ui-design.md §5.2) — test seeds; replace with level placement later.
+        Add("whisk"); Add("spatula"); Add("slotted_spoon"); Add("frying_pan"); Add("ladle"); Add("egg_timer");
+        Add("pot_lid"); Add("bubble_wrap"); Add("stained_apron"); Add("tin_foil_hat"); Add("silicone_mat");
+        Add("cracked_carton"); Add("hardboiled_shell");
+        Add("butter"); Add("molasses"); Add("hourglass"); Add("graze_charm"); Add("lucky_horseshoe");
+        Add("rubber_band"); Add("stopwatch"); Add("wedding_ring"); Add("sunglasses");
     }
     // --- ISavable ---
 

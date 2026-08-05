@@ -55,6 +55,7 @@ public partial class ParryComponent : Node2D
         _cooldownTimer = Cooldown;
 
         bool anyReflected = false;
+        int reflectedCount = 0;
 
         foreach (Node node in GetTree().GetNodesInGroup("bullet"))
         {
@@ -73,10 +74,13 @@ public partial class ParryComponent : Node2D
                     bullet.SetDirection(toTarget, 400f);
                     bullet.Reflected = true;
                     bullet.IsHoming = false;
-                    bullet.CollisionMask = CollisionConfig.EnemyLayer;
+                    // Reflected bullets hit enemies and (with Rubber Band) bounce off walls,
+                    // but pass through the player harmlessly.
+                    bullet.CollisionMask = CollisionConfig.EnemyLayer | CollisionConfig.WallsLayer;
                     bullet.Modulate = ReflectedTint;
                     bullet.ResetLifetime();
                     anyReflected = true;
+                    reflectedCount++;
                 }
             }
         }
@@ -99,6 +103,13 @@ public partial class ParryComponent : Node2D
         if (anyReflected)
         {
             GameLogger.Debug("Parry", "Parry success — bullet(s) reflected");
+            // Ladle: heal per reflected bullet.
+            if (reflectedCount > 0 && CombatStats.ParryHealPerBullet > 0)
+            {
+                int heal = reflectedCount * CombatStats.ParryHealPerBullet;
+                Player.Instance?.HealthComponent?.Heal(heal);
+                GameLogger.Debug("Parry", $"Parry healed {heal} HP ({reflectedCount} bullets × {CombatStats.ParryHealPerBullet})");
+            }
             OnParrySuccess();
         }
         else

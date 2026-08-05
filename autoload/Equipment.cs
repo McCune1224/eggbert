@@ -316,6 +316,71 @@ public partial class Equipment : Node, ISavable
         return total;
     }
 
+    public float GetTotalReflectExplosionRadius()
+    {
+        float total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.ReflectExplosionRadius;
+        }
+        return total;
+    }
+
+    public int GetTotalParryHeal()
+    {
+        int total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.ParryHeal;
+        }
+        return total;
+    }
+
+    public int GetTotalBounceCount()
+    {
+        int total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.BounceCount;
+        }
+        return total;
+    }
+
+    public float GetTotalBulletTimeZoneSeconds()
+    {
+        float total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.BulletTimeZoneSeconds;
+        }
+        return total;
+    }
+
+    public float GetTotalBulletTimeZoneSlow()
+    {
+        float total = 0;
+        int count = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null && item.BulletTimeZoneSeconds > 0f)
+            {
+                total += item.BulletTimeZoneSlow;
+                count++;
+            }
+        }
+        return count > 0 ? total / count : 0.5f;
+    }
+
     /// <summary>
     /// Returns a stat-change preview string for equipping an item,
     /// showing current vs projected values with +/- deltas.

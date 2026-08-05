@@ -67,6 +67,17 @@ public partial class Dash : Node2D
             return Vector2.Zero;
         }
 
+        // Hourglass: drop a bullet-time zone at the dash start position (combat only).
+        if (GameController.Instance?.CurrentLevel is CombatArena && CombatStats.BulletTimeZoneSeconds > 0f)
+        {
+            var zone = new BulletTimeZone
+            {
+                SlowMultiplier = CombatStats.BulletTimeZoneSlow,
+                Lifetime = CombatStats.BulletTimeZoneSeconds
+            };
+            zone.GlobalPosition = Player.Instance.GlobalPosition;
+            GameController.Instance.CurrentLevel.AddChild(zone);
+        }
 
         InstantiateDashGhost();
         _ghostTimer.Start();

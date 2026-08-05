@@ -179,7 +179,8 @@ public partial class CombatOatmeal : Area2D
                     _sprite.Modulate = _baseTint;
                 break;
             case State.Telegraph:
-                _stateDuration = profile.Telegraph;
+                // Stopwatch (TelegraphBoost) lengthens windups, making patterns easier to read.
+                _stateDuration = profile.Telegraph * CombatStats.TelegraphMultiplier;
                 break;
             case State.Cooldown:
                 _stateDuration = profile.Cooldown;

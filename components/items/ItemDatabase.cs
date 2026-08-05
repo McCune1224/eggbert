@@ -171,6 +171,186 @@ public static class ItemDatabase
                 HealAmount = 999,
             }
         },
+        // --- Combat gear (docs/combat-ui-design.md §5.2) ---
+        // Weapons — change how parry works
+        {
+            "whisk", new Item
+            {
+                Id = "whisk", DisplayName = "Whisk", Slot = EquipSlot.Weapon,
+                Category = ItemCategory.Equipment, AttackBoost = 2, ReflectSpeedBoost = 0.4f,
+                Description = "Whisk it good. Reflected bullets fly 40% faster. +2 ATK",
+            }
+        },
+        {
+            "spatula", new Item
+            {
+                Id = "spatula", DisplayName = "Spatula", Slot = EquipSlot.Weapon,
+                Category = ItemCategory.Equipment, ParryRadiusBoost = 22, ParryDamageBoost = -1,
+                Description = "Flip more, hit softer. +22 parry radius, -1 parry damage",
+            }
+        },
+        {
+            "slotted_spoon", new Item
+            {
+                Id = "slotted_spoon", DisplayName = "Slotted Spoon", Slot = EquipSlot.Weapon,
+                Category = ItemCategory.Equipment, ParryCooldownReduction = 0.2f,
+                Description = "Packed with holes, ready for rapid parries. -0.2s parry cooldown",
+            }
+        },
+        {
+            "frying_pan", new Item
+            {
+                Id = "frying_pan", DisplayName = "Cast Iron Frying Pan", Slot = EquipSlot.Weapon,
+                Category = ItemCategory.Equipment, ParryDamageBoost = 4, ReflectExplosionRadius = 30f,
+                Description = "Cast iron. Reflected bullets explode for 30px splash. +4 parry damage",
+            }
+        },
+        {
+            "ladle", new Item
+            {
+                Id = "ladle", DisplayName = "Ladle", Slot = EquipSlot.Weapon,
+                Category = ItemCategory.Equipment, ParryHeal = 3,
+                Description = "Serves up healing soup. Parry restores 3 HP per reflected bullet",
+            }
+        },
+        {
+            "egg_timer", new Item
+            {
+                Id = "egg_timer", DisplayName = "Egg Timer", Slot = EquipSlot.Weapon,
+                Category = ItemCategory.Equipment, BulletSlowFactor = 0.25f,
+                Description = "Time waits for no one. Slows enemy bullets 25%",
+            }
+        },
+        // Armor — survivability with trade-offs
+        {
+            "pot_lid", new Item
+            {
+                Id = "pot_lid", DisplayName = "Pot Lid", Slot = EquipSlot.Armor,
+                Category = ItemCategory.Equipment, DefenseBoost = 6, ParryRadiusBoost = 15,
+                Description = "A sturdy lid. +6 DEF, +15 parry radius",
+            }
+        },
+        {
+            "bubble_wrap", new Item
+            {
+                Id = "bubble_wrap", DisplayName = "Bubble Wrap", Slot = EquipSlot.Armor,
+                Category = ItemCategory.Equipment, BlockCharges = 3,
+                Description = "Pop! Blocks the first 3 hits of each battle",
+            }
+        },
+        {
+            "stained_apron", new Item
+            {
+                Id = "stained_apron", DisplayName = "Stained Apron", Slot = EquipSlot.Armor,
+                Category = ItemCategory.Equipment, DefenseBoost = 6, RegenPerSecond = 2,
+                Description = "Worn from years of service. +6 DEF, regen 2 HP/s in combat",
+            }
+        },
+        {
+            "tin_foil_hat", new Item
+            {
+                Id = "tin_foil_hat", DisplayName = "Tin Foil Hat", Slot = EquipSlot.Armor,
+                Category = ItemCategory.Equipment, DefenseBoost = 3, HomingResistance = 0.5f,
+                Description = "Blocks the mind-reading rays. +3 DEF, homing bullets 50% weaker",
+            }
+        },
+        {
+            "silicone_mat", new Item
+            {
+                Id = "silicone_mat", DisplayName = "Silicone Baking Mat", Slot = EquipSlot.Armor,
+                Category = ItemCategory.Equipment, DefenseBoost = 4, DashCooldownReduction = 0.15f,
+                Description = "Non-stick, extra dashy. +4 DEF, dash cooldown -0.15s",
+            }
+        },
+        {
+            "cracked_carton", new Item
+            {
+                Id = "cracked_carton", DisplayName = "Cracked Carton", Slot = EquipSlot.Armor,
+                Category = ItemCategory.Equipment, DefenseBoost = 12, SpeedBoost = -15,
+                Description = "Heavy but tough. +12 DEF, -15% move speed",
+            }
+        },
+        {
+            "hardboiled_shell", new Item
+            {
+                Id = "hardboiled_shell", DisplayName = "Hardboiled Shell", Slot = EquipSlot.Armor,
+                Category = ItemCategory.Equipment, DefenseBoost = 20, SpeedBoost = -20,
+                Description = "Rock solid. +20 DEF, -20% move speed",
+            }
+        },
+        // Accessories — weird, build-defining
+        {
+            "butter", new Item
+            {
+                Id = "butter", DisplayName = "Butter", Slot = EquipSlot.Accessory,
+                Category = ItemCategory.Equipment, BulletSlowFactor = 0.2f,
+                Description = "Everything's better with butter. Slows enemy bullets 20%",
+            }
+        },
+        {
+            "molasses", new Item
+            {
+                Id = "molasses", DisplayName = "Molasses", Slot = EquipSlot.Accessory,
+                Category = ItemCategory.Equipment, BulletSlowFactor = 0.35f, SpeedBoost = -10,
+                Description = "Thick and slow. Bullets 35% slower, but you move 10% slower too",
+            }
+        },
+        {
+            "hourglass", new Item
+            {
+                Id = "hourglass", DisplayName = "Hourglass", Slot = EquipSlot.Accessory,
+                Category = ItemCategory.Equipment, BulletTimeZoneSeconds = 2f, BulletTimeZoneSlow = 0.5f,
+                Description = "Dash drops a 2s bullet-time zone. Bullets inside move at 50% speed",
+            }
+        },
+        {
+            "graze_charm", new Item
+            {
+                Id = "graze_charm", DisplayName = "Graze Charm", Slot = EquipSlot.Accessory,
+                Category = ItemCategory.Equipment, GrazeRadiusBoost = 40,
+                Description = "Dance closer. +40 graze radius",
+            }
+        },
+        {
+            "lucky_horseshoe", new Item
+            {
+                Id = "lucky_horseshoe", DisplayName = "Lucky Horseshoe", Slot = EquipSlot.Accessory,
+                Category = ItemCategory.Equipment, EvadeChance = 0.15f,
+                Description = "Knock on wood. 15% chance to ignore damage",
+            }
+        },
+        {
+            "rubber_band", new Item
+            {
+                Id = "rubber_band", DisplayName = "Rubber Band", Slot = EquipSlot.Accessory,
+                Category = ItemCategory.Equipment, BounceCount = 1,
+                Description = "Snappy. Reflected bullets bounce once off walls",
+            }
+        },
+        {
+            "stopwatch", new Item
+            {
+                Id = "stopwatch", DisplayName = "Stopwatch", Slot = EquipSlot.Accessory,
+                Category = ItemCategory.Equipment, TelegraphBoost = 0.3f,
+                Description = "The whole kitchen slows down. Enemy windups last 30% longer",
+            }
+        },
+        {
+            "wedding_ring", new Item
+            {
+                Id = "wedding_ring", DisplayName = "Wedding Ring", Slot = EquipSlot.Accessory,
+                Category = ItemCategory.Equipment, ParryDamageBoost = 5,
+                Description = "Til death do us part. +5 parry damage",
+            }
+        },
+        {
+            "sunglasses", new Item
+            {
+                Id = "sunglasses", DisplayName = "Sunglasses", Slot = EquipSlot.Accessory,
+                Category = ItemCategory.Equipment, ParryCooldownReduction = 0.1f, InvulnerabilityBoost = 0.5f,
+                Description = "Too cool to get hit twice. -0.1s parry cooldown, +0.5s invulnerability after a hit",
+            }
+        },
     };
 
     public static Item Get(string id)

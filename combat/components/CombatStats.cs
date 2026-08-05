@@ -19,6 +19,11 @@ public static class CombatStats
     public static float ParryCooldownReduction { get; private set; } = 0f; // seconds off parry cooldown
     public static float DashCooldownReduction { get; private set; } = 0f;  // seconds off dash cooldown
     public static float TelegraphMultiplier { get; private set; } = 1f;    // ×windup duration (1.3 = 30% longer)
+    public static float ReflectExplosionRadius { get; private set; } = 0f; // reflected bullets explode in this radius
+    public static int ParryHealPerBullet { get; private set; } = 0;        // HP per reflected bullet
+    public static int BounceCount { get; private set; } = 0;               // wall bounces for reflected bullets
+    public static float BulletTimeZoneSeconds { get; private set; } = 0f;  // dash bullet-time zone duration
+    public static float BulletTimeZoneSlow { get; private set; } = 0.5f;   // bullet speed inside the zone
 
     /// <summary>
     /// Recomputes every modifier from the currently equipped items.
@@ -40,5 +45,10 @@ public static class CombatStats
         ParryCooldownReduction = Mathf.Max(0f, eq.GetTotalParryCooldownReduction());
         DashCooldownReduction = Mathf.Max(0f, eq.GetTotalDashCooldownReduction());
         TelegraphMultiplier = Mathf.Max(1f, 1f + eq.GetTotalTelegraphBoost());
+        ReflectExplosionRadius = Mathf.Max(0f, eq.GetTotalReflectExplosionRadius());
+        ParryHealPerBullet = Mathf.Max(0, eq.GetTotalParryHeal());
+        BounceCount = Mathf.Max(0, eq.GetTotalBounceCount());
+        BulletTimeZoneSeconds = Mathf.Max(0f, eq.GetTotalBulletTimeZoneSeconds());
+        BulletTimeZoneSlow = Mathf.Clamp(eq.GetTotalBulletTimeZoneSlow(), 0.2f, 0.95f);
     }
 }
