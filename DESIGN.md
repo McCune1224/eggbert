@@ -34,6 +34,7 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - **Warp points**: Place `WarpPoint` nodes in levels. Touch one → unlocked. Menu lists unlocked warps → pick → fade → arrive.
 
 ### World Map
+- **Overworld HUD map** (#170): semi-transparent schematic map of the current level, always on in the bottom-right corner while walking. Shows the player dot, NPC dots, and door/exit dots. Generated at level load from the tilemap used-rects + physics walkability (no per-level art or scene edits); hidden during dialogs, cutscenes, and combat. Supersedes "no real-time player tracking" for the HUD map.
 - **Pause menu region map**: Stylized region map panel in pause menu. No real-time player tracking.
 
 ### Audio

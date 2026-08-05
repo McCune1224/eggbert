@@ -32,6 +32,7 @@ Dependencies are noted per item.
 ✅ CutsceneResource-driven cutscenes (13 actions) — CutsceneController
 ✅ Dialog with 3 working NPCs — #24
 ✅ Location banner on transition
+✅ Overworld HUD map (semi-transparent, NPC/door/player dots) — #170
 
 ## Puzzles
 ✅ PushBlock, FloorSwitch, Door (latching/timed) — components/puzzles/

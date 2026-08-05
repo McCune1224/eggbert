@@ -166,7 +166,7 @@ _data = {
 &"idle": SubResource("Animation_67jqy")
 }
 
-[node name="FactoryOfficerBacon" type="StaticBody2D" unique_id=1867212580]
+[node name="FactoryOfficerBacon" type="StaticBody2D" groups=["npc"] unique_id=1867212580]
 
 [node name="@Polygon2D@3" type="Polygon2D" parent="." unique_id=1429194948]
 z_index = -1

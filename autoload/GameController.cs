@@ -35,6 +35,9 @@ public partial class GameController : Node
 		PackedScene objectiveTracker = ResourceLoader.Load<PackedScene>("res://ui/ObjectiveTracker.tscn");
 		_menu.AddChild(objectiveTracker.Instantiate());
 
+		PackedScene overworldMap = ResourceLoader.Load<PackedScene>("res://ui/OverworldMap.tscn");
+		_menu.AddChild(overworldMap.Instantiate());
+
 		PackedScene overworldMenu = ResourceLoader.Load<PackedScene>("res://ui/OverworldMenu.tscn");
 		CanvasLayer canvasLayer = new CanvasLayer();
 		canvasLayer.AddChild(overworldMenu.Instantiate());
