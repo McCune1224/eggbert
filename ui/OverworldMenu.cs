@@ -57,6 +57,18 @@ public partial class OverworldMenu : CanvasLayer
 	private Label _countLabel;
 	private Label _statsLabel;
 	private Label _hpLabel;
+	// Slot overview strip (Equipment tab)
+	private VBoxContainer _slotStrip;
+	private readonly Dictionary<EquipSlot, SlotRow> _slotRows = new();
+	private struct SlotRow
+	{
+		public Label Name;
+		public Label Effect;
+		public Button Unequip;
+	}
+	// Detail pane extras
+	private Label _effectsLabel;
+	private RichTextLabel _compareLabel;
 	// Help panel
 	private PanelContainer _helpPanel;
 	private Button _helpButton;
@@ -181,6 +193,9 @@ public partial class OverworldMenu : CanvasLayer
 		_itemList.Connect("item_selected", new Callable(this, nameof(OnItemSelected)));
 		_useButton.Connect("pressed", new Callable(this, nameof(OnUsePressed)));
 		_inventoryBackButton.Connect("pressed", new Callable(this, nameof(OnInventoryBackPressed)));
+
+		SetupSlotStrip();
+		CreateDetailExtras();
 
 		LoadSettings();
 		HideMenu();
@@ -376,13 +391,33 @@ public partial class OverworldMenu : CanvasLayer
 		_statsLabel.Text = "";
 		_selectedItemId = null;
 		_useButton.Disabled = true;
+		_effectsLabel.Text = "";
+		_compareLabel.Text = "";
+		_slotStrip.Visible = _currentTab == ItemCategory.Equipment;
+		RefreshSlotStrip();
 
-		foreach (string id in Inventory.Instance.GetByCategory(_currentTab))
+		var ids = Inventory.Instance.GetByCategory(_currentTab);
+		if (_currentTab == ItemCategory.Equipment)
+		{
+			// Sort by slot (Weapon → Armor → Accessory), then name (#144).
+			ids.Sort((a, b) =>
+			{
+				Item ia = ItemDatabase.Get(a);
+				Item ib = ItemDatabase.Get(b);
+				int sa = (int)(ia?.Slot ?? EquipSlot.None);
+				int sb = (int)(ib?.Slot ?? EquipSlot.None);
+				return sa != sb ? sa.CompareTo(sb) : string.CompareOrdinal(a, b);
+			});
+		}
+
+		foreach (string id in ids)
 		{
 			Item item = ItemDatabase.Get(id);
 			if (item == null) continue;
 			int count = Inventory.Instance.GetCount(id);
 			string label = count > 1 ? $"{item.DisplayName} x{count}" : item.DisplayName;
+			if (item.Category == ItemCategory.Equipment)
+				label = $"{SlotBadge(item.Slot)} {label}";
 			_itemList.AddItem(label, item.Icon);
 			_itemList.SetItemMetadata(_itemList.ItemCount - 1, id);
 		}
@@ -393,6 +428,145 @@ public partial class OverworldMenu : CanvasLayer
 			OnItemSelected(0);
 		}
 		UpdateHpLabel();
+	}
+
+	private static string SlotBadge(EquipSlot slot)
+	{
+		return slot switch
+		{
+			EquipSlot.Weapon => "[W]",
+			EquipSlot.Armor => "[A]",
+			EquipSlot.Accessory => "[Acc]",
+			_ => ""
+		};
+	}
+
+	// --- Equipment slot overview strip (docs/combat-ui-design.md §4.1) ---
+
+	private void SetupSlotStrip()
+	{
+		var invVBox = _inventoryPanel.GetNode<VBoxContainer>("VBoxContainer");
+		_slotStrip = new VBoxContainer { Visible = false };
+		_slotStrip.AddThemeConstantOverride("separation", 2);
+
+		AddSlotRow(EquipSlot.Weapon, "WEAPON");
+		AddSlotRow(EquipSlot.Armor, "ARMOR");
+		AddSlotRow(EquipSlot.Accessory, "ACCESSORY");
+
+		invVBox.AddChild(_slotStrip);
+		invVBox.MoveChild(_slotStrip, 2); // between TabBox and ContentRow
+	}
+
+	private void AddSlotRow(EquipSlot slot, string slotName)
+	{
+		var row = new HBoxContainer { CustomMinimumSize = new Vector2(0, 20) };
+		var slotLabel = new Label
+		{
+			Text = slotName,
+			ThemeTypeVariation = "MenuLabelSmall",
+			CustomMinimumSize = new Vector2(74, 0)
+		};
+		var nameLabel = new Label
+		{
+			ThemeTypeVariation = "MenuLabelSmall",
+			SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
+		};
+		var effectLabel = new Label
+		{
+			ThemeTypeVariation = "MenuLabelSmall",
+			SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
+		};
+		var unequip = new Button
+		{
+			Text = "Unequip",
+			ThemeTypeVariation = "MenuButton",
+			Disabled = true,
+			CustomMinimumSize = new Vector2(70, 0)
+		};
+		unequip.Pressed += () =>
+		{
+			Equipment.Instance.Unequip(slot);
+			RefreshSlotStrip();
+			RefreshInventory();
+		};
+		row.AddChild(slotLabel);
+		row.AddChild(nameLabel);
+		row.AddChild(effectLabel);
+		row.AddChild(unequip);
+		_slotStrip.AddChild(row);
+		_slotRows[slot] = new SlotRow { Name = nameLabel, Effect = effectLabel, Unequip = unequip };
+	}
+
+	private void RefreshSlotStrip()
+	{
+		foreach (var kvp in _slotRows)
+		{
+			Item item = Equipment.Instance.GetEquipped(kvp.Key);
+			kvp.Value.Name.Text = item?.DisplayName ?? "—";
+			kvp.Value.Effect.Text = item?.EffectSummary() ?? "";
+			kvp.Value.Unequip.Disabled = item == null;
+		}
+	}
+
+	// --- Detail pane extras (docs/combat-ui-design.md §4.2/4.3) ---
+
+	private void CreateDetailExtras()
+	{
+		var detailVBox = _inventoryPanel.GetNode<VBoxContainer>("VBoxContainer/ContentRow/DetailPanel/DetailVBox");
+
+		_effectsLabel = new Label
+		{
+			ThemeTypeVariation = "MenuLabelSmall",
+			AutowrapMode = TextServer.AutowrapMode.Word,
+			CustomMinimumSize = new Vector2(0, 42),
+			Modulate = new Color(0.8f, 0.95f, 0.8f)
+		};
+
+		_compareLabel = new RichTextLabel
+		{
+			BbcodeEnabled = true,
+			FitContent = true,
+			ScrollActive = false,
+			CustomMinimumSize = new Vector2(0, 0)
+		};
+		_compareLabel.AddThemeFontSizeOverride("normal_font_size", 10);
+
+		detailVBox.AddChild(_effectsLabel);
+		detailVBox.AddChild(_compareLabel);
+	}
+
+	/// <summary>
+	/// Color-coded current → new comparison for the selected equipment item,
+	/// plus the derived totals the player would have after equipping it.
+	/// </summary>
+	private string BuildCompareText(Item item)
+	{
+		if (item == null || item.Category != ItemCategory.Equipment) return "";
+
+		var parts = new System.Collections.Generic.List<string>();
+		string preview = Equipment.Instance.PreviewDeltas(item);
+		if (!string.IsNullOrEmpty(preview))
+		{
+			foreach (string delta in preview.Split(", "))
+			{
+				string color = delta.StartsWith("+") ? "#7fdc7f" : "#ff7f7f";
+				parts.Add($"[color={color}]{delta}[/color]");
+			}
+		}
+
+		// Derived totals after equipping (swap the current item in the slot).
+		string currentId = Equipment.Instance.GetEquippedId(item.Slot);
+		Item current = string.IsNullOrEmpty(currentId) ? null : ItemDatabase.Get(currentId);
+		float parryR = Equipment.Instance.TotalParryRadius - (current?.ParryRadiusBoost ?? 0) + item.ParryRadiusBoost;
+		int parryD = Equipment.Instance.TotalParryDamage - (current?.ParryDamageBoost ?? 0) + item.ParryDamageBoost;
+		float cd = Mathf.Max(0.1f, 0.5f - (Equipment.Instance.TotalParryCooldownReduction - (current?.ParryCooldownReduction ?? 0) + item.ParryCooldownReduction));
+		float slow = Equipment.Instance.TotalBulletSlow - (current?.BulletSlowFactor ?? 0) + item.BulletSlowFactor;
+		string totals = $"PARRY R {parryR:0}, PARRY DMG {parryD}, CD {cd:0.0#}s";
+		if (slow > 0.0005f)
+			totals += $", BULLET SLOW {slow * 100f:0}%";
+		parts.Add($"[color=#e8d9a0]{totals}[/color]");
+
+		return string.Join("\n", parts);
 	}
 
 	private void OnItemSelected(long index)
@@ -458,14 +632,6 @@ public partial class OverworldMenu : CanvasLayer
 			AddPct("TELEGRAPH", item.TelegraphBoost);
 			_statsLabel.Text = string.Join(", ", boosts);
 
-			// Show stat preview for unequipped items
-			if (!Equipment.Instance.IsEquipped(item.Id))
-			{
-				string preview = Equipment.Instance.PreviewDeltas(item);
-				if (!string.IsNullOrEmpty(preview))
-					_statsLabel.Text += $"\n[{preview}]";
-			}
-
 			if (Equipment.Instance.IsEquipped(item.Id))
 			{
 				_statsLabel.Text += " (Equipped)";
@@ -480,6 +646,10 @@ public partial class OverworldMenu : CanvasLayer
 
 			GameLogger.Debug("OverworldMenu", $"Item selected: '{_selectedItemId}' ({_currentTab})");
 		}
+
+		// Plain-language effects + color-coded comparison (docs/combat-ui-design.md §4.2/4.3).
+		_effectsLabel.Text = item.Category == ItemCategory.Equipment ? item.EffectSummary() : "";
+		_compareLabel.Text = BuildCompareText(item);
 	}
 
 	private void OnUsePressed()

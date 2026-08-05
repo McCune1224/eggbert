@@ -43,4 +43,27 @@ public partial class Item : Resource
     [Export] public float InvulnerabilityBoost { get; set; }    // seconds of iframes after a hit
     [Export] public float DashCooldownReduction { get; set; }   // seconds off dash cooldown
     [Export] public float TelegraphBoost { get; set; }          // 0.3 = enemy telegraphs 30% longer
+
+    /// <summary>
+    /// Plain-language effect lines for UI (docs/combat-ui-design.md §4.3).
+    /// Describes every non-zero combat behavior modifier.
+    /// </summary>
+    public string EffectSummary()
+    {
+        var parts = new System.Collections.Generic.List<string>();
+        if (BulletSlowFactor > 0.0005f) parts.Add($"Slows enemy bullets {BulletSlowFactor * 100f:0}%");
+        if (ParryCooldownReduction > 0.0005f) parts.Add($"Parry cooldown -{ParryCooldownReduction:0.0#}s");
+        if (ReflectSpeedBoost > 0.0005f) parts.Add($"Reflects bullets {ReflectSpeedBoost * 100f:0}% faster");
+        if (GrazeRadiusBoost > 0.0005f) parts.Add($"+{GrazeRadiusBoost:0} graze radius");
+        if (HomingResistance > 0.0005f) parts.Add($"Homing bullets {HomingResistance * 100f:0}% weaker");
+        if (BlockCharges > 0) parts.Add($"Blocks the first {BlockCharges} hits of each battle");
+        if (RegenPerSecond > 0.0005f) parts.Add($"Regenerates {RegenPerSecond:0.#} HP/s in combat");
+        if (EvadeChance > 0.0005f) parts.Add($"{EvadeChance * 100f:0}% chance to ignore damage");
+        if (InvulnerabilityBoost > 0.0005f) parts.Add($"+{InvulnerabilityBoost:0.0#}s invulnerability after a hit");
+        if (DashCooldownReduction > 0.0005f) parts.Add($"Dash cooldown -{DashCooldownReduction:0.0#}s");
+        if (TelegraphBoost > 0.0005f) parts.Add($"Enemy windups last {TelegraphBoost * 100f:0}% longer");
+        if (ParryRadiusBoost > 0.0005f) parts.Add($"+{ParryRadiusBoost:0} parry radius");
+        if (ParryDamageBoost != 0) parts.Add($"{(ParryDamageBoost > 0 ? "+" : "")}{ParryDamageBoost} parry damage");
+        return string.Join("\n", parts);
+    }
 }

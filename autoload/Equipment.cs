@@ -149,7 +149,6 @@ public partial class Equipment : Node, ISavable
     }
 
     public int TotalSpeedBoost => GetTotalSpeedBoost();
-
     private int GetTotalSpeedBoost()
     {
         int total = 0;
@@ -163,6 +162,12 @@ public partial class Equipment : Node, ISavable
     }
 
     public int TotalAttackBoost => GetTotalAttackBoost();
+
+    // Public totals for UI (menu comparison, docs/combat-ui-design.md §4.2).
+    public float TotalParryRadius => GetTotalParryRadius();
+    public int TotalParryDamage => GetTotalParryDamage();
+    public float TotalParryCooldownReduction => GetTotalParryCooldownReduction();
+    public float TotalBulletSlow => GetTotalBulletSlow();
 
     private int GetTotalAttackBoost()
     {
