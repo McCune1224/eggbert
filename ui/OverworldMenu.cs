@@ -419,9 +419,10 @@ public partial class OverworldMenu : CanvasLayer
 		}
 		else if (item.Category == ItemCategory.Consumable)
 		{
+			bool inCombat = GameController.Instance?.CurrentLevel is CombatArena;
 			_statsLabel.Text = item.HealAmount > 0 ? $"Restores {item.HealAmount} HP" : "";
-			_useButton.Disabled = false;
-			_useButton.Text = "Use";
+			_useButton.Disabled = inCombat;
+			_useButton.Text = inCombat ? "(unavailable in combat)" : "Use";
 		}
 		else if (item.Category == ItemCategory.Equipment)
 		{
@@ -468,11 +469,12 @@ public partial class OverworldMenu : CanvasLayer
 			if (Equipment.Instance.IsEquipped(item.Id))
 			{
 				_statsLabel.Text += " (Equipped)";
-				_useButton.Disabled = false;
-				_useButton.Text = "Unequip";
+				_useButton.Disabled = GameController.Instance?.CurrentLevel is CombatArena;
+				_useButton.Text = GameController.Instance?.CurrentLevel is CombatArena ? "(unavailable in combat)" : "Unequip";
 			}
 			else
 			{
+				_useButton.Disabled = GameController.Instance?.CurrentLevel is CombatArena;
 				_useButton.Text = "Equip";
 			}
 
@@ -485,6 +487,13 @@ public partial class OverworldMenu : CanvasLayer
 		if (_selectedItemId == null) return;
 		Item item = ItemDatabase.Get(_selectedItemId);
 		if (item == null) return;
+
+		// DESIGN.md: no item usage during combat (dodge-only). Lock the build mid-battle.
+		if (GameController.Instance?.CurrentLevel is CombatArena)
+		{
+			GameLogger.Warn("OverworldMenu", "Use blocked — items/equipment are locked during combat (DESIGN.md).");
+			return;
+		}
 
 		AudioManager.Instance.PlaySfx(_confirmSfx);
 
