@@ -178,9 +178,10 @@ public partial class ParryComponent : Node2D
                 new Color(1f, 1f, 1f, 0.15f), 1f);
     }
 
-    public void UpdateStats(float radiusBoost, int damageBoost)
+    public void UpdateStats(float radiusBoost, int damageBoost, float cooldownReduction = 0f)
     {
         ParryRadius = 110f + radiusBoost;
         ParryDamage = 10 + damageBoost;
+        Cooldown = Mathf.Max(0.1f, 0.5f - cooldownReduction);
     }
 }

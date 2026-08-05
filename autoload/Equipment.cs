@@ -115,7 +115,8 @@ public partial class Equipment : Node, ISavable
 
         var parry = player.Parry;
         if (parry != null)
-            parry.UpdateStats(GetTotalParryRadius(), GetTotalParryDamage());
+            parry.UpdateStats(GetTotalParryRadius(), GetTotalParryDamage(), GetTotalParryCooldownReduction());
+        CombatStats.Refresh();
         GameLogger.Debug("Equipment", $"ApplyItemStats: '{item.Id}' sign={sign} — ATK={item.AttackBoost}, DEF={item.DefenseBoost}, SPD={item.SpeedBoost}, HP={item.MaxHPBoost}");
     }
 
@@ -171,6 +172,141 @@ public partial class Equipment : Node, ISavable
             if (string.IsNullOrEmpty(id)) continue;
             var item = ItemDatabase.Get(id);
             if (item != null) total += item.AttackBoost;
+        }
+        return total;
+    }
+
+    // --- Combat behavior totals (docs/combat-ui-design.md §5.1) ---
+    // All summed across the three equipped slots; consumed by CombatStats.Refresh().
+
+    public float GetTotalBulletSlow()
+    {
+        float total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.BulletSlowFactor;
+        }
+        return total;
+    }
+
+    public float GetTotalParryCooldownReduction()
+    {
+        float total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.ParryCooldownReduction;
+        }
+        return total;
+    }
+
+    public float GetTotalReflectSpeedBoost()
+    {
+        float total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.ReflectSpeedBoost;
+        }
+        return total;
+    }
+
+    public float GetTotalGrazeRadiusBoost()
+    {
+        float total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.GrazeRadiusBoost;
+        }
+        return total;
+    }
+
+    public float GetTotalHomingResistance()
+    {
+        float total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.HomingResistance;
+        }
+        return total;
+    }
+
+    public int GetTotalBlockCharges()
+    {
+        int total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.BlockCharges;
+        }
+        return total;
+    }
+
+    public float GetTotalRegenPerSecond()
+    {
+        float total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.RegenPerSecond;
+        }
+        return total;
+    }
+
+    public float GetTotalEvadeChance()
+    {
+        float total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.EvadeChance;
+        }
+        return total;
+    }
+
+    public float GetTotalInvulnerabilityBoost()
+    {
+        float total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.InvulnerabilityBoost;
+        }
+        return total;
+    }
+
+    public float GetTotalDashCooldownReduction()
+    {
+        float total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.DashCooldownReduction;
+        }
+        return total;
+    }
+
+    public float GetTotalTelegraphBoost()
+    {
+        float total = 0;
+        foreach (var id in _slots.Values)
+        {
+            if (string.IsNullOrEmpty(id)) continue;
+            var item = ItemDatabase.Get(id);
+            if (item != null) total += item.TelegraphBoost;
         }
         return total;
     }

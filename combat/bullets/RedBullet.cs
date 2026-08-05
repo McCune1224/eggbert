@@ -35,10 +35,16 @@ public partial class RedBullet : Area2D
         if (IsHoming && !Reflected)
         {
             Vector2 toPlayer = (CombatTargeter.GetPlayerPosition() - GlobalPosition).Normalized();
-            direction = direction.Lerp(toPlayer, HomingStrength * dt).Normalized();
+            float strength = HomingStrength * (1f - CombatStats.HomingResistance);
+            direction = direction.Lerp(toPlayer, strength * dt).Normalized();
         }
 
-        Position += direction.Normalized() * speed * dt;
+        // Equipment modifiers: enemy bullets can be slowed (Butter/Molasses/Egg Timer);
+        // reflected bullets fly faster with reflect-speed gear (Whisk).
+        float effectiveSpeed = Reflected
+            ? speed * CombatStats.ReflectSpeedMultiplier
+            : speed * CombatStats.BulletSlowMultiplier;
+        Position += direction.Normalized() * effectiveSpeed * dt;
         Rotation = Mathf.Atan2(direction.Y, direction.X);
 
         aliveTime += dt;

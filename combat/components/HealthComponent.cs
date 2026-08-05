@@ -10,12 +10,21 @@ public partial class HealthComponent : Node
     public delegate void DiedEventHandler();
     [Signal]
     public delegate void RevivedEventHandler();
+    [Signal]
+    public delegate void BlockedEventHandler();
 
     [Export] public int MaxHP { get; set; } = 100;
     [Export] public int CurrentHP { get; set; }
     [Export] public int Defense { get; set; }
+    /// <summary>Base invulnerability seconds after taking damage (0 = none). Item boost via CombatStats adds on top.</summary>
+    [Export] public float IframeSeconds { get; set; }
 
     public bool IsDead => CurrentHP <= 0;
+
+    /// <summary>Hits remaining that are absorbed for free this combat (Bubble Wrap). Reset by CombatArena.</summary>
+    public int BlockChargesRemaining { get; set; }
+
+    private float _iframesRemaining = 0f;
 
     public override void _Ready()
     {
@@ -23,26 +32,57 @@ public partial class HealthComponent : Node
             CurrentHP = MaxHP;
     }
 
-    /// <summary>
-    /// Applies damage after reducing it by <see cref="Defense"/>. The minimum dealt damage is 1 (damage formula: max(1, raw - def)).
-    /// Emits <see cref="Damaged"/> and, if HP reaches zero, emits <see cref="Died"/>.
-    /// </summary>
-    /// <param name="rawDamage">Unreduced damage amount before defense mitigation.</param>
-    /// <param name="source">Optional node that originated the damage (used for logging).</param>
-    public void TakeDamage(int rawDamage, Node source = null)
+    public override void _Process(double delta)
     {
-        if (IsDead) return;
+        if (_iframesRemaining > 0f)
+            _iframesRemaining -= (float)delta;
+    }
+
+    /// <summary>
+    /// Applies damage after defense mitigation (min 1). Returns false when the hit was
+    /// negated by iframes, evade, or an active block charge (no damage applied).
+    /// </summary>
+    public bool TakeDamage(int rawDamage, Node source = null)
+    {
+        if (IsDead) return false;
+
+        if (_iframesRemaining > 0f)
+        {
+            GameLogger.Debug("Health", $"{GetParent()?.Name ?? "?"} ignored {rawDamage} dmg — iframes active");
+            return false;
+        }
+
+        if (CombatStats.EvadeChance > 0f && GD.Randf() < CombatStats.EvadeChance)
+        {
+            GameLogger.Debug("Health", $"{GetParent()?.Name ?? "?"} evaded {rawDamage} dmg (evade {CombatStats.EvadeChance:P0})");
+            return false;
+        }
+
+        if (BlockChargesRemaining > 0)
+        {
+            BlockChargesRemaining--;
+            EmitSignal(SignalName.Blocked);
+            GameLogger.Debug("Health", $"{GetParent()?.Name ?? "?"} blocked {rawDamage} dmg — {BlockChargesRemaining} charges left");
+            return false;
+        }
+
         int dmg = Mathf.Max(1, rawDamage - Defense);
         string ownerName = GetParent()?.Name ?? "?";
         string srcName = source?.Name ?? "?";
         GameLogger.Debug("Health", $"TakeDamage: {ownerName} took {dmg} (raw={rawDamage}, def={Defense}) from '{srcName}' → HP={CurrentHP}");
         CurrentHP = Mathf.Max(0, CurrentHP - dmg);
         EmitSignal(SignalName.Damaged, dmg, source);
+
+        float iframes = IframeSeconds + CombatStats.InvulnerabilityBoost;
+        if (iframes > 0f)
+            _iframesRemaining = iframes;
+
         if (CurrentHP <= 0)
         {
             EmitSignal(SignalName.Died);
             GameLogger.Info("Health", $"'{ownerName}' died — {CurrentHP}/{MaxHP}");
         }
+        return true;
     }
 
     /// <summary>

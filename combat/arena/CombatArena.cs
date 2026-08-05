@@ -40,7 +40,28 @@ public partial class CombatArena : Node2D
         Player.Instance.Position = PlayerSpawnPosition;
         Player.Instance.HealthComponent.Died += OnPlayerDied;
 
+        // Per-combat equipment state: block charges reset each battle (Bubble Wrap);
+        // base iframes stay off unless gear grants them (Sunglasses).
+        Player.Instance.HealthComponent.BlockChargesRemaining = CombatStats.BlockCharges;
+        Player.Instance.HealthComponent.IframeSeconds = 0f;
+
         GameLogger.Info("Combat", $"Arena '{Name}': _Ready — player spawned at {PlayerSpawnPosition}, initial enemies={EnemiesRemaining}");
+    }
+
+    private float _regenAccumulator = 0f;
+
+    public override void _Process(double delta)
+    {
+        // Combat regen from armor (Stained Apron) — heals per second while in the arena.
+        if (CombatStats.RegenPerSecond <= 0f) return;
+        _regenAccumulator += (float)delta;
+        if (_regenAccumulator >= 1f)
+        {
+            _regenAccumulator = 0f;
+            var hc = Player.Instance?.HealthComponent;
+            if (hc != null && !hc.IsDead)
+                hc.Heal(Mathf.Max(1, Mathf.RoundToInt(CombatStats.RegenPerSecond)));
+        }
     }
 
     public override void _ExitTree()

@@ -30,4 +30,17 @@ public partial class Item : Resource
     [Export] public int MaxHPBoost { get; set; }
     [Export] public float ParryRadiusBoost { get; set; }
     [Export] public int ParryDamageBoost { get; set; }
+
+    // --- Combat behavior modifiers (docs/combat-ui-design.md §5.1) ---
+    [Export] public float BulletSlowFactor { get; set; }        // 0.25 = enemy bullets 25% slower
+    [Export] public float ParryCooldownReduction { get; set; }  // seconds off the 0.5s parry cooldown
+    [Export] public float ReflectSpeedBoost { get; set; }       // 0.4 = reflected bullets +40% speed
+    [Export] public float GrazeRadiusBoost { get; set; }        // px added to graze detection
+    [Export] public float HomingResistance { get; set; }        // 0.5 = homing strength halved
+    [Export] public int BlockCharges { get; set; }              // hits absorbed per combat
+    [Export] public float RegenPerSecond { get; set; }          // combat HP regen
+    [Export] public float EvadeChance { get; set; }             // 0.15 = 15% chance to ignore damage
+    [Export] public float InvulnerabilityBoost { get; set; }    // seconds of iframes after a hit
+    [Export] public float DashCooldownReduction { get; set; }   // seconds off dash cooldown
+    [Export] public float TelegraphBoost { get; set; }          // 0.3 = enemy telegraphs 30% longer
 }

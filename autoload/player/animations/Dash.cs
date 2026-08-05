@@ -97,7 +97,8 @@ public partial class Dash : Node2D
     {
         GameLogger.Debug("Player", "Dash ended");
         _ghostTimer.Stop();
-        GetTree().CreateTimer(_dashCooldown).Timeout += () =>
+        float cooldown = Mathf.Max(0.05f, _dashCooldown - CombatStats.DashCooldownReduction);
+        GetTree().CreateTimer(cooldown).Timeout += () =>
         {
 
             _canDash = true;
