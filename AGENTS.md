@@ -58,7 +58,7 @@ ISavable interface. Nodes in "persist" group auto-saved. Single slot: user://sav
 - No tests, no CI.
 - Physics layers in components/core/CollisionConfig.cs: 1=Player, 2=Walls, 3=NPCs, 4=Bullets, 5=Interactables, 6=Enemies, 7=TriggerAreas, 8=PlayerHitbox, 9=EnemyHitbox, 10=Items.
 - Inputs: WASD movement, E=interact/dialog advance, Esc=menu, Space=dash, Shift=sprint, J=parry (combat), arrow keys+E=choice menu selection.
-- All work commits directly to main. No branches, no PRs.
+- All work commits directly to main. No branches, no PRs. **Exception: when 2+ agents run concurrently, see "Concurrent agents" below — every agent works on its own branch in its own worktree.**
 
 ## Design unknowns — ASK, don't assume
 - Story/narrative (who is Eggbert?) — #9
@@ -96,6 +96,51 @@ File an issue before non-trivial work. Commit with `Closes #N` on main. Push.
 (`git worktree add <path> -b feature/<name> main`), and keep it synced with
 `git rebase main` — never merge. Fast-forward main to the feature tip when done.
 See the `eggbert-git-rebase-workflow` skill for the full procedure.
+
+## Concurrent agents (2–3 agents at once)
+
+**Goal: linear main, zero stepping on each other.** Main is the only long-lived branch.
+Every agent works in its own worktree on a short-lived `feature/<area>` branch, rebases
+onto main, and lands via fast-forward. Never merge main into a feature branch; never
+commit to main directly while other agents are active.
+
+### File ownership — this is the conflict-avoider
+
+Two agents editing the **same `.tscn` scene** produces an unmergeable mess (scene files
+and `tile_map_data` cannot be hand-merged). Assign areas so files don't overlap:
+
+| Agent | Owns | Avoid touching |
+|-------|------|----------------|
+| Levels agent | `levels/**/*.tscn`, `levels/**/*.cs`, `docs/factory-opening.md`, `docs/level-authoring.md` | components/, autoload/ |
+| Systems agent | `components/**/*.cs`, `autoload/**/*.cs`, `resources/dialog/**`, `resources/cutscene/**` | levels/ scenes |
+| Content agent | `ItemDatabase.cs`, `resources/quests/**`, `.tres` resources, `docs/` design docs | scene files, component logic |
+
+**Hot files (single-owner, additive-only):** `AGENTS.md`, `ItemDatabase.cs`,
+`CollisionConfig.cs`, `project.godot`. Only one agent edits these per session; when they
+must change, **append** (new flags/items/keys) instead of rewriting, so rebases don't collide.
+
+### Cadence
+
+- **Before starting, before committing, and before landing: `git rebase main`.**
+- **Land small and often** — prefer 1-commit daily landings over week-long branches.
+  Long-lived branches accumulate conflicts; short ones rebase trivially.
+- If an agent's work must live >2 days, rebase onto main at least daily.
+- Land in order; after each fast-forward, the next agent rebases again.
+
+### Landing (from the main worktree)
+
+```bash
+git merge --ff-only feature/<area>   # only after that agent's rebase + verify
+git push origin main
+```
+
+### What agents must NOT do
+
+- No `git checkout -b` in a dirty worktree — create a new worktree instead.
+- No `git merge main` into a feature branch (breaks linear history).
+- No `git add -A` / `git add .` — stray `.import` sidecars and `.hermes/` exist.
+- No touching another agent's worktree or committing on their behalf.
+- No rebasing a branch that has already been pushed/shared (rewrites history).
 
 ## Feature ideas
 `FEATURE_IDEAS.md` is a loose bucket of feature ideas — dialog, puzzles, NPC behaviors,
