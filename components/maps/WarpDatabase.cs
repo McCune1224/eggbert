@@ -34,7 +34,7 @@ public static class WarpDatabase
               LevelPath = "res://levels/courtyard/maps/courtyard.tscn", TargetTransitionName = "HubArrival" } },
         { "eggsile_area1", new WarpDestination
             { Id = "eggsile_area1", Name = "Eggsile — Area 1",
-              LevelPath = "res://levels/eggsile/maps/area1.tscn", TargetTransitionName = "HubArrival" } },
+              LevelPath = "res://levels/eggsile/maps/EggsIsle.tscn", TargetTransitionName = "HubArrival" } },
         { "prison", new WarpDestination
             { Id = "prison", Name = "Prison",
               LevelPath = "res://levels/prison/maps/prison.tscn", TargetTransitionName = "HubArrival" } },

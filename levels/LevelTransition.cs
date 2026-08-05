@@ -60,6 +60,10 @@ public partial class LevelTransition : Area2D
     [Export]
     public string RequiredFlag = "";
 
+    /// <summary>WorldFlags set to true when the transition fires (after RequiredFlag passes).</summary>
+    [Export]
+    public string[] SetFlagsOnFire { get; set; }
+
     public override string[] _GetConfigurationWarnings()
     {
         var warnings = new System.Collections.Generic.List<string>();
@@ -143,6 +147,17 @@ public partial class LevelTransition : Area2D
             {
                 GameLogger.Debug("LevelTransition", $"'{Name}': gated — requires flag '{RequiredFlag}' (not set).");
                 return;
+            }
+            if (SetFlagsOnFire != null)
+            {
+                foreach (string flag in SetFlagsOnFire)
+                {
+                    if (!string.IsNullOrEmpty(flag))
+                    {
+                        WorldFlags.Instance.SetFlag(flag, true);
+                        GameLogger.Info("LevelTransition", $"'{Name}': set flag '{flag}'=true");
+                    }
+                }
             }
             GameLogger.Info("LevelTransition", $"Transition triggered → {Level} (target: {TargetTransitionName})");
         }

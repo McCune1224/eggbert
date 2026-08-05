@@ -7,9 +7,11 @@ arrest handoff. This doc is the load-bearing design contract; implementation fol
 
 ## Entry contract (already wired)
 
-- **Scene:** `res://levels/eggsile/maps/area1.tscn` (root `Node2D` + `BaseLevel.cs`, `LevelName = "Eggsile Area 1"`).
-- **Arrival:** `FactoryOpeningFlow.cs` → `LoadLevel(area1.tscn, "HubArrival")` after the arrest cutscene.
+- **Scene:** `res://levels/eggsile/maps/EggsIsle.tscn` (root `Node2D` + `BaseLevel.cs`, `LevelName = "Eggs Isle — Intake"`).
+- **Arrival:** `FactoryOpeningFlow.cs` → `LoadLevel(EggsIsle.tscn, "HubArrival")` after the arrest cutscene.
   `HubArrival` is the left-gate transition at ≈ `(-640, 320)`.
+- **Intro cutscene:** one-shot OnEnter `ArrivalCutscene` (CutsceneId `eggsile_arrival`) — ferry dock, Officer
+  Bacon hands Eggbert to intake officer Joe at the processing desk, then the player walks into the cell block.
 - **Flags set on entry:** `"arrested"` (fact), `"warp_eggsile_area1"` (warp unlock). Do not re-set.
 - **Ambience:** music `lvl_3_the_grassland.ogg`, ambience `isle_tide_ambient.ogg` (already on root).
 - **Tilemap:** `CoreTilemapLayer` (external `eggsile_tileset.tres`). Geometry is **reused, not repainted**.

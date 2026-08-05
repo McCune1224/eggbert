@@ -64,7 +64,7 @@ public partial class GenerateSandboxLevels : SceneTree
 
         // East exit <-> Eggsile Area 1 (factory exit destination).
         AddTransition(root, "EastToArea1", new Vector2(440, 0), TransitionSide.Right, 5,
-            "res://levels/eggsile/maps/area1.tscn", "SandboxArrival", "");
+            "res://levels/eggsile/maps/EggsIsle.tscn", "SandboxArrival", "");
 
         // Clear east wall 5-cell opening (x=13, y=-2..2) and place passage floor.
         for (int y = -2; y <= 2; y++)

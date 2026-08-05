@@ -58,7 +58,7 @@ OpeningZone → SortingFloor → AssemblyLine → ControlRoom → LoadingBay ─
 | Arrival | Open floor, `ControlRoomReturn` transition back to ControlRoom | Player can return. |
 | Timed switches | West `LoadingTimedSwitchWest` and east `LoadingTimedSwitchEast` | Both open `LoadingTimedGate` for five seconds. |
 | Arrest | `ArrestCutscene` (direct-root `CutsceneTrigger`), `OnEnter`, once-only | Uses `OfficerBaconArrest.tres` (a `CutsceneResource`). Sets `arrested`. |
-| Handoff | `EggsileTransition` (direct-root `LevelTransition`) | Requires `arrested`. Targets `res://levels/eggsile/maps/area1.tscn` / direct-root `HubArrival`. |
+| Handoff | `EggsileTransition` (direct-root `LevelTransition`) | Requires `arrested`. Targets `res://levels/eggsile/maps/EggsIsle.tscn` / direct-root `HubArrival` (then the one-shot arrival cutscene plays). |
 
 ## Progression keys
 
@@ -87,7 +87,7 @@ OpeningZone → SortingFloor → AssemblyLine → ControlRoom → LoadingBay ─
 ## Authoring constraints
 
 - The `ArrestCutscene` node name and `OfficerBaconArrest.tres` resource path are stable unless `FactoryOpeningFlow.cs` is updated.
-- `FactoryOpeningFlow.cs` owns the mandatory post-arrest handoff. Keep the `ArrestCutscene`, `EggsileTransition`, and `HubArrival` node names stable.
+- `FactoryOpeningFlow.cs` owns the mandatory post-arrest handoff. Keep the `ArrestCutscene`, `EggsileTransition`, and `HubArrival` node names stable. The handoff target is `res://levels/eggsile/maps/EggsIsle.tscn`.
 - The scene's inline arrest lines are intentionally replaced by `FactoryOpeningFlow` so the narrative stays synchronized with the transfer.
 - Stable node names per room: `SortingFloorEntrance`/`ClockOutReturn`, `AssemblyLineEntrance`/`SortingFloorArrival`, `AssemblyLineExit`/`AssemblyLineArrival`, `LoadingBayEntrance`/`ControlRoomReturn`, `EggsileTransition`/`HubArrival`. Renaming any of them requires updating every source transition and `VerifyFactoryExpansion.cs`.
 

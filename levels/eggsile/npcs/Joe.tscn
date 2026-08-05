@@ -48,6 +48,7 @@ shape = SubResource("RectangleShape2D_xyx71")
 [node name="CutsceneTrigger" type="Area2D" parent="." unique_id=741175961 instance=ExtResource("2_qip81")]
 script = ExtResource("3_qip81")
 Cutscene = ExtResource("4_k2x2l")
+SetFlagsOnFire = Array[String](["met_joe"])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CutsceneTrigger" unique_id=1228170826]
 position = Vector2(2, 2)

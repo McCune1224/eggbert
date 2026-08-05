@@ -35,7 +35,7 @@ position = Vector2(179, -222)
 
 [node name="RightWalkwayTransition" parent="." unique_id=1763621704 instance=ExtResource("10_45llo")]
 position = Vector2(614.511, -44)
-Level = "res://levels/eggsile/maps/area1.tscn"
+Level = "res://levels/eggsile/maps/EggsIsle.tscn"
 TargetTransitionName = "LeftHallwayTransition"
 Size = 7
 Side = 3
@@ -43,7 +43,7 @@ SnapToGrid = true
 
 [node name="DummyDown" parent="." unique_id=499587909 instance=ExtResource("10_45llo")]
 position = Vector2(254.871, 15)
-Level = "res://levels/eggsile/maps/area1.tscn"
+Level = "res://levels/eggsile/maps/EggsIsle.tscn"
 TargetTransitionName = "DummyUp"
 Size = 7
 Side = 1
@@ -105,7 +105,7 @@ Side = 3
 
 [node name="HubEggsileArea1Gate" parent="." unique_id=1511405026 instance=ExtResource("10_45llo")]
 position = Vector2(80, -280)
-Level = "res://levels/eggsile/maps/area1.tscn"
+Level = "res://levels/eggsile/maps/EggsIsle.tscn"
 TargetTransitionName = "HubArrival"
 Size = 4
 Side = 3

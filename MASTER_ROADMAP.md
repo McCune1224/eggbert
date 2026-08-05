@@ -49,9 +49,10 @@ G2 runs in parallel with G1: placeholder content doesn't need the design answers
 
 Story chain (flag-driven): Factory → Eggs Isle intake → Prison → Kitchen → Courtyard → Warden's Quarters → Rec Room → Secret Tunnels → Sunnyside Shrine → Solitary → **Beach finale** → Endings (spare/defeat flags determine Good/Mid/Bad).
 
-1. **Stabilize scenes** — fix remaining load failures: #92 (prison), #95 (Great Beyond hierarchy), #96 (OverworldEntrance UID), #127 (dead EggsileSewers→area1 transition), #128 (Kitchen tile atlas errors). *Gate: `tests/VerifyAllLevels.cs` passes every zone.*
+1. **Stabilize scenes** — fix remaining load failures: #92 (prison), #95 (Great Beyond hierarchy), #96 (OverworldEntrance UID), #127 (dead EggsileSewers→eggsile transition — **fixed with #130**), #128 (Kitchen tile atlas errors). *Gate: `tests/VerifyAllLevels.cs` passes every zone.*
 2. **Build the missing zone content, in story order** — each ships with its NPCs, dialog, puzzles, and boss/encounter:
-   - Prison intake: Frank + cell exploration — #75
+   - Prison intake: Frank + cell exploration — #75 (superseded by #130)
+   - **Eggs Isle arrival/intake level** — replaces bare area1 with intro cutscene, dialog, quest, orientation — #130
    - Kitchen: Grandpa Smith, Chef, Oatmeal boss — #76
    - Courtyard: Egguardo quiz + warden key — #77
    - Warden's Quarters: Yogurt boss + Bacon backstory — #78
@@ -124,7 +125,7 @@ Everything in FEATURE_IDEAS.md not already pulled in (fishing, outfits, photo mo
 | Phase | Issues |
 |---|---|
 | 1 — Stabilize | #92 ✅ #95 ✅ #96 ✅ (all closed 08-05, verified) |
-| 1 — Content | #75 #76 #77 #78 #79 #80 #81 #82 #83 #126 |
+| 1 — Content | #75 #76 #77 #78 #79 #80 #81 #82 #83 #126 #130 |
 | 1 — Wire / balance / test | #87 #88 #89 #90 |
 | 2 — Design | #6 #7 #9 (+ difficulty) |
 | 3 — Depth & QoL | #35 #36 #53 #56 #58 #66 #70 #85 #86 |

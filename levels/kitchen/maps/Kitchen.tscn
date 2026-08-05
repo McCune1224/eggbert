@@ -112,7 +112,7 @@ LocationName = "Kitchen Hub"
 
 [node name="IntakeArrival" parent="." unique_id=1005046263 instance=ExtResource("9_lt")]
 position = Vector2(-400, 320)
-Level = "res://levels/eggsile/maps/area1.tscn"
+Level = "res://levels/eggsile/maps/EggsIsle.tscn"
 TargetTransitionName = "KitchenTransition"
 Size = 5
 Side = 2

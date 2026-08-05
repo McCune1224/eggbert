@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" path="res://assets/characters/Frank.png" id="1_spr"]
 [ext_resource type="PackedScene" path="res://components/npcs/CutsceneTrigger.tscn" id="2_ct"]
+[ext_resource type="Resource" path="res://levels/eggsile/npcs/FrankIntake.tres" id="3_fintake"]
 
 [sub_resource type="RectangleShape2D" id="RectShape_phys"]
 size = Vector2(44, 40)
@@ -19,7 +20,8 @@ vframes = 1
 frame = 0
 
 [node name="CutsceneTrigger" parent="." instance=ExtResource("2_ct")]
-DialogLines = Array[String](["Hey, bunkmate! Name's Frank. Welcome to Eggs Isle.", "Layout: Block C's past the north door. Guard room's got the keys. Block A's collapsed, Block B's the noisy ones. Kitchen's through the west hall.", "Before you can hide in there, we gotta pass intake. Officer's been on about some towels.", "Do me a favor — find the towels somewhere in this block, and we'll get you into the kitchen. Blend in. Find out what you can."])
+Cutscene = ExtResource("3_fintake")
+SetFlagsOnFire = Array[String](["met_frank"])
 Mode = 0
 
 [node name="InteractionCollision" type="CollisionShape2D" parent="CutsceneTrigger"]

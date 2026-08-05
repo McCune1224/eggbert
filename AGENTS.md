@@ -16,7 +16,7 @@ godot --headless --path . --script res://tests/VerifyAllLevels.cs   # scene gate
 Godot MCP tools available via `godot-mcp` server (godot_run_project, godot_launch_editor, godot_get_debug_output, etc.).
 
 ### Demo route (the shipped tutorial)
-New Game → `levels/factory/maps/OpeningZone.tscn` → SortingFloor → AssemblyLine → ControlRoom → LoadingBay → arrest → `levels/eggsile/maps/area1.tscn`. Five rooms, ~10 minutes. See `docs/factory-opening.md` for the beat-by-beat contract and `tests/VerifyFactoryExpansion.cs` for the structural contract.
+New Game → `levels/factory/maps/OpeningZone.tscn` → SortingFloor → AssemblyLine → ControlRoom → LoadingBay → arrest → `levels/eggsile/maps/EggsIsle.tscn`. Five factory rooms + Eggs Isle intake, ~10 minutes. See `docs/factory-opening.md` for the beat-by-beat contract and `tests/VerifyFactoryExpansion.cs` for the structural contract.
 
 ## Architecture
 

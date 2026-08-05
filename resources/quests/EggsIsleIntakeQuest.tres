@@ -1,0 +1,42 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" uid="uid://c35j3vp4l0m4c" path="res://resources/quests/QuestObjective.cs" id="1_2t4on"]
+[ext_resource type="Script" uid="uid://mw4rsdp5wjwl" path="res://resources/quests/QuestDefinition.cs" id="2_c8ta1"]
+
+[sub_resource type="Resource" id="Resource_meet_joe"]
+script = ExtResource("1_2t4on")
+Id = "meet_joe"
+Description = "Report to intake officer Joe."
+CompletionFlag = "met_joe"
+
+[sub_resource type="Resource" id="Resource_meet_frank"]
+script = ExtResource("1_2t4on")
+Id = "meet_frank"
+Description = "Meet your cellmate Frank."
+CompletionFlag = "met_frank"
+
+[sub_resource type="Resource" id="Resource_gather_towels"]
+script = ExtResource("1_2t4on")
+Id = "gather_towels"
+Description = "Find the 3 intake towels for Frank."
+CompletionFlag = "intake_settled"
+
+[sub_resource type="Resource" id="Resource_find_cell_key"]
+script = ExtResource("1_2t4on")
+Id = "find_cell_key"
+Description = "Find the cell key."
+CompletionFlag = "found_cell_key"
+
+[sub_resource type="Resource" id="Resource_reach_kitchen"]
+script = ExtResource("1_2t4on")
+Id = "reach_kitchen"
+Description = "Reach the kitchen."
+CompletionFlag = "visited_kitchen"
+
+[resource]
+script = ExtResource("2_c8ta1")
+Id = "eggs_isle_first_night"
+Title = "First Night on Eggs Isle"
+Description = "Get processed at intake, meet your cellmate, and find your way to the kitchen."
+StartFlag = "arrested"
+Objectives = Array[ExtResource("1_2t4on")]([SubResource("Resource_meet_joe"), SubResource("Resource_meet_frank"), SubResource("Resource_gather_towels"), SubResource("Resource_find_cell_key"), SubResource("Resource_reach_kitchen")])

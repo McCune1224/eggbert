@@ -8,7 +8,7 @@ public partial class FactoryOpeningFlow : Node
 {
     private const string OpeningScenePath = "res://levels/factory/maps/OpeningZone.tscn";
     private const string ArrestScenePath = "res://levels/factory/maps/LoadingBay.tscn";
-    private const string EggsileScenePath = "res://levels/eggsile/maps/area1.tscn";
+    private const string EggsileScenePath = "res://levels/eggsile/maps/EggsIsle.tscn";
     private const string ArrestedFlag = "arrested";
     private static readonly Rect2 OpeningBounds = new(-640, -352, 1280, 704);
     private static readonly string[] ArrestDialogLines =
