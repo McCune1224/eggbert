@@ -12,8 +12,8 @@ tracks/0/path = NodePath("Director")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.5, 2.2, 3.2, 5.2, 7.2, 9.2, 9.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.8, 1.6, 1.8, 2.4, 2.7, 3.4, 5.6, 7.8, 9.8, 10.0),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "values": [{
 "method": "LockPlayer",
 "args": []
@@ -21,10 +21,16 @@ tracks/0/keys = {
 "method": "FadeOut",
 "args": []
 }, {
+"method": "HidePlayer",
+"args": []
+}, {
 "method": "PlacePlayer",
 "args": [Vector2(-1200, -400)]
 }, {
 "method": "FadeIn",
+"args": []
+}, {
+"method": "ShowPlayer",
 "args": []
 }, {
 "method": "Say",

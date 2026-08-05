@@ -3,20 +3,24 @@ using System;
 using System.Collections.Generic;
 
 /// <summary>
-/// One-shot headless helper that builds the BRAND-NEW Eggs Isle exile ("First Night")
-/// as three chained maps per docs/eggsile-first-night.md (issues #175–#181):
+/// One-shot headless helper that builds the Eggs Isle "First Night" exile as three
+/// chained maps per docs/eggsile-first-night.md (issues #175–#181):
 ///
 ///   1. EggsIsle.tscn          — The Dock (moonlit pier, arrival cutscene, warp)
 ///   2. EggsIsleGatehouse.tscn — The Gatehouse (Mr Tea check-in ritual)
 ///   3. EggsIsleBlock.tscn     — The Overflow wing (cell + Frank, boilers, Tank,
 ///                               Gallery, nine o'clock count, tunnel hatch payoff)
 ///
-/// All cinematics use AnimationPlayer cutscene scenes (components/cutscene/).
+/// Each map uses its OWN themed tileset (dock / gatehouse / overflow — procedural
+/// art from tools/generate_zone_tilesets.py). All cinematics are AnimationPlayer
+/// cutscene scenes (components/cutscene/).
 /// Run with: godot --headless --path . --script res://tests/GenerateEggsIsleFirstNight.cs
 /// </summary>
 public partial class GenerateEggsIsleFirstNight : SceneTree
 {
-    private const string Tileset = "res://assets/tilemaps/eggsile_tileset.tres";
+    private const string DockTileset = "res://assets/tilemaps/dock_tileset.tres";
+    private const string GatehouseTileset = "res://assets/tilemaps/gatehouse_tileset.tres";
+    private const string OverflowTileset = "res://assets/tilemaps/overflow_tileset.tres";
     private const string BaseLevelScript = "res://levels/BaseLevel.cs";
     private const string LayerScript = "res://components/core/LevelTileMapLayer.cs";
     private const string TransitionScene = "res://levels/LevelTransition.tscn";
@@ -51,12 +55,55 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
     private const string TideAmbience = "res://assets/audio/music/generated/isle_tide_ambient.ogg";
     private const string NightAmbience = "res://assets/audio/music/generated/prison_night_ambient.ogg";
 
-    private static readonly Vector2I Floor = new(2, 2);
-    private static readonly Vector2I Accent = new(3, 4);
-    private static readonly Vector2I Accent2 = new(4, 4);
-    private static readonly Vector2I Wall = new(10, 4);
-    private static readonly Vector2I WallAlt = new(11, 4);
-    private static readonly Vector2I Bars = new(5, 2);
+    // --- Dock atlas ---
+    private static readonly Vector2I WaterDeep = new(0, 0);
+    private static readonly Vector2I WaterMid = new(1, 0);
+    private static readonly Vector2I WaterShallow = new(2, 0);
+    private static readonly Vector2I WaterFoam = new(3, 0);
+    private static readonly Vector2I PlankA = new(0, 1);
+    private static readonly Vector2I PlankB = new(1, 1);
+    private static readonly Vector2I PlankWorn = new(2, 1);
+    private static readonly Vector2I Rope = new(3, 1);
+    private static readonly Vector2I Sand = new(0, 2);
+    private static readonly Vector2I Pebbles = new(1, 2);
+    private static readonly Vector2I GlintSand = new(2, 2);
+    private static readonly Vector2I Lantern = new(3, 2);
+    private static readonly Vector2I Post = new(0, 3);
+    private static readonly Vector2I CrateTile = new(1, 3);
+    private static readonly Vector2I BarrelTile = new(2, 3);
+    private static readonly Vector2I MoonGlint = new(3, 3);
+
+    // --- Gatehouse atlas ---
+    private static readonly Vector2I StoneFloorA = new(0, 0);
+    private static readonly Vector2I StoneFloorB = new(1, 0);
+    private static readonly Vector2I StoneCracked = new(2, 0);
+    private static readonly Vector2I StoneWall = new(0, 1);
+    private static readonly Vector2I StoneWallB = new(1, 1);
+    private static readonly Vector2I StoneWallDark = new(2, 1);
+    private static readonly Vector2I StoneWallMossy = new(3, 1);
+    private static readonly Vector2I Desk = new(0, 2);
+    private static readonly Vector2I LedgerTile = new(1, 2);
+    private static readonly Vector2I Rug = new(2, 2);
+    private static readonly Vector2I Candle = new(3, 2);
+    private static readonly Vector2I BarredWindow = new(0, 3);
+    private static readonly Vector2I Torch = new(1, 3);
+
+    // --- Overflow atlas ---
+    private static readonly Vector2I ConcA = new(0, 0);
+    private static readonly Vector2I ConcB = new(1, 0);
+    private static readonly Vector2I ConcCracked = new(2, 0);
+    private static readonly Vector2I ConcWall = new(0, 1);
+    private static readonly Vector2I ConcWallB = new(1, 1);
+    private static readonly Vector2I ConcWallDark = new(2, 1);
+    private static readonly Vector2I PipeH = new(3, 1);
+    private static readonly Vector2I PipeV = new(0, 2);
+    private static readonly Vector2I BarsTile = new(1, 2);
+    private static readonly Vector2I BoilerMetal = new(2, 2);
+    private static readonly Vector2I RubbleTile = new(3, 2);
+    private static readonly Vector2I WetConc = new(0, 3);
+    private static readonly Vector2I Slime = new(1, 3);
+    private static readonly Vector2I Vent = new(2, 3);
+    private static readonly Vector2I Warning = new(3, 3);
 
     private Node _liveRoot;
     private Node2D _root;
@@ -83,16 +130,56 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
     private void BuildDock()
     {
         _root = MakeLevel("EggsIsle", "Eggs Isle — The Dock", TideAmbience);
-        _tiles = AddTileLayer(_root);
+        _tiles = AddTileLayer(_root, DockTileset);
 
-        PaintRect(-80, -26, 80, 26, Floor);
-        PaintRect(-80, -26, -75, 26, Accent2);                 // sea strip (west)
-        PaintRect(-74, -8, -24, -3, Accent);                    // pier walkway
-        PaintRect(-74, -8, -66, -6, Accent2);                   // the boat berth
-        for (int y = -26; y <= 26; y++)
-            for (int x = -80; x <= 80; x++)
-                if ((x + y) % 5 == 0)
-                    _tiles.SetCell(new Vector2I(x, y), 0, Accent, 0);
+        // Sea (west) with a foam edge where it meets the shore
+        PaintRect(-80, -26, -76, 26, WaterDeep);
+        PaintRect(-75, -26, -74, 26, WaterMid);
+        PaintRect(-73, -26, -73, 26, WaterFoam);
+        // Shore (sand + pebble patches + moon glints)
+        PaintRect(-72, -26, 80, 26, Sand);
+        PaintScatter(Pebbles, 7, -72, 80, -26, 26);
+        PaintScatter(GlintSand, 11, -72, 80, -26, 26);
+        PaintScatter(MoonGlint, 17, -72, 80, -26, 26);
+        // Pier walkway (planks + worn patches), west of the shore
+        PaintRect(-70, -8, -24, -3, PlankA);
+        PaintScatter(PlankB, 3, -70, -24, -8, -3);
+        PaintScatter(PlankWorn, 7, -70, -24, -8, -3);
+        // Boat berth: darker water + posts
+        PaintRect(-78, -9, -71, -2, WaterShallow);
+        PaintRow(Post, -9, -71, -70);
+        // Pier rail posts along the south edge
+        for (int x = -70; x <= -24; x += 4)
+            _tiles.SetCell(new Vector2I(x, -2), 0, Post, 0);
+        // Pier props: rope coils, crates, barrels, a lantern
+        _tiles.SetCell(new Vector2I(-68, -4), 0, Rope, 0);
+        _tiles.SetCell(new Vector2I(-66, -7), 0, Rope, 0);
+        _tiles.SetCell(new Vector2I(-60, -3), 0, BarrelTile, 0);
+        _tiles.SetCell(new Vector2I(-58, -5), 0, BarrelTile, 0);
+        _tiles.SetCell(new Vector2I(-54, -4), 0, CrateTile, 0);
+        _tiles.SetCell(new Vector2I(-52, -7), 0, CrateTile, 0);
+        _tiles.SetCell(new Vector2I(-46, -5), 0, Rope, 0);
+        _tiles.SetCell(new Vector2I(-44, -4), 0, Rope, 0);
+        _tiles.SetCell(new Vector2I(-40, -6), 0, CrateTile, 0);
+        _tiles.SetCell(new Vector2I(-36, -6), 0, BarrelTile, 0);
+        _tiles.SetCell(new Vector2I(-34, -4), 0, Lantern, 0);
+        _tiles.SetCell(new Vector2I(-30, -6), 0, BarrelTile, 0);
+        _tiles.SetCell(new Vector2I(-28, -3), 0, CrateTile, 0);
+        _tiles.SetCell(new Vector2I(-26, -4), 0, Rope, 0);
+        // Lantern where the pier meets the shore
+        _tiles.SetCell(new Vector2I(-22, -4), 0, Lantern, 0);
+        // Shore props near the arrival and the gate
+        _tiles.SetCell(new Vector2I(-30, 12), 0, CrateTile, 0);
+        _tiles.SetCell(new Vector2I(-28, 12), 0, CrateTile, 0);
+        _tiles.SetCell(new Vector2I(-26, 13), 0, BarrelTile, 0);
+        _tiles.SetCell(new Vector2I(-10, 16), 0, BarrelTile, 0);
+        _tiles.SetCell(new Vector2I(-10, 17), 0, BarrelTile, 0);
+        _tiles.SetCell(new Vector2I(-8, 18), 0, CrateTile, 0);
+        _tiles.SetCell(new Vector2I(14, -18), 0, Rope, 0);
+        _tiles.SetCell(new Vector2I(30, -14), 0, Lantern, 0);
+        _tiles.SetCell(new Vector2I(44, 6), 0, CrateTile, 0);
+        _tiles.SetCell(new Vector2I(46, 6), 0, CrateTile, 0);
+        _tiles.SetCell(new Vector2I(60, 10), 0, Lantern, 0);
 
         // --- Anchors (stable API) ---
         AddTransition(_root, "HubArrival", new Vector2(-640, 320), TransitionSide.Left, 4,
@@ -122,18 +209,53 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
     private void BuildGatehouse()
     {
         _root = MakeLevel("EggsIsleGatehouse", "Eggs Isle — Gatehouse", NightAmbience);
-        _tiles = AddTileLayer(_root);
+        _tiles = AddTileLayer(_root, GatehouseTileset);
 
-        PaintRect(-60, -30, 60, 30, Floor);
-        PaintWallBand(-60, -30, 60, -27, Wall, Array.Empty<int>(), Array.Empty<int>());
-        PaintWallBand(-60, 27, 60, 30, Wall, Array.Empty<int>(), Array.Empty<int>());
-        PaintVWallBand(-60, -30, -57, 30, Wall, Array.Empty<int>(), Array.Empty<int>());
-        PaintVWallBand(57, -30, 60, 30, Wall, Array.Empty<int>(), Array.Empty<int>());
-        for (int y = -30; y <= 30; y++)
-            for (int x = -60; x <= 60; x++)
-                if ((x + y) % 5 == 0)
-                    _tiles.SetCell(new Vector2I(x, y), 0, Accent, 0);
-        PaintRect(-21, -6, -16, -3, Accent2);                   // the booking desk
+        PaintRect(-60, -30, 60, 30, StoneFloorA);
+        PaintScatter(StoneFloorB, 5, -60, 60, -30, 30);
+        PaintScatter(StoneCracked, 13, -60, 60, -30, 30);
+        PaintWallBand(-60, -30, 60, -27, StoneWall, Array.Empty<int>(), Array.Empty<int>());
+        PaintWallBand(-60, 27, 60, 30, StoneWall, Array.Empty<int>(), Array.Empty<int>());
+        PaintVWallBand(-60, -30, -57, 30, StoneWall, Array.Empty<int>(), Array.Empty<int>());
+        PaintVWallBand(57, -30, 60, 30, StoneWall, Array.Empty<int>(), Array.Empty<int>());
+        // Wall details: mossy corners, a wide barred window, torches
+        _tiles.SetCell(new Vector2I(-59, -29), 0, StoneWallMossy, 0);
+        _tiles.SetCell(new Vector2I(59, -29), 0, StoneWallMossy, 0);
+        _tiles.SetCell(new Vector2I(-59, 29), 0, StoneWallMossy, 0);
+        _tiles.SetCell(new Vector2I(59, 29), 0, StoneWallMossy, 0);
+        PaintRow(BarredWindow, -29, -9, -6);
+        _tiles.SetCell(new Vector2I(-40, -29), 0, Torch, 0);
+        _tiles.SetCell(new Vector2I(44, -29), 0, Torch, 0);
+        _tiles.SetCell(new Vector2I(-40, 29), 0, Torch, 0);
+        _tiles.SetCell(new Vector2I(44, 29), 0, Torch, 0);
+        _tiles.SetCell(new Vector2I(-56, -4), 0, Torch, 0);
+        _tiles.SetCell(new Vector2I(-56, 8), 0, Torch, 0);
+        // Dark-shadow wall band under the ceiling and above the floor
+        PaintRect(-60, -26, 60, -26, StoneWallDark);
+        PaintRect(-60, 26, 60, 26, StoneWallDark);
+        // The booking counter: a big desk with a rug under it, ledger + candles on top
+        PaintRect(-22, -7, -14, -2, Desk);
+        _tiles.SetCell(new Vector2I(-15, -4), 0, LedgerTile, 0);
+        _tiles.SetCell(new Vector2I(-17, -3), 0, LedgerTile, 0);
+        _tiles.SetCell(new Vector2I(-22, -5), 0, Candle, 0);
+        _tiles.SetCell(new Vector2I(-21, -6), 0, Candle, 0);
+        _tiles.SetCell(new Vector2I(-14, -6), 0, Candle, 0);
+        PaintRect(-26, -10, -10, 0, Rug);
+        // Bookshelf along the west wall + filing cabinet
+        PaintRect(-56, -8, -55, 6, StoneWallDark);
+        _tiles.SetCell(new Vector2I(-55, -4), 0, LedgerTile, 0);
+        _tiles.SetCell(new Vector2I(-55, 0), 0, LedgerTile, 0);
+        _tiles.SetCell(new Vector2I(-55, 4), 0, LedgerTile, 0);
+        PaintRect(18, -18, 21, -14, StoneWallDark);
+        _tiles.SetCell(new Vector2I(19, -16), 0, LedgerTile, 0);
+        // Benches near the save point and the south wall
+        PaintRect(-33, 11, -30, 12, StoneWallDark);
+        PaintRect(-34, 13, -29, 13, StoneWallB);
+        PaintRect(10, 20, 16, 21, StoneWallDark);
+        PaintRect(10, 22, 16, 22, StoneWallB);
+        // Floor stains + scattered candles
+        _tiles.SetCell(new Vector2I(40, -10), 0, Candle, 0);
+        _tiles.SetCell(new Vector2I(-45, 20), 0, Candle, 0);
 
         // --- Transitions (both directions) ---
         AddTransition(_root, "DockArrival", new Vector2(-960, 0), TransitionSide.Left, 8,
@@ -173,46 +295,68 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
     private void BuildBlock()
     {
         _root = MakeLevel("EggsIsleBlock", "Eggs Isle — The Overflow", NightAmbience);
-        _tiles = AddTileLayer(_root);
+        _tiles = AddTileLayer(_root, OverflowTileset);
 
-        PaintRect(-104, -38, 104, 38, Floor);
-        PaintWallBand(-104, -38, 104, -35, Wall, Array.Empty<int>(), Array.Empty<int>());
-        PaintWallBand(-104, 35, 104, 38, Wall, Array.Empty<int>(), Array.Empty<int>());
-        PaintVWallBand(-104, -38, -101, 38, Wall, Array.Empty<int>(), Array.Empty<int>());
-        PaintVWallBand(101, -38, 104, 38, Wall, Array.Empty<int>(), Array.Empty<int>());
-        for (int y = -38; y <= 38; y++)
-            for (int x = -104; x <= 104; x++)
-                if ((x + y) % 5 == 0)
-                    _tiles.SetCell(new Vector2I(x, y), 0, Accent, 0);
+        PaintRect(-104, -38, 104, 38, ConcA);
+        PaintScatter(ConcB, 5);
+        PaintScatter(ConcCracked, 13);
+        PaintWallBand(-104, -38, 104, -35, ConcWall, Array.Empty<int>(), Array.Empty<int>());
+        PaintWallBand(-104, 35, 104, 38, ConcWall, Array.Empty<int>(), Array.Empty<int>());
+        PaintVWallBand(-104, -38, -101, 38, ConcWall, Array.Empty<int>(), Array.Empty<int>());
+        PaintVWallBand(101, -38, 104, 38, ConcWall, Array.Empty<int>(), Array.Empty<int>());
+        // Dark shadow band under the ceiling + floor trim
+        PaintRect(-104, -34, 104, -34, ConcWallDark);
+        PaintRect(-104, 34, 104, 34, ConcWallDark);
 
         // --- Cell niche (north-west) ---
-        PaintRect(-102, -36, -42, -14, Accent2);                // cell floor patch
-        PaintWallBand(-104, -12, -40, -9, Bars,
+        PaintRect(-102, -36, -42, -14, ConcA);
+        PaintScatter(ConcCracked, 11, y0: -36, y1: -14, x0: -102, x1: -42);
+        PaintWallBand(-104, -12, -40, -9, BarsTile,
             new[] { -71 }, new[] { -67 });                      // cell front: bars + open door gap
-        PaintVWallBand(-40, -38, -40, -12, Wall, Array.Empty<int>(), Array.Empty<int>());  // cell east wall
-        PaintWallBand(-40, -12, -21, -9, Wall, Array.Empty<int>(), Array.Empty<int>());    // wall cell→boiler
+        PaintVWallBand(-40, -38, -40, -12, ConcWall, Array.Empty<int>(), Array.Empty<int>());  // cell east wall
+        PaintWallBand(-40, -12, -21, -9, ConcWall, Array.Empty<int>(), Array.Empty<int>());    // wall cell→boiler
+        _tiles.SetCell(new Vector2I(-96, -10), 0, Vent, 0);     // vent in the cell front
+        _tiles.SetCell(new Vector2I(-50, -10), 0, Vent, 0);
         // --- Boiler room (north-center) ---
-        PaintRect(-18, -36, 32, -14, Accent2);                  // boiler room floor
-        PaintRect(-16, -34, -8, -28, WallAlt);                  // the boiler itself (visual)
-        AddWallRect(-16, -34, -9, -28, WallAlt);                // boiler collision block
-        PaintWallBand(-20, -12, 34, -9, Wall, new[] { -5 }, new[] { -3 });   // boiler wall + door gap
-        PaintVWallBand(-20, -38, -20, -12, Wall, Array.Empty<int>(), Array.Empty<int>());
-        PaintVWallBand(34, -38, 34, -12, Wall, Array.Empty<int>(), Array.Empty<int>());
-        PaintWallBand(35, -12, 39, -9, Wall, Array.Empty<int>(), Array.Empty<int>());    // wall boiler→tank
+        PaintRect(-18, -36, 32, -14, BoilerMetal);
+        PaintScatter(ConcCracked, 15, y0: -36, y1: -14, x0: -18, x1: 32);
+        PaintRect(-16, -34, -8, -28, ConcWallDark);             // the boiler itself (visual)
+        AddWallRect(-16, -34, -9, -28, ConcWallDark);           // boiler collision block
+        PaintWallBand(-20, -12, 34, -9, ConcWall, new[] { -5 }, new[] { -3 });   // boiler wall + door gap
+        PaintVWallBand(-20, -38, -20, -12, ConcWall, Array.Empty<int>(), Array.Empty<int>());
+        PaintVWallBand(34, -38, 34, -12, ConcWall, Array.Empty<int>(), Array.Empty<int>());
+        PaintWallBand(35, -12, 39, -9, ConcWall, Array.Empty<int>(), Array.Empty<int>());    // wall boiler→tank
+        _tiles.SetCell(new Vector2I(28, -10), 0, Vent, 0);
+        _tiles.SetCell(new Vector2I(-16, -12), 0, PipeV, 0);    // pipes in the boiler room
+        _tiles.SetCell(new Vector2I(-14, -12), 0, PipeV, 0);
         // --- Tank (east, flooded) ---
-        PaintRect(42, -36, 102, -14, Accent2);                  // tank floor (damp)
-        PaintWallBand(40, -12, 104, -9, Wall, new[] { 60 }, new[] { 66 });  // tank front + entrance gap
-        PaintVWallBand(40, -38, 40, -12, Wall, Array.Empty<int>(), Array.Empty<int>());
+        PaintRect(42, -36, 102, -14, WetConc);
+        PaintScatter(Slime, 9, y0: -36, y1: -14, x0: 42, x1: 102);
+        PaintScatter(ConcCracked, 17, y0: -36, y1: -14, x0: 42, x1: 102);
+        PaintWallBand(40, -12, 104, -9, ConcWall, new[] { 60 }, new[] { 66 });  // tank front + entrance gap
+        PaintVWallBand(40, -38, 40, -12, ConcWall, Array.Empty<int>(), Array.Empty<int>());
         // --- Gallery (south-east, collapsed) ---
-        PaintRect(42, 12, 102, 36, Accent);                     // gallery floor
-        PaintWallBand(40, 9, 104, 11, Wall, new[] { 60 }, new[] { 66 });   // gallery front + entrance gap
-        PaintVWallBand(40, 12, 40, 36, Wall, Array.Empty<int>(), Array.Empty<int>());
-        PaintWallBand(96, 12, 104, 36, WallAlt, Array.Empty<int>(), Array.Empty<int>());  // collapse rubble
+        PaintRect(42, 12, 102, 36, ConcB);
+        PaintScatter(RubbleTile, 10, y0: 12, y1: 36, x0: 42, x1: 102);
+        PaintWallBand(40, 9, 104, 11, ConcWall, new[] { 60 }, new[] { 66 });   // gallery front + entrance gap
+        PaintVWallBand(40, 12, 40, 36, ConcWall, Array.Empty<int>(), Array.Empty<int>());
+        PaintWallBand(96, 12, 104, 36, ConcWallDark, Array.Empty<int>(), Array.Empty<int>());  // collapse rubble
         // --- Hatch alcove (south-west) ---
-        PaintRect(-102, 12, -42, 36, Accent2);
-        PaintWallBand(-104, 9, -40, 11, Wall, new[] { -89 }, new[] { -87 });  // hatch door gap
-        PaintVWallBand(-40, 12, -40, 36, Wall, Array.Empty<int>(), Array.Empty<int>());
-        PaintWallBand(-40, 9, 39, 11, Wall, Array.Empty<int>(), Array.Empty<int>());      // wall hatch→gallery
+        PaintRect(-102, 12, -42, 36, ConcA);
+        PaintScatter(ConcCracked, 11, y0: 12, y1: 36, x0: -102, x1: -42);
+        PaintWallBand(-104, 9, -40, 11, ConcWall, new[] { -89 }, new[] { -87 });  // hatch door gap
+        PaintVWallBand(-40, 12, -40, 36, ConcWall, Array.Empty<int>(), Array.Empty<int>());
+        PaintWallBand(-40, 9, 39, 11, ConcWall, Array.Empty<int>(), Array.Empty<int>());      // wall hatch→gallery
+        _tiles.SetCell(new Vector2I(-90, 10), 0, Warning, 0);   // warning stripes flanking the hatch
+        _tiles.SetCell(new Vector2I(-86, 10), 0, Warning, 0);
+        // --- Corridor pipes + vents (density along the spine) ---
+        for (int x = -100; x <= 100; x += 3)
+            _tiles.SetCell(new Vector2I(x, -10), 0, PipeH, 0);
+        for (int x = -98; x <= 100; x += 5)
+            _tiles.SetCell(new Vector2I(x, 10), 0, PipeH, 0);
+        _tiles.SetCell(new Vector2I(0, 10), 0, Vent, 0);
+        _tiles.SetCell(new Vector2I(-40, -10), 0, Vent, 0);
+        _tiles.SetCell(new Vector2I(80, 10), 0, Vent, 0);
 
         // --- Arrival + placement cutscene (one-shot at the west gate) ---
         AddTransition(_root, "GatehouseArrival", new Vector2(-1664, 0), TransitionSide.Left, 8,
@@ -238,7 +382,7 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
 
         // --- Boiler puzzle: crate onto plate opens the boiler door ---
         InstantiateScene(_root, MikanScene, "Mikan", new Vector2(0, -420));
-        AddWallRect(11, -23, 11, -23, Wall);                    // plate backstop
+        AddWallRect(11, -23, 11, -23, ConcWall);                // plate backstop
         InstantiateScene(_root, CrateScene, "BoilerCrate", new Vector2(176, -496));
         AddPlate(_root, "BoilerPlate", new Vector2(176, -384), new NodePath("BoilerDoor"), "boiler_gate_open");
         AddDoor(_root, "BoilerDoor", new Vector2(-64, -168), startOpen: false);
@@ -282,15 +426,13 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
     // Tile helpers
     // -----------------------------------------------------------------------
 
-    private TileMapLayer AddTileLayer(Node2D root)
+    private TileMapLayer AddTileLayer(Node2D root, string tilesetPath)
     {
         var layer = new TileMapLayer { Name = "CoreTilemapLayer" };
         root.AddChild(layer);
-        // SetScript FIRST on the pre-AddChild wrapper, then re-fetch: SetScript
-        // replaces the managed instance, disposing wrappers fetched before it.
         layer.SetScript(GD.Load<Script>(LayerScript));
         var live = root.GetNode<TileMapLayer>("CoreTilemapLayer");
-        live.TileSet = GD.Load<TileSet>(Tileset);
+        live.TileSet = GD.Load<TileSet>(tilesetPath);
         live.Owner = root;
         return live;
     }
@@ -300,6 +442,21 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
         for (int y = y0; y <= y1; y++)
             for (int x = x0; x <= x1; x++)
                 _tiles.SetCell(new Vector2I(x, y), 0, atlas, 0);
+    }
+
+    /// <summary>Scatters a tile across the whole map (or a sub-rect) on a stable hash grid.</summary>
+    private void PaintScatter(Vector2I atlas, int stride, int x0 = -104, int x1 = 104, int y0 = -38, int y1 = 38)
+    {
+        for (int y = y0; y <= y1; y++)
+            for (int x = x0; x <= x1; x++)
+                if ((x * 7 + y * 13) % stride == 0)
+                    _tiles.SetCell(new Vector2I(x, y), 0, atlas, 0);
+    }
+
+    private void PaintRow(Vector2I atlas, int y, int x0, int x1)
+    {
+        for (int x = x0; x <= x1; x++)
+            _tiles.SetCell(new Vector2I(x, y), 0, atlas, 0);
     }
 
     /// <summary>Paints a horizontal wall band (y0..y1) with x-gaps, adding collision per solid run.</summary>
@@ -344,7 +501,7 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
 
     private void AddWallRect(int x0, int y0, int x1, int y1)
     {
-        AddWallRect(x0, y0, x1, y1, Wall);
+        AddWallRect(x0, y0, x1, y1, ConcWall);
     }
 
     private void AddWallRect(int x0, int y0, int x1, int y1, Vector2I atlas)

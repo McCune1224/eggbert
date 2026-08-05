@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://components/cutscene/CutsceneDirector.cs" id="1_dir"]
 
 [sub_resource type="Animation" id="Animation_count"]
-length = 6.0
+length = 5.5
 loop_mode = 0
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -12,9 +12,12 @@ tracks/0/path = NodePath("Director")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.5, 2.5, 4.5),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.8, 2.8, 4.6, 4.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "values": [{
+"method": "LockPlayer",
+"args": []
+}, {
 "method": "Say",
 "args": ["Mr Tea (over the speaker): COUNT! NINE O'CLOCK! All inmates to the wing floor — NOW!"]
 }, {
@@ -23,6 +26,9 @@ tracks/0/keys = {
 }, {
 "method": "SetFlag",
 "args": ["eggsile_count_survived"]
+}, {
+"method": "UnlockPlayer",
+"args": []
 }]
 }
 
