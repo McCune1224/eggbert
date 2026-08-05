@@ -72,6 +72,13 @@ public partial class VerifySaveStates : SceneTree
         }
 
         RunVerify();
+        await RunExtraGuarantees();
+        if (_failures.Count > 0)
+        {
+            Finish();
+            return;
+        }
+
         await RunFixtureChecks();
         Finish();
     }
@@ -140,6 +147,79 @@ public partial class VerifySaveStates : SceneTree
 
         // Cleanup
         SaveManager.Instance.DeleteSave(TestSlot);
+    }
+
+    // --- 3. Rename + non-destructive corrupt-state guarantees ---
+
+    private async System.Threading.Tasks.Task RunExtraGuarantees()
+    {
+        GD.Print("[verify-save-states] Phase 5: rename + non-destructive corrupt load");
+
+        // Rename round-trip: capture to src, rename to dst, verify old gone + new loads.
+        const string renameSrc = "verify_rename_src";
+        const string renameDst = "verify_rename_dst";
+        const string renameOther = "verify_rename_other";
+        WorldFlags.Instance.SetFlag("verify_rename_marker", true);
+        SaveManager.Instance.SaveGame(TestScenePath, Player.Instance.Position, "Verify Rename", renameSrc);
+        SaveManager.Instance.SaveGame(TestScenePath, Player.Instance.Position, "Verify Rename Other", renameOther);
+
+        if (!SaveManager.Instance.HasSave(renameSrc))
+        {
+            _failures.Add("Rename: source slot missing after capture");
+        }
+        else if (!SaveManager.Instance.RenameSlot(renameSrc, renameDst))
+        {
+            _failures.Add("Rename: RenameSlot returned false");
+        }
+        else
+        {
+            if (SaveManager.Instance.HasSave(renameSrc))
+                _failures.Add("Rename: source slot still exists after rename");
+            if (!SaveManager.Instance.HasSave(renameDst))
+                _failures.Add("Rename: destination slot missing after rename");
+            if (SaveManager.Instance.RenameSlot(renameDst, renameOther))
+                _failures.Add("Rename: rename onto an occupied name should fail");
+
+            // Loading the renamed slot must restore the captured marker.
+            var levelLoaded = ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
+            bool loaded = SaveManager.Instance.LoadGame(renameDst);
+            if (loaded)
+                await levelLoaded;
+            else
+                _failures.Add("Rename: renamed slot failed to load");
+
+            if (loaded && !WorldFlags.Instance.HasFlag("verify_rename_marker"))
+                _failures.Add("Rename: renamed slot did not restore captured WorldFlags");
+
+            SaveManager.Instance.DeleteSave(renameDst);
+            SaveManager.Instance.DeleteSave(renameSrc);
+            SaveManager.Instance.DeleteSave(renameOther);
+        }
+
+        // Non-destructive corrupt load: a garbage .tres in user://saves/ must be
+        // reported and KEPT (never deleted), and LoadGame must return false.
+        const string corruptSlot = "verify_corrupt";
+        string corruptPath = "user://saves/verify_corrupt.tres";
+        var file = FileAccess.Open(corruptPath, FileAccess.ModeFlags.Write);
+        if (file == null)
+        {
+            _failures.Add("Corrupt test: could not write garbage slot file");
+        }
+        else
+        {
+            file.StoreString("this is not a godot resource");
+            file.Close();
+
+            bool corruptLoaded = SaveManager.Instance.LoadGame(corruptSlot);
+            bool fileStillThere = FileAccess.FileExists(corruptPath);
+            if (corruptLoaded)
+                _failures.Add("Corrupt test: LoadGame returned true for a corrupt slot");
+            if (!fileStillThere)
+                _failures.Add("Corrupt test: corrupt slot was DELETED by load — must be non-destructive");
+
+            SaveManager.Instance.DeleteSave(corruptSlot);
+            GD.Print($"[verify-save-states]   corrupt slot handled: loaded={corruptLoaded}, file kept={fileStillThere}");
+        }
     }
 
     // --- 2. Fixtures ---

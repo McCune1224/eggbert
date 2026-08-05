@@ -33,6 +33,17 @@ public partial class SaveManager : Node
     // --- Slot path helpers ---
 
     /// <summary>
+    /// Filesystem existence check for slot files. Deliberately NOT
+    /// ResourceLoader.Exists: that consults the resource cache, so a path that
+    /// was loaded once (e.g. a renamed-away slot) still reports "exists" after
+    /// the file is deleted. FileAccess.FileExists is physical-truth.
+    /// </summary>
+    private static bool SlotFileExists(string path)
+    {
+        return FileAccess.FileExists(path);
+    }
+
+    /// <summary>
     /// Returns the on-disk path for a slot. Empty slot = the default player save.
     /// Named slots resolve to user://saves/&lt;slot&gt;.tres, falling back to a
     /// committed fixture under res://tests/savestates/ when no user copy exists.
@@ -44,11 +55,11 @@ public partial class SaveManager : Node
 
         string sanitized = SanitizeSlotName(slotName);
         string userPath = DevSavesDirectory + sanitized + ".tres";
-        if (ResourceLoader.Exists(userPath))
+        if (SlotFileExists(userPath))
             return userPath;
 
         string fixturePath = FixturesDirectory + sanitized + ".tres";
-        if (ResourceLoader.Exists(fixturePath))
+        if (SlotFileExists(fixturePath))
         {
             GameLogger.Debug("SaveManager", $"Slot '{slotName}' resolved to read-only fixture {fixturePath}");
             return fixturePath;
@@ -71,7 +82,7 @@ public partial class SaveManager : Node
     /// <summary>True if the slot exists either as a user save or a committed fixture.</summary>
     public bool HasSave(string slotName = "")
     {
-        return ResourceLoader.Exists(ResolveSlotPath(slotName));
+        return SlotFileExists(ResolveSlotPath(slotName));
     }
 
     /// <summary>
@@ -100,7 +111,7 @@ public partial class SaveManager : Node
             savesDir.Remove(sanitized + ".tres");
             GameLogger.Info("SaveManager", $"Dev save state '{slotName}' deleted.");
         }
-        else if (ResourceLoader.Exists(FixturesDirectory + sanitized + ".tres"))
+        else if (SlotFileExists(FixturesDirectory + sanitized + ".tres"))
         {
             GameLogger.Warn("SaveManager", $"Slot '{slotName}' is a committed fixture (read-only) — not deleted.");
         }
@@ -171,7 +182,7 @@ public partial class SaveManager : Node
             GameLogger.Warn("SaveManager", $"RenameSlot: '{fromSlot}' not found in user://saves/ (fixtures are read-only).");
             return false;
         }
-        if (ResourceLoader.Exists(DevSavesDirectory + toSan + ".tres"))
+        if (SlotFileExists(DevSavesDirectory + toSan + ".tres"))
         {
             GameLogger.Warn("SaveManager", $"RenameSlot: target '{toSlot}' already exists.");
             return false;
@@ -274,9 +285,9 @@ public partial class SaveManager : Node
     {
         string targetPath = ResolveSlotPath(slotName);
         GameLogger.Info("SaveManager", $"LoadGame called (slot '{(string.IsNullOrEmpty(slotName) ? "default" : slotName)}', path {targetPath}).");
-        if (!ResourceLoader.Exists(targetPath))
+        if (!SlotFileExists(targetPath))
         {
-            GameLogger.Error("SaveManager", $"No save file found for slot '{slotName}' (ResourceLoader.Exists returned false).");
+            GameLogger.Error("SaveManager", $"No save file found for slot '{slotName}' (file check failed).");
             return false;
         }
 

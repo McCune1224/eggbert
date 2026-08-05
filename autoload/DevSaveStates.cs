@@ -22,6 +22,8 @@ public partial class DevSaveStates : CanvasLayer
     private Tween _toastTween;
     private bool _menuVisible;
     private string _lastSlot = SaveManager.QuickSlotName;
+    /// <summary>Slot currently selected in the list (rename source). Empty until a row is picked.</summary>
+    private string _selectedSlot = "";
 
     public override void _Ready()
     {
@@ -231,6 +233,7 @@ public partial class DevSaveStates : CanvasLayer
     {
         _menuVisible = false;
         _panel.Visible = false;
+        _selectedSlot = "";
     }
 
     private void RefreshList()
@@ -248,9 +251,10 @@ public partial class DevSaveStates : CanvasLayer
             return;
         string label = _slotList.GetItemText((int)index);
         // Strip the " (fixture)" suffix for the name field.
-        _nameEdit.Text = label.EndsWith("  (fixture)")
+        _selectedSlot = label.EndsWith("  (fixture)")
             ? label.Substring(0, label.Length - "  (fixture)".Length)
             : label;
+        _nameEdit.Text = _selectedSlot;
     }
 
     private void OnNameSubmitted(string newText)
@@ -292,16 +296,19 @@ public partial class DevSaveStates : CanvasLayer
 
     private void OnRenamePressed()
     {
-        string from = _lastSlot;
+        // Source is the slot selected in the list; fall back to last used if
+        // nothing was picked. Target is whatever is typed in the name field.
+        string from = string.IsNullOrEmpty(_selectedSlot) ? _lastSlot : _selectedSlot;
         string to = SaveManager.SanitizeSlotName(_nameEdit.Text);
         if (string.IsNullOrWhiteSpace(_nameEdit.Text) || from == to)
         {
-            ShowToast("Select source, type new name, press Rename");
+            ShowToast("Select a slot in the list, type the new name, press Rename");
             return;
         }
         if (SaveManager.Instance.RenameSlot(from, to))
         {
             _lastSlot = to;
+            _selectedSlot = "";
             ShowToast($"Renamed '{from}' → '{to}'");
             RefreshList();
         }
