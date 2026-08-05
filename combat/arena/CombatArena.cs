@@ -36,6 +36,7 @@ public partial class CombatArena : Node2D
 
         HUD = new CombatHUD();
         AddChild(HUD);
+        HUD.AddChild(new GrazeSystem()); // graze meter (docs/combat-ui-design.md §3.2 C6)
 
         Player.Instance.Position = PlayerSpawnPosition;
         Player.Instance.HealthComponent.Died += OnPlayerDied;
@@ -67,7 +68,11 @@ public partial class CombatArena : Node2D
             _regenAccumulator = 0f;
             var hc = Player.Instance?.HealthComponent;
             if (hc != null && !hc.IsDead)
-                hc.Heal(Mathf.Max(1, Mathf.RoundToInt(CombatStats.RegenPerSecond)));
+            {
+                int amount = Mathf.Max(1, Mathf.RoundToInt(CombatStats.RegenPerSecond));
+                hc.Heal(amount);
+                FloatingText.Show(Player.Instance, $"+{amount}", new Color(0.5f, 0.95f, 0.6f));
+            }
         }
     }
 

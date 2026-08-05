@@ -15,6 +15,7 @@ public partial class RedBullet : Area2D
 
     public bool Reflected { get; set; } = false;
     public bool IsHoming { get; set; } = false;
+    public bool HasBeenGrazed { get; set; } = false; // GrazeSystem credit (one graze per bullet)
     public Node2D FiredBy { get; set; } = null;
 
     private const float HomingStrength = 2.5f;
@@ -80,6 +81,7 @@ public partial class RedBullet : Area2D
             {
                 int dmg = 10 + Equipment.Instance.TotalAttackBoost;
                 enemy.Health.TakeDamage(dmg, this);
+                FloatingText.Show(enemy, $"-{dmg}", new Color(1f, 0.9f, 0.55f));
                 GameLogger.Debug("Combat", $"RedBullet '{Name}': reflected — hit enemy for {dmg} DMG");
                 if (CombatStats.ReflectExplosionRadius > 0f)
                     Explode(dmg, enemy);
@@ -134,6 +136,7 @@ public partial class RedBullet : Area2D
         if (!Reflected && body.IsInGroup("player"))
         {
             Player.Instance.HealthComponent?.TakeDamage(10, this);
+            FloatingText.Show(Player.Instance, "-10", new Color(1f, 0.45f, 0.4f));
             GameLogger.Debug("Combat", $"RedBullet '{Name}': hit player for 10 DMG");
         }
         GameLogger.Debug("Combat", $"RedBullet '{Name}': body hit — destroyed");

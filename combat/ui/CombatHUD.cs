@@ -13,6 +13,8 @@ public partial class CombatHUD : CanvasLayer
     private ColorRect _playerBarFill;
     private Label _playerLabel;
     private HealthComponent _playerHC;
+    private VBoxContainer _playerVBox;
+    private HBoxContainer _blockPipsRow;
 
     private PanelContainer _enemyPanel;
     private VBoxContainer _enemyList;
@@ -64,6 +66,7 @@ public partial class CombatHUD : CanvasLayer
         };
         _playerLabel.AddThemeFontSizeOverride("font_size", 11);
         playerRow.AddChild(_playerLabel);
+        _playerVBox = playerVBox;
         playerVBox.AddChild(playerRow);
 
         var barContainer = new Control
@@ -116,6 +119,52 @@ public partial class CombatHUD : CanvasLayer
         UpdatePlayerBar();
         hc.Damaged += OnPlayerDamaged;
         hc.Healed += OnPlayerHealed;
+        hc.Blocked += OnPlayerBlocked;
+        SetupBlockPips();
+    }
+
+    /// <summary>Block-charge pips under the HP bar (Bubble Wrap, docs/combat-ui-design.md §3.2 C8).</summary>
+    private void SetupBlockPips()
+    {
+        _blockPipsRow = new HBoxContainer
+        {
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Visible = false
+        };
+        _blockPipsRow.AddThemeConstantOverride("separation", 3);
+        _playerVBox.AddChild(_blockPipsRow);
+        UpdateBlockPips();
+    }
+
+    private void UpdateBlockPips()
+    {
+        if (_blockPipsRow == null) return;
+
+        foreach (Node child in _blockPipsRow.GetChildren())
+            child.QueueFree();
+
+        int maxCharges = CombatStats.BlockCharges;
+        int remaining = _playerHC?.BlockChargesRemaining ?? 0;
+        _blockPipsRow.Visible = maxCharges > 0;
+        if (maxCharges <= 0) return;
+
+        for (int i = 0; i < maxCharges; i++)
+        {
+            var pip = new ColorRect
+            {
+                CustomMinimumSize = new Vector2(8, 8),
+                Size = new Vector2(8, 8),
+                Color = i < remaining ? new Color(0.91f, 0.72f, 0.38f) : new Color(0.2f, 0.2f, 0.25f, 0.8f),
+                MouseFilter = Control.MouseFilterEnum.Ignore
+            };
+            _blockPipsRow.AddChild(pip);
+        }
+    }
+
+    private void OnPlayerBlocked()
+    {
+        if (IsInsideTree())
+            UpdateBlockPips();
     }
 
     /// <summary>
@@ -240,6 +289,7 @@ public partial class CombatHUD : CanvasLayer
         {
             _playerHC.Damaged -= OnPlayerDamaged;
             _playerHC.Healed -= OnPlayerHealed;
+            _playerHC.Blocked -= OnPlayerBlocked;
         }
         GameLogger.Debug("Combat", "CombatHUD: _ExitTree");
     }
