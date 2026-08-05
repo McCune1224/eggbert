@@ -64,13 +64,6 @@ public partial class VerifyFactorySprites : SceneTree
             "LoadingBayWarning",
         });
 
-        VerifyMapScene("res://levels/factory/maps/Zone1.tscn", new[]
-        {
-            "HubHazard1",
-            "HubHazard2",
-            "HubHazard3",
-        });
-
         if (_failures == 0)
             GD.Print("[factory-sprites] ALL CHECKS PASSED");
         else

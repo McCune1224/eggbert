@@ -17,17 +17,13 @@ public partial class VerifyOverworldMap : SceneTree
 
     private readonly List<(string Path, int MinDoors, int MinNpcs, int MaxNpcs, int MinSaves, int MinWarps)> _levels = new()
     {
-        // Factory opening: 4+ transitions, no NPC nodes (TimeClock/VendingMachine are props).
-        ("res://levels/factory/maps/OpeningZone.tscn", 4, 0, 0, 1, 1),
+        // Factory opening: 2 transitions (HubArrival + SortingFloorEntrance), no NPC
+        // nodes (TimeClock/VendingMachine are props). Overworld/Zone1 exits removed in #174.
+        ("res://levels/factory/maps/OpeningZone.tscn", 2, 0, 0, 1, 1),
         // Sorting floor: Jamitor NPC + 2 transitions.
         ("res://levels/factory/maps/SortingFloor.tscn", 2, 1, 4, 0, 0),
-        // Eggs Isle intake: Joe, OfficerBacon (npc group), Frank + exits.
-        ("res://levels/eggsile/maps/EggsIsle.tscn", 2, 3, 6, 1, 1),
-        // NOTE: Overworld.tscn is excluded — its tileset (overworld_tileset.tres) fails
-        // to load (atlas tiles defined outside the texture, same class as #128), so the
-        // layer has a null TileSet and no map can be generated. Tracked in issue #171.
-        // Sandbox hub: generated, 3 transitions, no NPCs.
-        ("res://levels/sandbox/maps/SandboxHub.tscn", 3, 0, 0, 1, 1),
+        // Eggs Isle intake: Joe, OfficerBacon (npc group), Frank + the HubArrival anchor.
+        ("res://levels/eggsile/maps/EggsIsle.tscn", 1, 3, 6, 1, 1),
     };
 
     public override async void _Initialize()
@@ -202,9 +198,9 @@ public partial class VerifyOverworldMap : SceneTree
         Check(warps >= minWarps, $"{tag}: {warps} warp markers (min {minWarps})");
 
         bool allMarkersInside = true;
-        // Door nodes may legitimately sit far outside the painted rect (sandbox hub
-        // exits are ~200px away); the HUD clamps their dots to the map edge. Fail only
-        // on truly absurd placement (> half the map's diagonal beyond the bounds).
+        // Door nodes may legitimately sit outside the painted rect (e.g. spawn-anchor
+        // arrivals); the HUD clamps their dots to the map edge. Fail only on truly
+        // absurd placement (> half the map's diagonal beyond the bounds).
         float slack = Mathf.Max(LevelMapData.TileSize * 4f, data.WorldBounds.Size.Length() * 0.5f);
         Rect2 relaxed = data.WorldBounds.Grow(slack);
         foreach (MapMarker marker in data.Markers)
@@ -249,7 +245,7 @@ public partial class VerifyOverworldMap : SceneTree
             bool allLocated = true;
             foreach (QuestObjective objective in intakeQuest.Objectives)
                 if (string.IsNullOrEmpty(objective.LocationLevel)) allLocated = false;
-            Check(intakeQuest.Objectives.Count == 5, "EggsIsleIntakeQuest has 5 objectives");
+            Check(intakeQuest.Objectives.Count == 4, "EggsIsleIntakeQuest has 4 objectives");
             Check(allLocated, "EggsIsleIntakeQuest objectives all have LocationLevel");
             Check(intakeQuest.Objectives[0].LocationLevel == "res://levels/eggsile/maps/EggsIsle.tscn"
                   && intakeQuest.Objectives[0].LocationPosition.IsEqualApprox(new Vector2(-87, -83)),

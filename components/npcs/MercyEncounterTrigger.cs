@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Trigger that offers the player a Spare/Fight choice before a combat encounter.
-/// Mirrors CerealEncounterTrigger flow but interleaves a dialog + PromptChoices
-/// so mercy routes can set a "spared_&lt;id&gt;" flag without entering combat.
+/// Interleaves a dialog + PromptChoices so mercy routes can set a "spared_&lt;id&gt;"
+/// flag without entering combat (the zone-specific encounter triggers that shared
+/// this flow were removed with their zones in the 2026-08 cleanup, #174).
 ///
 /// On win, the "BeatFlag" remains set in WorldFlags; on loss, SaveManager reloads
 /// the last save and reverts it (Undertale-style death handling).

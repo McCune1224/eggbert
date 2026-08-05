@@ -62,7 +62,8 @@ Dependencies are noted per item.
 ✅ Dialog voice chirp system (procedural + .ogg clips)
 
 ## Content
-⬜ Fill Courtyard, Eggsile, Prison with tiles, NPCs, puzzles — #27
+✅ Tutorial chain shipped: 5 Factory rooms + arrest/exile + Eggs Isle intake — docs/factory-opening.md, docs/eggsile-intake.md
+⬜ Story-chain zones (Prison → finale) — placeholder zones removed as test content in #174; rebuild when the story chain is planned
 ⬜ Particles (dust on landing, sparkle on parry, etc.)
 ⬜ Polish pass (screen shake, juice)
 

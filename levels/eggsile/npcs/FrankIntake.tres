@@ -12,7 +12,7 @@ FlagKey = "intake_settled"
 [sub_resource type="Resource" id="Resource_intro"]
 script = ExtResource("1_ttrbs")
 Condition = SubResource("Resource_not_settled")
-DialogLines = PackedStringArray("Frank: Hey, bunkmate! Name's Frank. Welcome to Eggs Isle.", "Frank: Layout: Block C's past the north door. Guard room's got the keys. Block A's collapsed, Block B's the noisy ones. Kitchen's through the west hall.", "Frank: Before you can hide in there, we gotta pass intake. Officer's been on about some towels.", "Frank: Do me a favor — find the towels somewhere in this block, and we'll get you into the kitchen. Blend in. Find out what you can.")
+DialogLines = PackedStringArray("Frank: Hey, bunkmate! Name's Frank. Welcome to Eggs Isle.", "Frank: Layout: Block C's past the north door. Guard room's got the keys. Block A's collapsed, Block B's the noisy ones. Cells are through the west hall.", "Frank: Before they let us bunk up, we gotta pass intake. Officer's been on about some towels.", "Frank: Do me a favor — find the towels somewhere in this block, and we'll get you settled into your cell. Blend in. Find out what you can.")
 TargetNode = NodePath("")
 AnimationNode = NodePath("")
 SetFlagValue = null
@@ -25,7 +25,7 @@ FlagKey = "intake_settled"
 [sub_resource type="Resource" id="Resource_handoff"]
 script = ExtResource("1_ttrbs")
 Condition = SubResource("Resource_settled")
-DialogLines = PackedStringArray("Frank: Good work. Grab your Cell Key and get to the kitchen — I'll cover you.", "Frank: Blend in, find out what you can. And try the slop. It's honest.")
+DialogLines = PackedStringArray("Frank: Good work. Grab your Cell Key — I'll cover you.", "Frank: Get some rest. First day on the Isle is always the longest.")
 TargetNode = NodePath("")
 AnimationNode = NodePath("")
 SetFlagValue = null

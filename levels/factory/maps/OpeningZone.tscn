@@ -44,26 +44,13 @@ LocationName = "Factory Gate — Clock-Out"
 
 [node name="HubArrival" parent="." unique_id=2053057958 instance=ExtResource("10_e0urw")]
 position = Vector2(-576, 0)
-Level = "res://levels/overworld/maps/Overworld.tscn"
-TargetTransitionName = "HubFactoryGateGate"
+Level = "res://levels/factory/maps/OpeningZone.tscn"
+TargetTransitionName = "HubArrival"
 Size = 7
 Side = 2
 RequiredFlag = "arrested"
 
-[node name="OverworldFactoryGate" parent="." unique_id=1978591452 instance=ExtResource("10_e0urw")]
-position = Vector2(-320, 288)
-Level = "res://levels/overworld/maps/Overworld.tscn"
-TargetTransitionName = "FactoryGateEntrance"
-Size = 7
-Side = 1
-RequiredFlag = "arrested"
 
-[node name="Zone1Entrance" parent="." unique_id=314245860 instance=ExtResource("10_e0urw")]
-position = Vector2(320, -288)
-Level = "res://levels/factory/maps/Zone1.tscn"
-TargetTransitionName = "OpeningZoneExit"
-Size = 7
-RequiredFlag = "arrested"
 
 [node name="SortingFloorEntrance" parent="." unique_id=1878524323 instance=ExtResource("10_e0urw")]
 position = Vector2(576, 0)

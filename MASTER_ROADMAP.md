@@ -22,8 +22,8 @@ What exists is a working engine with floating content:
 |---|---|
 | Core systems (dialog, combat, puzzles, inventory, equipment, save, audio, cutscenes) | ✅ Working, PoC-grade |
 | Factory opening tutorial (5 rooms) | ✅ Shipped — docs/factory-opening.md |
-| Story chain wiring (Prison → … → finale) | 🟡 Partially wired |
-| Zones | 🟡 All exist as placeholder maps **except Beach (no map at all — cutscene resource only)** |
+| Eggs Isle intake (the exile destination) | ✅ Shipped — docs/eggsile-intake.md; end of the tutorial chain |
+| Story chain zones (Prison → … → finale) | ⛔ **Removed 2026-08 as test content (#174)** — all placeholder zone maps deleted; story plan remains in STORY.md for a future rebuild |
 | Design | 🟡 Tone + protagonist locked; consumables / equipment stats / difficulty open |
 | Quality | 🔴 No full playthrough yet; placeholder art everywhere; no QA pass |
 
@@ -47,12 +47,18 @@ G2 runs in parallel with G1: placeholder content doesn't need the design answers
 
 **Goal:** A single playable run through the full story chain, placeholder art acceptable.
 
+> **2026-08 scope change (#174):** every story-chain zone map (Prison, Kitchen, Courtyard,
+> Warden's Quarters, Rec Room, Secret Tunnels, Sunnyside Shrine, Solitary, Beach, Home, Overworld)
+> was removed as test content. What ships now is the **tutorial chain**: Factory (5 rooms) →
+> arrest/exile → Eggs Isle intake. The story plan below is the future goal; each zone must be
+> **rebuilt from scratch** when work resumes.
+
 Story chain (flag-driven): Factory → Eggs Isle intake → Prison → Kitchen → Courtyard → Warden's Quarters → Rec Room → Secret Tunnels → Sunnyside Shrine → Solitary → **Beach finale** → Endings (spare/defeat flags determine Good/Mid/Bad).
 
-1. **Stabilize scenes** — fix remaining load failures: #92 (prison), #95 (Great Beyond hierarchy), #96 (OverworldEntrance UID), #127 (dead EggsileSewers→eggsile transition — **fixed with #130**), #128 (Kitchen tile atlas errors). *Gate: `tests/VerifyAllLevels.cs` passes every zone.*
-2. **Build the missing zone content, in story order** — each ships with its NPCs, dialog, puzzles, and boss/encounter:
+1. **Stabilize scenes** — the scene gate (`tests/VerifyAllLevels.cs`) must pass every remaining level: the 5 Factory rooms + Eggs Isle intake. (Legacy zone fixes #92/#95/#96/#128 applied to deleted placeholder scenes; #127 was fixed with #130.)
+2. **Build the missing zone content, in story order** — each ships with its NPCs, dialog, puzzles, and boss/encounter. **All items below are deferred until the zones are rebuilt after #174:**
    - Prison intake: Frank + cell exploration — #75 (superseded by #130)
-   - **Eggs Isle arrival/intake level** — replaces bare area1 with intro cutscene, dialog, quest, orientation — #130
+   - **Eggs Isle arrival/intake level** — ✅ shipped (#130); replaces bare area1 with intro cutscene, dialog, quest, orientation
    - Kitchen: Grandpa Smith, Chef, Oatmeal boss — #76
    - Courtyard: Egguardo quiz + warden key — #77
    - Warden's Quarters: Yogurt boss + Bacon backstory — #78

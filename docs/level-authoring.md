@@ -81,15 +81,14 @@ Every level must satisfy these baseline requirements:
 | Fake Wall | `FakeWall.cs` | — | Walk-through wall toggles collision on proximity | Use for secret routes; not a required-path gate |
 | Combat Arena | `CombatArena.tscn` / `CombatArena` | `PlayerSpawnPosition`, `EnemiesRemaining` | Enter via `CombatController.Instance.EnterCombat()` | No pre-combat save; death reloads from last save point |
 
-### Sandbox test levels
+### Reference levels
 
-`levels/sandbox/maps/` holds three loose "test around" levels — a stone hub, an open grass combat
-field, and a walled maze: `SandboxHub.tscn`, `SandboxGrasslands.tscn`, `SandboxDepths.tscn`. They are
-standalone, not part of the shipped demo route. Reach them via the warp menu (unlock `sandbox_hub` on
-site) or load them directly. Each door is a two-way `LevelTransition` to its neighbor, and all three
-warps are registered. Regenerate or extend them with `tests/GenerateSandboxLevels.cs`
-(`godot --headless --path . --script res://tests/GenerateSandboxLevels.cs`); verify with
-`tests/VerifySandboxLevels.cs`.
+The only shipped levels are the tutorial chain: the five Factory rooms (`levels/factory/maps/`,
+see `docs/factory-opening.md`) and the Eggs Isle intake (`levels/eggsile/maps/EggsIsle.tscn`, see
+`docs/eggsile-intake.md`). These are the canonical references for level authoring — the sandbox,
+sample, and story-chain placeholder zones were removed in the 2026-08 cleanup (#174) because
+agents were misusing them as reference content. Do not reintroduce test levels under `levels/`;
+use `tests/` generators + verifiers for throwaway scenes.
 
 ## 5. Dialog / prompt / cutscene recipe
 

@@ -72,8 +72,10 @@ public partial class GenerateEggsIsle : SceneTree
                 tiles.SetCell(new Vector2I(x, y), 0, Accent2, 0);
 
         // --- Arrival / save / warp (same positions as area1 → stable spawns) ---
+        // HubArrival is the arrest-handoff + warp spawn anchor. The Overworld hub it
+        // used to lead back to was removed in #174, so it self-anchors (no-op return).
         AddTransition(root, "HubArrival", new Vector2(-640, 320), TransitionSide.Left, 4,
-            "res://levels/overworld/maps/Overworld.tscn", "HubEggsileArea1Gate", "");
+            "res://levels/eggsile/maps/EggsIsle.tscn", "HubArrival", "");
         AddSave(root, "HubSavePoint", "EggsIsle Hub", new Vector2(-576, 320));
         AddWarp(root, "eggsile_area1", new Vector2(0, -30));
 
@@ -131,17 +133,9 @@ public partial class GenerateEggsIsle : SceneTree
             new[] { "found_cell_key" });
 
         // --- Outgoing transitions (all direct-root) ---
-        AddTransition(root, "KitchenTransition", new Vector2(400, 0), TransitionSide.Down, 5,
-            "res://levels/kitchen/maps/Kitchen.tscn", "IntakeArrival", "intake_settled",
-            setFlags: new[] { "visited_kitchen" });
-        AddTransition(root, "SewersEntrance", new Vector2(320, 360), TransitionSide.Down, 5,
-            "res://levels/eggsile/maps/EggsileSewers.tscn", "Area1Exit", "");   // fixes #127
-        AddTransition(root, "LeftHallwayTransition", new Vector2(-493, -7.91632f), TransitionSide.Left, 6,
-            "res://levels/overworld/maps/Overworld.tscn", "RightWalkwayTransition", "");
-        AddTransition(root, "DummyUp", new Vector2(11, -161.295f), TransitionSide.Up, 5,
-            "res://levels/overworld/maps/Overworld.tscn", "DummyDown", "");
-        AddTransition(root, "SandboxArrival", new Vector2(0, 300), TransitionSide.Down, 5,
-            "res://levels/sandbox/maps/SandboxHub.tscn", "EastToArea1", "");
+        // Exits to the Kitchen, Sewers, Overworld hub, and Sandbox were removed in the
+        // 2026-08 test-content cleanup (#174) — the intake is the end of the tutorial
+        // chain; fast travel (eggsile_area1 warp) is the only way back to the factory.
 
         Save(root, "res://levels/eggsile/maps/EggsIsle.tscn");
     }

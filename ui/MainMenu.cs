@@ -133,7 +133,7 @@ public partial class MainMenu : CanvasLayer
 		await ToSignal(GameController.Instance, GameController.SignalName.LevelLoaded);
 		GameLogger.Info("MainMenu", "New game level loaded — hiding and freeing MainMenu overlay");
 		QueueFree();
-		GameLogger.Info("MainMenu", "New game started — save deleted, flags cleared, loading Overworld");
+		GameLogger.Info("MainMenu", "New game started — save deleted, flags cleared, loading Factory opening");
 	}
 
 	private async void OnContinuePressed()

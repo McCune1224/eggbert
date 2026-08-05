@@ -3,6 +3,11 @@
 STORY.md **beat 2**. The player (Eggbert) arrives at Eggs Isle prison after the factory
 arrest handoff. This doc is the load-bearing design contract; implementation follows it.
 
+> **Scope note (2026-08, #174):** all story-chain zones beyond the intake (Kitchen,
+> Prison, Courtyard, …) were removed as test content. The intake is now the **end of
+> the shipped tutorial** — the exile ends here. The Kitchen exit transition was pruned;
+> the only way back to the factory is the `eggsile_area1` warp (fast travel).
+
 ---
 
 ## Entry contract (already wired)
@@ -24,13 +29,14 @@ The intake beat is a **character-piece + small scavenger task**:
 
 1. Player spawns at `HubArrival` and meets **Joe** (intake officer) doing intake dialog.
 2. Player meets **Frank** (cellmate) who explains the prison layout (Blocks A/B/C, Guard Room north,
-   kitchen west) and asks for a small favor — grab the **towels** scattered around the cell block.
+   cells west) and asks for a small favor — grab the **towels** scattered around the cell block.
 3. Player collects **3 towels** (flag-gated collection). Completing the collection sets
    `intake_settled`.
-4. Frank hands off; the **Kitchen exit** transition unlocks (requires `intake_settled`)
-   → `res://levels/kitchen/maps/Kitchen.tscn`.
+4. Frank hands off; the player grabs the **Cell Key** — the beat (and the tutorial) ends here.
 
-Exit condition = collect all towels → Frank's handoff line → gated transition to Kitchen.
+Exit condition = collect all towels → Frank's handoff line → find the Cell Key. There is no
+outgoing level transition (the old Kitchen exit was pruned in #174); fast travel via the
+`eggsile_area1` warp is the way back to the factory.
 
 ---
 
@@ -51,23 +57,27 @@ exploration but no hazards (arrival stays safe per the production contract).
 | 3 | **Scavenge towels** | 3 towel triggers (OnEnter one-shot), each with dialog line | `cutscene_towel_1/2/3` |
 | 4 | **Collection complete** | `IntakeTowels` tracker sets `intake_settled` when all 3 towels collected | `intake_settled` |
 | 5 | **Frank handoff** | `Frank` OnInteract line gated on `intake_settled` | — |
-| 6 | **Kitchen gate** | New `LevelTransition` at right of cell block, `RequiredFlag = "intake_settled"`, → `Kitchen.tscn` | — |
+| 6 | **Cell Key reward** | `CellKeyPickup` (PickupItem) grants `cell_key`, sets `found_cell_key` | `found_cell_key` |
+
+The old beat-6 **Kitchen gate** (`KitchenTransition`, `RequiredFlag="intake_settled"` → `Kitchen.tscn`)
+was pruned with the Kitchen zone in #174.
 
 ---
 
 ## Pruning (matches beat 2; removes orphaned non-beat2 content)
 
-Remove from `area1.tscn` (all duplicates/orphans NOT part of beat 2; the real homes already exist
-in `levels/kitchen/maps/Kitchen.tscn`):
+Pruned from the intake scene (the 2026-08 cleanup #174 removed the zones these belonged to):
 
-- `DrainMonsterSequence` + `SeqSwitch1/2/3` + `RewardDoor` (orphaned puzzle, no story home yet)
-- `Chef` (Kitchen owns Chef + kitchen hints; `met_chef` belongs to Kitchen beat)
-- `ScrambledEggPickup` (Kitchen owns its own scramble pickup)
-- `SewersEntrance` + `SewersTopEntrance` (sewers are not part of beat 2; revisit later)
+- `KitchenTransition` (→ Kitchen), `SewersEntrance` (→ EggsileSewers),
+  `LeftHallwayTransition`/`DummyUp` (→ Overworld hub), `SandboxArrival` (→ SandboxHub) — all exits
+  to removed zones are gone.
+- `HubArrival` remains as the arrest-handoff + warp spawn anchor, self-anchored (leads to itself;
+  there is no Overworld hub anymore).
+- `Chef.tscn` (Kitchen-owned) was deleted with the Kitchen zone.
 - Remove unused `ext_resource` entries that these nodes referenced (clean the header)
 
 **Keep:** `CoreTilemapLayer`, `Joe`, `Frank`, `CellKeyPickup` (reward), `WarpPoint` (`eggsile_area1`),
-`HubArrival`, `HubSavePoint`, `LeftHallwayTransition`/`DummyUp` (hub-gate wiring, verify before pruning).
+`HubArrival`, `HubSavePoint`.
 
 ---
 
@@ -85,10 +95,10 @@ towels. Frank references it ("that's for your cell's short-cut to the drains") o
 |------|------|---------|
 | `cutscene_frank_intake` | one-shot | Frank's staged arrival intro fired |
 | `cutscene_towel_1/2/3` | one-shot | each towel collected |
-| `intake_settled` | fact/gate | all towels collected; gates Kitchen exit + Frank handoff line |
+| `intake_settled` | fact/gate | all towels collected; gates Frank handoff line |
 
 Naming follows existing conventions (`cutscene_<id>` one-shots; short gate flags). No collision
-with registered flags (`arrested`, `warp_eggsile_area1`, `met_chef`, etc.).
+with registered flags (`arrested`, `warp_eggsile_area1`, etc.).
 
 ---
 
@@ -107,10 +117,9 @@ per `docs/level-authoring.md` ("confirming no existing component suffices").
 - **Joe** (`CutsceneTrigger` inline): intake line (keep/reuse existing JoeArrival beats).
 - **Frank** staged arrival (`CutsceneTrigger`, `Mode=OnEnter`, `Once=true`,
   `CutsceneId="frank_intake"`, `DialogLines`): "You're the factory transfer? Rough night." +
-  layout explanation (Guard Room north, Blocks A/B/C, kitchen west) + favor request ("see if
+  layout explanation (Guard Room north, Blocks A/B/C, cells west) + favor request ("see if
   there's a dry towel anywhere — check the cells, the washbasin, the vents.").
-- **Frank post-settle** (OnInteract): "Good. Grab your Cell Key and get to the kitchen. I'll
-  cover you." + sets nothing new.
+- **Frank post-settle** (OnInteract): "Good. Grab your Cell Key — I'll cover you." + sets nothing new.
 - **Towel triggers** (OnEnter one-shot, dialog): "Found a towel. Somehow both damp and dusty."
   (echo of Joe's intake line).
 
@@ -118,10 +127,10 @@ per `docs/level-authoring.md` ("confirming no existing component suffices").
 
 ## Kitchen entry (destination wiring)
 
-`kitchen/maps/Kitchen.tscn` currently has `HubArrival` (west → Overworld) and `KitchenExit`
-(east → Courtyard). **Add** a `LevelTransition` on its north-side or a matching entry node named
-`IntakeArrival` targeted by the intake's exit transition. (Confirm exact side/offset during
-implementation; the two scenes' gate names must match.)
+**Removed in #174.** The intake's `KitchenTransition` → `Kitchen.tscn/IntakeArrival` link was
+pruned with the Kitchen zone. The intake is a terminus; the `eggsile_area1` warp (unlocked by
+`FactoryOpeningFlow` after the arrest) is the only return route. If a future story chain is
+rebuilt, restore the exit transition here and re-add the `IntakeArrival` node to the destination.
 
 ---
 
@@ -129,10 +138,10 @@ implementation; the two scenes' gate names must match.)
 
 1. `dotnet build` clean.
 2. Headless verifier `tests/VerifyEggsileIntake.cs` (pattern: `tests/VerifyFactoryExpansion.cs`):
-   - instantiate `area1.tscn`; assert root is `BaseLevel`; assert `Joe`, `Frank`, `CellKeyPickup`,
-     `IntakeTowels`, the `Kitchen` exit transition + its `RequiredFlag="intake_settled"` all resolve.
+   - instantiate `EggsIsle.tscn`; assert root is `BaseLevel`; assert `Joe`, `Frank`, `CellKeyPickup`,
+     `IntakeTowels`, `HubArrival` (self-anchored) all resolve.
    - assert referenced `cell_key` exists in `ItemDatabase`; assert all `ext_resource` files exist.
-   - assert pruned nodes (`DrainMonsterSequence`, `SeqSwitch*`, `Chef`, `ScrambledEggPickup`,
-     `Sewers*`) are absent.
-   - assert `Kitchen.tscn` has the `IntakeArrival` node the exit transition targets.
+   - assert pruned transitions (`KitchenTransition`, `SewersEntrance`, `LeftHallwayTransition`,
+     `DummyUp`, `SandboxArrival`) are absent.
+   - assert the intake quest has 4 objectives (no `visited_kitchen`).
 3. Run `godot --headless --path . --script res://tests/VerifyEggsileIntake.cs`.

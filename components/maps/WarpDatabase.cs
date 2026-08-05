@@ -23,63 +23,16 @@ public static class WarpDatabase
 {
     public static readonly Dictionary<string, WarpDestination> All = new()
     {
-        { "overworld_entry", new WarpDestination
-            { Id = "overworld_entry", Name = "Overworld",
-              LevelPath = "res://levels/overworld/maps/Overworld.tscn", TargetTransitionName = "HubArrival" } },
-        { "the_great_beyond", new WarpDestination
-            { Id = "the_great_beyond", Name = "The Great Beyond",
-              LevelPath = "res://levels/overworld/maps/TheGreatBeyond.tscn", TargetTransitionName = "HubArrival" } },
-        { "courtyard", new WarpDestination
-            { Id = "courtyard", Name = "Courtyard",
-              LevelPath = "res://levels/courtyard/maps/courtyard.tscn", TargetTransitionName = "HubArrival" } },
-        { "eggsile_area1", new WarpDestination
-            { Id = "eggsile_area1", Name = "Eggsile — Area 1",
-              LevelPath = "res://levels/eggsile/maps/EggsIsle.tscn", TargetTransitionName = "HubArrival" } },
-        { "prison", new WarpDestination
-            { Id = "prison", Name = "Prison",
-              LevelPath = "res://levels/prison/maps/prison.tscn", TargetTransitionName = "HubArrival" } },
+        // Only the tutorial-chain warps remain: the factory gate (editor traversal /
+        // New Game reference) and the Eggs Isle intake, unlocked by the arrest handoff
+        // (FactoryOpeningFlow). All zone warps were removed with their levels in the
+        // 2026-08 test-content cleanup (issue #174).
         { "factory_gate", new WarpDestination
             { Id = "factory_gate", Name = "Factory Gate",
               LevelPath = "res://levels/factory/maps/OpeningZone.tscn", TargetTransitionName = "HubArrival" } },
-        { "courtyard_depths", new WarpDestination
-            { Id = "courtyard_depths", Name = "Courtyard Depths",
-              LevelPath = "res://levels/courtyard/maps/CourtyardDepths.tscn", TargetTransitionName = "HubArrival" } },
-        { "prison_block_c", new WarpDestination
-            { Id = "prison_block_c", Name = "Prison Block C",
-              LevelPath = "res://levels/prison/maps/PrisonBlockC.tscn", TargetTransitionName = "HubArrival" } },
-        { "kitchen", new WarpDestination
-            { Id = "kitchen", Name = "Kitchen",
-              LevelPath = "res://levels/kitchen/maps/Kitchen.tscn", TargetTransitionName = "HubArrival" } },
-        { "wardens_quarters", new WarpDestination
-            { Id = "wardens_quarters", Name = "Warden's Quarters",
-              LevelPath = "res://levels/warden/maps/WardensQuarters.tscn", TargetTransitionName = "HubArrival" } },
-        { "rec_room", new WarpDestination
-            { Id = "rec_room", Name = "Rec Room",
-              LevelPath = "res://levels/recroom/maps/RecRoom.tscn", TargetTransitionName = "HubArrival" } },
-        { "secret_tunnels", new WarpDestination
-            { Id = "secret_tunnels", Name = "Secret Tunnels",
-              LevelPath = "res://levels/tunnels/maps/SecretTunnels.tscn", TargetTransitionName = "HubArrival" } },
-        { "sunnyside_shrine", new WarpDestination
-            { Id = "sunnyside_shrine", Name = "Sunnyside Shrine",
-              LevelPath = "res://levels/shrine/maps/SunnysideShrine.tscn", TargetTransitionName = "HubArrival" } },
-        { "solitary", new WarpDestination
-            { Id = "solitary", Name = "Solitary",
-              LevelPath = "res://levels/solitary/maps/Solitary.tscn", TargetTransitionName = "HubArrival" } },
-        { "prison_tunnels", new WarpDestination
-            { Id = "prison_tunnels", Name = "Prison Tunnels",
-              LevelPath = "res://levels/prison/maps/prison.tscn", TargetTransitionName = "HubArrival" } },
-        { "eggsile_sewers", new WarpDestination
-            { Id = "eggsile_sewers", Name = "Eggsile Sewers",
-              LevelPath = "res://levels/eggsile/maps/EggsileSewers.tscn", TargetTransitionName = "HubArrival" } },
-        { "sandbox_hub", new WarpDestination
-            { Id = "sandbox_hub", Name = "Sandbox Hub",
-              LevelPath = "res://levels/sandbox/maps/SandboxHub.tscn", TargetTransitionName = "NorthToGrasslands" } },
-        { "sandbox_grasslands", new WarpDestination
-            { Id = "sandbox_grasslands", Name = "Sandbox Grasslands",
-              LevelPath = "res://levels/sandbox/maps/SandboxGrasslands.tscn", TargetTransitionName = "SouthToHub" } },
-        { "sandbox_depths", new WarpDestination
-            { Id = "sandbox_depths", Name = "Sandbox Depths",
-              LevelPath = "res://levels/sandbox/maps/SandboxDepths.tscn", TargetTransitionName = "EastToHub" } },
+        { "eggsile_area1", new WarpDestination
+            { Id = "eggsile_area1", Name = "Eggsile — Area 1",
+              LevelPath = "res://levels/eggsile/maps/EggsIsle.tscn", TargetTransitionName = "HubArrival" } },
     };
     public static bool IsUnlocked(string id) =>
         WorldFlags.Instance.HasFlag($"warp_{id}");

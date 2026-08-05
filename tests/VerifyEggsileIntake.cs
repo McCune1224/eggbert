@@ -3,8 +3,10 @@ using Godot;
 
 /// <summary>
 /// Headless verifier for the Eggs Isle arrival/intake level (issue #130).
-/// Asserts the new EggsIsle.tscn structure, flag wiring, quest registration,
-/// Kitchen gate, and the #127 sewers link. Run with:
+/// Asserts the EggsIsle.tscn structure, flag wiring, quest registration, and
+/// the HubArrival arrest-handoff anchor. Exits to removed zones (Kitchen,
+/// Sewers, Overworld, Sandbox) were pruned in the 2026-08 cleanup (#174).
+/// Run with:
 ///   godot --headless --path . --script res://tests/VerifyEggsileIntake.cs
 /// </summary>
 public partial class VerifyEggsileIntake : SceneTree
@@ -15,8 +17,6 @@ public partial class VerifyEggsileIntake : SceneTree
     public override void _Initialize()
     {
         VerifyEggsIsle();
-        VerifyKitchenEntry();
-        VerifySewersLink();
         VerifyQuest();
         GD.Print(_failures == 0 ? "ALL CHECKS PASSED" : $"{_failures} FAILURE(S)");
         System.Environment.Exit(_failures == 0 ? 0 : 1);
@@ -131,78 +131,23 @@ public partial class VerifyEggsileIntake : SceneTree
             Check(hasFoundFlag, "CellKeyPickup sets found_cell_key");
         }
 
-        // Kitchen gate
-        var gate = root.GetNodeOrNull<LevelTransition>("KitchenTransition");
-        Check(gate != null, "KitchenTransition present");
-        if (gate != null)
+        // Kitchen gate / sewers / overworld / sandbox exits were pruned in #174.
+        // HubArrival remains as the arrest-handoff + warp spawn anchor (self-anchored).
+        var hubArrival = root.GetNodeOrNull<LevelTransition>("HubArrival");
+        Check(hubArrival != null, "HubArrival present (arrest handoff anchor)");
+        if (hubArrival != null)
         {
-            Check(gate.Level == "res://levels/kitchen/maps/Kitchen.tscn", "KitchenTransition targets Kitchen.tscn");
-            Check(gate.TargetTransitionName == "IntakeArrival", "KitchenTransition targets IntakeArrival");
-            Check(gate.RequiredFlag == "intake_settled", "KitchenTransition gated on intake_settled");
-            bool setsVisited = gate.SetFlagsOnFire != null &&
-                               Array.IndexOf(gate.SetFlagsOnFire, "visited_kitchen") >= 0;
-            Check(setsVisited, "KitchenTransition sets visited_kitchen");
+            Check(hubArrival.Level == ScenePath, "HubArrival self-anchors (no Overworld hub)");
+            Check(hubArrival.TargetTransitionName == "HubArrival", "HubArrival targets itself");
         }
-
-        // #127: sewers link present
-        var sewers = root.GetNodeOrNull<LevelTransition>("SewersEntrance");
-        Check(sewers != null, "SewersEntrance present (#127)");
-        if (sewers != null)
-        {
-            Check(sewers.Level == "res://levels/eggsile/maps/EggsileSewers.tscn", "SewersEntrance targets EggsileSewers.tscn");
-            Check(sewers.TargetTransitionName == "Area1Exit", "SewersEntrance targets Area1Exit");
-        }
-
-        // Hub links preserved for overworld/sandbox gates
-        Check(root.GetNodeOrNull("LeftHallwayTransition") != null, "LeftHallwayTransition present");
-        Check(root.GetNodeOrNull("DummyUp") != null, "DummyUp present");
-        Check(root.GetNodeOrNull("SandboxArrival") != null, "SandboxArrival present");
+        Check(root.GetNodeOrNull("KitchenTransition") == null, "KitchenTransition removed (#174)");
+        Check(root.GetNodeOrNull("SewersEntrance") == null, "SewersEntrance removed (#174)");
+        Check(root.GetNodeOrNull("LeftHallwayTransition") == null, "LeftHallwayTransition removed (#174)");
+        Check(root.GetNodeOrNull("DummyUp") == null, "DummyUp removed (#174)");
+        Check(root.GetNodeOrNull("SandboxArrival") == null, "SandboxArrival removed (#174)");
 
         // area1 deleted
         Check(!FileAccess.FileExists("res://levels/eggsile/maps/area1.tscn"), "area1.tscn deleted");
-
-        root.QueueFree();
-    }
-
-    private void VerifyKitchenEntry()
-    {
-        const string path = "res://levels/kitchen/maps/Kitchen.tscn";
-        Check(FileAccess.FileExists(path), "Kitchen.tscn exists");
-        var scene = ResourceLoader.Load<PackedScene>(path);
-        if (scene == null) { Fail("Kitchen.tscn loads"); return; }
-
-        var root = scene.Instantiate() as Node2D;
-        if (root == null) { Fail("Kitchen root is Node2D"); return; }
-        Root.AddChild(root);
-
-        var arrival = root.GetNodeOrNull<LevelTransition>("IntakeArrival");
-        Check(arrival != null, "Kitchen IntakeArrival present");
-        if (arrival != null)
-        {
-            Check(arrival.Level == ScenePath, "IntakeArrival targets EggsIsle.tscn");
-            Check(arrival.TargetTransitionName == "KitchenTransition", "IntakeArrival targets KitchenTransition");
-        }
-
-        root.QueueFree();
-    }
-
-    private void VerifySewersLink()
-    {
-        const string path = "res://levels/eggsile/maps/EggsileSewers.tscn";
-        var scene = ResourceLoader.Load<PackedScene>(path);
-        if (scene == null) { Fail("EggsileSewers.tscn loads"); return; }
-
-        var root = scene.Instantiate() as Node2D;
-        if (root == null) { Fail("Sewers root is Node2D"); return; }
-        Root.AddChild(root);
-
-        var exit = root.GetNodeOrNull<LevelTransition>("Area1Exit");
-        Check(exit != null, "Sewers Area1Exit present");
-        if (exit != null)
-        {
-            Check(exit.Level == ScenePath, "Sewers Area1Exit targets EggsIsle.tscn (#127)");
-            Check(exit.TargetTransitionName == "SewersEntrance", "Sewers Area1Exit targets SewersEntrance");
-        }
 
         root.QueueFree();
     }
@@ -222,15 +167,15 @@ public partial class VerifyEggsileIntake : SceneTree
         {
             Check(quest.Title == "First Night on Eggs Isle", "Quest title correct");
             Check(quest.StartFlag == "arrested", "Quest StartFlag = arrested");
-            Check(quest.Objectives != null && quest.Objectives.Count == 5,
-                  "Quest has 5 objectives");
-            if (quest.Objectives != null && quest.Objectives.Count == 5)
+            // Kitchen objective (visited_kitchen) removed with the Kitchen zone in #174.
+            Check(quest.Objectives != null && quest.Objectives.Count == 4,
+                  "Quest has 4 objectives");
+            if (quest.Objectives != null && quest.Objectives.Count == 4)
             {
                 Check(quest.Objectives[0].CompletionFlag == "met_joe", "Objective 1: met_joe");
                 Check(quest.Objectives[1].CompletionFlag == "met_frank", "Objective 2: met_frank");
                 Check(quest.Objectives[2].CompletionFlag == "intake_settled", "Objective 3: intake_settled");
                 Check(quest.Objectives[3].CompletionFlag == "found_cell_key", "Objective 4: found_cell_key");
-                Check(quest.Objectives[4].CompletionFlag == "visited_kitchen", "Objective 5: visited_kitchen");
             }
         }
 

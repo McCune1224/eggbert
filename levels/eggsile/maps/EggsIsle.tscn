@@ -56,8 +56,8 @@ script = ExtResource("5_6wpbg")
 position = Vector2(-640, 320)
 monitorable = false
 script = ExtResource("7_pb7ix")
-Level = "res://levels/overworld/maps/Overworld.tscn"
-TargetTransitionName = "HubEggsileArea1Gate"
+Level = "res://levels/eggsile/maps/EggsIsle.tscn"
+TargetTransitionName = "HubArrival"
 Size = 4
 Side = 2
 
@@ -155,48 +155,7 @@ texture = ExtResource("22_bmjf4")
 [node name="@CollisionShape2D@8" type="CollisionShape2D" parent="CellKeyPickup" unique_id=1737051539]
 shape = SubResource("RectangleShape2D_kjt4l")
 
-[node name="KitchenTransition" type="Area2D" parent="." unique_id=1161201858 instance=ExtResource("6_vxohm")]
-position = Vector2(400, 0)
-monitorable = false
-script = ExtResource("7_pb7ix")
-Level = "res://levels/kitchen/maps/Kitchen.tscn"
-TargetTransitionName = "IntakeArrival"
-Size = 5
-Side = 1
-RequiredFlag = "intake_settled"
-SetFlagsOnFire = PackedStringArray("visited_kitchen")
 
-[node name="SewersEntrance" type="Area2D" parent="." unique_id=654304242 instance=ExtResource("6_vxohm")]
-position = Vector2(320, 360)
-monitorable = false
-script = ExtResource("7_pb7ix")
-Level = "res://levels/eggsile/maps/EggsileSewers.tscn"
-TargetTransitionName = "Area1Exit"
-Size = 5
-Side = 1
 
-[node name="LeftHallwayTransition" type="Area2D" parent="." unique_id=1897500073 instance=ExtResource("6_vxohm")]
-position = Vector2(-493, -7.91632)
-monitorable = false
-script = ExtResource("7_pb7ix")
-Level = "res://levels/overworld/maps/Overworld.tscn"
-TargetTransitionName = "RightWalkwayTransition"
-Size = 6
-Side = 2
 
-[node name="DummyUp" type="Area2D" parent="." unique_id=1679064841 instance=ExtResource("6_vxohm")]
-position = Vector2(11, -161.295)
-monitorable = false
-script = ExtResource("7_pb7ix")
-Level = "res://levels/overworld/maps/Overworld.tscn"
-TargetTransitionName = "DummyDown"
-Size = 5
 
-[node name="SandboxArrival" type="Area2D" parent="." unique_id=1079220620 instance=ExtResource("6_vxohm")]
-position = Vector2(0, 300)
-monitorable = false
-script = ExtResource("7_pb7ix")
-Level = "res://levels/sandbox/maps/SandboxHub.tscn"
-TargetTransitionName = "EastToArea1"
-Size = 5
-Side = 1

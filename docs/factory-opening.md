@@ -80,9 +80,9 @@ OpeningZone → SortingFloor → AssemblyLine → ControlRoom → LoadingBay ─
 
 ## Optional content
 
-- Factory `Zone1.tscn` hazards and combat are outside the mandatory opening path.
 - The opening has one optional pickup (`EggdropSoupPickup` in ControlRoom) and one optional shortcut (maintenance pads in AssemblyLine).
 - The `factory_gate` `WarpPoint` is not an opening requirement; it exists for editor traversal.
+- The old optional `Zone1.tscn` hazard/combat area and the `OverworldFactoryGate`/`Zone1Entrance` exits were removed in the 2026-08 test-content cleanup (#174) — the five rooms plus the arrest handoff are the complete tutorial.
 
 ## Authoring constraints
 

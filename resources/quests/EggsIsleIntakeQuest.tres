@@ -6,7 +6,7 @@
 [sub_resource type="Resource" id="Resource_meet_joe"]
 script = ExtResource("1_2t4on")
 Id = "meet_joe"
-Description = "Report to intake officer Joe."
+Description = "Get processed at intake, meet your cellmate, and find your cell key."
 CompletionFlag = "met_joe"
 LocationLevel = "res://levels/eggsile/maps/EggsIsle.tscn"
 LocationPosition = Vector2(-87, -83)
@@ -35,18 +35,10 @@ CompletionFlag = "found_cell_key"
 LocationLevel = "res://levels/eggsile/maps/EggsIsle.tscn"
 LocationPosition = Vector2(500, -200)
 
-[sub_resource type="Resource" id="Resource_reach_kitchen"]
-script = ExtResource("1_2t4on")
-Id = "reach_kitchen"
-Description = "Reach the kitchen."
-CompletionFlag = "visited_kitchen"
-LocationLevel = "res://levels/eggsile/maps/EggsIsle.tscn"
-LocationPosition = Vector2(400, 0)
-
 [resource]
 script = ExtResource("2_c8ta1")
 Id = "eggs_isle_first_night"
 Title = "First Night on Eggs Isle"
 Description = "Get processed at intake, meet your cellmate, and find your way to the kitchen."
 StartFlag = "arrested"
-Objectives = Array[ExtResource("1_2t4on")]([SubResource("Resource_meet_joe"), SubResource("Resource_meet_frank"), SubResource("Resource_gather_towels"), SubResource("Resource_find_cell_key"), SubResource("Resource_reach_kitchen")])
+Objectives = Array[ExtResource("1_2t4on")]([SubResource("Resource_meet_joe"), SubResource("Resource_meet_frank"), SubResource("Resource_gather_towels"), SubResource("Resource_find_cell_key")])

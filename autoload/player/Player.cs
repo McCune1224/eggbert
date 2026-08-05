@@ -326,7 +326,7 @@ public partial class Player : CharacterBody2D, ISavable
     /// <returns>Dictionary with position, health, facing direction, and level scene path.</returns>
      public Dictionary<string, Variant> Serialize()
     {
-        string levelPath = GameController.Instance.CurrentLevel?.SceneFilePath ?? "res://levels/overworld/maps/Overworld.tscn";
+        string levelPath = GameController.Instance.CurrentLevel?.SceneFilePath ?? "res://levels/factory/maps/OpeningZone.tscn";
         GameLogger.Debug("Player", $"Serialize: pos={Position}, hp={HealthComponent.CurrentHP}, scene={levelPath}");
         return new Dictionary<string, Variant>
         {
@@ -365,7 +365,7 @@ public partial class Player : CharacterBody2D, ISavable
         if (string.IsNullOrEmpty(scenePath))
         {
             GameLogger.Warn("Player", "Deserialize: no valid scene path in save, using default.");
-            scenePath = "res://levels/overworld/maps/Overworld.tscn";
+            scenePath = "res://levels/factory/maps/OpeningZone.tscn";
         }
 
         GameLogger.Info("Player", $"Deserialize: calling LoadLevel(scenePath='{scenePath}', pos={position})");

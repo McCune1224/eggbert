@@ -35,7 +35,7 @@ SetFlagValue = null
 
 [sub_resource type="Resource" id="Resource_joe_line2"]
 script = ExtResource("1_ttrbs")
-DialogLines = PackedStringArray("Joe: Desk's here, cell block's through there. Kitchen's past that once you're settled in.", "Joe: Ask Frank — he's your cellmate. He knows the layout better than I do, somehow.")
+DialogLines = PackedStringArray("Joe: Desk's here, cell block's through there. You'll get the lay of the land once you're settled in.", "Joe: Ask Frank — he's your cellmate. He knows the layout better than I do, somehow.")
 TargetNode = NodePath("")
 AnimationNode = NodePath("")
 SetFlagValue = null
