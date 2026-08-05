@@ -174,8 +174,18 @@ public partial class ParryComponent : Node2D
         DrawArc(Vector2.Zero, ParryRadius, 0, Mathf.Tau, 32, drawColor, 2f);
 
         if (_canParry)
+        {
             DrawArc(Vector2.Zero, ParryRadius - 4f, 0, Mathf.Tau, 32,
                 new Color(1f, 1f, 1f, 0.15f), 1f);
+        }
+        else
+        {
+            // Cooldown refill: the inner ring visibly fills back up as the parry readies.
+            float progress = Mathf.Clamp(1f - _cooldownTimer / Mathf.Max(0.001f, Cooldown), 0f, 1f);
+            float start = -Mathf.Pi / 2f;
+            DrawArc(Vector2.Zero, ParryRadius - 4f, start, start + Mathf.Tau * progress, 32,
+                new Color(1f, 1f, 1f, 0.4f), 2f);
+        }
     }
 
     public void UpdateStats(float radiusBoost, int damageBoost, float cooldownReduction = 0f)

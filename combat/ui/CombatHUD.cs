@@ -118,6 +118,32 @@ public partial class CombatHUD : CanvasLayer
         hc.Healed += OnPlayerHealed;
     }
 
+    /// <summary>
+    /// Shows a centered battle banner (FIGHT! / VICTORY!) that pops and fades —
+    /// same pattern as the PARRY! popup in ParryComponent.
+    /// </summary>
+    public void ShowBanner(string text, Color color)
+    {
+        var label = new Label
+        {
+            Text = text,
+            ThemeTypeVariation = "HudLabel",
+            Modulate = color,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Position = new Vector2(200, 152),
+            Size = new Vector2(240, 56),
+            PivotOffset = new Vector2(120, 28)
+        };
+        label.AddThemeFontSizeOverride("font_size", 30);
+        AddChild(label);
+
+        var tween = CreateTween().SetParallel(true);
+        tween.TweenProperty(label, "scale", new Vector2(1.15f, 1.15f), 0.35f);
+        tween.TweenProperty(label, "modulate:a", 0f, 0.5f).SetDelay(0.7f);
+        tween.Chain().TweenCallback(Callable.From(label.QueueFree));
+    }
+
     public void AddEnemy(string name, HealthComponent hc)
     {
         int index = _enemyBars.Count;

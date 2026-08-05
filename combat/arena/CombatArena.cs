@@ -45,6 +45,13 @@ public partial class CombatArena : Node2D
         Player.Instance.HealthComponent.BlockChargesRemaining = CombatStats.BlockCharges;
         Player.Instance.HealthComponent.IframeSeconds = 0f;
 
+        // Battle intro banner once the fade-in settles.
+        GetTree().CreateTimer(0.4f).Timeout += () =>
+        {
+            if (GodotObject.IsInstanceValid(HUD))
+                HUD.ShowBanner("FIGHT!", new Color(0.91f, 0.72f, 0.38f));
+        };
+
         GameLogger.Info("Combat", $"Arena '{Name}': _Ready — player spawned at {PlayerSpawnPosition}, initial enemies={EnemiesRemaining}");
     }
 
@@ -90,8 +97,14 @@ public partial class CombatArena : Node2D
         GameLogger.Info("Combat", $"Arena '{Name}': enemy defeated — {EnemiesRemaining} remaining.");
         if (EnemiesRemaining <= 0)
         {
-            HUD.QueueFree();
-            EmitSignal(SignalName.BattleWon);
+            // Victory banner reads before the level swap, then win flow fires.
+            HUD.ShowBanner("VICTORY!", new Color(0.9f, 0.95f, 1f));
+            GetTree().CreateTimer(1.0f).Timeout += () =>
+            {
+                if (!GodotObject.IsInstanceValid(HUD)) return;
+                HUD.QueueFree();
+                EmitSignal(SignalName.BattleWon);
+            };
             GameLogger.Info("Combat", $"Arena '{Name}': all enemies defeated — battle won!");
         }
     }

@@ -125,6 +125,8 @@ public partial class CombatOatmeal : Area2D
     public override void _Process(double delta)
     {
         _stateTimer += (float)delta;
+        if (_state == State.Telegraph)
+            QueueRedraw(); // animate the telegraph '!' glyph
 
         switch (_state)
         {
@@ -165,6 +167,7 @@ public partial class CombatOatmeal : Area2D
         _state = newState;
         GameLogger.Debug("CombatOatmeal", $"State → {newState} (flavor: {Flavor})");
         _stateTimer = 0f;
+        QueueRedraw();
 
         var profile = FlavorProfile.GetValueOrDefault(Flavor, FlavorProfile[OatmealFlavor.Vanilla]);
 
@@ -296,5 +299,20 @@ public partial class CombatOatmeal : Area2D
 
         GetParent().AddChild(bullet);
         return bullet;
+    }
+
+    /// <summary>
+    /// Telegraph warning glyph: a '!' above the enemy that grows and reddens
+    /// as the windup completes (docs/combat-ui-design.md §3.1 C2).
+    /// </summary>
+    public override void _Draw()
+    {
+        if (_state != State.Telegraph) return;
+
+        float t = Mathf.Clamp(_stateTimer / Mathf.Max(0.001f, _stateDuration), 0f, 1f);
+        var font = ThemeDB.FallbackFont;
+        float fontSize = 14f + 10f * t;
+        var color = new Color(1f, 0.85f - 0.45f * t, 0.2f, 0.75f + 0.25f * t);
+        DrawString(font, new Vector2(-8f, -34f - 6f * t), "!", HorizontalAlignment.Center, 16, Mathf.RoundToInt(fontSize), color);
     }
 }
