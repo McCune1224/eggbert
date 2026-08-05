@@ -100,7 +100,7 @@ Exit condition = witness the count (`eggsile_count_survived`) + find the tunnel 
 - Rim walls 3 tiles thick; booking desk visual at tiles (−21…−16, −6…−3).
 - `DockArrival` at west edge (−960,0), `GatehouseExit` at east edge (960,0), Mr Tea
   ≈(−300,−60), ledger ≈(−420,−100), rules board ≈(−380,60), stamp ≈(−220,−80),
-  `CheckInCutscene` trigger ≈(−600,0), save "Gatehouse Bench" ≈(−500,200).
+  `CheckInCutscene` trigger ≈(−660,0, 240×320 — generous box), save "Gatehouse Bench" ≈(−500,200).
 
 ### The Overflow (208×76: x −104…+104, y −38…+38)
 - Rim walls 3 tiles thick. North rooms (y −38…−12) / corridor (y −8…+8) / south rooms
@@ -117,8 +117,8 @@ Exit condition = witness the count (`eggsile_count_survived`) + find the tunnel 
   rubble block x +96…+104.
 - **Hatch alcove** (x −104…−40, south): `TunnelHatch` KeyDoor at (−1408,168) (gap
   x −89…−87); lucky-yolk reward ≈(−1500,350); HatchNote ≈(−1300,450).
-- `GatehouseArrival` at west edge (−1664,0); `CellPlacement` trigger ≈(−1500,0);
-  `CountTrigger` ≈(400,0); Wiener Cop ≈(700,0).
+- `GatehouseArrival` at west edge (−1664,0); `CellPlacement` trigger ≈(−1500,0, 200×160);
+  `CountTrigger` ≈(400,0, 200×130); Wiener Cop ≈(700,0).
 
 ---
 

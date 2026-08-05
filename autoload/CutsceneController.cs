@@ -12,6 +12,14 @@ public partial class CutsceneController : Node
     public int LastChoiceIndex { get; set; } = -1;
 
     /// <summary>
+    /// Lets AnimationPlayer-driven cutscene scenes (<see cref="CutsceneDirector"/>) claim or
+    /// release the playing state so systems gating on <see cref="IsPlaying"/> (dev-save
+    /// hotkeys, interaction prompts, cutscene double-fire protection) treat them like any
+    /// other cutscene. The claiming Director owns cleanup (releases on finish or unload).
+    /// </summary>
+    public void ClaimExternalCutscene(bool active) => _isPlaying = active;
+
+    /// <summary>
     /// Test hook: when set, RunDialogBranch uses this delegate instead of
     /// DialogManager.PromptChoices so headless tests can drive the choice
     /// index deterministically. Returns the choice index to take.

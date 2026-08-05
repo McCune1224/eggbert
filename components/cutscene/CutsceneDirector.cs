@@ -24,12 +24,39 @@ public partial class CutsceneDirector : Node
 {
     private AnimationPlayer _anim;
     private bool _dialogPaused;
+    private bool _claimedPlaying;
 
     public override void _Ready()
     {
         _anim = GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
         if (_anim == null && GetParent() != null)
             _anim = GetParent().GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
+    }
+
+    public override void _ExitTree()
+    {
+        // If the level unloaded mid-cutscene, never leave the CutsceneController
+        // claiming a cutscene is playing (that would block all future cutscenes).
+        ReleasePlaying();
+    }
+
+    /// <summary>Claims the CutsceneController playing state so systems gating on
+    /// <see cref="CutsceneController.IsPlaying"/> (dev-save hotkeys, interaction
+    /// prompts, cutscene double-fire protection) treat this cutscene like any other.</summary>
+    private void ClaimPlaying()
+    {
+        if (_claimedPlaying || CutsceneController.Instance == null)
+            return;
+        _claimedPlaying = true;
+        CutsceneController.Instance.ClaimExternalCutscene(true);
+    }
+
+    private void ReleasePlaying()
+    {
+        if (!_claimedPlaying || CutsceneController.Instance == null)
+            return;
+        _claimedPlaying = false;
+        CutsceneController.Instance.ClaimExternalCutscene(false);
     }
 
     /// <summary>Plays the first animation on the AnimationPlayer and frees the scene when it ends.</summary>
@@ -43,6 +70,7 @@ public partial class CutsceneDirector : Node
         }
 
         _anim.Play(_anim.GetAnimationList()[0]);
+        ClaimPlaying();
         GameLogger.Info("Cutscene", $"CutsceneDirector: playing '{_anim.CurrentAnimation}'");
         await ToSignal(_anim, AnimationPlayer.SignalName.AnimationFinished);
 
@@ -52,6 +80,7 @@ public partial class CutsceneDirector : Node
             return;
         GameLogger.Info("Cutscene", "CutsceneDirector: finished — freeing scene");
 
+        ReleasePlaying();
         UnlockPlayer();
         QueueFree();
     }
