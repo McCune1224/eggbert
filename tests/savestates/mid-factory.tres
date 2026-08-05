@@ -6,8 +6,8 @@
 script = ExtResource("1_xesdr")
 SavePointScenePath = "res://levels/factory/maps/OpeningZone.tscn"
 LocationName = "Factory — Opening Zone"
-SaveTimestamp = 1785899342.248367
-PlayTimeSeconds = 1.544
+SaveTimestamp = 1785900862.422336
+PlayTimeSeconds = 1.439
 ComponentData = Dictionary[String, Dictionary]({
 "equipment": Dictionary[String, Variant]({
 "accessory_id": "",
@@ -16,15 +16,37 @@ ComponentData = Dictionary[String, Dictionary]({
 }),
 "inventory": Dictionary[String, Variant]({
 "stacks": Dictionary[String, Variant]({
+"bubble_wrap": 1,
+"butter": 1,
 "cell_key": 1,
+"cracked_carton": 1,
 "deviled_egg": 1,
 "egg_salad_sandwich": 1,
+"egg_timer": 1,
 "eggdrop_soup": 1,
 "eggshell_helm": 1,
+"frying_pan": 1,
 "golden_yolk": 1,
+"graze_charm": 1,
 "hardboiled_egg": 2,
+"hardboiled_shell": 1,
+"hourglass": 1,
+"ladle": 1,
+"lucky_horseshoe": 1,
+"molasses": 1,
+"pot_lid": 1,
+"rubber_band": 1,
 "rusty_key": 1,
-"scrambled_egg": 1
+"scrambled_egg": 1,
+"silicone_mat": 1,
+"slotted_spoon": 1,
+"spatula": 1,
+"stained_apron": 1,
+"stopwatch": 1,
+"sunglasses": 1,
+"tin_foil_hat": 1,
+"wedding_ring": 1,
+"whisk": 1
 })
 }),
 "player": Dictionary[String, Variant]({

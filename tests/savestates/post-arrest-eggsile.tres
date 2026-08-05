@@ -4,11 +4,11 @@
 
 [resource]
 script = ExtResource("1_lws42")
-SavePointScenePath = "res://levels/eggsile/maps/area1.tscn"
-SavePointPosition = Vector2(-610, 323.38242)
-LocationName = "Eggs Isle — Area 1"
-SaveTimestamp = 1785899342.677007
-PlayTimeSeconds = 1.973
+SavePointScenePath = "res://levels/eggsile/maps/EggsIsle.tscn"
+SavePointPosition = Vector2(-610, 320)
+LocationName = "Eggs Isle — Arrival"
+SaveTimestamp = 1785900862.853931
+PlayTimeSeconds = 1.871
 ComponentData = Dictionary[String, Dictionary]({
 "equipment": Dictionary[String, Variant]({
 "accessory_id": "",
@@ -17,23 +17,45 @@ ComponentData = Dictionary[String, Dictionary]({
 }),
 "inventory": Dictionary[String, Variant]({
 "stacks": Dictionary[String, Variant]({
+"bubble_wrap": 1,
+"butter": 1,
 "cell_key": 1,
+"cracked_carton": 1,
 "deviled_egg": 1,
 "egg_salad_sandwich": 1,
+"egg_timer": 1,
 "eggdrop_soup": 1,
 "eggshell_helm": 1,
+"frying_pan": 1,
 "golden_yolk": 1,
+"graze_charm": 1,
 "hardboiled_egg": 2,
+"hardboiled_shell": 1,
+"hourglass": 1,
+"ladle": 1,
+"lucky_horseshoe": 1,
+"molasses": 1,
+"pot_lid": 1,
+"rubber_band": 1,
 "rusty_key": 1,
-"scrambled_egg": 1
+"scrambled_egg": 1,
+"silicone_mat": 1,
+"slotted_spoon": 1,
+"spatula": 1,
+"stained_apron": 1,
+"stopwatch": 1,
+"sunglasses": 1,
+"tin_foil_hat": 1,
+"wedding_ring": 1,
+"whisk": 1
 })
 }),
 "player": Dictionary[String, Variant]({
 "facing_dir": "(0, 1)",
 "health": 100,
-"level_scene_path": "res://levels/eggsile/maps/area1.tscn",
+"level_scene_path": "res://levels/eggsile/maps/EggsIsle.tscn",
 "position_x": -610.0,
-"position_y": 323.38242
+"position_y": 320.0
 }),
 "world_flags": Dictionary[String, Variant]({
 "flags": Dictionary[String, Variant]({

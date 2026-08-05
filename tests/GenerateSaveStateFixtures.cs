@@ -38,9 +38,9 @@ public partial class GenerateSaveStateFixtures : SceneTree
         new FixtureSpec
         {
             Name = "post-arrest-eggsile",
-            ScenePath = "res://levels/eggsile/maps/area1.tscn",
+            ScenePath = "res://levels/eggsile/maps/EggsIsle.tscn",
             TransitionName = "HubArrival",
-            LocationName = "Eggs Isle — Area 1",
+            LocationName = "Eggs Isle — Arrival",
             Flags = new[] { "arrested", "cutscene_arrest", "warp_eggsile_area1" },
             Items = new[] { "rusty_key", "cell_key", "hardboiled_egg" }
         }
