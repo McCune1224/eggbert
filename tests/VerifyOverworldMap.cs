@@ -41,11 +41,92 @@ public partial class VerifyOverworldMap : SceneTree
         }
 
         VerifyQuestMarkers();
+        await VerifyComposedMap();
 
         GD.Print(_failures == 0
             ? $"[overworld-map] ALL OK — {_passes} checks passed"
             : $"[overworld-map] {_failures} FAILURE(S)");
         Quit(_failures == 0 ? 0 : 1);
+    }
+
+    /// <summary>
+    /// Composes the pause-menu full map for OpeningZone and asserts the baked-in pixels:
+    /// frame ring, door marker color, player dot, and facing nub. Also checks the
+    /// OverworldMenu Map-tab node layout.
+    /// </summary>
+    private async System.Threading.Tasks.Task VerifyComposedMap()
+    {
+        const string path = "res://levels/factory/maps/OpeningZone.tscn";
+        var scene = ResourceLoader.Load<PackedScene>(path);
+        var level = scene.Instantiate();
+        Root.AddChild(level);
+        await ToSignal(this, SceneTree.SignalName.ProcessFrame);
+        await ToSignal(this, SceneTree.SignalName.ProcessFrame);
+
+        var data = LevelMapGenerator.Generate(level);
+        Check(data != null, "compose: OpeningZone map generates");
+        if (data != null)
+        {
+            Vector2 playerPos = data.WorldBounds.GetCenter();
+            Vector2? questPos = data.WorldBounds.GetCenter() + new Vector2(0, -64);
+            var composed = LevelMapGenerator.ComposeMapTexture(data, playerPos, questPos, Vector2.Down);
+            Check(composed != null, "compose: texture produced");
+            var img = composed.GetImage();
+            Check(img.GetWidth() == data.Texture.GetWidth() && img.GetHeight() == data.Texture.GetHeight(),
+                "compose: texture matches base size");
+
+            // Frame: inner cream ring at (0,0).
+            Check(SamePixel(img.GetPixel(0, 0), MapPixelArt.FrameLight), "compose: frame ring pixel present");
+
+            // Player dot: cream diamond at the world-bounds center, with a black nub below (facing Down).
+            // The nub overwrites the diamond's (0,+2) pixel — (0,+3) is covered by the outline either way.
+            Vector2 pp = data.WorldToMap(playerPos).Floor();
+            Check(SamePixel(img.GetPixel((int)pp.X, (int)pp.Y), MapPixelArt.PlayerDot),
+                "compose: player dot pixel at its position");
+            Check(SamePixel(img.GetPixel((int)pp.X, (int)pp.Y + 2), MapPixelArt.PlayerDotOutline),
+                "compose: facing nub points down");
+
+            // Quest star at the quest position.
+            Vector2 qp = data.WorldToMap(questPos.Value).Floor();
+            Check(SamePixel(img.GetPixel((int)qp.X, (int)qp.Y), MapPixelArt.QuestDot),
+                "compose: quest star pixel at its position");
+
+            // Every static marker's center pixel matches its kind color — skipping markers
+            // that sit under the player/quest dots (drawn later, they win the pixel).
+            bool markersOk = true;
+            foreach (MapMarker marker in data.Markers)
+            {
+                if (!data.ContainsWorld(marker.WorldPosition))
+                    continue;
+                Vector2 mp = data.WorldToMap(marker.WorldPosition).Floor();
+                if (mp.DistanceTo(pp) <= 4f || mp.DistanceTo(qp) <= 3f)
+                    continue;
+                if (!SamePixel(img.GetPixel((int)mp.X, (int)mp.Y), MapPixelArt.KindColor(marker.Kind)))
+                    markersOk = false;
+            }
+            Check(markersOk, "compose: all marker centers use their kind colors");
+        }
+
+        level.QueueFree();
+        await ToSignal(this, SceneTree.SignalName.ProcessFrame);
+
+        // Pause-menu Map tab layout (no AddChild — _Ready side effects not needed).
+        var menuScene = ResourceLoader.Load<PackedScene>("res://ui/OverworldMenu.tscn");
+        if (menuScene == null)
+        {
+            Fail("compose: OverworldMenu.tscn failed to load");
+            return;
+        }
+        var menu = menuScene.Instantiate();
+        Check(menu.GetNodeOrNull("MapPanel/VBoxContainer/MapTexture") is TextureRect,
+            "compose: MapTexture present in Map tab");
+        Check(menu.GetNodeOrNull("MapPanel/VBoxContainer/MapTitleLabel") is Label,
+            "compose: MapTitleLabel present in Map tab");
+        Check(menu.GetNodeOrNull("MapPanel/VBoxContainer/MapObjectiveLabel") is Label,
+            "compose: MapObjectiveLabel present in Map tab");
+        Check(menu.GetNodeOrNull("MapPanel/VBoxContainer/WarpGrid") is GridContainer,
+            "compose: WarpGrid still present in Map tab");
+        menu.Free();
     }
 
     private async System.Threading.Tasks.Task CheckLevel(string path, int minDoors, int minNpcs, int maxNpcs,
@@ -226,6 +307,15 @@ public partial class VerifyOverworldMap : SceneTree
     {
         if (condition) Pass(msg);
         else Fail(msg);
+    }
+
+    /// <summary>Pixel equality with tolerance for Rgba8 quantization (1/255 per channel).</summary>
+    private static bool SamePixel(Color a, Color b)
+    {
+        return Mathf.Abs(a.R - b.R) < 0.01f
+            && Mathf.Abs(a.G - b.G) < 0.01f
+            && Mathf.Abs(a.B - b.B) < 0.01f
+            && Mathf.Abs(a.A - b.A) < 0.01f;
     }
 
     private void Fail(string msg)

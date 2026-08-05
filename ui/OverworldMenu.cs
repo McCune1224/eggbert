@@ -38,6 +38,8 @@ public partial class OverworldMenu : CanvasLayer
 	// Map panel
 	private PanelContainer _mapPanel;
 	private TextureRect _mapTexture;
+	private Label _mapTitleLabel;
+	private Label _mapObjectiveLabel;
 	private GridContainer _warpGrid;
 	private Button _mapBackButton;
 
@@ -141,6 +143,8 @@ public partial class OverworldMenu : CanvasLayer
 		// Map panel
 		_mapPanel = GetNode<PanelContainer>("MapPanel");
 		_mapTexture = GetNode<TextureRect>("MapPanel/VBoxContainer/MapTexture");
+		_mapTitleLabel = GetNode<Label>("MapPanel/VBoxContainer/MapTitleLabel");
+		_mapObjectiveLabel = GetNode<Label>("MapPanel/VBoxContainer/MapObjectiveLabel");
 		_warpGrid = GetNode<GridContainer>("MapPanel/VBoxContainer/WarpGrid");
 		_mapBackButton = GetNode<Button>("MapPanel/VBoxContainer/MapBackButton");
 		_mapBackButton.Connect("pressed", new Callable(this, nameof(OnMapBackPressed)));
@@ -311,8 +315,54 @@ public partial class OverworldMenu : CanvasLayer
 	{
 		AudioManager.Instance.PlaySfx(_confirmSfx);
 		RefreshWarpList();
+		RefreshFullMap();
 		ShowPanel(Panel.Map);
 		_mapBackButton.GrabFocus();
+	}
+
+	/// <summary>
+	/// Composes the pause-menu full map: the current level's schematic with the player
+	/// dot (facing nub), quest star, and all NPC/door/save/warp dots baked in, plus a
+	/// title (level name) and the pinned objective line.
+	/// </summary>
+	private void RefreshFullMap()
+	{
+		var level = GameController.Instance?.CurrentLevel;
+		var data = LevelMapGenerator.CurrentMap;
+		if (level == null || data == null)
+		{
+			_mapTexture.Texture = null;
+			_mapTitleLabel.Text = "Map";
+			_mapObjectiveLabel.Text = "No map available for this area.";
+			return;
+		}
+
+		_mapTitleLabel.Text = level is BaseLevel baseLevel ? baseLevel.LevelName : level.Name;
+
+		string levelPath = level.SceneFilePath;
+		var questPos = LevelMapGenerator.ResolvePinnedObjectivePosition(QuestManager.Instance, levelPath);
+		_mapTexture.Texture = LevelMapGenerator.ComposeMapTexture(
+			data,
+			Player.Instance?.GlobalPosition ?? Vector2.Zero,
+			questPos,
+			Player.Instance?.FacingDirection ?? Vector2.Down);
+
+		var quest = QuestManager.Instance.GetPinnedQuest();
+		var objective = QuestManager.Instance.GetCurrentObjective(quest);
+		if (objective == null)
+		{
+			_mapObjectiveLabel.Text = "";
+			return;
+		}
+
+		// Show where the objective is when it lives in another level.
+		string suffix = "";
+		if (!string.IsNullOrEmpty(objective.LocationLevel)
+			&& !string.Equals(objective.LocationLevel, levelPath, System.StringComparison.Ordinal))
+		{
+			suffix = $" — {System.IO.Path.GetFileNameWithoutExtension(objective.LocationLevel)}";
+		}
+		_mapObjectiveLabel.Text = $"Objective: {objective.Description}{suffix}";
 	}
 
 	private void OnMapBackPressed()

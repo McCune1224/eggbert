@@ -64,6 +64,7 @@ public partial class OverworldMap : CanvasLayer
     {
         _levelReady = false;
         _data = null;
+        LevelMapGenerator.CurrentMap = null;
         _panel.Visible = false;
     }
 
@@ -90,6 +91,8 @@ public partial class OverworldMap : CanvasLayer
             _panel.Visible = false;
             return;
         }
+
+        LevelMapGenerator.CurrentMap = _data;
 
         _canvas.Data = _data;
         _canvas.CustomMinimumSize = _data.Texture.GetSize();
@@ -146,17 +149,6 @@ public partial class OverworldMap : CanvasLayer
 /// </summary>
 public partial class MapCanvas : Control
 {
-    // Palette — semi-transparent map + bright pixel markers.
-    private static readonly Color PlayerDot = new(1f, 0.90f, 0.40f, 1f);
-    private static readonly Color PlayerDotOutline = new(0f, 0f, 0f, 0.75f);
-    private static readonly Color NpcDot = new(0.35f, 0.95f, 0.45f, 1f);
-    private static readonly Color DoorDot = new(1f, 0.55f, 0.28f, 1f);
-    private static readonly Color SaveDot = new(0.45f, 0.75f, 1f, 1f);
-    private static readonly Color WarpDot = new(0.78f, 0.50f, 1f, 1f);
-    private static readonly Color QuestDot = new(1f, 0.40f, 0.85f, 1f);
-    private static readonly Color FrameLight = new(0.83f, 0.77f, 0.63f, 1f);
-    private static readonly Color FrameDark = new(0.09f, 0.08f, 0.11f, 1f);
-
     public LevelMapData Data;
     /// <summary>World position of the pinned quest objective, or null when not in this level.</summary>
     public Vector2? QuestWorldPosition;
@@ -174,46 +166,33 @@ public partial class MapCanvas : Control
 
         Vector2 size = Data.Texture.GetSize();
         DrawTexture(Data.Texture, Vector2.Zero);
-        DrawPixelFrame(size);
+        MapPixelArt.DrawFrame(Pixel, size);
 
         // Static markers (NPCs, doors, save points, warps).
         foreach (MapMarker marker in Data.Markers)
         {
             if (!Data.ContainsWorld(marker.WorldPosition))
                 continue;
-            Vector2 pos = PixelPos(marker.WorldPosition);
-            switch (marker.Kind)
-            {
-                case MapMarkerKind.Npc:
-                    DrawOutlinedSquare(pos, NpcDot);
-                    break;
-                case MapMarkerKind.Door:
-                    DrawOutlinedSquare(pos, DoorDot);
-                    break;
-                case MapMarkerKind.SavePoint:
-                    DrawPlus(pos, SaveDot);
-                    break;
-                case MapMarkerKind.WarpPoint:
-                    DrawOutlinedSquare(pos, WarpDot);
-                    break;
-            }
+            MapPixelArt.DrawMarker(Pixel, marker.Kind, PixelPos(marker.WorldPosition));
         }
 
         // Blinking quest star for the pinned objective.
         if (QuestWorldPosition is Vector2 questPos && Data.ContainsWorld(questPos))
         {
             int radius = (int)(Time.GetTicksMsec() / 300) % 2 == 0 ? 2 : 1;
-            DrawDiamond(PixelPos(questPos), radius + 1, PlayerDotOutline);
-            DrawDiamond(PixelPos(questPos), radius, QuestDot);
+            Vector2 qp = PixelPos(questPos);
+            MapPixelArt.DrawDiamond(Pixel, qp, radius + 1, MapPixelArt.PlayerDotOutline);
+            MapPixelArt.DrawDiamond(Pixel, qp, radius, MapPixelArt.QuestDot);
         }
 
-        // Player dot tracks movement every frame.
+        // Player dot tracks movement every frame, with a facing nub.
         var player = Player.Instance;
         if (player != null && Data.ContainsWorld(player.GlobalPosition))
         {
             Vector2 playerPos = PixelPos(player.GlobalPosition);
-            DrawDiamond(playerPos, 3, PlayerDotOutline);
-            DrawDiamond(playerPos, 2, PlayerDot);
+            MapPixelArt.DrawDiamond(Pixel, playerPos, 3, MapPixelArt.PlayerDotOutline);
+            MapPixelArt.DrawDiamond(Pixel, playerPos, 2, MapPixelArt.PlayerDot);
+            MapPixelArt.DrawFacingNub(Pixel, playerPos, player.FacingDirection, MapPixelArt.PlayerDotOutline);
         }
     }
 
@@ -223,60 +202,9 @@ public partial class MapCanvas : Control
         return Data.WorldToMap(worldPos).Floor();
     }
 
-    private void DrawPixel(Vector2 pos, Color color)
+    /// <summary>Draws a single pixel via the Control's draw API.</summary>
+    private void Pixel(Vector2 pos, Color color)
     {
         DrawRect(new Rect2(pos, Vector2.One), color);
-    }
-
-    private void DrawOutlinedSquare(Vector2 center, Color color)
-    {
-        DrawSquare(center, 2, PlayerDotOutline);
-        DrawSquare(center, 1, color);
-    }
-
-    private void DrawSquare(Vector2 center, int half, Color color)
-    {
-        for (int dy = -half; dy <= half; dy++)
-            for (int dx = -half; dx <= half; dx++)
-                DrawPixel(center + new Vector2(dx, dy), color);
-    }
-
-    private void DrawDiamond(Vector2 center, int radius, Color color)
-    {
-        for (int dy = -radius; dy <= radius; dy++)
-            for (int dx = -radius; dx <= radius; dx++)
-                if (Mathf.Abs(dx) + Mathf.Abs(dy) <= radius)
-                    DrawPixel(center + new Vector2(dx, dy), color);
-    }
-
-    /// <summary>Plus-shaped marker (save points).</summary>
-    private void DrawPlus(Vector2 center, Color color)
-    {
-        for (int i = -1; i <= 1; i++)
-        {
-            DrawPixel(center + new Vector2(0, i), color);
-            DrawPixel(center + new Vector2(i, 0), color);
-        }
-        DrawPixel(center + new Vector2(1, 1), PlayerDotOutline);
-        DrawPixel(center + new Vector2(-1, 1), PlayerDotOutline);
-        DrawPixel(center + new Vector2(1, -1), PlayerDotOutline);
-        DrawPixel(center + new Vector2(-1, -1), PlayerDotOutline);
-    }
-
-    /// <summary>Classic RPG map frame: 1px dark ring + 1px cream ring around the map.</summary>
-    private void DrawPixelFrame(Vector2 size)
-    {
-        float w = size.X;
-        float h = size.Y;
-
-        DrawRect(new Rect2(-1, -1, w + 2, 1), FrameDark);
-        DrawRect(new Rect2(-1, h, w + 2, 1), FrameDark);
-        DrawRect(new Rect2(-1, -1, 1, h + 2), FrameDark);
-        DrawRect(new Rect2(w, -1, 1, h + 2), FrameDark);
-
-        DrawRect(new Rect2(0, 0, w, 1), FrameLight);
-        DrawRect(new Rect2(0, h - 1, w, 1), FrameLight);
-        DrawRect(new Rect2(0, 0, 1, h), FrameLight);
-        DrawRect(new Rect2(w - 1, 0, 1, h), FrameLight);
     }
 }

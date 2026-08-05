@@ -192,17 +192,27 @@ theme_type_variation = &"MenuPanel"
 [node name="VBoxContainer" type="VBoxContainer" parent="MapPanel" unique_id=1630282030]
 layout_mode = 2
 
-[node name="MapTexture" type="TextureRect" parent="MapPanel/VBoxContainer" unique_id=1256138052]
-custom_minimum_size = Vector2(200, 100)
+[node name="MapTitleLabel" type="Label" parent="MapPanel/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
+theme_type_variation = &"MenuLabelTitle"
+text = "Map"
+
+[node name="MapTexture" type="TextureRect" parent="MapPanel/VBoxContainer" unique_id=1256138052]
+custom_minimum_size = Vector2(380, 200)
+layout_mode = 2
 size_flags_vertical = 3
 expand_mode = 1
 stretch_mode = 4
+texture_filter = 1
+
+[node name="MapObjectiveLabel" type="Label" parent="MapPanel/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"MenuLabelSmall"
+autowrap_mode = 2
 
 [node name="WarpGrid" type="GridContainer" parent="MapPanel/VBoxContainer" unique_id=1196854046]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
 columns = 2
 
 [node name="MapBackButton" type="Button" parent="MapPanel/VBoxContainer" unique_id=1430703670]

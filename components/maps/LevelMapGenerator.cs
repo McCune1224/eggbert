@@ -25,6 +25,12 @@ public static class LevelMapGenerator
     /// <summary>Maximum map texture height in pixels.</summary>
     public const int MaxMapHeight = 128;
 
+    /// <summary>
+    /// Map data for the current level, cached at level load for consumers that open
+    /// later (e.g. the pause-menu full map). Null before any level has been mapped.
+    /// </summary>
+    public static LevelMapData CurrentMap;
+
     /// <summary>Probe radius for painted cells — small enough that 1-tile corridors survive
     /// (a cell center is 8px from its edges; r=6 never reaches the neighbor cell).</summary>
     private const float ProbeRadius = 6f;
@@ -296,6 +302,59 @@ public static class LevelMapGenerator
                     break;
             }
         }
+    }
+
+    /// <summary>
+    /// Composes a full map texture with all pixel-art markers baked in — the base map,
+    /// frame, NPC/door/save/warp dots, the quest star (if located in this level), and
+    /// the player dot with a facing nub. Used by the pause-menu Map tab.
+    /// </summary>
+    public static ImageTexture ComposeMapTexture(LevelMapData data, Vector2 playerWorldPos,
+        Vector2? questWorldPos, Vector2 facing)
+    {
+        int w = data.Texture.GetWidth();
+        int h = data.Texture.GetHeight();
+        var image = Image.CreateEmpty(w, h, false, Image.Format.Rgba8);
+
+        // Blit the base map (semi-transparent pixels) over the canvas.
+        var baseImage = data.Texture.GetImage();
+        for (int y = 0; y < h; y++)
+            for (int x = 0; x < w; x++)
+                image.SetPixel(x, y, baseImage.GetPixel(x, y));
+
+        void Px(Vector2 pos, Color color)
+        {
+            int px = (int)pos.X;
+            int py = (int)pos.Y;
+            if (px >= 0 && py >= 0 && px < w && py < h)
+                image.SetPixel(px, py, color);
+        }
+
+        MapPixelArt.DrawFrame(Px, new Vector2(w, h));
+
+        foreach (MapMarker marker in data.Markers)
+        {
+            if (!data.ContainsWorld(marker.WorldPosition))
+                continue;
+            MapPixelArt.DrawMarker(Px, marker.Kind, data.WorldToMap(marker.WorldPosition).Floor());
+        }
+
+        if (questWorldPos is Vector2 questPos && data.ContainsWorld(questPos))
+        {
+            Vector2 qp = data.WorldToMap(questPos).Floor();
+            MapPixelArt.DrawDiamond(Px, qp, 2, MapPixelArt.PlayerDotOutline);
+            MapPixelArt.DrawDiamond(Px, qp, 1, MapPixelArt.QuestDot);
+        }
+
+        if (data.ContainsWorld(playerWorldPos))
+        {
+            Vector2 pp = data.WorldToMap(playerWorldPos).Floor();
+            MapPixelArt.DrawDiamond(Px, pp, 3, MapPixelArt.PlayerDotOutline);
+            MapPixelArt.DrawDiamond(Px, pp, 2, MapPixelArt.PlayerDot);
+            MapPixelArt.DrawFacingNub(Px, pp, facing, MapPixelArt.PlayerDotOutline);
+        }
+
+        return ImageTexture.CreateFromImage(image);
     }
 
     /// <summary>

@@ -35,7 +35,7 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 
 ### World Map
 - **Overworld HUD map** (#170, #172): semi-transparent pixel-art schematic map of the current level, always on in the bottom-right corner while walking. Shows the player dot, NPC dots, door/exit dots, save-point dots, warp dots, and a blinking quest marker for the pinned quest's current objective (`QuestObjective.LocationLevel`/`LocationPosition`). Generated at level load from the tilemap used-rects + physics walkability (no per-level art or scene edits); hidden during dialogs, cutscenes, and combat; `M` toggles it. Supersedes "no real-time player tracking" for the HUD map.
-- **Pause menu region map**: Stylized region map panel in pause menu. No real-time player tracking.
+- **Pause menu region map** (#173): the Map tab shows the full current-level map — same schematic as the HUD, upscaled with nearest filtering, with the player dot (facing nub), quest star, and all NPC/door/save/warp dots baked in, plus a level-name title and the pinned objective line (with the target level name when the objective is elsewhere). Warp list below. Supersedes "no real-time player tracking".
 
 ### Audio
 - **Ambient + UI**: Per-level ambient loops (attached to `BaseLevel`). UI/menu/interaction sounds via `AudioManager.PlaySfx()`.
