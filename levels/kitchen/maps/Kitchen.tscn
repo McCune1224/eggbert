@@ -56,6 +56,18 @@ texture = ExtResource("6_egg")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScrambledEggPickup" unique_id=1536582841]
 shape = SubResource("CircleShape2D_pickup")
 
+[node name="OmelettePickup" type="Area2D" parent="." unique_id=684729103]
+position = Vector2(160, 120)
+script = ExtResource("5_pick")
+ItemId = "omelette"
+DialogLines = PackedStringArray("Found an Omelette! Restores a hefty chunk of HP.")
+
+[node name="Sprite2D" type="Sprite2D" parent="OmelettePickup" unique_id=495820317]
+texture = ExtResource("6_egg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OmelettePickup" unique_id=916738425]
+shape = SubResource("CircleShape2D_pickup")
+
 [node name="OatmealEncounter" type="Area2D" parent="." unique_id=1979306884]
 position = Vector2(120, -40)
 script = ExtResource("7_mercy")

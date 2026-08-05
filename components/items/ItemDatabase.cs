@@ -138,6 +138,39 @@ public static class ItemDatabase
                 Description = "A heavy brass key stamped with the warden's seal. Opens the way to the Warden's Quarters.",
             }
         },
+        // --- Additional consumables (demo plan Step A2) ---
+        {
+            "omelette", new Item
+            {
+                Id = "omelette", DisplayName = "Omelette", Category = ItemCategory.Consumable,
+                Description = "A fluffy omelette. Restores 80 HP.",
+                HealAmount = 80,
+            }
+        },
+        {
+            "poached_egg", new Item
+            {
+                Id = "poached_egg", DisplayName = "Poached Egg", Category = ItemCategory.Consumable,
+                Description = "A delicately poached egg. Restores 50 HP.",
+                HealAmount = 50,
+            }
+        },
+        {
+            "egg_nog", new Item
+            {
+                Id = "egg_nog", DisplayName = "Egg Nog", Category = ItemCategory.Consumable,
+                Description = "A spiced mug of egg nog. Restores 15 HP.",
+                HealAmount = 15,
+            }
+        },
+        {
+            "century_egg", new Item
+            {
+                Id = "century_egg", DisplayName = "Century Egg", Category = ItemCategory.Consumable,
+                Description = "A preserved delicacy that restores all HP.",
+                HealAmount = 999,
+            }
+        },
     };
 
     public static Item Get(string id)

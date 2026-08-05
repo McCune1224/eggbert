@@ -17,6 +17,7 @@
 [ext_resource type="Script" path="res://components/npcs/PatrolComponent.cs" id="13_patrol"]
 [ext_resource type="PackedScene" path="res://components/puzzles/FakeWall.tscn" id="14_fakewall"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0011.png" id="15_bat"]
+[ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0020.png" id="21_egg"]
 [ext_resource type="PackedScene" path="res://saves/SavePoint.tscn" id="20_sp"]
 [ext_resource type="PackedScene" path="res://components/maps/WarpPoint.tscn" id="99_warp"]
 
@@ -27,6 +28,9 @@ radius = 40.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phys"]
 size = Vector2(32, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 16.0
 
 [node name="Courtyard" type="Node2D" unique_id=2130382693]
 script = ExtResource("2")
@@ -201,6 +205,30 @@ texture = ExtResource("15_bat")
 
 [node name="BatCollision" type="CollisionShape2D" parent="BaseballBatPickup" unique_id=200503826]
 shape = SubResource("CircleShape2D_interact")
+
+[node name="EggNogPickup" type="Area2D" parent="." unique_id=537401829]
+position = Vector2(-260, -60)
+script = ExtResource("7")
+ItemId = "egg_nog"
+DialogLines = PackedStringArray("Found some Egg Nog! A spiced holiday treat. Restores a little HP.")
+
+[node name="EggNogSprite" type="Sprite2D" parent="EggNogPickup" unique_id=608937415]
+texture = ExtResource("21_egg")
+
+[node name="EggNogCollision" type="CollisionShape2D" parent="EggNogPickup" unique_id=173084528]
+shape = SubResource("CircleShape2D_pickup")
+
+[node name="PoachedEggPickup" type="Area2D" parent="." unique_id=736408193]
+position = Vector2(100, -160)
+script = ExtResource("7")
+ItemId = "poached_egg"
+DialogLines = PackedStringArray("Found a Poached Egg! Delicate and restorative. Restores 50 HP.")
+
+[node name="PoachedEggSprite" type="Sprite2D" parent="PoachedEggPickup" unique_id=852730471]
+texture = ExtResource("21_egg")
+
+[node name="PoachedEggCollision" type="CollisionShape2D" parent="PoachedEggPickup" unique_id=1948265330]
+shape = SubResource("CircleShape2D_pickup")
 
 [node name="SavePoint" parent="." unique_id=1106726435 instance=ExtResource("20_sp")]
 position = Vector2(-80, 120)
