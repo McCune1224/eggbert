@@ -8,24 +8,32 @@ script = ExtResource("1_2t4on")
 Id = "clock_out"
 Description = "Clock out at the time clock."
 CompletionFlag = "tutorial_clocked_out"
+LocationLevel = "res://levels/factory/maps/OpeningZone.tscn"
+LocationPosition = Vector2(160, -64)
 
 [sub_resource type="Resource" id="Resource_g6dxd"]
 script = ExtResource("1_2t4on")
 Id = "talk_to_jamitor"
 Description = "Talk to Jamitor on the sorting floor."
 CompletionFlag = "met_jamitor"
+LocationLevel = "res://levels/factory/maps/SortingFloor.tscn"
+LocationPosition = Vector2(-384, 0)
 
 [sub_resource type="Resource" id="Resource_wx0dc"]
 script = ExtResource("1_2t4on")
 Id = "clear_crate_gate"
 Description = "Push the crate onto the pressure plate."
 CompletionFlag = "tutorial_crate_gate_open"
+LocationLevel = "res://levels/factory/maps/SortingFloor.tscn"
+LocationPosition = Vector2(0, 64)
 
 [sub_resource type="Resource" id="Resource_df21e"]
 script = ExtResource("1_2t4on")
 Id = "reach_loading_bay"
 Description = "Cross the loading bay and head for the exit."
 CompletionFlag = "arrested"
+LocationLevel = "res://levels/factory/maps/LoadingBay.tscn"
+LocationPosition = Vector2(0, 0)
 
 [resource]
 script = ExtResource("2_c8ta1")

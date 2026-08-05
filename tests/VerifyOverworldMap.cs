@@ -15,19 +15,19 @@ public partial class VerifyOverworldMap : SceneTree
     private int _failures;
     private int _passes;
 
-    private readonly List<(string Path, int MinDoors, int MinNpcs, int MaxNpcs)> _levels = new()
+    private readonly List<(string Path, int MinDoors, int MinNpcs, int MaxNpcs, int MinSaves, int MinWarps)> _levels = new()
     {
         // Factory opening: 4+ transitions, no NPC nodes (TimeClock/VendingMachine are props).
-        ("res://levels/factory/maps/OpeningZone.tscn", 4, 0, 0),
+        ("res://levels/factory/maps/OpeningZone.tscn", 4, 0, 0, 1, 1),
         // Sorting floor: Jamitor NPC + 2 transitions.
-        ("res://levels/factory/maps/SortingFloor.tscn", 2, 1, 4),
+        ("res://levels/factory/maps/SortingFloor.tscn", 2, 1, 4, 0, 0),
         // Eggs Isle intake: Joe, OfficerBacon (npc group), Frank + exits.
-        ("res://levels/eggsile/maps/EggsIsle.tscn", 2, 3, 6),
+        ("res://levels/eggsile/maps/EggsIsle.tscn", 2, 3, 6, 1, 1),
         // NOTE: Overworld.tscn is excluded — its tileset (overworld_tileset.tres) fails
         // to load (atlas tiles defined outside the texture, same class as #128), so the
         // layer has a null TileSet and no map can be generated. Tracked in issue #171.
         // Sandbox hub: generated, 3 transitions, no NPCs.
-        ("res://levels/sandbox/maps/SandboxHub.tscn", 3, 0, 0),
+        ("res://levels/sandbox/maps/SandboxHub.tscn", 3, 0, 0, 1, 1),
     };
 
     public override async void _Initialize()
@@ -35,10 +35,12 @@ public partial class VerifyOverworldMap : SceneTree
         await ToSignal(Root, Window.SignalName.Ready);
         await ToSignal(this, SceneTree.SignalName.ProcessFrame);
 
-        foreach (var (path, minDoors, minNpcs, maxNpcs) in _levels)
+        foreach (var (path, minDoors, minNpcs, maxNpcs, minSaves, minWarps) in _levels)
         {
-            await CheckLevel(path, minDoors, minNpcs, maxNpcs);
+            await CheckLevel(path, minDoors, minNpcs, maxNpcs, minSaves, minWarps);
         }
+
+        VerifyQuestMarkers();
 
         GD.Print(_failures == 0
             ? $"[overworld-map] ALL OK — {_passes} checks passed"
@@ -46,7 +48,8 @@ public partial class VerifyOverworldMap : SceneTree
         Quit(_failures == 0 ? 0 : 1);
     }
 
-    private async System.Threading.Tasks.Task CheckLevel(string path, int minDoors, int minNpcs, int maxNpcs)
+    private async System.Threading.Tasks.Task CheckLevel(string path, int minDoors, int minNpcs, int maxNpcs,
+        int minSaves, int minWarps)
     {
         string tag = path.GetFile();
         if (!FileAccess.FileExists(path))
@@ -79,11 +82,16 @@ public partial class VerifyOverworldMap : SceneTree
             return;
         }
 
-        int doors = 0, npcs = 0;
+        int doors = 0, npcs = 0, saves = 0, warps = 0;
         foreach (MapMarker marker in data.Markers)
         {
-            if (marker.Kind == MapMarkerKind.Door) doors++;
-            else npcs++;
+            switch (marker.Kind)
+            {
+                case MapMarkerKind.Door: doors++; break;
+                case MapMarkerKind.Npc: npcs++; break;
+                case MapMarkerKind.SavePoint: saves++; break;
+                case MapMarkerKind.WarpPoint: warps++; break;
+            }
         }
 
         Pass($"{tag}: map {data.Texture.GetWidth()}x{data.Texture.GetHeight()}px over " +
@@ -109,6 +117,8 @@ public partial class VerifyOverworldMap : SceneTree
 
         Check(doors >= minDoors, $"{tag}: {doors} door markers (min {minDoors})");
         Check(npcs >= minNpcs && npcs <= maxNpcs, $"{tag}: {npcs} NPC markers (expected {minNpcs}..{maxNpcs})");
+        Check(saves >= minSaves, $"{tag}: {saves} save-point markers (min {minSaves})");
+        Check(warps >= minWarps, $"{tag}: {warps} warp markers (min {minWarps})");
 
         bool allMarkersInside = true;
         // Door nodes may legitimately sit far outside the painted rect (sandbox hub
@@ -132,6 +142,62 @@ public partial class VerifyOverworldMap : SceneTree
 
         level.QueueFree();
         await ToSignal(this, SceneTree.SignalName.ProcessFrame);
+    }
+
+    private void VerifyQuestMarkers()
+    {
+        // The .tres quest files must load with the new LocationLevel/LocationPosition fields.
+        var factoryQuest = GD.Load<QuestDefinition>("res://resources/quests/FactoryGateQuest.tres");
+        Check(factoryQuest != null, "FactoryGateQuest.tres loads");
+        if (factoryQuest != null)
+        {
+            bool allLocated = true;
+            foreach (QuestObjective objective in factoryQuest.Objectives)
+                if (string.IsNullOrEmpty(objective.LocationLevel)) allLocated = false;
+            Check(factoryQuest.Objectives.Count == 4, "FactoryGateQuest has 4 objectives");
+            Check(allLocated, "FactoryGateQuest objectives all have LocationLevel");
+            Check(factoryQuest.Objectives[0].LocationLevel == "res://levels/factory/maps/OpeningZone.tscn"
+                  && factoryQuest.Objectives[0].LocationPosition.IsEqualApprox(new Vector2(160, -64)),
+                "clock_out objective location is the TimeClock spot");
+        }
+
+        var intakeQuest = GD.Load<QuestDefinition>("res://resources/quests/EggsIsleIntakeQuest.tres");
+        Check(intakeQuest != null, "EggsIsleIntakeQuest.tres loads");
+        if (intakeQuest != null)
+        {
+            bool allLocated = true;
+            foreach (QuestObjective objective in intakeQuest.Objectives)
+                if (string.IsNullOrEmpty(objective.LocationLevel)) allLocated = false;
+            Check(intakeQuest.Objectives.Count == 5, "EggsIsleIntakeQuest has 5 objectives");
+            Check(allLocated, "EggsIsleIntakeQuest objectives all have LocationLevel");
+            Check(intakeQuest.Objectives[0].LocationLevel == "res://levels/eggsile/maps/EggsIsle.tscn"
+                  && intakeQuest.Objectives[0].LocationPosition.IsEqualApprox(new Vector2(-87, -83)),
+                "meet_joe objective location is Joe's spot");
+        }
+
+        // Resolver against the real pinned quest chain (FactoryGateQuest is always
+        // active — StartFlag empty — and clock_out is its first objective).
+        WorldFlags.Instance.SetFlag("quest_pinned_id", "factory_gate_shift_end");
+
+        var resolved = LevelMapGenerator.ResolvePinnedObjectivePosition(
+            QuestManager.Instance, "res://levels/factory/maps/OpeningZone.tscn");
+        Check(resolved is Vector2 rv && rv.IsEqualApprox(new Vector2(160, -64)),
+            "resolver returns clock_out position in OpeningZone");
+
+        var otherLevel = LevelMapGenerator.ResolvePinnedObjectivePosition(
+            QuestManager.Instance, "res://levels/eggsile/maps/EggsIsle.tscn");
+        Check(otherLevel == null, "resolver returns null when the objective is in another level");
+
+        // Complete clock_out → the next objective (talk_to_jamitor) lives in SortingFloor.
+        WorldFlags.Instance.SetFlag("tutorial_clocked_out", true);
+        var oldLevel = LevelMapGenerator.ResolvePinnedObjectivePosition(
+            QuestManager.Instance, "res://levels/factory/maps/OpeningZone.tscn");
+        Check(oldLevel == null, "resolver returns null in the old level after the objective advances");
+
+        var nextLevel = LevelMapGenerator.ResolvePinnedObjectivePosition(
+            QuestManager.Instance, "res://levels/factory/maps/SortingFloor.tscn");
+        Check(nextLevel is Vector2 nv && nv.IsEqualApprox(new Vector2(-384, 0)),
+            "resolver follows the objective into its next level (Jamitor spot)");
     }
 
     private static List<string> DoorLabels(LevelMapData data)

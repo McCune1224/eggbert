@@ -9,7 +9,11 @@ public enum MapMarkerKind
     /// <summary>An interactable character (dialog/quiz NPC).</summary>
     Npc,
     /// <summary>An exit/transition or a door component.</summary>
-    Door
+    Door,
+    /// <summary>A save point.</summary>
+    SavePoint,
+    /// <summary>A warp point (fast travel).</summary>
+    WarpPoint
 }
 
 /// <summary>

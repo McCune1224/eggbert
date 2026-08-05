@@ -34,7 +34,7 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - **Warp points**: Place `WarpPoint` nodes in levels. Touch one → unlocked. Menu lists unlocked warps → pick → fade → arrive.
 
 ### World Map
-- **Overworld HUD map** (#170): semi-transparent schematic map of the current level, always on in the bottom-right corner while walking. Shows the player dot, NPC dots, and door/exit dots. Generated at level load from the tilemap used-rects + physics walkability (no per-level art or scene edits); hidden during dialogs, cutscenes, and combat. Supersedes "no real-time player tracking" for the HUD map.
+- **Overworld HUD map** (#170, #172): semi-transparent pixel-art schematic map of the current level, always on in the bottom-right corner while walking. Shows the player dot, NPC dots, door/exit dots, save-point dots, warp dots, and a blinking quest marker for the pinned quest's current objective (`QuestObjective.LocationLevel`/`LocationPosition`). Generated at level load from the tilemap used-rects + physics walkability (no per-level art or scene edits); hidden during dialogs, cutscenes, and combat; `M` toggles it. Supersedes "no real-time player tracking" for the HUD map.
 - **Pause menu region map**: Stylized region map panel in pause menu. No real-time player tracking.
 
 ### Audio
@@ -65,7 +65,7 @@ Overworld (NPCs, quests, puzzles) ──→ Combat Arena ──→ Overworld
 - **Skip**: Key rebinding
 
 ### Quests
-- **Editor-authored ordered objectives backed by WorldFlags**. Multiple linear quests can be active concurrently; the player can pin or unpin one current objective from the pause-menu quest log for the overworld HUD, which also provides active/completed quest entries. Guidance remains text-only: no map markers, paths, distance indicators, rewards, timers, or branching graphs.
+- **Editor-authored ordered objectives backed by WorldFlags**. Multiple linear quests can be active concurrently; the player can pin or unpin one current objective from the pause-menu quest log for the overworld HUD, which also provides active/completed quest entries. Guidance is text-only plus one map marker: the pinned quest's current objective may carry `LocationLevel`/`LocationPosition`, drawn as a blinking marker on the overworld HUD map (#172). No paths, distance indicators, rewards, timers, or branching graphs.
 
 ### Inventory
 - **Categories**: Key Items (story), Consumables (overworld healing), Equipment (1–2 slots, stat boosts)

@@ -280,6 +280,12 @@ public static class LevelMapGenerator
                 case Door:
                     data.Markers.Add(new MapMarker(((Node2D)child).GlobalPosition, MapMarkerKind.Door, child.Name));
                     break;
+                case SavePoint:
+                    data.Markers.Add(new MapMarker(((Node2D)child).GlobalPosition, MapMarkerKind.SavePoint, child.Name));
+                    break;
+                case WarpPoint:
+                    data.Markers.Add(new MapMarker(((Node2D)child).GlobalPosition, MapMarkerKind.WarpPoint, child.Name));
+                    break;
                 case QuizNpc:
                 case SleepingNPC:
                     data.Markers.Add(new MapMarker(((Node2D)child).GlobalPosition, MapMarkerKind.Npc, child.Name));
@@ -290,6 +296,26 @@ public static class LevelMapGenerator
                     break;
             }
         }
+    }
+
+    /// <summary>
+    /// Resolves the map-marker position for the pinned quest's current objective, or
+    /// <c>null</c> when there is no active pinned objective located in
+    /// <paramref name="currentLevelPath"/>. Pure function — testable headless.
+    /// </summary>
+    public static Vector2? ResolvePinnedObjectivePosition(QuestManager questManager, string currentLevelPath)
+    {
+        if (questManager == null || string.IsNullOrEmpty(currentLevelPath))
+            return null;
+
+        QuestDefinition quest = questManager.GetPinnedQuest();
+        QuestObjective objective = questManager.GetCurrentObjective(quest);
+        if (objective == null || string.IsNullOrEmpty(objective.LocationLevel))
+            return null;
+
+        return string.Equals(objective.LocationLevel, currentLevelPath, System.StringComparison.Ordinal)
+            ? objective.LocationPosition
+            : null;
     }
 
     private static bool IsCharacterNpc(Node node)
