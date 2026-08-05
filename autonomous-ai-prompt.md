@@ -166,7 +166,7 @@ CutsceneTrigger (Area2D, layer 7=TriggerAreas, layer 5=Interactables):
 - Push: `git push origin main`
 - List issues: `gh issue list --label demo --state open`
 - Read issue: `gh issue view N`
-- Run the game: godot-mcp `run_project` or `godot --path .` (EGGBERT_SKIP_MENU=1 for last save)
+- Run the game: `godot --path .` (EGGBERT_SKIP_MENU=1 for last save)
 
 ## WORKFLOW LOOP
 

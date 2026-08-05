@@ -26,13 +26,9 @@ To enable Level Assembly: `Project > Project Settings > Plugins > Level Assembly
 - **Physics layers**: 10 named layers (see [Physics Layers Cheatsheet](#14-physics-layers-cheatsheet))
 - **Input map**: WASD + E/interact + Esc/menu + Space/dash + Shift/sprint + F/check + J/parry + Tab/dialog log + Backtick/debug overlay
 
-### MCP server (AI assistant tooling)
-
-`godot-mcp` runs via npx and provides editor commands from AI assistants. Configuration is in `.omp/mcp.json`. Available commands are listed in [MCP Tool Reference](#13-mcp-tool-reference).
-
 ### Debug skip
 
-Set `EGGBERT_SKIP_MENU=1` to bypass the main menu and load the last save directly. Configured in `.omp/mcp.json`.
+Set `EGGBERT_SKIP_MENU=1` to bypass the main menu and load the last save directly.
 
 Set `EGGBERT_LOAD_STATE=<slot>` to boot straight into a named dev save state (issue #168) — works even without a `savegame.tres`; falls back to committed fixtures in `tests/savestates/`. In-game: `Ctrl+S` capture quick slot, `Ctrl+L` load it, `Ctrl+M` open the save-state menu.
 
@@ -476,32 +472,7 @@ Current test scripts: `VerifyFactoryExpansion.cs` (Factory 5-room route — the 
 
 ---
 
-## 13. MCP Tool Reference
-
-The `godot-mcp` server exposes these commands via the AI assistant (configured in `.omp/mcp.json`):
-
-| Command | Description |
-|---------|-------------|
-| `get_godot_version` | Return the running Godot version |
-| `get_project_info` | Return project configuration settings |
-| `get_scene_tree` | List the current scene tree |
-| `create_scene` | Create a new scene of a given type (2D, 3D, etc.) |
-| `add_node` | Add a node as a child of an existing node |
-| `save_scene` | Save the currently open scene |
-| `run_project` | Start the project in play mode |
-| `stop_project` | Stop the running project |
-| `get_debug_output` | Capture Engine debug output |
-| `load_sprite` | Load a sprite texture |
-| `call_method` | Call a method on a node |
-| `set_property` | Set a property on a node |
-| `get_node` | Get information about a node |
-| `list_scenes` | List all scenes in the project |
-| `search_files` | Search for files in the project |
-| `execute_code` | Execute arbitrary GDScript in the editor context |
-
----
-
-## 14. Physics Layers Cheatsheet
+## 13. Physics Layers Cheatsheet
 
 From `CollisionConfig.cs` and `project.godot` > `layer_names`:
 
@@ -523,7 +494,7 @@ Mask constants:
 
 ---
 
-## 15. Flag Naming Conventions
+## 14. Flag Naming Conventions
 
 WorldFlags keys follow these patterns:
 
@@ -544,7 +515,7 @@ WorldFlags keys follow these patterns:
 
 ---
 
-## 16. Input Reference
+## 15. Input Reference
 
 | Action | Default Key | Description |
 |--------|-------------|-------------|

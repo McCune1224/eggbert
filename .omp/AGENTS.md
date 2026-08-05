@@ -3,7 +3,7 @@
 > **Harness note (2026-08-03):** The Oh My Pi harness is retired. `.omp/` remains as
 > the repo's authoring contract, but the executable skills now live in Hermes:
 > `eggbert-level-authoring`, `eggbert-godot-authoring`, `eggbert-godot-csharp-patterns`.
-> The godot-mcp server config is `.omp/mcp.json` (restored from `.bak`).
+> The godot-mcp server/addon was removed 2026-08-05 (#169) — no MCP server for Godot.
 
 Godot 4.7 C# RPG. Undertale/EarthBound inspired, 640×360, top-down (zero gravity).
 
@@ -21,7 +21,7 @@ dotnet build          # compile C# (Godot.NET.Sdk/4.7.0, net8.0)
 ### Boot order
 boot/GameInit.tscn → Main menu or debug-skip → GameController.LoadLevel → player at saved pos
 
-Debug auto-start: EGGBERT_SKIP_MENU=1 env var skips menu, loads last save. Set in .omp/mcp.json.
+Debug auto-start: EGGBERT_SKIP_MENU=1 env var skips menu, loads last save.
 
 ### Autoload singletons
 | Singleton | Class | Role |
