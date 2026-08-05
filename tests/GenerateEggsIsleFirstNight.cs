@@ -265,10 +265,10 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
 
         AddSave(_root, "GatehouseSavePoint", "Gatehouse Bench", new Vector2(-500, 200));
 
-        // --- Check-in cutscene (one-shot OnEnter just inside the west door) ---
-        AddCutsceneTrigger(_root, "CheckInCutscene", new Vector2(-600, 0), TriggerMode.OnEnter,
+        // --- Check-in cutscene (one-shot OnEnter — generous box so it can't be walked around) ---
+        AddCutsceneTrigger(_root, "CheckInCutscene", new Vector2(-660, 0), TriggerMode.OnEnter,
             once: true, cutsceneId: "gatehouse_checkin", cutsceneScene: CheckInCutscene,
-            setFlags: null, dialog: null, shapeSize: new Vector2(120, 90));
+            setFlags: null, dialog: null, shapeSize: new Vector2(240, 320));
 
         // --- Mr Tea + desk readables ---
         InstantiateScene(_root, MrTeaScene, "MrTea", new Vector2(-300, -60));
@@ -363,7 +363,7 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
             "res://levels/eggsile/maps/EggsIsleGatehouse.tscn", "GatehouseExit", "");
         AddCutsceneTrigger(_root, "CellPlacement", new Vector2(-1500, 0), TriggerMode.OnEnter,
             once: true, cutsceneId: "cell_placement", cutsceneScene: PlacementCutscene,
-            setFlags: null, dialog: null, shapeSize: new Vector2(150, 90));
+            setFlags: null, dialog: null, shapeSize: new Vector2(200, 160));
 
         // --- The cell: Frank, bunk, reads, tunnel key ---
         InstantiateScene(_root, FrankScene, "Frank", new Vector2(-1300, -400));
@@ -403,10 +403,10 @@ public partial class GenerateEggsIsleFirstNight : SceneTree
         }, "read_gallery", true);
         InstantiateScene(_root, WienerCopScene, "WienerCop", new Vector2(700, 0));
 
-        // --- The count (one-shot mid-corridor) ---
+        // --- The count (one-shot mid-corridor, wide box) ---
         AddCutsceneTrigger(_root, "CountTrigger", new Vector2(400, 0), TriggerMode.OnEnter,
             once: true, cutsceneId: "count", cutsceneScene: CountCutscene,
-            setFlags: new[] { "eggsile_count_survived" }, dialog: null, shapeSize: new Vector2(100, 70));
+            setFlags: new[] { "eggsile_count_survived" }, dialog: null, shapeSize: new Vector2(200, 130));
 
         // --- Tunnel hatch payoff (key-gated, south-west) ---
         AddKeyDoor(_root, "TunnelHatch", new Vector2(-1408, 168), "found_tunnel_key",

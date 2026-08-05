@@ -45,6 +45,11 @@ public partial class CutsceneDirector : Node
         _anim.Play(_anim.GetAnimationList()[0]);
         GameLogger.Info("Cutscene", $"CutsceneDirector: playing '{_anim.CurrentAnimation}'");
         await ToSignal(_anim, AnimationPlayer.SignalName.AnimationFinished);
+
+        // The scene may have been freed with the level mid-cutscene (level unload);
+        // never touch freed nodes from the continuation.
+        if (!IsInsideTree())
+            return;
         GameLogger.Info("Cutscene", "CutsceneDirector: finished — freeing scene");
 
         UnlockPlayer();
@@ -81,11 +86,12 @@ public partial class CutsceneDirector : Node
     private async Task ResumeAfterDialog()
     {
         await ToSignal(DialogManager.Instance, DialogManager.SignalName.DialogFinished);
-        if (_dialogPaused && _anim != null)
-        {
-            _dialogPaused = false;
-            _anim.Play();
-        }
+        // Guard against the scene being freed mid-dialog (level unload) and against
+        // double-resume if two Says raced before the pause took effect.
+        if (!IsInsideTree() || !_dialogPaused || _anim == null)
+            return;
+        _dialogPaused = false;
+        _anim.Play();
     }
 
     public void FadeIn()
