@@ -2,7 +2,7 @@
 
 Godot 4.7 C# RPG. Undertale/EarthBound inspired, 640×360, top-down (zero gravity).
 
-Read ROADMAP.md for feature objectives. Read DESIGN.md for design decisions.
+Read MASTER_ROADMAP.md for the phased plan and goals. Read ROADMAP.md for feature objectives. Read DESIGN.md for design decisions.
 Read docs/godot-editor-guide.md for editor setup, custom plugin usage, component reference, dialog/cutscene authoring, combat/quest/item systems, and architecture conventions.
 
 ## Commands
@@ -10,6 +10,7 @@ Read docs/godot-editor-guide.md for editor setup, custom plugin usage, component
 ```bash
 dotnet build          # compile C# (Godot.NET.Sdk/4.7.0, net8.0)
 godot --headless --path . --script res://tests/<Name>.cs   # run a C# verifier
+godot --headless --path . --script res://tests/VerifyAllLevels.cs   # scene gate: auto-discovers every levels/*/maps/*.tscn, instantiates each, checks transitions + warps
 ```
 
 Godot MCP tools available via `godot-mcp` server (godot_run_project, godot_launch_editor, godot_get_debug_output, etc.).
@@ -66,7 +67,30 @@ ISavable interface. Nodes in "persist" group auto-saved. Single slot: user://sav
 - Difficulty tuning (easy mode? HP scaling?) — not yet filed
 
 ## GitHub workflow
+
 File an issue before non-trivial work. Commit with `Closes #N` on main. Push.
+
+### Issue lifecycle (agents must follow)
+1. **File an issue** before starting non-trivial work (bug, feature, design, content).
+2. **Label it** at creation: `bug` / `enhancement` / `design` / `content` + `priority-*` + area label (`dialog`, `combat`, `puzzles`, `audio`, `inventory`, `story`, `demo`, …).
+3. **Assign the phase milestone** — the milestone set mirrors MASTER_ROADMAP.md:
+   - `Phase 1 — Story playable end-to-end` (demo content chain #75–#90, scene stability)
+   - `Phase 2 — Design lockdown` (design decisions #6/#7/#9)
+   - `Phase 3 — Content depth & world feel` (QoL, secrets, NPC behaviors)
+   - `Phase 4 — Polish & release` (art replacement, juice, QA)
+   - `Phase 5 — Post-release backlog` (FEATURE_IDEAS.md pulls)
+4. **Implement**, then verify: `dotnet build` (0 warnings) + `VerifyAllLevels.cs` when scenes touched.
+5. **Commit with `Closes #N`** — the issue auto-closes as `completed`.
+
+### Close-reason discipline
+- `completed` — ONLY when the work is verifiably done (built, tested, committed). Never mark an issue `completed` because the idea was dropped or parked.
+- `not planned` — the idea is dropped or parked (e.g. moved to FEATURE_IDEAS.md). Reopen + reclose with `--reason "not planned"` to fix a wrong reason.
+- Design issues (#7 lesson): never close as `completed` without recording the actual decision in the issue. If no decision was made, leave it open.
+- Audit trail matters: a future agent searching "was X built?" reads close reasons and labels. A false `completed` hides missing work.
+
+### Issue audit conventions
+- **Verify before closing bug reports**: run `VerifyAllLevels.cs` / the relevant verifier; cite the commit that fixed it in the close comment.
+- **Never bulk-close**: the 2026-07-17 sweep marked 18 unbuilt FEATURE_IDEAS items as `completed`; they were re-marked `not planned` in the 2026-08-05 audit. Close one issue at a time with an accurate reason and comment.
 
 ## Feature ideas
 `FEATURE_IDEAS.md` is a loose bucket of feature ideas — dialog, puzzles, NPC behaviors,

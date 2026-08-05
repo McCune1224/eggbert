@@ -1,5 +1,7 @@
 # ROADMAP.md — Eggbert
 
+> Status view. For the phased plan (goals, phases, exit criteria, issue map), see **MASTER_ROADMAP.md**.
+
 Feature objectives by area. Issues are the source of truth; this is a human-readable view.
 Dependencies are noted per item.
 
