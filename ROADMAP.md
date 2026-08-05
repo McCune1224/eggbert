@@ -62,7 +62,7 @@ Dependencies are noted per item.
 ✅ Dialog voice chirp system (procedural + .ogg clips)
 
 ## Content
-✅ Tutorial chain shipped: 5 Factory rooms + arrest/exile + Eggs Isle intake — docs/factory-opening.md, docs/eggsile-intake.md
+✅ Tutorial chain shipped: 5 Factory rooms + arrest/exile + Eggs Isle "First Night" (dock → cell block → lights-out → drain secret) — docs/factory-opening.md, docs/eggsile-first-night.md
 ⬜ Story-chain zones (Prison → finale) — placeholder zones removed as test content in #174; rebuild when the story chain is planned
 ⬜ Particles (dust on landing, sparkle on parry, etc.)
 ⬜ Polish pass (screen shake, juice)

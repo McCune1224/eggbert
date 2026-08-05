@@ -14,7 +14,7 @@ godot --headless --path . --script res://tests/VerifyAllLevels.cs   # scene gate
 ```
 
 ### Demo route (the shipped tutorial)
-New Game → `levels/factory/maps/OpeningZone.tscn` → SortingFloor → AssemblyLine → ControlRoom → LoadingBay → arrest → `levels/eggsile/maps/EggsIsle.tscn`. Five factory rooms + Eggs Isle intake, ~10 minutes. See `docs/factory-opening.md` for the beat-by-beat contract and `tests/VerifyFactoryExpansion.cs` for the structural contract.
+New Game → `levels/factory/maps/OpeningZone.tscn` → SortingFloor → AssemblyLine → ControlRoom → LoadingBay → arrest → `levels/eggsile/maps/EggsIsle.tscn` (First Night: dock arrival cutscene → gatehouse check-in with Mr Tea → placed in your cell with Frank → boiler crate puzzle → the Tank → nine o'clock count → tunnel key → optional hatch). Five factory rooms + the three-map exile, ~25-30 minutes. See `docs/factory-opening.md` + `docs/eggsile-first-night.md` for the beat contracts and `tests/VerifyFactoryExpansion.cs` / `tests/VerifyEggsileFirstNight.cs` for the structural contracts.
 
 ## Architecture
 

@@ -1,0 +1,52 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" uid="uid://c35j3vp4l0m4c" path="res://resources/quests/QuestObjective.cs" id="1_2t4on"]
+[ext_resource type="Script" uid="uid://mw4rsdp5wjwl" path="res://resources/quests/QuestDefinition.cs" id="2_c8ta1"]
+
+[sub_resource type="Resource" id="Resource_meet_tea"]
+script = ExtResource("1_2t4on")
+Id = "meet_tea"
+Description = "Get processed at the gatehouse."
+CompletionFlag = "met_tea"
+LocationLevel = "res://levels/eggsile/maps/EggsIsleGatehouse.tscn"
+LocationPosition = Vector2(-300, -60)
+
+[sub_resource type="Resource" id="Resource_meet_frank"]
+script = ExtResource("1_2t4on")
+Id = "meet_frank"
+Description = "Get placed in your cell and meet Frank."
+CompletionFlag = "met_frank"
+LocationLevel = "res://levels/eggsile/maps/EggsIsleBlock.tscn"
+LocationPosition = Vector2(-1300, -400)
+
+[sub_resource type="Resource" id="Resource_witness_count"]
+script = ExtResource("1_2t4on")
+Id = "witness_count"
+Description = "Witness the nine o'clock count."
+CompletionFlag = "eggsile_count_survived"
+LocationLevel = "res://levels/eggsile/maps/EggsIsleBlock.tscn"
+LocationPosition = Vector2(400, 0)
+
+[sub_resource type="Resource" id="Resource_find_tunnel_key"]
+script = ExtResource("1_2t4on")
+Id = "find_tunnel_key"
+Description = "Get the tunnel key from Frank."
+CompletionFlag = "found_tunnel_key"
+LocationLevel = "res://levels/eggsile/maps/EggsIsleBlock.tscn"
+LocationPosition = Vector2(-1480, -500)
+
+[sub_resource type="Resource" id="Resource_open_hatch"]
+script = ExtResource("1_2t4on")
+Id = "open_hatch"
+Description = "Open the maintenance hatch."
+CompletionFlag = "tunnel_opened"
+LocationLevel = "res://levels/eggsile/maps/EggsIsleBlock.tscn"
+LocationPosition = Vector2(-1408, 168)
+
+[resource]
+script = ExtResource("2_c8ta1")
+Id = "eggs_isle_overflow"
+Title = "The Overflow"
+Description = "Get processed, meet your cellmate, survive the count, and find the way beneath the wing."
+StartFlag = "arrested"
+Objectives = Array[ExtResource("1_2t4on")]([SubResource("Resource_meet_tea"), SubResource("Resource_meet_frank"), SubResource("Resource_witness_count"), SubResource("Resource_find_tunnel_key"), SubResource("Resource_open_hatch")])

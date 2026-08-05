@@ -22,7 +22,7 @@ What exists is a working engine with floating content:
 |---|---|
 | Core systems (dialog, combat, puzzles, inventory, equipment, save, audio, cutscenes) | ✅ Working, PoC-grade |
 | Factory opening tutorial (5 rooms) | ✅ Shipped — docs/factory-opening.md |
-| Eggs Isle intake (the exile destination) | ✅ Shipped — docs/eggsile-intake.md; end of the tutorial chain |
+| Eggs Isle exile ("First Night" — dock → cell block → lights-out → drain secret) | ✅ Shipped 2026-08 (#175–#181) — docs/eggsile-first-night.md; replaces the old ~30s intake (preserved at levels/eggsile/legacy/) |
 | Story chain zones (Prison → … → finale) | ⛔ **Removed 2026-08 as test content (#174)** — all placeholder zone maps deleted; story plan remains in STORY.md for a future rebuild |
 | Design | 🟡 Tone + protagonist locked; consumables / equipment stats / difficulty open |
 | Quality | 🔴 No full playthrough yet; placeholder art everywhere; no QA pass |
@@ -58,7 +58,7 @@ Story chain (flag-driven): Factory → Eggs Isle intake → Prison → Kitchen �
 1. **Stabilize scenes** — the scene gate (`tests/VerifyAllLevels.cs`) must pass every remaining level: the 5 Factory rooms + Eggs Isle intake. (Legacy zone fixes #92/#95/#96/#128 applied to deleted placeholder scenes; #127 was fixed with #130.)
 2. **Build the missing zone content, in story order** — each ships with its NPCs, dialog, puzzles, and boss/encounter. **All items below are deferred until the zones are rebuilt after #174:**
    - Prison intake: Frank + cell exploration — #75 (superseded by #130)
-   - **Eggs Isle arrival/intake level** — ✅ shipped (#130); replaces bare area1 with intro cutscene, dialog, quest, orientation
+   - **Eggs Isle exile — First Night** — ✅ shipped (#175–#181, 2026-08): rebuilt as a full cell-block level (dock arrival cutscene → wake in cell → towels scavenger → laundry crate puzzle → lights-out → cell key → optional drain alcove). Old intake preserved as `levels/eggsile/legacy/` for reference.
    - Kitchen: Grandpa Smith, Chef, Oatmeal boss — #76
    - Courtyard: Egguardo quiz + warden key — #77
    - Warden's Quarters: Yogurt boss + Bacon backstory — #78

@@ -4,32 +4,32 @@
 [ext_resource type="Script" path="res://resources/cutscene/CutsceneCondition.cs" id="2_rgxoq"]
 [ext_resource type="Script" path="res://resources/cutscene/CutsceneResource.cs" id="3_xvfxp"]
 
-[sub_resource type="Resource" id="Resource_not_settled"]
+[sub_resource type="Resource" id="Resource_not_counted"]
 script = ExtResource("2_rgxoq")
 Type = 2
-FlagKey = "intake_settled"
+FlagKey = "eggsile_count_survived"
 
-[sub_resource type="Resource" id="Resource_intro"]
+[sub_resource type="Resource" id="Resource_pre_count"]
 script = ExtResource("1_ttrbs")
-Condition = SubResource("Resource_not_settled")
-DialogLines = PackedStringArray("Frank: Hey, bunkmate! Name's Frank. Welcome to Eggs Isle.", "Frank: Layout: Block C's past the north door. Guard room's got the keys. Block A's collapsed, Block B's the noisy ones. Cells are through the west hall.", "Frank: Before they let us bunk up, we gotta pass intake. Officer's been on about some towels.", "Frank: Do me a favor — find the towels somewhere in this block, and we'll get you settled into your cell. Blend in. Find out what you can.")
+Condition = SubResource("Resource_not_counted")
+DialogLines = PackedStringArray("Frank: Get your bearings. The boilers hum at midnight, the count's at nine — be near the cell for it. And the Tank floods at high tide; don't leave anything you like near the water.")
 TargetNode = NodePath("")
 AnimationNode = NodePath("")
 SetFlagValue = null
 
-[sub_resource type="Resource" id="Resource_settled"]
+[sub_resource type="Resource" id="Resource_counted"]
 script = ExtResource("2_rgxoq")
 Type = 1
-FlagKey = "intake_settled"
+FlagKey = "eggsile_count_survived"
 
-[sub_resource type="Resource" id="Resource_handoff"]
+[sub_resource type="Resource" id="Resource_post_count"]
 script = ExtResource("1_ttrbs")
-Condition = SubResource("Resource_settled")
-DialogLines = PackedStringArray("Frank: Good work. Grab your Cell Key — I'll cover you.", "Frank: Get some rest. First day on the Isle is always the longest.")
+Condition = SubResource("Resource_counted")
+DialogLines = PackedStringArray("Frank: You survived the count. Three years I've been in this wing — the maintenance tunnels run under everything. The hatch in the south wall... that key on the bunk fits it. For when you're ready.")
 TargetNode = NodePath("")
 AnimationNode = NodePath("")
 SetFlagValue = null
 
 [resource]
 script = ExtResource("3_xvfxp")
-Steps = Array[ExtResource("1_ttrbs")]([SubResource("Resource_intro"), SubResource("Resource_handoff")])
+Steps = Array[ExtResource("1_ttrbs")]([SubResource("Resource_pre_count"), SubResource("Resource_post_count")])

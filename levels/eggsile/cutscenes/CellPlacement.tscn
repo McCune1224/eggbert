@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://components/cutscene/CutsceneDirector.cs" id="1_dir"]
+
+[sub_resource type="Animation" id="Animation_placement"]
+length = 11.0
+loop_mode = 0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Director")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2.2, 3.2, 5.2, 7.2, 9.2, 9.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"method": "LockPlayer",
+"args": []
+}, {
+"method": "FadeOut",
+"args": []
+}, {
+"method": "PlacePlayer",
+"args": [Vector2(-1200, -400)]
+}, {
+"method": "FadeIn",
+"args": []
+}, {
+"method": "Say",
+"args": ["Frank: Oh good, you're awake. Name's Frank — your cellmate. Welcome to the Overflow."]
+}, {
+"method": "Say",
+"args": ["Frank: It's the old wing. Boilers north, the Tank's flooded east, the Gallery collapsed years back. Nobody's supposed to be here."]
+}, {
+"method": "Say",
+"args": ["Frank: Only rule is the nine o'clock count. Be near the cell when the boilers stop, or they write your name in the ledger."]
+}, {
+"method": "SetFlag",
+"args": ["met_frank"]
+}, {
+"method": "UnlockPlayer",
+"args": []
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_placement"]
+_data = {
+&"default": SubResource("Animation_placement")
+}
+
+[node name="CellPlacement" type="Node2D"]
+
+[node name="Director" type="Node" parent="."]
+script = ExtResource("1_dir")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries/ = SubResource("AnimationLibrary_placement")

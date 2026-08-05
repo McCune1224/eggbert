@@ -26,6 +26,10 @@ public partial class CutsceneTrigger : InteractableArea
     [Export] public string CutsceneId = "";
     /// <summary>Reference to a CutsceneResource defining the sequence of steps. Takes priority over DialogLines when set.</summary>
     [Export] public Resource Cutscene { get; set; }
+    /// <summary>AnimationPlayer-driven cutscene scene (see CutsceneDirector). When set, it takes
+    /// priority over <see cref="Cutscene"/> and DialogLines: the scene is instantiated under the
+    /// current level and its Director plays the timeline.</summary>
+    [Export] public PackedScene CutsceneScene { get; set; }
     /// <summary>Fallback inline dialog lines shown when Cutscene is not assigned. Ignored if ChoiceOptions has 2+ entries.</summary>
     [Export] public string[] DialogLines { get; set; }
     /// <summary>World flags set to true when this trigger fires (e.g. "met_jamitor").</summary>
@@ -115,6 +119,31 @@ public partial class CutsceneTrigger : InteractableArea
         Fire();
     }
 
+    private void PlayCutsceneScene()
+    {
+        var level = GameController.Instance?.CurrentLevel;
+        Node parent = level != null ? level : GetParent();
+        if (parent == null)
+        {
+            GameLogger.Error("CutsceneTrigger", $"'{Name}': no parent to host the cutscene scene.");
+            return;
+        }
+
+        var instance = CutsceneScene.Instantiate<Node>();
+        instance.Name = $"{Name}Cutscene";
+        parent.AddChild(instance);
+
+        var director = instance.GetNodeOrNull<CutsceneDirector>("Director");
+        if (director == null)
+        {
+            GameLogger.Error("CutsceneTrigger", $"'{Name}': cutscene scene has no 'Director' node.");
+            instance.QueueFree();
+            return;
+        }
+
+        director.Play();
+    }
+
     private void Fire()
     {
         if (_hasFired)
@@ -144,6 +173,13 @@ public partial class CutsceneTrigger : InteractableArea
                     GameLogger.Info("CutsceneTrigger", $"'{Name}': set flag '{flag}'=true");
                 }
             }
+        }
+
+        if (CutsceneScene != null)
+        {
+            GameLogger.Info("CutsceneTrigger", $"'{Name}': firing cutscene scene '{CutsceneScene.ResourcePath}'");
+            PlayCutsceneScene();
+            return;
         }
 
         if (Cutscene is CutsceneResource cutscene)

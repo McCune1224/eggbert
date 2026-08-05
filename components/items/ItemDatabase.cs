@@ -25,6 +25,13 @@ public static class ItemDatabase
                 Description = "A heavy iron key marked with a 'C'.",
             }
         },
+        {
+            "tunnel_key", new Item
+            {
+                Id = "tunnel_key", DisplayName = "Tunnel Key", Category = ItemCategory.Key,
+                Description = "A long brass key. It smells like pipes and old secrets.",
+            }
+        },
         // --- Consumables ---
         {
             "hardboiled_egg", new Item

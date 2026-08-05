@@ -1,4 +1,10 @@
-# Eggs Isle Intake — Beat Design
+# Eggs Isle Intake — Beat Design (LEGACY — superseded 2026-08)
+
+> **Superseded by the First Night overhaul (#175–#181).** The rebuilt exile is a brand-new
+> three-map level (Dock → Gatehouse → Overflow wing) documented in
+> **`docs/eggsile-first-night.md`**. Nothing from the old intake was carried over — the old
+> scene exists only in git history. This doc remains as the historical contract of the
+> original ~30-second intake.
 
 STORY.md **beat 2**. The player (Eggbert) arrives at Eggs Isle prison after the factory
 arrest handoff. This doc is the load-bearing design contract; implementation follows it.
