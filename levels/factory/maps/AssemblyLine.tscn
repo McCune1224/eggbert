@@ -1,7 +1,7 @@
 [gd_scene format=4]
 
 [ext_resource type="Script" path="res://levels/BaseLevel.cs" id="1_hu8wg"]
-[ext_resource type="AudioStream" path="res://assets/audio/music/indie_meditations/lvl_0_the_tutorial.ogg" id="2_wa6cr"]
+[ext_resource type="AudioStream" uid="uid://d2mk1kunreld4" path="res://assets/audio/music/generic1.ogg" id="2_wa6cr"]
 [ext_resource type="AudioStream" path="res://assets/audio/music/generated/factory_afterhours_ambient.ogg" id="3_tfnhi"]
 [ext_resource type="PackedScene" path="res://components/core/CoreTilemapLayer.tscn" id="4_qvtkl"]
 [ext_resource type="TileSet" path="res://assets/tilemaps/factory_tileset.tres" id="5_u4hax"]
@@ -22,6 +22,13 @@
 [ext_resource type="Script" path="res://components/puzzles/TeleportPad.cs" id="20_b8p2w"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/clipboard.png" id="22_fclip"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/warning_sign.png" id="23_fsign"]
+[ext_resource type="PackedScene" path="res://levels/factory/npcs/GenericFactoryWorker.tscn" id="n_gfw"]
+[ext_resource type="Resource" path="res://levels/factory/npcs/BoltDialog.tres" id="n_dlg"]
+[ext_resource type="Texture2D" path="res://assets/characters/GrandpaSmith.png" id="n_chr"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/conveyor.png" id="n_dec1"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/pipe_junction.png" id="n_dec2"]
+[ext_resource type="PackedScene" path="res://components/items/PickupItem.tscn" id="n_pick"]
+[ext_resource type="Texture2D" path="res://assets/items/icons/icon_0009.png" id="n_icon"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jmhb7"]
 size = Vector2(1504, 16)
@@ -366,3 +373,36 @@ texture = ExtResource("23_fsign")
 [node name="TransferSign" type="Sprite2D" parent="MaintenanceTransferInstruction"]
 texture_filter = 1
 texture = ExtResource("23_fsign")
+
+[node name="Bolt" parent="." instance=ExtResource("n_gfw")]
+position = Vector2(-352, 0)
+
+[node name="Sprite2D" parent="Bolt"]
+texture = ExtResource("n_chr")
+
+[node name="DialogBranchTrigger" parent="Bolt"]
+DialogBranch = ExtResource("n_dlg")
+
+[node name="ConveyorDecor" type="Sprite2D" parent="."]
+position = Vector2(0, 96)
+texture = ExtResource("n_dec1")
+
+[node name="PipeDecor" type="Sprite2D" parent="."]
+position = Vector2(448, 96)
+texture = ExtResource("n_dec2")
+
+[node name="ConveyorSafetySign" parent="." instance=ExtResource("15_t56mj")]
+position = Vector2(-320, 0)
+collision_layer = 0
+DialogLines = PackedStringArray("CONVEYOR SAFETY: Ride the belt west. Sprint to push back.", "Do not nap on the belt. This means you, Bolt.")
+
+[node name="Sprite2D" type="Sprite2D" parent="ConveyorSafetySign"]
+texture_filter = 1
+texture = ExtResource("23_fsign")
+
+[node name="NogPickup" parent="." instance=ExtResource("n_pick")]
+position = Vector2(480, 64)
+ItemId = "egg_nog"
+
+[node name="Sprite2D" parent="NogPickup"]
+texture = ExtResource("n_icon")

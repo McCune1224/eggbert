@@ -17,7 +17,8 @@ public partial class GameInit : Node
     {
         GameLogger.InitializeFromEnv();
         Settings.Load();
-        GameLogger.Info("GameInit", "BootDeferred: logger initialized, settings loaded.");
+        ItemDatabase.LoadExternalItems();
+        GameLogger.Info("GameInit", "BootDeferred: logger initialized, settings loaded, external items loaded.");
 
         // Debug auto-start: skip the main menu and load the last save directly.
         bool skipMenu = System.Environment.GetEnvironmentVariable("EGGBERT_SKIP_MENU") == "1";

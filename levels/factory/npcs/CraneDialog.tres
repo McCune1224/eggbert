@@ -1,0 +1,53 @@
+[gd_resource type="Resource" script_class="DialogBranch" format=3]
+
+[ext_resource type="Script" path="res://resources/dialog/DialogNode.cs" id="1_u05w0"]
+[ext_resource type="Script" path="res://resources/dialog/DialogResponse.cs" id="2_fejid"]
+[ext_resource type="Script" path="res://resources/dialog/DialogBranch.cs" id="3_gyfyg"]
+
+[sub_resource type="Resource" id="Resource_g20xy"]
+script = ExtResource("2_fejid")
+Text = "Bacon seems intense."
+NextNodeId = "opt0"
+
+[sub_resource type="Resource" id="Resource_65v10"]
+script = ExtResource("2_fejid")
+Text = "Egg phantom?"
+NextNodeId = "opt1"
+
+[sub_resource type="Resource" id="Resource_fxdkr"]
+script = ExtResource("2_fejid")
+Text = "(Leave)"
+
+[sub_resource type="Resource" id="Resource_mwr63"]
+script = ExtResource("1_u05w0")
+Id = "start"
+SpeakerName = "Crane"
+Lines = PackedStringArray("Loading Bay. Two timed switches open the gate — hit either, you\'ve got five seconds.", "Then Officer Bacon\'ll see you out. ...Probably.")
+Responses = [SubResource("Resource_g20xy"), SubResource("Resource_65v10"), SubResource("Resource_fxdkr")]
+SetFlagsOnEnter = PackedStringArray("met_crane")
+
+[sub_resource type="Resource" id="Resource_4rhhi"]
+script = ExtResource("2_fejid")
+Text = "(Leave)"
+
+[sub_resource type="Resource" id="Resource_dgw7k"]
+script = ExtResource("1_u05w0")
+Id = "opt0"
+SpeakerName = "Crane"
+Lines = PackedStringArray("*Crane glances around* Bacon\'s by the book. Just do what they say.", "Tonight\'s got a weird energy. Stay chill.")
+Responses = [SubResource("Resource_4rhhi")]
+
+[sub_resource type="Resource" id="Resource_fhqfh"]
+script = ExtResource("2_fejid")
+Text = "(Leave)"
+
+[sub_resource type="Resource" id="Resource_urwi8"]
+script = ExtResource("1_u05w0")
+Id = "opt1"
+SpeakerName = "Crane"
+Lines = PackedStringArray("*Crane laughs* You too? Whole plant\'s talking about it.", "If you see an egg-shaped shadow, pretend you didn\'t. For both our sakes.")
+Responses = [SubResource("Resource_fhqfh")]
+
+[resource]
+script = ExtResource("3_gyfyg")
+Nodes = Array[ExtResource("1_u05w0")]([SubResource("Resource_mwr63"), SubResource("Resource_dgw7k"), SubResource("Resource_urwi8")])

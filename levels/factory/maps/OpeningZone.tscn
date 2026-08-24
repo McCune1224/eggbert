@@ -13,6 +13,14 @@
 [ext_resource type="Texture2D" path="res://assets/generated/factory/time_clock.png" id="15_tclk"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/card_rack.png" id="16_rack"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/vending_machine.png" id="17_vend"]
+[ext_resource type="PackedScene" uid="uid://bpicku1pitem5" path="res://components/items/PickupItem.tscn" id="18_pick"]
+[ext_resource type="Texture2D" path="res://assets/items/icons/icon_0011.png" id="19_icof"]
+[ext_resource type="PackedScene" path="res://levels/factory/npcs/GenericFactoryWorker.tscn" id="n_gfw"]
+[ext_resource type="Resource" path="res://levels/factory/npcs/GreeterDialog.tres" id="n_dlg"]
+[ext_resource type="Texture2D" path="res://assets/characters/Joe.png" id="n_chr"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/crate.png" id="n_dec1"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/pipe_junction.png" id="n_dec2"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/warning_sign.png" id="n_sign"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_66w77"]
 size = Vector2(80, 80)
@@ -103,6 +111,39 @@ theme_type_variation = &"MenuPanel"
 [node name="@Label@2" type="Label" parent="ControlsPanel" unique_id=1226362211]
 layout_mode = 2
 theme_type_variation = &"MenuLabelSmall"
+
+[node name="CoffeePickup" parent="." instance=ExtResource("18_pick")]
+ItemId = "factory_coffee"
+position = Vector2(256, 232)
+
+[node name="Sprite2D" parent="CoffeePickup"]
+texture = ExtResource("19_icof")
+
+[node name="Greeter" parent="." instance=ExtResource("n_gfw")]
+position = Vector2(450, 120)
+
+[node name="Sprite2D" parent="Greeter"]
+texture = ExtResource("n_chr")
+
+[node name="DialogBranchTrigger" parent="Greeter"]
+DialogBranch = ExtResource("n_dlg")
+
+[node name="CrateDecor" type="Sprite2D" parent="."]
+position = Vector2(520, 180)
+texture = ExtResource("n_dec1")
+
+[node name="PipeDecor" type="Sprite2D" parent="."]
+position = Vector2(-40, -140)
+texture = ExtResource("n_dec2")
+
+[node name="BreakRoomRulesSign" parent="." instance=ExtResource("14_nyxuo")]
+position = Vector2(300, -40)
+collision_layer = 0
+DialogLines = PackedStringArray("BREAK ROOM RULES: 1. Clock out on time. 2. Do not discuss the phantom.", "3. The vending machine owes you nothing. 4. See rule 2.")
+
+[node name="Sprite2D" type="Sprite2D" parent="BreakRoomRulesSign"]
+texture_filter = 1
+texture = ExtResource("n_sign")
 text = "WASD  MOVE
 E     INTERACT
 ESC   MENU"

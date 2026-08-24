@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/items/icons/icon_0006.png" id="1_mghb0"]
+[ext_resource type="Script" path="res://components/items/Item.cs" id="2_1iqmm"]
+
+[resource]
+script = ExtResource("2_1iqmm")
+Id = "grease_can"
+DisplayName = "Grease Can"
+Description = "A dented can of machine grease. Surprisingly nourishing. Restores 20 HP."
+Icon = ExtResource("1_mghb0")
+Category = 1
+HealAmount = 20

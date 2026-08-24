@@ -1,0 +1,53 @@
+[gd_resource type="Resource" script_class="DialogBranch" format=3]
+
+[ext_resource type="Script" path="res://resources/dialog/DialogNode.cs" id="1_7cnim"]
+[ext_resource type="Script" path="res://resources/dialog/DialogResponse.cs" id="2_mof5h"]
+[ext_resource type="Script" path="res://resources/dialog/DialogBranch.cs" id="3_avptw"]
+
+[sub_resource type="Resource" id="Resource_1s5a6"]
+script = ExtResource("2_mof5h")
+Text = "How do conveyors work?"
+NextNodeId = "opt0"
+
+[sub_resource type="Resource" id="Resource_vblkb"]
+script = ExtResource("2_mof5h")
+Text = "Egg phantom again?"
+NextNodeId = "opt1"
+
+[sub_resource type="Resource" id="Resource_ru2sm"]
+script = ExtResource("2_mof5h")
+Text = "(Leave)"
+
+[sub_resource type="Resource" id="Resource_tcu76"]
+script = ExtResource("1_7cnim")
+Id = "start"
+SpeakerName = "Bolt"
+Lines = PackedStringArray("Conveyors\'ll carry you west if you ride \'em, push back to fight \'em.", "And sign the shutdown checklist on the clipboard before you move on — the console gets fussy.")
+Responses = [SubResource("Resource_1s5a6"), SubResource("Resource_vblkb"), SubResource("Resource_ru2sm")]
+SetFlagsOnEnter = PackedStringArray("met_bolt")
+
+[sub_resource type="Resource" id="Resource_7m5sv"]
+script = ExtResource("2_mof5h")
+Text = "(Leave)"
+
+[sub_resource type="Resource" id="Resource_wotfl"]
+script = ExtResource("1_7cnim")
+Id = "opt0"
+SpeakerName = "Bolt"
+Lines = PackedStringArray("Step on one and you\'ll slide. Sprint to push against the flow.", "Don\'t stand on the belt if you need to stop fast.")
+Responses = [SubResource("Resource_7m5sv")]
+
+[sub_resource type="Resource" id="Resource_aurd0"]
+script = ExtResource("2_mof5h")
+Text = "(Leave)"
+
+[sub_resource type="Resource" id="Resource_qijds"]
+script = ExtResource("1_7cnim")
+Id = "opt1"
+SpeakerName = "Bolt"
+Lines = PackedStringArray("*Bolt squints* Seen footprints shaped like eggs. Weirdest thing.", "Management says ignore it. I say keep your head down.")
+Responses = [SubResource("Resource_aurd0")]
+
+[resource]
+script = ExtResource("3_avptw")
+Nodes = Array[ExtResource("1_7cnim")]([SubResource("Resource_tcu76"), SubResource("Resource_wotfl"), SubResource("Resource_qijds")])

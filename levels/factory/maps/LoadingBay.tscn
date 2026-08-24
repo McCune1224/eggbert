@@ -1,9 +1,9 @@
 [gd_scene format=4]
 
 [ext_resource type="Script" path="res://levels/BaseLevel.cs" id="1_vqi7f"]
-[ext_resource type="AudioStream" path="res://assets/audio/music/indie_meditations/lvl_0_the_tutorial.ogg" id="2_ukaqu"]
+[ext_resource type="AudioStream" uid="uid://bcrpr7p86t5qd" path="res://assets/audio/music/indie_meditations/lvl_8_the_volcanic_sea_shore.ogg" id="2_ukaqu"]
 [ext_resource type="PackedScene" path="res://components/core/CoreTilemapLayer.tscn" id="3_n2lqo"]
-[ext_resource type="AudioStream" path="res://assets/audio/music/generated/factory_afterhours_ambient.ogg" id="3_ukaqu"]
+[ext_resource type="AudioStream" uid="uid://j7no0ja26852" path="res://assets/audio/music/generated/prison_night_ambient.ogg" id="3_ukaqu"]
 [ext_resource type="TileSet" path="res://assets/tilemaps/factory_tileset.tres" id="4_xp2m8"]
 [ext_resource type="Script" path="res://components/core/LevelTileMapLayer.cs" id="5_o2nxm"]
 [ext_resource type="PackedScene" path="res://levels/LevelTransition.tscn" id="6_7pd0t"]
@@ -28,6 +28,13 @@
 [ext_resource type="Texture2D" path="res://assets/ui/NPCPrompt.png" id="26_wbylf"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/manifest.png" id="27_mnfst"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/warning_sign.png" id="28_wsign"]
+[ext_resource type="PackedScene" path="res://levels/factory/npcs/GenericFactoryWorker.tscn" id="n_gfw"]
+[ext_resource type="Resource" path="res://levels/factory/npcs/CraneDialog.tres" id="n_dlg"]
+[ext_resource type="Texture2D" path="res://assets/characters/Milk.png" id="n_chr"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/crate.png" id="n_dec1"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/pipe_junction.png" id="n_dec2"]
+[ext_resource type="PackedScene" path="res://components/items/PickupItem.tscn" id="n_pick"]
+[ext_resource type="Texture2D" path="res://assets/items/icons/icon_0000.png" id="n_icon"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8krqk"]
 size = Vector2(0, 16)
@@ -443,3 +450,36 @@ theme_override_constants/outline_size = 2
 text = "Game saved."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Crane" parent="." instance=ExtResource("n_gfw")]
+position = Vector2(96, 0)
+
+[node name="Sprite2D" parent="Crane"]
+texture = ExtResource("n_chr")
+
+[node name="DialogBranchTrigger" parent="Crane"]
+DialogBranch = ExtResource("n_dlg")
+
+[node name="CrateDecor" type="Sprite2D" parent="."]
+position = Vector2(-128, 96)
+texture = ExtResource("n_dec1")
+
+[node name="PipeDecor" type="Sprite2D" parent="."]
+position = Vector2(448, 96)
+texture = ExtResource("n_dec2")
+
+[node name="WantedPoster" parent="." instance=ExtResource("14_wbylf")]
+position = Vector2(0, -160)
+collision_layer = 0
+DialogLines = PackedStringArray("WANTED: figure in an egg costume. Last seen fleeing the Sorting Floor.", "Do not approach. Do not yolk around. Call Officer Bacon.")
+
+[node name="Sprite2D" type="Sprite2D" parent="WantedPoster"]
+texture_filter = 1
+texture = ExtResource("28_wsign")
+
+[node name="HardboiledPickup" parent="." instance=ExtResource("n_pick")]
+position = Vector2(-320, 128)
+ItemId = "hardboiled_egg"
+
+[node name="Sprite2D" parent="HardboiledPickup"]
+texture = ExtResource("n_icon")

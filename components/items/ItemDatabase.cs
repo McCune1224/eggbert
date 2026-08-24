@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// </summary>
 public static class ItemDatabase
 {
-    public static readonly Dictionary<string, Item> All = new()
+    public static Dictionary<string, Item> All = new()
     {
         // --- Key items ---
         {
@@ -367,5 +367,49 @@ public static class ItemDatabase
 
         GameLogger.Warn("ItemDatabase", $"Item not found: '{id}'");
         return null;
+    }
+
+    /// <summary>
+    /// Loads item definitions authored as <c>.tres</c> resources in
+    /// <c>res://resources/items/</c> and merges them into <see cref="All"/>.
+    /// Hardcoded items always win — an external item whose Id collides with a
+    /// built-in entry is skipped (with a warning) rather than overwriting it.
+    /// Call this once at boot (GameInit) before any item lookup.
+    /// </summary>
+    public static void LoadExternalItems()
+    {
+        const string dir = "res://resources/items";
+        using var d = DirAccess.Open(dir);
+        if (d == null)
+            return;
+
+        d.ListDirBegin();
+        string name;
+        while ((name = d.GetNext()) != "")
+        {
+            if (!name.EndsWith(".tres", System.StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            string path = dir + "/" + name;
+            var item = ResourceLoader.Load<Item>(path);
+            if (item == null)
+            {
+                GameLogger.Warn("ItemDatabase", $"Could not load external item: {path}");
+                continue;
+            }
+            if (string.IsNullOrWhiteSpace(item.Id))
+            {
+                GameLogger.Warn("ItemDatabase", $"External item {path} has an empty Id — skipped.");
+                continue;
+            }
+            if (All.ContainsKey(item.Id))
+            {
+                GameLogger.Warn("ItemDatabase", $"External item '{item.Id}' ({path}) shadows a built-in item — skipped.");
+                continue;
+            }
+            All[item.Id] = item;
+            GameLogger.Info("ItemDatabase", $"Loaded external item '{item.Id}' from {path}");
+        }
+        d.ListDirEnd();
     }
 }

@@ -1,7 +1,7 @@
 [gd_scene format=4]
 
 [ext_resource type="Script" path="res://levels/BaseLevel.cs" id="1_il2rw"]
-[ext_resource type="AudioStream" path="res://assets/audio/music/indie_meditations/lvl_0_the_tutorial.ogg" id="2_3i1ys"]
+[ext_resource type="AudioStream" uid="uid://c6bmn7wuldxqn" path="res://assets/audio/music/indie_meditations/lvl_1_the_royal_palace.ogg" id="2_3i1ys"]
 [ext_resource type="AudioStream" path="res://assets/audio/music/generated/factory_afterhours_ambient.ogg" id="3_7m8mg"]
 [ext_resource type="PackedScene" path="res://components/core/CoreTilemapLayer.tscn" id="4_7o7hl"]
 [ext_resource type="TileSet" path="res://assets/tilemaps/factory_tileset.tres" id="5_53fmo"]
@@ -27,6 +27,13 @@
 [ext_resource type="PackedScene" path="res://components/items/PickupItem.tscn" id="25_hr20j"]
 [ext_resource type="Script" path="res://components/items/PickupItem.cs" id="26_me1te"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0020.png" id="27_0ora0"]
+[ext_resource type="PackedScene" path="res://levels/factory/npcs/GenericFactoryWorker.tscn" id="n_gfw"]
+[ext_resource type="Resource" path="res://levels/factory/npcs/VexDialog.tres" id="n_dlg"]
+[ext_resource type="Texture2D" path="res://assets/characters/Oatmeal.png" id="n_chr"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/manifest.png" id="n_dec1"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/crate.png" id="n_dec2"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/warning_sign.png" id="n_sign"]
+[ext_resource type="Texture2D" path="res://assets/items/icons/icon_0002.png" id="n_icon"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p2r3x"]
 size = Vector2(1504, 16)
@@ -355,3 +362,36 @@ texture = ExtResource("27_0ora0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EggdropSoupPickup" unique_id=1856348208]
 shape = SubResource("CircleShape2D_jt7f4")
+
+[node name="Vex" parent="." instance=ExtResource("n_gfw")]
+position = Vector2(224, 0)
+
+[node name="Sprite2D" parent="Vex"]
+texture = ExtResource("n_chr")
+
+[node name="DialogBranchTrigger" parent="Vex"]
+DialogBranch = ExtResource("n_dlg")
+
+[node name="ManifestDecor" type="Sprite2D" parent="."]
+position = Vector2(-160, 96)
+texture = ExtResource("n_dec1")
+
+[node name="CrateDecor" type="Sprite2D" parent="."]
+position = Vector2(-256, 96)
+texture = ExtResource("n_dec2")
+
+[node name="EmployeeOfMonthSign" parent="." instance=ExtResource("17_ijefr")]
+position = Vector2(-40, -140)
+collision_layer = 0
+DialogLines = PackedStringArray("EMPLOYEE OF THE MONTH: Officer Bacon. (Every month. Bacon counts the votes.)", "Runner-up: a suspiciously egg-shaped blur. Photo unavailable.")
+
+[node name="Sprite2D" type="Sprite2D" parent="EmployeeOfMonthSign"]
+texture_filter = 1
+texture = ExtResource("n_sign")
+
+[node name="DeviledEggPickup" parent="." instance=ExtResource("25_hr20j")]
+position = Vector2(480, 64)
+ItemId = "deviled_egg"
+
+[node name="Sprite2D" parent="DeviledEggPickup"]
+texture = ExtResource("n_icon")

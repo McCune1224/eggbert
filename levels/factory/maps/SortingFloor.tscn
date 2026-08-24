@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://dlpt0xlxh40v8"]
 
 [ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="1_5pipt"]
-[ext_resource type="AudioStream" uid="uid://be2i7jeimxdfu" path="res://assets/audio/music/indie_meditations/lvl_0_the_tutorial.ogg" id="2_cdwc1"]
+[ext_resource type="AudioStream" uid="uid://imq0o15ypg7n" path="res://assets/audio/music/indie_meditations/lvl_2_the_village.ogg" id="2_cdwc1"]
 [ext_resource type="PackedScene" uid="uid://yjs8te7rrnce" path="res://components/core/CoreTilemapLayer.tscn" id="3_7xakt"]
 [ext_resource type="AudioStream" uid="uid://d16l84ny273ta" path="res://assets/audio/music/generated/factory_afterhours_ambient.ogg" id="3_cdwc1"]
 [ext_resource type="TileSet" uid="uid://dsv764cdk3bkw" path="res://assets/tilemaps/factory_tileset.tres" id="4_vycj8"]
@@ -19,6 +19,14 @@
 [ext_resource type="Texture2D" uid="uid://b2iwol0yg4tox" path="res://assets/generated/factory/door_32x64.png" id="24_ydt8l"]
 [ext_resource type="PackedScene" uid="uid://c3k6bqd5y7ya6" path="res://saves/SavePoint.tscn" id="25_gibna"]
 [ext_resource type="Texture2D" uid="uid://l00ofsfnsxb4" path="res://assets/ui/NPCPrompt.png" id="27_hgd4l"]
+[ext_resource type="PackedScene" path="res://levels/factory/npcs/GenericFactoryWorker.tscn" id="n_gfw"]
+[ext_resource type="Resource" path="res://levels/factory/npcs/PipDialog.tres" id="n_dlg"]
+[ext_resource type="Texture2D" path="res://assets/characters/Frank.png" id="n_chr"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/pipe_junction.png" id="n_dec1"]
+[ext_resource type="Texture2D" path="res://assets/generated/factory/warning_sign.png" id="n_sign"]
+[ext_resource type="PackedScene" path="res://components/npcs/ReadableObject.tscn" id="n_ro"]
+[ext_resource type="PackedScene" path="res://components/items/PickupItem.tscn" id="n_pick"]
+[ext_resource type="Texture2D" path="res://assets/items/icons/icon_0004.png" id="n_icon"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8krqk"]
 size = Vector2(0, 16)
@@ -273,3 +281,40 @@ theme_override_constants/outline_size = 2
 text = "Game saved."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Pip" parent="." instance=ExtResource("n_gfw")]
+position = Vector2(128, 0)
+
+[node name="Sprite2D" parent="Pip"]
+texture = ExtResource("n_chr")
+
+[node name="DialogBranchTrigger" parent="Pip"]
+DialogBranch = ExtResource("n_dlg")
+
+[node name="CrateStackDecor" type="Sprite2D" parent="."]
+position = Vector2(-224, 96)
+texture = ExtResource("17_vnjn7")
+
+[node name="CrateStackDecor2" type="Sprite2D" parent="."]
+position = Vector2(-256, 112)
+texture = ExtResource("17_vnjn7")
+
+[node name="PipeDecor" type="Sprite2D" parent="."]
+position = Vector2(-300, 96)
+texture = ExtResource("n_dec1")
+
+[node name="SortingSafetySign" parent="." instance=ExtResource("n_ro")]
+position = Vector2(256, 0)
+collision_layer = 0
+DialogLines = PackedStringArray("SORTING SAFETY: Lift with your shell.", "Report all phantom sightings to HR. Do not engage.")
+
+[node name="Sprite2D" type="Sprite2D" parent="SortingSafetySign"]
+texture_filter = 1
+texture = ExtResource("n_sign")
+
+[node name="SandwichPickup" parent="." instance=ExtResource("n_pick")]
+position = Vector2(64, 160)
+ItemId = "egg_salad_sandwich"
+
+[node name="Sprite2D" parent="SandwichPickup"]
+texture = ExtResource("n_icon")

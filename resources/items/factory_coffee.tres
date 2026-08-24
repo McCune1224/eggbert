@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/items/icons/icon_0011.png" id="1_0bftx"]
+[ext_resource type="Script" path="res://components/items/Item.cs" id="2_rd85m"]
+
+[resource]
+script = ExtResource("2_rd85m")
+Id = "factory_coffee"
+DisplayName = "Factory Coffee"
+Description = "Bitter break-room coffee. Restores 15 HP."
+Icon = ExtResource("1_0bftx")
+Category = 1
+HealAmount = 15

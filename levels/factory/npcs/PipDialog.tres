@@ -1,0 +1,53 @@
+[gd_resource type="Resource" script_class="DialogBranch" format=3]
+
+[ext_resource type="Script" path="res://resources/dialog/DialogNode.cs" id="1_m5q0u"]
+[ext_resource type="Script" path="res://resources/dialog/DialogResponse.cs" id="2_hjjcs"]
+[ext_resource type="Script" path="res://resources/dialog/DialogBranch.cs" id="3_ibpnt"]
+
+[sub_resource type="Resource" id="Resource_4frav"]
+script = ExtResource("2_hjjcs")
+Text = "Any tips?"
+NextNodeId = "opt0"
+
+[sub_resource type="Resource" id="Resource_yovi8"]
+script = ExtResource("2_hjjcs")
+Text = "Egg phantom?"
+NextNodeId = "opt1"
+
+[sub_resource type="Resource" id="Resource_ay281"]
+script = ExtResource("2_hjjcs")
+Text = "(Leave)"
+
+[sub_resource type="Resource" id="Resource_025j7"]
+script = ExtResource("1_m5q0u")
+Id = "start"
+SpeakerName = "Pip"
+Lines = PackedStringArray("Careful with that crate — it\'s gotta go on the pressure plate to open the gate.", "Push it with your body. Old-school, but it works.")
+Responses = [SubResource("Resource_4frav"), SubResource("Resource_yovi8"), SubResource("Resource_ay281")]
+SetFlagsOnEnter = PackedStringArray("met_pip")
+
+[sub_resource type="Resource" id="Resource_hynm1"]
+script = ExtResource("2_hjjcs")
+Text = "(Leave)"
+
+[sub_resource type="Resource" id="Resource_h8p5f"]
+script = ExtResource("1_m5q0u")
+Id = "opt0"
+SpeakerName = "Pip"
+Lines = PackedStringArray("Jamitor\'s the one who\'ll walk you through the basics. I just sort boxes.", "Push the crate onto the plate. Gate opens. Simple.")
+Responses = [SubResource("Resource_hynm1")]
+
+[sub_resource type="Resource" id="Resource_ff685"]
+script = ExtResource("2_hjjcs")
+Text = "(Leave)"
+
+[sub_resource type="Resource" id="Resource_t2poy"]
+script = ExtResource("1_m5q0u")
+Id = "opt1"
+SpeakerName = "Pip"
+Lines = PackedStringArray("*Pip snorts* Yeah, the \'Factory Phantom\'. HR\'s been weird about it.", "Just do your job and clock out, egg. That\'s my advice.")
+Responses = [SubResource("Resource_ff685")]
+
+[resource]
+script = ExtResource("3_ibpnt")
+Nodes = Array[ExtResource("1_m5q0u")]([SubResource("Resource_025j7"), SubResource("Resource_h8p5f"), SubResource("Resource_t2poy")])
