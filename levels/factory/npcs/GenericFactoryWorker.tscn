@@ -1,5 +1,6 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://levels/factory/npcs/GenericFactoryWorker.cs" id="0_root"]
 [ext_resource type="Texture2D" path="res://assets/characters/Joe.png" id="1_spr"]
 [ext_resource type="PackedScene" path="res://components/npcs/DialogBranchTrigger.tscn" id="2_dbt"]
 [ext_resource type="Script" path="res://components/npcs/DialogBranchTrigger.cs" id="3_sh0db"]
@@ -44,6 +45,7 @@ _data = {
 }
 
 [node name="GenericFactoryWorker" type="StaticBody2D"]
+script = ExtResource("0_root")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

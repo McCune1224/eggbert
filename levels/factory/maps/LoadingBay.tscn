@@ -29,7 +29,6 @@
 [ext_resource type="Texture2D" path="res://assets/generated/factory/manifest.png" id="27_mnfst"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/warning_sign.png" id="28_wsign"]
 [ext_resource type="PackedScene" path="res://levels/factory/npcs/GenericFactoryWorker.tscn" id="n_gfw"]
-[ext_resource type="Resource" path="res://levels/factory/npcs/CraneDialog.tres" id="n_dlg"]
 [ext_resource type="Texture2D" path="res://assets/characters/Milk.png" id="n_chr"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/crate.png" id="n_dec1"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/pipe_junction.png" id="n_dec2"]
@@ -453,12 +452,10 @@ vertical_alignment = 1
 
 [node name="Crane" parent="." instance=ExtResource("n_gfw")]
 position = Vector2(96, 0)
+DialogBranchPath = "res://levels/factory/npcs/CraneDialog.tres"
 
 [node name="Sprite2D" parent="Crane"]
 texture = ExtResource("n_chr")
-
-[node name="DialogBranchTrigger" parent="Crane"]
-DialogBranch = ExtResource("n_dlg")
 
 [node name="CrateDecor" type="Sprite2D" parent="."]
 position = Vector2(-128, 96)

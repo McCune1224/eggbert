@@ -118,9 +118,14 @@ Assembly dock, Level Wizard, Content Editors, Cutscene Inspector, transition_aud
 "what NOT to hand-author" section (nested-subresource .tres) and reference the 4 new plugins.
 
 ### Phase 6 — Verify + ship
+NOTE (2026-08-24 hotfix): NPC dialogs are wired via `GenericFactoryWorker.DialogBranchPath`
+(string export, resolved in C# at runtime) — NOT via a typed `DialogBranch` scene property,
+which throws InvalidCastException in the editor's import scan (runs before the C# assembly loads).
 
 `dotnet build` → `godot --headless --path . --script res://tests/VerifyAllLevels.cs` →
-`... res://tests/VerifyFactoryExpansion.cs` → `godot --headless --path . --quit` (plugin parse check).
+`... res://tests/VerifyFactoryExpansion.cs` → per-plugin GDScript parse check:
+`godot --headless --path . --check-only --script res://addons/<plugin>/<script>.gd`
+(⚠️ `godot --headless --quit` does NOT parse editor dock scripts — `--check-only --script` is the only reliable gate; grep case-insensitively, Godot prints "Parse Error" with capital E).
 File GitHub issue, commit to main with `Closes #N`, push.
 
 ## KEY FACTS

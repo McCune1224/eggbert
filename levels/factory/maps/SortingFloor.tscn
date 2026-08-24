@@ -20,7 +20,6 @@
 [ext_resource type="PackedScene" uid="uid://c3k6bqd5y7ya6" path="res://saves/SavePoint.tscn" id="25_gibna"]
 [ext_resource type="Texture2D" uid="uid://l00ofsfnsxb4" path="res://assets/ui/NPCPrompt.png" id="27_hgd4l"]
 [ext_resource type="PackedScene" path="res://levels/factory/npcs/GenericFactoryWorker.tscn" id="n_gfw"]
-[ext_resource type="Resource" path="res://levels/factory/npcs/PipDialog.tres" id="n_dlg"]
 [ext_resource type="Texture2D" path="res://assets/characters/Frank.png" id="n_chr"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/pipe_junction.png" id="n_dec1"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/warning_sign.png" id="n_sign"]
@@ -284,12 +283,10 @@ vertical_alignment = 1
 
 [node name="Pip" parent="." instance=ExtResource("n_gfw")]
 position = Vector2(128, 0)
+DialogBranchPath = "res://levels/factory/npcs/PipDialog.tres"
 
 [node name="Sprite2D" parent="Pip"]
 texture = ExtResource("n_chr")
-
-[node name="DialogBranchTrigger" parent="Pip"]
-DialogBranch = ExtResource("n_dlg")
 
 [node name="CrateStackDecor" type="Sprite2D" parent="."]
 position = Vector2(-224, 96)

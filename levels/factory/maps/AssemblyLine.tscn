@@ -23,7 +23,6 @@
 [ext_resource type="Texture2D" path="res://assets/generated/factory/clipboard.png" id="22_fclip"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/warning_sign.png" id="23_fsign"]
 [ext_resource type="PackedScene" path="res://levels/factory/npcs/GenericFactoryWorker.tscn" id="n_gfw"]
-[ext_resource type="Resource" path="res://levels/factory/npcs/BoltDialog.tres" id="n_dlg"]
 [ext_resource type="Texture2D" path="res://assets/characters/GrandpaSmith.png" id="n_chr"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/conveyor.png" id="n_dec1"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/pipe_junction.png" id="n_dec2"]
@@ -376,12 +375,10 @@ texture = ExtResource("23_fsign")
 
 [node name="Bolt" parent="." instance=ExtResource("n_gfw")]
 position = Vector2(-352, 0)
+DialogBranchPath = "res://levels/factory/npcs/BoltDialog.tres"
 
 [node name="Sprite2D" parent="Bolt"]
 texture = ExtResource("n_chr")
-
-[node name="DialogBranchTrigger" parent="Bolt"]
-DialogBranch = ExtResource("n_dlg")
 
 [node name="ConveyorDecor" type="Sprite2D" parent="."]
 position = Vector2(0, 96)

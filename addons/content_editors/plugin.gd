@@ -371,9 +371,9 @@ func _on_register_quest() -> void:
 
 func _instantiate(class_name_str: String, script_path: String):
 	var inst = null
-	var script = load(script_path)
-	if script != null and script.can_instantiate():
-		inst = script.new()
+	var scr = load(script_path)
+	if scr != null and scr.can_instantiate():
+		inst = scr.new()
 	if inst == null:
 		inst = ClassDB.instantiate(class_name_str)
 	return inst

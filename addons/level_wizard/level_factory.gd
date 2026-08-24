@@ -19,7 +19,7 @@ static func create_level(level_name: String, tileset_path: String, music_path: S
 	var slug := _slugify(level_name)
 	var dir := "res://levels/%s/maps" % slug
 	var abs_dir := ProjectSettings.globalize_path(dir)
-	DirAccess.make_dir_recursive(abs_dir)
+	DirAccess.make_dir_recursive_absolute(abs_dir)
 
 	var template := load(BASE_LEVEL_TEMPLATE) as PackedScene
 	if template == null:
@@ -54,8 +54,9 @@ static func create_level(level_name: String, tileset_path: String, music_path: S
 		return ""
 
 	root.queue_free()
-	EditorInterface.get_resource_filesystem().scan()
-	EditorInterface.open_scene_from_disk(path)
+	var ei = Engine.get_singleton("Editor Interface")
+	ei.get_resource_filesystem().scan()
+	ei.open_scene_from_disk(path)
 	return path
 
 

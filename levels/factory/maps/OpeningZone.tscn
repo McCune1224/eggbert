@@ -16,7 +16,6 @@
 [ext_resource type="PackedScene" uid="uid://bpicku1pitem5" path="res://components/items/PickupItem.tscn" id="18_pick"]
 [ext_resource type="Texture2D" path="res://assets/items/icons/icon_0011.png" id="19_icof"]
 [ext_resource type="PackedScene" path="res://levels/factory/npcs/GenericFactoryWorker.tscn" id="n_gfw"]
-[ext_resource type="Resource" path="res://levels/factory/npcs/GreeterDialog.tres" id="n_dlg"]
 [ext_resource type="Texture2D" path="res://assets/characters/Joe.png" id="n_chr"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/crate.png" id="n_dec1"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/pipe_junction.png" id="n_dec2"]
@@ -121,12 +120,10 @@ texture = ExtResource("19_icof")
 
 [node name="Greeter" parent="." instance=ExtResource("n_gfw")]
 position = Vector2(450, 120)
+DialogBranchPath = "res://levels/factory/npcs/GreeterDialog.tres"
 
 [node name="Sprite2D" parent="Greeter"]
 texture = ExtResource("n_chr")
-
-[node name="DialogBranchTrigger" parent="Greeter"]
-DialogBranch = ExtResource("n_dlg")
 
 [node name="CrateDecor" type="Sprite2D" parent="."]
 position = Vector2(520, 180)

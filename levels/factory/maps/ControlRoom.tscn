@@ -28,7 +28,6 @@
 [ext_resource type="Script" path="res://components/items/PickupItem.cs" id="26_me1te"]
 [ext_resource type="Texture2D" path="res://assets/items/sprites/item_sprite_0020.png" id="27_0ora0"]
 [ext_resource type="PackedScene" path="res://levels/factory/npcs/GenericFactoryWorker.tscn" id="n_gfw"]
-[ext_resource type="Resource" path="res://levels/factory/npcs/VexDialog.tres" id="n_dlg"]
 [ext_resource type="Texture2D" path="res://assets/characters/Oatmeal.png" id="n_chr"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/manifest.png" id="n_dec1"]
 [ext_resource type="Texture2D" path="res://assets/generated/factory/crate.png" id="n_dec2"]
@@ -365,12 +364,10 @@ shape = SubResource("CircleShape2D_jt7f4")
 
 [node name="Vex" parent="." instance=ExtResource("n_gfw")]
 position = Vector2(224, 0)
+DialogBranchPath = "res://levels/factory/npcs/VexDialog.tres"
 
 [node name="Sprite2D" parent="Vex"]
 texture = ExtResource("n_chr")
-
-[node name="DialogBranchTrigger" parent="Vex"]
-DialogBranch = ExtResource("n_dlg")
 
 [node name="ManifestDecor" type="Sprite2D" parent="."]
 position = Vector2(-160, 96)
