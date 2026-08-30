@@ -1,6 +1,7 @@
 @tool
-class_name CutsceneCards
 extends RefCounted
+
+const CutsceneCards := preload("res://addons/eggbert_toolkit/cards.gd")
 
 # Pure Control builders for the cutscene/dialog-branch inspectors.
 # Extracted into a RefCounted helper so tests can instantiate them
@@ -130,6 +131,8 @@ func build_step_card(parent_resource: Resource, steps_array: Array, index: int) 
 		summary_label.text = summary
 		summary_label.add_theme_color_override("font_color", Color(0.78, 0.78, 0.85))
 		summary_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		summary_label.custom_minimum_size = Vector2(0, 0)
+		summary_label.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 		body.add_child(summary_label)
 
 	var condition_tag := _condition_tag_for_step(step)
@@ -268,6 +271,8 @@ func build_node_card(parent_resource: Resource, nodes_array: Array, index: int) 
 		response_label.text = arrow_list.rstrip("\n")
 		response_label.add_theme_color_override("font_color", Color(0.6, 0.8, 1.0))
 		response_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		response_label.custom_minimum_size = Vector2(0, 0)
+		response_label.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 		body.add_child(response_label)
 
 	var condition_tag := _condition_tag_for_node(node)

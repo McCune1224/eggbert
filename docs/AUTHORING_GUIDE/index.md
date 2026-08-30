@@ -17,8 +17,8 @@ Enable all plugins once via `Project > Project Settings > Plugins` (they ship en
 | Tool | Where in the editor | What it does |
 | --- | --- | --- |
 | **Level Assembly** | Right dock | One-click insert of transitions, puzzles, hazards, items, story triggers + **New Level…** button |
-| **Level Wizard** | Right dock | Scaffold a brand-new level scene (tilemaps + music/ambience) |
-| **Content Editors** | Left + right docks | Author **Items** and **Quests** as `.tres` without touching code |
+| **Level Wizard** | *(ships disabled — helper plugin)* | Its level-scaffolding UI lives in Level Assembly's **New Level…** button; enable it in Project Settings > Plugins only if you want the standalone dock |
+| **Content Editors** | Right dock (Item + Quest editors) | Author **Items** and **Quests** as `.tres` without touching code |
 | **Transition Audit** | Right dock | Find and fix broken switch/door/pad/transition wiring |
 | Cutscene Inspector | Inspector | Card-based editing for cutscene steps and dialog trees |
 | Aseprite Wizard | `Project > Tools` | Import Aseprite art as spritesheets/tilesets |
@@ -37,11 +37,17 @@ Enable all plugins once via `Project > Project Settings > Plugins` (they ship en
  └───────────────────────────────────────────────────────────┘
 ```
 
+> **If docks or the bottom console ever disappear** after toggling plugins, reset the layout:
+> **Editor > Editor Layout > Default**, then fully close and reopen Godot. The dock-adding
+> plugins use the modern `EditorDock` + `add_dock()` API, each in its own right-hand sub-slot,
+> which keeps the saved layout stable. A reset regenerates a clean layout if a corrupted one
+> was ever written to disk.
+
 ---
 
 ## 1. Create a new level and draw the tilemap
 
-1. Open the **Level Assembly** dock (or **Level Wizard** dock) → click **New Level…**
+1. Open the **Level Assembly** dock → click **New Level…**
 2. Fill the popup:
 
 ```
@@ -101,9 +107,18 @@ Two dialog systems:
 2. Move it onto walkable floor.
 3. Give it a face: expand the NPC → select `Sprite2D` → Inspector → **Texture** →
    load any `assets/characters/*.png` (Joe, Frank, GrandpaSmith, Oatmeal, Milk, Jamitor…).
-4. Give it a voice: select the `DialogBranchTrigger` child → Inspector → **Dialog Branch** →
-   load/create a `DialogBranch` resource (below).
+4. Give it a voice: select the NPC **root** → Inspector → **Dialog Branch Path** →
+   set the res:// path to a `DialogBranch` .tres, e.g. `res://levels/factory/npcs/PipDialog.tres`.
+   The branch is resolved at runtime (see the gotcha below for why it's a path, not a direct resource slot).
 5. Optional: `Set Flags On Fire` (e.g. `met_pip`), `Once` + `Dialog Branch Id` for one-shot scenes.
+
+> **Gotcha — typed C# resource properties in level scenes.** The editor's import scan loads
+> scenes at startup *before* the C# assembly is built. A scene that assigns a typed resource
+> property directly (e.g. a `DialogBranch` resource on a `DialogBranchTrigger` inside a map)
+> throws `InvalidCastException` on every editor launch. For anything placed in a map, wire
+> content via string-path exports + runtime loading (`GenericFactoryWorker.DialogBranchPath`
+> is the reference implementation). Direct assignment is fine inside scenes you only open
+> after the editor has finished building.
 
 ### B. Author the conversation
 
@@ -158,7 +173,7 @@ Quests are pure data: a `QuestDefinition` resource whose objectives complete whe
 1. Open the **Quest Editor** dock (Content Editors plugin):
 
 ```
- ┌── Quest Editor (left dock) ──────────────────┐
+ ┌── Quest Editor (right dock) ──────────────────┐
  │ Id        [fetch_the_manifest_]              │
  │ Title     [The Missing Manifest]             │
  │ Description [Crane lost the shipping mani…]  │
@@ -346,7 +361,12 @@ Reference: `levels/factory/npcs/OfficerBaconArrest.tres`.
 dotnet build                                                    # 0 errors
 godot --headless --path . --script res://tests/VerifyAllLevels.cs          # all rooms load + transitions resolve
 godot --headless --path . --script res://tests/VerifyFactoryExpansion.cs   # tutorial contract intact
+# after editing an editor plugin (.gd), parse-check it:
+godot --headless --path . --check-only --script res://addons/<plugin>/<script>.gd
 ```
+
+> `godot --headless --quit` does **not** parse editor dock scripts — use `--check-only --script`.
+> Godot prints `Parse Error` with a capital E, so grep case-insensitively.
 
 ### Debugging
 
@@ -362,6 +382,7 @@ godot --headless --path . --script res://tests/VerifyFactoryExpansion.cs   # tut
 | `tile_map_data` in any `.tscn` | binary blob, one wrong byte breaks the room | paint in the editor |
 | `.tres` with nested sub-resources (DialogBranch, CutsceneResource, QuestDefinition) | Godot's inline sub-resource deserialization is unreliable | Inspector / Content Editors / Cutscene Inspector |
 | `uid://…` values | editor-generated | let the editor assign them |
+| Typed C# resource exports set directly in map `.tscn`s (e.g. `DialogBranch = ExtResource(...)` on a trigger) | import scan runs before the C# assembly builds → `InvalidCastException` every launch | string-path export + runtime load (`GenericFactoryWorker.DialogBranchPath`) |
 | another agent's/human's in-progress `.tscn` | unmergeable | coordinate first |
 
 ---

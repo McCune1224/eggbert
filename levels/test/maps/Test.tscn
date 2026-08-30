@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://d3ha2evffrylp"]
+
+[ext_resource type="Script" uid="uid://bs36et7il2p62" path="res://levels/BaseLevel.cs" id="1_1njiw"]
+[ext_resource type="AudioStream" uid="uid://c4bg3iya855h2" path="res://assets/audio/music/indie_meditations/lvl_4_the_desert.ogg" id="2_1njiw"]
+[ext_resource type="AudioStream" uid="uid://j7no0ja26852" path="res://assets/audio/music/generated/prison_night_ambient.ogg" id="3_1njiw"]
+
+[node name="Test" type="Node2D" unique_id=1531614490]
+script = ExtResource("1_1njiw")
+LevelName = "Test"
+LevelMusic = ExtResource("2_1njiw")
+LevelAmbience = ExtResource("3_1njiw")

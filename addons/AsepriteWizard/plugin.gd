@@ -26,6 +26,8 @@ const import_menu_item_name = "Imports Manager..."
 
 var config = preload("config/config.gd").new()
 var window: TabContainer
+var wizard_dock: EditorDock
+var imports_list_dock: EditorDock
 var config_window: PopupPanel
 var imports_list_window: Window
 var imports_list_panel: MarginContainer
@@ -116,36 +118,58 @@ func _remove_exporter():
 
 
 func _setup_sprite_inspector_plugin():
-	sprite_inspector_plugin = SpriteInspectorPlugin.new()
-	add_inspector_plugin(sprite_inspector_plugin)
+	if sprite_inspector_plugin == null:
+		sprite_inspector_plugin = SpriteInspectorPlugin.new()
+		add_inspector_plugin(sprite_inspector_plugin)
 
 
 func _setup_animated_sprite_inspector_plugin():
-	animated_sprite_inspector_plugin = AnimatedSpriteInspectorPlugin.new()
-	add_inspector_plugin(animated_sprite_inspector_plugin)
+	if animated_sprite_inspector_plugin == null:
+		animated_sprite_inspector_plugin = AnimatedSpriteInspectorPlugin.new()
+		add_inspector_plugin(animated_sprite_inspector_plugin)
 
 
 func _remove_inspector_plugins():
-	remove_inspector_plugin(sprite_inspector_plugin)
-	remove_inspector_plugin(animated_sprite_inspector_plugin)
+	# Guarded: Godot errors with "Trying to remove nonexistent inspector
+	# plugin" when teardown runs for plugins that were never registered
+	# (e.g. plugin toggled before the C# assembly was built).
+	if sprite_inspector_plugin != null:
+		remove_inspector_plugin(sprite_inspector_plugin)
+		sprite_inspector_plugin = null
+	if animated_sprite_inspector_plugin != null:
+		remove_inspector_plugin(animated_sprite_inspector_plugin)
+		animated_sprite_inspector_plugin = null
 
 
 func _remove_wizard_dock():
-	if window:
-		remove_control_from_bottom_panel(window)
-		window.queue_free()
+	if wizard_dock:
+		if is_instance_valid(window):
+			wizard_dock.remove_child(window)
+			window.queue_free()
+		if wizard_dock.is_inside_tree():
+			remove_dock(wizard_dock)
+		wizard_dock.queue_free()
+		wizard_dock = null
 		window = null
 
 
 func _open_window():
 	if window:
-		make_bottom_panel_item_visible(window)
+		wizard_dock.make_visible()
 		return
 
 	window = WizardWindow.instantiate()
 	window.connect("close_requested",Callable(self,"_on_window_closed"))
-	add_control_to_bottom_panel(window, "Aseprite Wizard")
-	make_bottom_panel_item_visible(window)
+	# Register as a proper EditorDock instead of the deprecated
+	# add_control_to_bottom_panel() shim, which jams the bottom dock slot
+	# shut in Godot 4.7 (panel renders with zero height, Alt+O dead).
+	wizard_dock = EditorDock.new()
+	wizard_dock.title = "Aseprite Wizard"
+	wizard_dock.layout_key = "as_wizard_dock"
+	wizard_dock.default_slot = EditorDock.DOCK_SLOT_BOTTOM
+	wizard_dock.add_child(window)
+	add_dock(wizard_dock)
+	wizard_dock.make_visible()
 
 
 func _open_config_dialog():
@@ -163,7 +187,7 @@ func _open_import_list_dialog():
 
 	if is_instance_valid(imports_list_panel):
 		if _is_import_list_docked:
-			remove_control_from_bottom_panel(imports_list_panel)
+			_remove_imports_list_dock()
 			_is_import_list_docked = false
 		imports_list_panel.queue_free()
 		imports_list_panel = null
@@ -175,7 +199,12 @@ func _open_import_list_dialog():
 
 func _on_window_closed():
 	if window:
-		remove_control_from_bottom_panel(window)
+		if is_instance_valid(wizard_dock):
+			wizard_dock.remove_child(window)
+			if wizard_dock.is_inside_tree():
+				remove_dock(wizard_dock)
+			wizard_dock.queue_free()
+			wizard_dock = null
 		window.queue_free()
 		window = null
 
@@ -190,9 +219,20 @@ func _on_tool_menu_pressed(index):
 			_open_config_dialog()
 
 
+func _remove_imports_list_dock():
+	if imports_list_dock == null:
+		return
+	if is_instance_valid(imports_list_panel):
+		imports_list_dock.remove_child(imports_list_panel)
+	if imports_list_dock.is_inside_tree():
+		remove_dock(imports_list_dock)
+	imports_list_dock.queue_free()
+	imports_list_dock = null
+
+
 func _on_import_list_dock_requested():
 	if _is_import_list_docked:
-		remove_control_from_bottom_panel(imports_list_panel)
+		_remove_imports_list_dock()
 		_is_import_list_docked = false
 		_create_imports_manager_window(imports_list_panel)
 		imports_list_panel.show()
@@ -206,8 +246,15 @@ func _on_import_list_dock_requested():
 	imports_list_panel.set_as_docked()
 	imports_list_window.remove_child(imports_list_panel)
 	imports_list_window.queue_free()
-	add_control_to_bottom_panel(imports_list_panel, "Aseprite Imports Manager")
-	make_bottom_panel_item_visible(imports_list_panel)
+	# Proper EditorDock instead of the deprecated bottom-panel shim (see
+	# _open_window) — the shim breaks the bottom dock slot on Godot 4.7.
+	imports_list_dock = EditorDock.new()
+	imports_list_dock.title = "Aseprite Imports Manager"
+	imports_list_dock.layout_key = "as_imports_manager_dock"
+	imports_list_dock.default_slot = EditorDock.DOCK_SLOT_BOTTOM
+	imports_list_dock.add_child(imports_list_panel)
+	add_dock(imports_list_dock)
+	imports_list_dock.make_visible()
 
 
 func _create_imports_manager_window(panel: MarginContainer):

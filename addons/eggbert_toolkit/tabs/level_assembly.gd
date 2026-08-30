@@ -1,7 +1,11 @@
 @tool
-extends EditorPlugin
+extends RefCounted
 
-const LevelFactory = preload("res://addons/level_wizard/level_factory.gd")
+## Level Assembly tab: one-click insertion of level components into the open
+## scene, plus the New Level scaffolding popup. Logic ported unchanged from
+## the old level_assembly plugin.
+
+const LevelFactory := preload("res://addons/eggbert_toolkit/level_factory.gd")
 
 const COMPONENTS := [
 	["Transitions", "Level Transition", "res://levels/LevelTransition.tscn", "Configure Level and TargetTransitionName in the Inspector."],
@@ -25,69 +29,57 @@ const COMPONENTS := [
 	["Story", "NPC (Dialog)", "res://components/npcs/DialogBranchTrigger.tscn", "Place an NPC dialog trigger. Assign a DialogBranch resource in the Inspector."],
 ]
 
-var _dock: VBoxContainer
+var plugin: EditorPlugin
+
+var _root: VBoxContainer
 var _status: Label
 var _search: LineEdit
 var _category_container: VBoxContainer
 var _category_rows: Dictionary = {}
 
-# New Level popup state
-var _nl_popup: PopupPanel = null
-var _nl_name: LineEdit = null
-var _nl_tileset: OptionButton = null
-var _nl_music: OptionButton = null
-var _nl_ambience: OptionButton = null
+var _nl_popup: PopupPanel
+var _nl_name: LineEdit
+var _nl_tileset: OptionButton
+var _nl_music: OptionButton
+var _nl_ambience: OptionButton
 
 
-func _enter_tree() -> void:
-	_dock = VBoxContainer.new()
-	_dock.name = "Level Assembly"
-	_dock.size_flags_vertical = Control.SIZE_EXPAND_FILL
+func _init(p: EditorPlugin) -> void:
+	plugin = p
 
-	var title := Label.new()
-	title.text = "Level Assembly"
-	title.add_theme_font_size_override("font_size", 18)
-	_dock.add_child(title)
 
-	var nl_button := Button.new()
-	nl_button.text = "New Level…"
-	nl_button.pressed.connect(_open_new_level_popup)
-	_dock.add_child(nl_button)
+func build() -> Control:
+	_root = VBoxContainer.new()
+	_root.name = "LevelAssemblyTab"
 
 	var hint := Label.new()
 	hint.text = "Adds a configured scene instance at (0, 0). Move it, configure exports, then save the level."
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_dock.add_child(hint)
+	_root.add_child(hint)
+
+	var nl_button := Button.new()
+	nl_button.text = "New Level..."
+	nl_button.pressed.connect(_open_new_level_popup)
+	_root.add_child(nl_button)
 
 	_search = LineEdit.new()
 	_search.placeholder_text = "Search components..."
 	_search.text_changed.connect(_on_search_changed)
-	_dock.add_child(_search)
+	_root.add_child(_search)
 
 	_category_container = VBoxContainer.new()
 	_category_container.add_theme_constant_override("separation", 6)
-	_dock.add_child(_category_container)
-
+	_root.add_child(_category_container)
 	_build_categories()
 
 	var new_quest := Button.new()
-	new_quest.text = "New Quest…"
-	new_quest.pressed.connect(_on_new_quest_pressed)
-	_dock.add_child(new_quest)
+	new_quest.text = "New Quest..."
+	new_quest.pressed.connect(func(): _set_status("Use the Quests tab to create a quest; it registers itself in QuestManager automatically."))
+	_root.add_child(new_quest)
 
 	_status = Label.new()
-	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_dock.add_child(_status)
+	_root.add_child(_status)
 
-	add_control_to_dock(DOCK_SLOT_RIGHT_UL, _dock)
-
-
-func _exit_tree() -> void:
-	if _nl_popup != null and is_instance_valid(_nl_popup):
-		_nl_popup.queue_free()
-	if _dock != null:
-		remove_control_from_docks(_dock)
-		_dock.queue_free()
+	return _root
 
 
 func _build_categories() -> void:
@@ -96,9 +88,8 @@ func _build_categories() -> void:
 		if not _category_rows.has(category):
 			var section := Label.new()
 			section.text = category
-			section.add_theme_font_size_override("font_size", 14)
-			_category_container.add_child(section)
 			_category_rows[category] = section
+			_category_container.add_child(section)
 		var button := Button.new()
 		button.text = component[1]
 		button.tooltip_text = component[3]
@@ -111,35 +102,25 @@ func _build_categories() -> void:
 func _on_search_changed(query: String) -> void:
 	var needle := query.strip_edges().to_lower()
 	for child in _category_container.get_children():
-		if child is Label:
-			# Category header — toggled by filter result loop below.
-			continue
 		if child is Button:
-			var name_match := str(child.get_meta("name", ""))
-			var category: String = child.get_meta("category", "")
-			var visible := needle == "" or name_match.contains(needle)
-			child.visible = visible
-
-	# Hide category headers whose buttons are all hidden.
+			child.visible = needle == "" or str(child.get_meta("name", "")).contains(needle)
 	for category in _category_rows.keys():
-		var section: Label = _category_rows[category]
 		var has_visible := false
 		for child in _category_container.get_children():
 			if child is Button and child.get_meta("category", "") == category and child.visible:
 				has_visible = true
 				break
-		section.visible = has_visible
+		_category_rows[category].visible = has_visible
 
 
 func _add_component(display_name: String, scene_path: String) -> void:
-	var root := get_editor_interface().get_edited_scene_root()
+	var root := plugin.get_editor_interface().get_edited_scene_root()
 	if root == null:
 		_set_status("Open a level scene before adding %s." % display_name)
 		return
-	if not root is Node2D:
+	if root is Node2D == false:
 		_set_status("%s must be added to a Node2D level scene." % display_name)
 		return
-
 	var packed: PackedScene = load(scene_path)
 	if packed == null:
 		_set_status("Could not load %s." % scene_path)
@@ -147,7 +128,7 @@ func _add_component(display_name: String, scene_path: String) -> void:
 	var instance := packed.instantiate()
 	instance.name = display_name.replace(" ", "")
 
-	var undo_redo := get_undo_redo()
+	var undo_redo := plugin.get_undo_redo()
 	undo_redo.create_action("Add %s" % display_name)
 	undo_redo.add_do_method(root, "add_child", instance)
 	undo_redo.add_do_method(instance, "set_owner", root)
@@ -155,18 +136,17 @@ func _add_component(display_name: String, scene_path: String) -> void:
 	undo_redo.add_undo_method(instance, "queue_free")
 	undo_redo.commit_action()
 
-	get_editor_interface().get_selection().clear()
-	get_editor_interface().get_selection().add_node(instance)
+	var sel := plugin.get_editor_interface().get_selection()
+	sel.clear()
+	sel.add_node(instance)
 	_set_status("Added %s. Configure its exported fields in the Inspector." % display_name)
 
 
-func _on_new_quest_pressed() -> void:
-	_set_status("Open the Content Editors dock → Quest Editor to create a quest; it registers itself in QuestManager automatically.")
+func _set_status(message: String) -> void:
+	_status.text = message
 
 
-# ---------------------------------------------------------------------------
-# New Level popup
-# ---------------------------------------------------------------------------
+# --- New Level popup -------------------------------------------------------
 
 func _open_new_level_popup() -> void:
 	if _nl_popup == null:
@@ -175,7 +155,7 @@ func _open_new_level_popup() -> void:
 
 
 func _build_new_level_popup() -> void:
-	var base := get_editor_interface().get_base_control()
+	var base := plugin.get_editor_interface().get_base_control()
 	_nl_popup = PopupPanel.new()
 	_nl_popup.title = "New Level"
 	base.add_child(_nl_popup)
@@ -192,10 +172,8 @@ func _build_new_level_popup() -> void:
 
 	_nl_tileset = OptionButton.new()
 	vbox.add_child(_labeled("Tileset", _nl_tileset))
-
 	_nl_music = OptionButton.new()
 	vbox.add_child(_labeled("Music", _nl_music))
-
 	_nl_ambience = OptionButton.new()
 	vbox.add_child(_labeled("Ambience", _nl_ambience))
 
@@ -219,8 +197,11 @@ func _create_level_pressed() -> void:
 	var amb: String = _nl_ambience.get_selected_metadata()
 	var path := LevelFactory.create_level(lvl_name, ts, music, amb)
 	if path == "":
-		_set_status("Failed to create level — see the editor Output log.")
+		_set_status("Failed to create level - see the editor Output log.")
 	else:
+		var ei := plugin.get_editor_interface()
+		ei.get_resource_filesystem().scan()
+		ei.open_scene_from_disk(path)
 		_set_status("Created and opened: %s" % path)
 	_nl_popup.hide()
 
@@ -272,7 +253,3 @@ func _labeled(text: String, control: Control) -> VBoxContainer:
 	box.add_child(l)
 	box.add_child(control)
 	return box
-
-
-func _set_status(message: String) -> void:
-	_status.text = message

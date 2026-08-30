@@ -67,6 +67,7 @@ API: `DialogBranch.Nodes` = `Godot.Collections.Array<DialogNode>`; `DialogNode{I
 Lines(string[]), Responses(DialogResponse[]), SetFlagsOnEnter(string[])}`;
 `DialogResponse{Text, NextNodeId, SetFlagOnSelect}` (empty NextNodeId = end).
 Shape per NPC: start node (Id "start", SetFlagsOnEnter=[flag], 2 choice responses → "opt0"/"opt1",
+
 - "(Leave)" response with NextNodeId=""), then opt0/opt1 nodes each with lines + "(Leave)".
 Save to `res://levels/factory/npcs/<Name>Dialog.tres`:
 | File | Speaker | Flag | Start lines | Opt0 | Opt1 |
@@ -83,6 +84,7 @@ root `StaticBody2D` named `GenericFactoryWorker`; child `Sprite2D` default textu
 `res://assets/characters/Joe.png` (instances override); child `DialogBranchTrigger` =
 instance of `res://components/npcs/DialogBranchTrigger.tscn` with
 `script = ExtResource(.../DialogBranchTrigger.cs)` (same pattern Jamitor uses for CutsceneTrigger)
+
 - `InteractionCollision` CircleShape2D r=55; root `PhysicsCollision` Rect 44x40 at (0,8);
 `AnimationPlayer` with the same 2-track idle bob animation (copy verbatim from FactoryJamitor.tscn)
 autoplay `idle`. No DialogBranch baked (instances override). Drop the shadow Polygon2D.
@@ -118,6 +120,7 @@ Assembly dock, Level Wizard, Content Editors, Cutscene Inspector, transition_aud
 "what NOT to hand-author" section (nested-subresource .tres) and reference the 4 new plugins.
 
 ### Phase 6 — Verify + ship
+
 NOTE (2026-08-24 hotfix): NPC dialogs are wired via `GenericFactoryWorker.DialogBranchPath`
 (string export, resolved in C# at runtime) — NOT via a typed `DialogBranch` scene property,
 which throws InvalidCastException in the editor's import scan (runs before the C# assembly loads).

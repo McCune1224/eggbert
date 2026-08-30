@@ -1,48 +1,33 @@
 @tool
-extends EditorPlugin
+extends RefCounted
 
-## Transition Audit
-##
-## A content-authoring dock for wiring the error-prone NodePath exports that link
-## puzzle/switch components to their targets in the currently edited scene:
-##   - FloorSwitch.TargetDoorPath   -> a Door node
-##   - TeleportPad.TargetPadPath    -> the paired TeleportPad node
-##   - LevelTransition.TargetTransitionName -> a node name in the TARGET scene
-##                                              (cross-scene; cannot be resolved here)
-##
-## "Scan" walks the edited scene and builds one row per component. Each row offers
-## a dropdown of valid in-scene targets (pre-selected from the current value).
-## "Validate" reports empty or dead (unresolvable) links. "Apply wiring" writes the
-## chosen values back through an UndoRedo action so the change is undoable.
+## Transition Audit tab: validates and auto-wires the NodePath exports that
+## link puzzle/switch components to their targets in the edited scene.
+## Logic ported unchanged from the old transition_audit plugin.
 
-const DOCK_SLOT := DOCK_SLOT_RIGHT_UL
+var plugin: EditorPlugin
 
-var _dock: VBoxContainer
 var _rows: VBoxContainer
 var _status: Label
-# Array of Dictionaries: {node, type, export, control}
-var _components := []
+var _components: Array = []  # Array of Dictionaries: {node, type, export, control}
 
 
-func _enter_tree() -> void:
-	_dock = VBoxContainer.new()
-	_dock.name = "Transition Audit"
-	_dock.size_flags_vertical = Control.SIZE_EXPAND_FILL
+func _init(p: EditorPlugin) -> void:
+	plugin = p
 
-	var title := Label.new()
-	title.text = "Transition Audit"
-	title.add_theme_font_size_override("font_size", 18)
-	_dock.add_child(title)
+
+func build() -> Control:
+	var root := VBoxContainer.new()
+	root.name = "TransitionAuditTab"
 
 	var hint := Label.new()
 	hint.text = "Validates and auto-wires puzzle/switch NodePath exports in the edited scene."
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_dock.add_child(hint)
+	root.add_child(hint)
 
 	var btn_row := HBoxContainer.new()
 	var scan_btn := Button.new()
 	scan_btn.text = "Scan"
-	scan_btn.pressed.connect(_on_scan)
+	scan_btn.pressed.connect(rescan)
 	var validate_btn := Button.new()
 	validate_btn.text = "Validate"
 	validate_btn.pressed.connect(_on_validate)
@@ -52,44 +37,29 @@ func _enter_tree() -> void:
 	btn_row.add_child(scan_btn)
 	btn_row.add_child(validate_btn)
 	btn_row.add_child(apply_btn)
-	_dock.add_child(btn_row)
+	root.add_child(btn_row)
 
 	_status = Label.new()
-	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_dock.add_child(_status)
+	_status.custom_minimum_size = Vector2(0, 0)
+	root.add_child(_status)
 
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_rows = VBoxContainer.new()
 	scroll.add_child(_rows)
-	_dock.add_child(scroll)
+	root.add_child(scroll)
 
-	add_control_to_dock(DOCK_SLOT, _dock)
-
-	# Auto-rescan when the edited scene changes (guarded for API availability).
-	var ei := get_editor_interface()
-	if ei != null and ei.has_signal("scene_changed") \
-			and not ei.is_connected("scene_changed", _on_scene_changed):
-		ei.scene_changed.connect(_on_scene_changed)
+	return root
 
 
-func _exit_tree() -> void:
-	if _dock != null:
-		remove_control_from_docks(_dock)
-		_dock.queue_free()
-		_dock = null
-
-
-func _on_scene_changed(_root: Node) -> void:
-	_on_scan()
-
-
-func _on_scan() -> void:
+func rescan() -> void:
+	if _rows == null:
+		return
 	_components.clear()
 	for c in _rows.get_children():
 		c.queue_free()
 
-	var root: Node = get_editor_interface().get_edited_scene_root()
+	var root: Node = plugin.get_editor_interface().get_edited_scene_root()
 	if root == null:
 		_set_status("No scene is open in the editor. Open a level scene to audit its wiring.")
 		return
@@ -127,9 +97,8 @@ func _on_scan() -> void:
 
 func _on_validate() -> void:
 	if _components.is_empty():
-		_set_status("Nothing to validate — run Scan first.")
+		_set_status("Nothing to validate - run Scan first.")
 		return
-
 	var empty := 0
 	var dead := 0
 	for row in _components:
@@ -150,12 +119,10 @@ func _on_validate() -> void:
 
 func _on_apply() -> void:
 	if _components.is_empty():
-		_set_status("Nothing to apply — run Scan first.")
+		_set_status("Nothing to apply - run Scan first.")
 		return
-
-	var ur = get_undo_redo()
+	var ur = plugin.get_undo_redo()
 	ur.create_action("Wire transition components")
-
 	for row in _components:
 		var node: Node = row["node"]
 		var export_name: String = row["export"]
@@ -173,14 +140,9 @@ func _on_apply() -> void:
 				new_value = node.get_path_to(target)
 			ur.add_do_property(node, export_name, new_value)
 			ur.add_undo_property(node, export_name, node.get(export_name))
-
 	ur.commit_action()
 	_set_status("Applied wiring for %d component(s). (Undoable)" % _components.size())
 
-
-# ---------------------------------------------------------------------------
-# Row building
-# ---------------------------------------------------------------------------
 
 func _build_row(node: Node, type: String, export_name: String, candidates: Array) -> void:
 	var hbox := HBoxContainer.new()
@@ -206,7 +168,7 @@ func _build_row(node: Node, type: String, export_name: String, candidates: Array
 
 	var ob := OptionButton.new()
 	ob.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ob.add_item("— none —", 0)
+	ob.add_item("- none -", 0)
 	ob.set_item_metadata(0, null)
 
 	var current = node.get(export_name)
@@ -215,7 +177,7 @@ func _build_row(node: Node, type: String, export_name: String, candidates: Array
 	var idx := 1
 	for cand in candidates:
 		if cand == node:
-			continue  # a TeleportPad must not target itself
+			continue
 		ob.add_item(cand.name, idx)
 		ob.set_item_metadata(idx, cand)
 		if cand == current_node:
@@ -227,10 +189,6 @@ func _build_row(node: Node, type: String, export_name: String, candidates: Array
 	_rows.add_child(hbox)
 	_components.append({"node": node, "type": type, "export": export_name, "control": ob})
 
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
 
 func _collect(node: Node, type_name: String, out: Array) -> void:
 	if node != null and node.is_class(type_name):

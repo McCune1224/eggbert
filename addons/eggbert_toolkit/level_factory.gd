@@ -11,6 +11,9 @@ const BASE_LEVEL_TEMPLATE := "res://levels/BaseLevel.tscn"
 
 
 ## Creates a new level scene. Returns the saved .tscn path, or "" on failure.
+## The editor interaction (filesystem rescan + opening the scene) is left to
+## the caller plugins, which expose get_editor_interface(), so this helper
+## stays editor-global-free and usable outside the running editor.
 static func create_level(level_name: String, tileset_path: String, music_path: String, ambience_path: String) -> String:
 	if level_name.strip_edges() == "":
 		printerr("[LevelFactory] empty level name")
@@ -54,9 +57,6 @@ static func create_level(level_name: String, tileset_path: String, music_path: S
 		return ""
 
 	root.queue_free()
-	var ei = Engine.get_singleton("Editor Interface")
-	ei.get_resource_filesystem().scan()
-	ei.open_scene_from_disk(path)
 	return path
 
 
@@ -66,6 +66,9 @@ static func _add_tilemap_layer(parent: Node, layer_name: String, tileset: Resour
 	if tileset != null:
 		layer.tile_set = tileset
 	parent.add_child(layer)
+	# The layer must be owned by the scene root so PackedScene.pack() serializes
+	# it into the saved .tscn; otherwise the created level has no tilemap layers.
+	layer.owner = parent
 
 
 static func _slugify(s: String) -> String:
